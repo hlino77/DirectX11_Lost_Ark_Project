@@ -206,7 +206,6 @@ _bool CSound_Manager::Is_Channel_Playing(const wstring& szChannelTag)
 
 	if (iter == m_Channels.end())
 	{
-		MSG_BOX("Not Have Select Channel");
 		return false;
 	}
 

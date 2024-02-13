@@ -29,11 +29,17 @@ HRESULT CState_GN_TargetDown_Start::Initialize()
 	else
 		m_TickFunc = &CState_GN_TargetDown_Start::Tick_State_NoneControl;
 
+	m_SoundFrames.push_back(SOUNDDESC(8, TEXT("Effect"), TEXT("GN_Target_226.wav")));
+	m_SoundFrames.push_back(SOUNDDESC(28, TEXT("Effect"), TEXT("GN_Target_225.wav"), 0.6f));
+	m_SoundFrames.push_back(SOUNDDESC());
+
 	return S_OK;
 }
 
 void CState_GN_TargetDown_Start::Enter_State()
 {
+	m_iSoundCnt = 0;
+
 	m_pPlayer->Reserve_Animation(m_iTargetDown_Start, 0.1f, 0, 0);
 
 	m_pPlayer->Get_GN_Controller()->Get_StopMessage();
@@ -59,6 +65,8 @@ void CState_GN_TargetDown_Start::Exit_State()
 	{
 		if (m_pPlayer->Is_Control())
 			Reset_Camera();
+
+		StopStateSound();
 	}
 
 	if (true == m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor())
@@ -67,6 +75,22 @@ void CState_GN_TargetDown_Start::Exit_State()
 
 void CState_GN_TargetDown_Start::Tick_State_Control(_float fTimeDelta)
 {
+	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iTargetDown_Start);
+
+	if (-1 != m_SoundFrames[m_iSoundCnt].iFrame && m_SoundFrames[m_iSoundCnt].iFrame <= (_int)iAnimFrame)
+	{
+		if (false == m_SoundFrames[m_iSoundCnt].bAddChannel)
+		{
+			CSound_Manager::GetInstance()->PlaySoundFile(m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume);
+		}
+		else
+		{
+			CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume);
+		}
+
+		m_iSoundCnt++;
+	}
+
 	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iTargetDown_Start))
 	{
 		Vec3 vClickPos;

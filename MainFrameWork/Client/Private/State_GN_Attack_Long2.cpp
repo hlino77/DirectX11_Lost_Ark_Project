@@ -28,8 +28,11 @@ HRESULT CState_GN_Attack_Long2::Initialize()
 
 
 	/* 일반공격 프레임 */
-	m_AttackFrames.push_back(0);
+	m_AttackFrames.push_back(2);
 	m_AttackFrames.push_back(-1);
+
+	m_SoundFrames.push_back(SOUNDDESC(0, TEXT("Effect"), TEXT("GN_Long_46.wav")));
+	m_SoundFrames.push_back(SOUNDDESC());
 
 	return S_OK;
 }
@@ -37,9 +40,7 @@ HRESULT CState_GN_Attack_Long2::Initialize()
 void CState_GN_Attack_Long2::Enter_State()
 {
 	m_iAttackCnt = 0;
-
-	if (2 < m_iShotFire)
-		m_iShotFire = 0;
+	m_iSoundCnt = 0;
 
 	m_pPlayer->Reserve_Animation(m_Attack_Long2, 0.2f, 0, 0);
 	m_pController->Get_LerpDirLookMessage(m_pPlayer->Get_TargetPos());
@@ -54,7 +55,15 @@ void CState_GN_Attack_Long2::Tick_State(_float fTimeDelta)
 
 void CState_GN_Attack_Long2::Exit_State()
 {
+	if (TEXT("Attack_Long_2") != m_pPlayer->Get_ServerState())
+	{
+		m_iShotFire = 0;
+	}
 
+	if (true == m_pPlayer->Is_CancelState())
+	{
+		StopStateSound();
+	}
 }
 
 void CState_GN_Attack_Long2::Tick_State_Control(_float fTimeDelta)
@@ -69,22 +78,38 @@ void CState_GN_Attack_Long2::Tick_State_Control(_float fTimeDelta)
 		static_cast<CPlayer_Controller_GN*>(m_pController)->Get_AttackMessage();
 	}
 
+	if (-1 != m_SoundFrames[m_iSoundCnt].iFrame && m_SoundFrames[m_iSoundCnt].iFrame <= (_int)iAnimFrame)
+	{
+		if (false == m_SoundFrames[m_iSoundCnt].bAddChannel)
+		{
+			CSound_Manager::GetInstance()->PlaySoundFile(m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume);
+		}
+		else
+		{
+			CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume);
+		}
+
+		m_iSoundCnt++;
+	}
+
+
 	if (true == m_pController->Is_Attack() &&
 		10 > iAnimFrame &&
-		2 <= iAnimFrame)
+		2 <= iAnimFrame &&
+		2 >= m_iShotFire)
 	{
 		m_IsAttackContinue = true;
 	}
 
 	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_Attack_Long2))
+	{
 		m_pPlayer->Set_State(TEXT("Idle"));
+	}
 
 	_uint iIdentity = static_cast<CPlayer_Controller_GN*>(m_pController)->Is_GN_Identity();
 
 	if (true == m_pController->Is_Dash())
 	{
-		m_iShotFire = 0;
-
 		Vec3 vClickPos;
 		if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
 			m_pPlayer->Set_TargetPos(vClickPos);
@@ -95,8 +120,6 @@ void CState_GN_Attack_Long2::Tick_State_Control(_float fTimeDelta)
 	}
 	else if (0 != iIdentity)
 	{
-		m_iShotFire = 0;
-
 		if (1 == iIdentity)
 			m_pPlayer->Set_State(TEXT("Identity_GN"));
 		else if (2 == iIdentity)
@@ -104,8 +127,6 @@ void CState_GN_Attack_Long2::Tick_State_Control(_float fTimeDelta)
 	}
 	else if (true == m_pController->Is_Skill())
 	{
-		m_iShotFire = 0;
-
 		Vec3 vClickPos;
 		if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
 			m_pPlayer->Set_TargetPos(vClickPos);
@@ -115,37 +136,17 @@ void CState_GN_Attack_Long2::Tick_State_Control(_float fTimeDelta)
 		CPlayer_Controller::SKILL_KEY eKey = m_pController->Get_Selected_Skill();
 		m_pPlayer->Set_State(m_pController->Get_SkillStartName(eKey));
 	}
-	else if (true == m_IsAttackContinue && 10 <= iAnimFrame)
+	else if (true == m_IsAttackContinue && 10 <= iAnimFrame && 2 >= m_iShotFire)
 	{
-		if (2 >= m_iShotFire)
-		{
-			Vec3 vClickPos;
-			if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
-				m_pPlayer->Set_TargetPos(vClickPos);
-			else
-				m_pPlayer->Set_TargetPos(Vec3());
+		m_iShotFire++;
 
-			m_pPlayer->Set_State(TEXT("Attack_Long_2"));
-
-			m_iShotFire++;
-		}
-		if (2 < m_iShotFire)
-		{
-			m_iShotFire = 0;
-
-			m_pPlayer->Set_State(TEXT("Idle"));
-		}
-	}
-	else if (true == m_pController->Is_Run() && 10 < iAnimFrame)
-	{
 		Vec3 vClickPos;
 		if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
-		{
-			m_iShotFire = 0;
-
 			m_pPlayer->Set_TargetPos(vClickPos);
-			m_pPlayer->Set_State(TEXT("Run"));
-		}
+		else
+			m_pPlayer->Set_TargetPos(Vec3());
+
+		m_pPlayer->Set_State(TEXT("Attack_Long_2"));
 	}
 }
 

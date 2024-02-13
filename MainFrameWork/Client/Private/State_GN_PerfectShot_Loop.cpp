@@ -35,6 +35,9 @@ HRESULT CState_GN_PerfectShot_Loop::Initialize()
 
 	m_fEffectCharge2Time = 0.4f;
 
+	m_SoundFrames.push_back(SOUNDDESC(0, TEXT("Effect"), TEXT("GN_Perfect_189.wav")));
+	m_SoundFrames.push_back(SOUNDDESC());
+
 	if (m_pPlayer->Is_Control())
 	{
 		CUI_HoldingFrame::HOLDING_SKILL_DESC HoldingDesc;
@@ -54,6 +57,8 @@ HRESULT CState_GN_PerfectShot_Loop::Initialize()
 
 void CState_GN_PerfectShot_Loop::Enter_State()
 {
+	m_iSoundCnt = 0;
+
 	m_pPlayer->Reserve_Animation(m_iPerfectShot_Loop, 0.1f, 0, 0);
 
 	m_pPlayer->Get_GN_Controller()->Get_LerpDirLookMessage(m_pPlayer->Get_TargetPos(), 10.f);
@@ -65,8 +70,6 @@ void CState_GN_PerfectShot_Loop::Enter_State()
 	m_fEffectCharge2Acc = 0.3f;
 	if (nullptr != m_pHoldingUI)
 		m_pHoldingUI->Set_SkillOn(true);
-
-
 }
 
 void CState_GN_PerfectShot_Loop::Tick_State(_float fTimeDelta)
@@ -90,10 +93,28 @@ void CState_GN_PerfectShot_Loop::Exit_State()
 		m_pPlayer->Set_SuperArmorState(false);
 	if (nullptr != m_pHoldingUI)
 		m_pHoldingUI->Set_SkillOn(false);
+
+	StopStateSound();
 }
 
 void CState_GN_PerfectShot_Loop::Tick_State_Control(_float fTimeDelta)
 {
+	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iPerfectShot_Loop);
+
+	if (-1 != m_SoundFrames[m_iSoundCnt].iFrame && m_SoundFrames[m_iSoundCnt].iFrame <= (_int)iAnimFrame)
+	{
+		if (false == m_SoundFrames[m_iSoundCnt].bAddChannel)
+		{
+			CSound_Manager::GetInstance()->PlaySoundFile(m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume);
+		}
+		else
+		{
+			CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume);
+		}
+
+		m_iSoundCnt++;
+	}
+
 	m_fSkillTimeAcc += fTimeDelta;
 	if (nullptr != m_pHoldingUI)
 		m_pHoldingUI->Set_SkillTimeAcc(m_fSkillTimeAcc);

@@ -21,6 +21,8 @@ HRESULT CState_GN_Dash_2_End::Initialize()
 	else
 		m_TickFunc = &CState_GN_Dash_2_End::Tick_State_NoneControl;
 
+	
+
 	return S_OK;
 }
 

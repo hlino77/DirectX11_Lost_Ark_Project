@@ -55,6 +55,8 @@ void CPlayer_Server::LateTick(_float fTimeDelta)
 	Set_Colliders(fTimeDelta);
 
 
+
+
 	if (m_bRender)
 		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONBLEND, this);
 }

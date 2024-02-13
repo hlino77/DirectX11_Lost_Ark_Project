@@ -113,7 +113,7 @@ HRESULT CLevel_Bern::Initialize()
 
 	if (m_bFirstEnter)
 	{
-		CEventMgr::GetInstance()->Start_Event((_uint)EVENT::BERNSTART);
+		//CEventMgr::GetInstance()->Start_Event((_uint)EVENT::BERNSTART);
 	}
 	CUI_Manager::GetInstance()->Set_LevelCustomOption();
 	return S_OK;

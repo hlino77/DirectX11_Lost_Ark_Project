@@ -29,12 +29,18 @@ HRESULT CState_GN_Attack_Long1::Initialize()
 	m_AttackFrames.push_back(10);
 	m_AttackFrames.push_back(-1);
 
+	m_SoundFrames.push_back(SOUNDDESC(0, TEXT("Effect"), TEXT("GN_HmpHa_674.wav")));
+	m_SoundFrames.push_back(SOUNDDESC(0, TEXT("Effect"), TEXT("GN_Long_45.wav"), 0.3f));
+	m_SoundFrames.push_back(SOUNDDESC(8, TEXT("Effect"), TEXT("GN_Long_46.wav")));
+	m_SoundFrames.push_back(SOUNDDESC());
+
 	return S_OK;
 }
 
 void CState_GN_Attack_Long1::Enter_State()
 {
 	m_iAttackCnt = 0;
+	m_iSoundCnt = 0;
 
 	m_pPlayer->Reserve_Animation(m_Attack_Long1, 0.1f, 0, 0);
 	m_pController->Get_LerpDirLookMessage(m_pPlayer->Get_TargetPos());
@@ -49,6 +55,10 @@ void CState_GN_Attack_Long1::Tick_State(_float fTimeDelta)
 
 void CState_GN_Attack_Long1::Exit_State()
 {
+	if (true == m_pPlayer->Is_CancelState())
+	{
+		StopStateSound();
+	}
 }
 
 void CState_GN_Attack_Long1::Tick_State_Control(_float fTimeDelta)
@@ -61,6 +71,20 @@ void CState_GN_Attack_Long1::Tick_State_Control(_float fTimeDelta)
 
 		m_iAttackCnt++;
 		static_cast<CPlayer_Controller_GN*>(m_pController)->Get_AttackMessage();
+	}
+
+	if (-1 != m_SoundFrames[m_iSoundCnt].iFrame && m_SoundFrames[m_iSoundCnt].iFrame <= (_int)iAnimFrame)
+	{
+		if (false == m_SoundFrames[m_iSoundCnt].bAddChannel)
+		{
+			CSound_Manager::GetInstance()->PlaySoundFile(m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume);
+		}
+		else
+		{
+			CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume);
+		}
+
+		m_iSoundCnt++;
 	}
 
 	if (true == m_pController->Is_Attack() &&

@@ -16,7 +16,7 @@ CState_GN_FreeShooter::CState_GN_FreeShooter(const wstring& strStateName, CState
 
 HRESULT CState_GN_FreeShooter::Initialize()
 {
-	m_iFreeShoter = m_pPlayer->Get_ModelCom()->Initailize_FindAnimation(L"sk_thefreeshooter", 1.2f);
+	m_iFreeShoter = m_pPlayer->Get_ModelCom()->Initailize_FindAnimation(L"sk_thefreeshooter", 1.3f);
 	if (m_iFreeShoter == -1)
 		return E_FAIL;
 
@@ -47,7 +47,6 @@ HRESULT CState_GN_FreeShooter::Initialize()
 
 	m_EffectFrames.push_back(EFFECTFRAMEDESC());
 
-
 	m_ParticleName.push_back(L"TerminateParticle1");
 	m_ParticleName.push_back(L"TerminateParticle2");
 	m_ParticleName.push_back(L"TerminateParticle3");
@@ -56,12 +55,46 @@ HRESULT CState_GN_FreeShooter::Initialize()
 	m_ParticleName.push_back(L"TerminateParticle6");
 	m_ParticleName.push_back(L"TerminateParticle7");
 
+	m_SoundFrames.push_back(SOUNDDESC(5, TEXT("Effect"), TEXT("GN_Ge_645.wav")));
+	m_SoundFrames.push_back(SOUNDDESC(5, TEXT("Effect"), TEXT("GN_Free_238.wav")));
+	m_SoundFrames.push_back(SOUNDDESC(5, TEXT("Effect"), TEXT("GN_Free_239.wav")));
+
+	m_SoundFrames.push_back(SOUNDDESC(7, TEXT("Effect"), TEXT("GN_Hut_646.wav")));
+	m_SoundFrames.push_back(SOUNDDESC(7, TEXT("Effect"), TEXT("GN_Free_238.wav")));
+	m_SoundFrames.push_back(SOUNDDESC(7, TEXT("Effect"), TEXT("GN_Free_239.wav")));
+
+	m_SoundFrames.push_back(SOUNDDESC(20, TEXT("Effect"), TEXT("GN_Hot_642.wav")));
+	m_SoundFrames.push_back(SOUNDDESC(20, TEXT("Effect"), TEXT("GN_Free_238.wav")));
+	m_SoundFrames.push_back(SOUNDDESC(20, TEXT("Effect"), TEXT("GN_Free_239.wav")));
+
+	m_SoundFrames.push_back(SOUNDDESC(33, TEXT("Effect"), TEXT("GN_Ge_645.wav")));
+	m_SoundFrames.push_back(SOUNDDESC(33, TEXT("Effect"), TEXT("GN_Free_238.wav")));
+	m_SoundFrames.push_back(SOUNDDESC(33, TEXT("Effect"), TEXT("GN_Free_239.wav")));
+
+	m_SoundFrames.push_back(SOUNDDESC(48, TEXT("Effect"), TEXT("GN_Hut_646.wav")));
+	m_SoundFrames.push_back(SOUNDDESC(48, TEXT("Effect"), TEXT("GN_Free_238.wav")));
+	m_SoundFrames.push_back(SOUNDDESC(48, TEXT("Effect"), TEXT("GN_Free_239.wav")));
+
+	m_SoundFrames.push_back(SOUNDDESC(61, TEXT("Effect"), TEXT("GN_Hot_642.wav")));
+	m_SoundFrames.push_back(SOUNDDESC(61, TEXT("Effect"), TEXT("GN_Free_238.wav")));
+	m_SoundFrames.push_back(SOUNDDESC(61, TEXT("Effect"), TEXT("GN_Free_239.wav")));
+
+	m_SoundFrames.push_back(SOUNDDESC(76, TEXT("Effect"), TEXT("GN_Ge_645.wav")));
+	m_SoundFrames.push_back(SOUNDDESC(76, TEXT("Effect"), TEXT("GN_Free_238.wav")));
+	m_SoundFrames.push_back(SOUNDDESC(76, TEXT("Effect"), TEXT("GN_Free_239.wav")));
+
+	m_SoundFrames.push_back(SOUNDDESC(98, TEXT("Effect"), TEXT("GN_Free_238.wav")));
+	m_SoundFrames.push_back(SOUNDDESC(98, TEXT("Effect"), TEXT("GN_Free_239.wav")));
+
+	m_SoundFrames.push_back(SOUNDDESC());
+
 	return S_OK;
 }
 
 void CState_GN_FreeShooter::Enter_State()
 {
 	m_iSkillCnt = 0;
+	m_iSoundCnt = 0;
 
 	m_pPlayer->Reserve_Animation(m_iFreeShoter, 0.1f, 0, 0);
 
@@ -88,6 +121,11 @@ void CState_GN_FreeShooter::Exit_State()
 
 	if (true == m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor())
 		m_pPlayer->Set_SuperArmorState(false);
+
+	if (true == m_pPlayer->Is_CancelState())
+	{
+		StopStateSound();
+	}
 }
 
 void CState_GN_FreeShooter::Tick_State_Control(_float fTimeDelta)
@@ -104,6 +142,20 @@ void CState_GN_FreeShooter::Tick_State_Control(_float fTimeDelta)
 	{
 		Effect_Shot();
 		m_iEffectCnt++;
+	}
+
+	if (-1 != m_SoundFrames[m_iSoundCnt].iFrame && m_SoundFrames[m_iSoundCnt].iFrame <= (_int)iAnimFrame)
+	{
+		if (false == m_SoundFrames[m_iSoundCnt].bAddChannel)
+		{
+			CSound_Manager::GetInstance()->PlaySoundFile(m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume);
+		}
+		else
+		{
+			CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume);
+		}
+
+		m_iSoundCnt++;
 	}
 
 	if (m_bLastShotEffect == false)

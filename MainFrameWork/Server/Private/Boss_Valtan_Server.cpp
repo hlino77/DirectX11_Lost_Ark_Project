@@ -92,7 +92,7 @@ HRESULT CBoss_Valtan_Server::Initialize_Prototype()
 
 HRESULT CBoss_Valtan_Server::Initialize(void* pArg)
 {
-	//m_bTest = true;
+	m_bTest = true;
 
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
@@ -1891,7 +1891,7 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 		else
 		{
 			// 테스트용
-			if (FAILED(pSequenceNormalAttack->AddChild(pBugSmash)))
+			if (FAILED(pSequenceNormalAttack->AddChild(pRushGrab)))
 				return E_FAIL;
 		}
 

@@ -5,6 +5,9 @@
 #include "Player_Slayer.h"
 #include "Controller_WR.h"
 #include "Model.h"
+#include "Boss_Valtan.h"
+#include "BehaviorTree.h"
+#include "BT_Action.h"
 
 CState_WR_Grabbed::CState_WR_Grabbed(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Slayer* pOwner)
 	: CState(strStateName, pMachine, pController), m_pPlayer(pOwner)
@@ -39,12 +42,7 @@ void CState_WR_Grabbed::Enter_State()
 
 	m_pPlayer->Set_Navi(false);
 
-	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
-
-	if (nullptr == m_pValtan)
-		m_pValtan = pGameInstance->Find_GameObject(LEVELID::LEVEL_VALTANMAIN, (_uint)LAYER_TYPE::LAYER_BOSS, TEXT("Boss_Valtan"));
-
-	RELEASE_INSTANCE(CGameInstance);
+	m_fGrabTimeAcc = 0.0f;
 }
 
 void CState_WR_Grabbed::Tick_State(_float fTimeDelta)
@@ -91,8 +89,20 @@ void CState_WR_Grabbed::To_GrabPos(_float fTimeDelta)
 	WorldMatrix *= GrabMatrix;
 	Matrix ComputeMatrix = WorldMatrix * m_pController->Get_Grabber()->Get_TransformCom()->Get_WorldMatrix();
 
-	m_pPlayer->Get_TransformCom()->Set_WorldMatrix(ComputeMatrix);
-	m_pPlayer->Get_TransformCom()->Set_Scale(Vec3(1.f, 1.f, 1.f));
+	if (true != static_cast<CBoss_Valtan*>(m_pController->Get_Grabber())->Get_BehaviorTree()->Get_CurrentAction()->Get_CurrentAnimDesc().bIsLoop)
+	{
+		m_pPlayer->Get_TransformCom()->Set_WorldMatrix(ComputeMatrix);
+		m_pPlayer->Get_TransformCom()->Set_Scale(Vec3(1.f, 1.f, 1.f));
+	}
+	else
+	{
+		m_fGrabTimeAcc += fTimeDelta;
+		if (0.2f >= m_fGrabTimeAcc)
+		{
+			m_pPlayer->Get_TransformCom()->Set_WorldMatrix(ComputeMatrix);
+			m_pPlayer->Get_TransformCom()->Set_Scale(Vec3(1.f, 1.f, 1.f));
+		}
+	}
 }
 
 void CState_WR_Grabbed::ToNone_GrabPos(_float fTimeDelta)
@@ -116,10 +126,22 @@ void CState_WR_Grabbed::ToNone_GrabPos(_float fTimeDelta)
 	WorldMatrix._42 *= 0.01f;
 	WorldMatrix._43 *= 0.01f;
 	WorldMatrix *= GrabMatrix;
-	Matrix ComputeMatrix = WorldMatrix * m_pController->Get_Grabber()->Get_TransformCom()->Get_WorldMatrix();
+	Matrix ComputeMatrix = WorldMatrix * m_pValtan->Get_TransformCom()->Get_WorldMatrix();
 
-	m_pPlayer->Get_TransformCom()->Set_WorldMatrix(ComputeMatrix);
-	m_pPlayer->Get_TransformCom()->Set_Scale(Vec3(1.f, 1.f, 1.f));
+	if (false == static_cast<CBoss_Valtan*>(m_pValtan)->Get_BehaviorTree()->Get_CurrentAction()->Get_CurrentAnimDesc().bIsLoop)
+	{
+		m_pPlayer->Get_TransformCom()->Set_WorldMatrix(ComputeMatrix);
+		m_pPlayer->Get_TransformCom()->Set_Scale(Vec3(1.f, 1.f, 1.f));
+	}
+	else
+	{
+		m_fGrabTimeAcc += fTimeDelta;
+		if (0.2f >= m_fGrabTimeAcc)
+		{
+			m_pPlayer->Get_TransformCom()->Set_WorldMatrix(ComputeMatrix);
+			m_pPlayer->Get_TransformCom()->Set_Scale(Vec3(1.f, 1.f, 1.f));
+		}
+	}
 }
 
 CState_WR_Grabbed* CState_WR_Grabbed::Create(wstring strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Slayer* pOwner)

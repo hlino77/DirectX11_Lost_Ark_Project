@@ -29,7 +29,7 @@ HRESULT CState_GN_Gunkata_1::Initialize()
 	m_SkillFrames.push_back(9);
 	m_SkillFrames.push_back(-1);
 
-	m_SoundFrames.push_back(SOUNDDESC(5, TEXT("Effect"), TEXT("GN_Gunkata_147.wav"), 0.7f));
+	m_SoundFrames.push_back(SOUNDDESC(5, TEXT("Effect"), TEXT("GN_Gunkata_147.wav")));
 	m_SoundFrames.push_back(SOUNDDESC());
 
 	return S_OK;

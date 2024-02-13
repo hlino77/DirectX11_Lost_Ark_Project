@@ -25,8 +25,7 @@ HRESULT CState_GN_TargetDown_Shot::Initialize()
 	else
 		m_TickFunc = &CState_GN_TargetDown_Shot::Tick_State_NoneControl;
 
-	m_SkillFrames.push_back(1);
-
+	m_SkillFrames.push_back(2);
 	m_SkillFrames.push_back(-1);
 
 
@@ -41,12 +40,16 @@ HRESULT CState_GN_TargetDown_Shot::Initialize()
 	m_ParticleName.push_back(L"FocusShotParticle4");
 	m_ParticleName.push_back(L"FocusShotParticle5");
 
+	m_SoundFrames.push_back(SOUNDDESC(0, TEXT("Effect"), TEXT("GN_Target_227.wav")));
+	m_SoundFrames.push_back(SOUNDDESC());
+
 	return S_OK;
 }
 
 void CState_GN_TargetDown_Shot::Enter_State()
 {
 	m_iSkillCnt = 0;
+	m_iSoundCnt = 0;
 
 	m_pPlayer->Reserve_Animation(m_iTargetDown_Shot, 0.1f, 0, 0);
 	m_pPlayer->Set_SuperArmorState(m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor());
@@ -69,6 +72,8 @@ void CState_GN_TargetDown_Shot::Exit_State()
 
 		if (m_pPlayer->Is_Control())
 			Reset_Camera();
+
+		StopStateSound();
 	}
 
 	if (true == m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor())
@@ -77,7 +82,23 @@ void CState_GN_TargetDown_Shot::Exit_State()
 
 void CState_GN_TargetDown_Shot::Tick_State_Control(_float fTimeDelta)
 {
-	if (-1 != m_SkillFrames[m_iSkillCnt] && m_SkillFrames[m_iSkillCnt] <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iTargetDown_Shot))
+	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iTargetDown_Shot);
+
+	if (-1 != m_SoundFrames[m_iSoundCnt].iFrame && m_SoundFrames[m_iSoundCnt].iFrame <= (_int)iAnimFrame)
+	{
+		if (false == m_SoundFrames[m_iSoundCnt].bAddChannel)
+		{
+			CSound_Manager::GetInstance()->PlaySoundFile(m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume);
+		}
+		else
+		{
+			CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume);
+		}
+
+		m_iSoundCnt++;
+	}
+
+	if (-1 != m_SkillFrames[m_iSkillCnt] && m_SkillFrames[m_iSkillCnt] <= (_int)iAnimFrame)
 	{
 		m_iSkillCnt++;
 		Effect_Shot();
