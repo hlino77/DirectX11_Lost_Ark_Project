@@ -60,9 +60,17 @@ void CEffect_Custom_SpiralChaser::Tick(_float fTimeDelta)
 
 	if (m_bAttackStart)
 	{
+		if (true == m_pPlayer->Is_Control() && false == m_bSoundStart)
+		{
+			CSound_Manager::GetInstance()->PlaySoundFile(TEXT("Effect"), TEXT("GN_SpiralChaser_208.wav"), 0.5f);
+			m_bSoundStart = true;
+		}
+		
+
 		m_fTimeAcc += fTimeDelta;
 		if (m_fTimeAcc >= m_fLifeTime)
 		{
+			m_bSoundStart = false;
 			Set_Active(false);
 			Set_Dead(true);
 			return;

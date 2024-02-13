@@ -55,6 +55,7 @@ void CEffect_Custom_Grenade::Tick(_float fTimeDelta)
 
 	if (m_bAttackStart)
 	{
+		CSound_Manager::GetInstance()->PlaySoundFile(TEXT("Effect"), TEXT("GN_Grenade_63.wav"), 0.5f);
 		Effect_Explosion();
 		Set_Active(false);
 		Set_Dead(true);

@@ -34,6 +34,7 @@ HRESULT CState_GN_Attack_Hand3::Initialize()
 	m_EffectFrames.push_back(EFFECTFRAMEDESC());
 
 	m_SoundFrames.push_back(SOUNDDESC(19, TEXT("Effect"), TEXT("GN_Shout_596.wav")));
+	m_SoundFrames.push_back(SOUNDDESC(19, TEXT("Effect"), TEXT("GN_Hand_34.wav")));
 	m_SoundFrames.push_back(SOUNDDESC());
 
 	return S_OK; 
@@ -58,6 +59,10 @@ void CState_GN_Attack_Hand3::Tick_State(_float fTimeDelta)
 
 void CState_GN_Attack_Hand3::Exit_State()
 {
+	if (true == m_pPlayer->Is_CancelState())
+	{
+		StopStateSound();
+	}
 }
 
 void CState_GN_Attack_Hand3::Tick_State_Control(_float fTimeDelta)

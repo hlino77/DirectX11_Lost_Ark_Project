@@ -52,17 +52,20 @@ void CPlayer_Select::Tick(_float fTimeDelta)
 {
 	Set_Entrance();
 
-	if ((!m_pEntranceButton->Get_Pick())&&(!m_pEntranceNameChanger->Get_Pick()))
+	if (nullptr != m_pEntranceButton && nullptr != m_pEntranceNameChanger)
 	{
-		if (KEY_TAP(KEY::LBTN))
+		if ((!m_pEntranceButton->Get_Pick()) && (!m_pEntranceNameChanger->Get_Pick()))
 		{
-			if (true == Intersect_Mouse())
+			if (KEY_TAP(KEY::LBTN))
 			{
-				Clicked();
-			}
-			else
-			{
-				Unclicked();
+				if (true == Intersect_Mouse())
+				{
+					Clicked();
+				}
+				else
+				{
+					Unclicked();
+				}
 			}
 		}
 	}

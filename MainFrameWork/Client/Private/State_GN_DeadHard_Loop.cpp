@@ -55,6 +55,9 @@ HRESULT CState_GN_DeadHard_Loop::Initialize()
 	m_EffectFrames.push_back(EFFECTFRAMEDESC(21, (_uint)CPartObject::PARTS::WEAPON_2));
 	m_EffectFrames.push_back(EFFECTFRAMEDESC());
 
+	m_SoundFrames.push_back(SOUNDDESC(0, TEXT("Effect"), TEXT("GN_Deadhard_70.wav")));
+	m_SoundFrames.push_back(SOUNDDESC());
+
 	if (m_pPlayer->Is_Control())
 	{
 		CUI_HoldingFrame::HOLDING_SKILL_DESC HoldingDesc;
@@ -77,6 +80,7 @@ void CState_GN_DeadHard_Loop::Enter_State()
 
 	m_iSkillCnt = 0;
 	m_iEffectCnt = 0;
+	m_iSoundCnt = 0;
 
 	m_pPlayer->Reserve_Animation(m_iDeadHard_Loop, 0.1f, 0, 0);
 	m_pPlayer->Set_TargetPos(Vec3());
@@ -101,6 +105,8 @@ void CState_GN_DeadHard_Loop::Exit_State()
 		m_pPlayer->Set_SuperArmorState(false);
 	if (nullptr != m_pHoldingUI)
 		m_pHoldingUI->Set_SkillOn(false);
+
+	StopStateSound();
 }
 
 void CState_GN_DeadHard_Loop::Tick_State_Control(_float fTimeDelta)
@@ -118,6 +124,20 @@ void CState_GN_DeadHard_Loop::Tick_State_Control(_float fTimeDelta)
 		Effect_Shot();
 
 		m_iEffectCnt++;
+	}
+
+	if (-1 != m_SoundFrames[m_iSoundCnt].iFrame && m_SoundFrames[m_iSoundCnt].iFrame <= (_int)iAnimFrame)
+	{
+		if (false == m_SoundFrames[m_iSoundCnt].bAddChannel)
+		{
+			CSound_Manager::GetInstance()->PlaySoundFile(m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume);
+		}
+		else
+		{
+			CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume);
+		}
+
+		m_iSoundCnt++;
 	}
 
 	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iDeadHard))

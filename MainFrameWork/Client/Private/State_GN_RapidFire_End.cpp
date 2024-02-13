@@ -37,12 +37,17 @@ HRESULT CState_GN_RapidFire_End::Initialize()
 
 	m_SkillFrames.push_back(-1);
 
+	m_SoundFrames.push_back(SOUNDDESC(0, TEXT("Effect"), TEXT("GN_Rapidfire_201.wav")));
+	m_SoundFrames.push_back(SOUNDDESC(27, TEXT("Effect"), TEXT("GN_Laugh_598.wav")));
+	m_SoundFrames.push_back(SOUNDDESC());
+
 	return S_OK;
 }
 
 void CState_GN_RapidFire_End::Enter_State()
 {
 	m_iSkillCnt = 0;
+	m_iSoundCnt = 0;
 
 	m_pPlayer->Reserve_Animation(m_iRapidFire_End, 0.2f, 2, 0, 1.8f);
 
@@ -62,11 +67,18 @@ void CState_GN_RapidFire_End::Exit_State()
 
 	if (true == m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor())
 		m_pPlayer->Set_SuperArmorState(false);
+
+	if (true == m_pPlayer->Is_CancelState())
+	{
+		StopStateSound();
+	}
 }
 
 void CState_GN_RapidFire_End::Tick_State_Control(_float fTimeDelta)
 {
-	if (-1 != m_SkillFrames[m_iSkillCnt] && m_SkillFrames[m_iSkillCnt] <= (_int)m_pPlayer->Get_ModelCom()->Get_Anim_Frame((_uint)m_iRapidFire_End))
+	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame((m_iRapidFire_End));
+
+	if (-1 != m_SkillFrames[m_iSkillCnt] && m_SkillFrames[m_iSkillCnt] <= (_int)iAnimFrame)
 	{
 		Effect_Shot();
 
@@ -74,8 +86,23 @@ void CState_GN_RapidFire_End::Tick_State_Control(_float fTimeDelta)
 		static_cast<CPlayer_Controller_GN*>(m_pController)->Get_SkillAttackMessage(m_eSkillSelectKey);
 	}
 
+	if (-1 != m_SoundFrames[m_iSoundCnt].iFrame && m_SoundFrames[m_iSoundCnt].iFrame <= (_int)iAnimFrame)
+	{
+		if (false == m_SoundFrames[m_iSoundCnt].bAddChannel)
+		{
+			CSound_Manager::GetInstance()->PlaySoundFile(m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume);
+		}
+		else
+		{
+			CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume);
+		}
+
+		m_iSoundCnt++;
+	}
+
 	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iRapidFire_End))
 		m_pPlayer->Set_State(TEXT("Idle"));
+
 }
 
 void CState_GN_RapidFire_End::Tick_State_NoneControl(_float fTimeDelta)

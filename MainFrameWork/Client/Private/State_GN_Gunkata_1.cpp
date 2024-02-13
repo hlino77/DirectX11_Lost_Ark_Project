@@ -26,8 +26,11 @@ HRESULT CState_GN_Gunkata_1::Initialize()
 		m_TickFunc = &CState_GN_Gunkata_1::Tick_State_NoneControl;
 
 
-	m_SkillFrames.push_back(10);
+	m_SkillFrames.push_back(9);
 	m_SkillFrames.push_back(-1);
+
+	m_SoundFrames.push_back(SOUNDDESC(5, TEXT("Effect"), TEXT("GN_Gunkata_147.wav"), 0.7f));
+	m_SoundFrames.push_back(SOUNDDESC());
 
 	return S_OK;
 }
@@ -35,6 +38,7 @@ HRESULT CState_GN_Gunkata_1::Initialize()
 void CState_GN_Gunkata_1::Enter_State()
 {
 	m_iSkillCnt = 0;
+	m_iSoundCnt = 0;
 
 	m_pPlayer->Reserve_Animation(m_iGunkata_1, 0.1f, 0, 0);
 
@@ -62,6 +66,11 @@ void CState_GN_Gunkata_1::Exit_State()
 
 	if (true == m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor())
 		m_pPlayer->Set_SuperArmorState(false);
+
+	if (true == m_pPlayer->Is_CancelState())
+	{
+		StopStateSound();
+	}
 }
 
 void CState_GN_Gunkata_1::Tick_State_Control(_float fTimeDelta)
@@ -74,6 +83,20 @@ void CState_GN_Gunkata_1::Tick_State_Control(_float fTimeDelta)
 
 		m_iSkillCnt++;
 		static_cast<CPlayer_Controller_GN*>(m_pController)->Get_SkillAttackMessage(m_eSkillSelectKey);
+	}
+
+	if (-1 != m_SoundFrames[m_iSoundCnt].iFrame && m_SoundFrames[m_iSoundCnt].iFrame <= (_int)iAnimFrame)
+	{
+		if (false == m_SoundFrames[m_iSoundCnt].bAddChannel)
+		{
+			CSound_Manager::GetInstance()->PlaySoundFile(m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume);
+		}
+		else
+		{
+			CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume);
+		}
+
+		m_iSoundCnt++;
 	}
 
 	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iGunkata_1))

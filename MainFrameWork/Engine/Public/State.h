@@ -9,11 +9,11 @@ public:
 	typedef struct tagSoundDesc
 	{
 		tagSoundDesc() {}
-		tagSoundDesc(_int iFrameIndex, wstring strGroup, wstring strName, _float fVolume = 1.f, _bool bAddChannel = false)
+		tagSoundDesc(_int iFrameIndex, wstring strGroup, wstring strName, _float fVolume = 0.5f, _bool bAddChannel = true)
 			: iFrame(iFrameIndex), strGroup(strGroup), strName(strName), fVolume(fVolume), bAddChannel(bAddChannel) {}
 
 		_int iFrame = -1;
-		_float fVolume = 1.f;
+		_float fVolume = 0.5f;
 		_bool bAddChannel = false;
 		wstring strGroup;
 		wstring strName;
@@ -36,6 +36,9 @@ public:
 public:
 	const wstring& Get_StateName() { return m_strStateName; }
 	void Set_StateName(const wstring& strName) { m_strStateName = strName; }
+
+protected:
+	void	StopStateSound();
 
 protected:
 	wstring						m_strStateName = L"";
