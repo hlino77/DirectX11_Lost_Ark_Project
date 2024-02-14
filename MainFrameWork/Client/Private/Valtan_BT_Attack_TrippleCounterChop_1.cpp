@@ -90,20 +90,27 @@ void CValtan_BT_Attack_TrippleCounterChop_1::OnEnd()
 	}
 }
 
+void CValtan_BT_Attack_TrippleCounterChop_1::On_FirstAnimStart()
+{
+	__super::On_FirstAnimStart();
+
+	m_bEffectStart = false;
+}
+
 void CValtan_BT_Attack_TrippleCounterChop_1::Update_Effect()
 {
 	_uint iAnimFrame0 = m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[2].iAnimIndex);
 
-	if (iAnimFrame0 >= 31)
+	if (false == m_bEffectStart && iAnimFrame0 >= 31 && m_vecAnimDesc[2].iAnimIndex == m_pGameObject->Get_ModelCom()->Get_CurrAnim())
 	{
 		CEffect_Manager::EFFECTPIVOTDESC tDesc;
 		tDesc.pPivotMatrix = &m_pGameObject->Get_TransformCom()->Get_WorldMatrix();
 		EFFECT_START(L"VT_TrippleCounterChop_Fail", &tDesc);
 
-		CServerSessionManager::GetInstance()->Get_Player()->Get_Camera()->Cam_Shake(0.05f, 90.0f, 0.05f, 10.0f);
+		CServerSessionManager::GetInstance()->Get_Player()->Get_Camera()->Cam_Shake(0.1f, 100.0f, 0.3f, 10.0f);
+		m_bEffectStart = true;
 	}
 }
-
 
 CValtan_BT_Attack_TrippleCounterChop_1* CValtan_BT_Attack_TrippleCounterChop_1::Create(void* pArg)
 {

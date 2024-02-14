@@ -17,11 +17,15 @@ private:
     virtual BT_RETURN	OnUpdate(const _float& fTimeDelta)	override;
     virtual void		OnEnd()								override;
 
+public:
+    virtual void        On_FirstAnimStart()                 override;
+
 private:
     void    Update_Effect();
 
 private:
     _bool  m_bShoot = false;
+    _bool  m_bEffectStart = false;
 
 public:
     static	CValtan_BT_Attack_TrippleCounterChop_2* Create(void* pArg);

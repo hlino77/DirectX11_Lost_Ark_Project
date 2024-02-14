@@ -1886,7 +1886,9 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 		else
 		{
 			// 테스트용
-			if (FAILED(pSequenceNormalAttack->AddChild(pChainDestructionFist)))
+			//if (FAILED(pSequenceNormalAttack->AddChild(pSequenceTrippleCounterChop)))
+			//if (FAILED(pSequenceNormalAttack->AddChild(pRushGrab)))
+			if (FAILED(pSequenceNormalAttack->AddChild(pGhostGrab)))
 				return E_FAIL;
 		}
 
