@@ -22,11 +22,17 @@ HRESULT CState_WR_VolcanoEruption_Fail::Initialize()
 	else
 		m_TickFunc = &CState_WR_VolcanoEruption_Fail::Tick_State_NoneControl;
 
+
+	m_SoundFrames.push_back(SOUNDDESC(0, TEXT("Effect"), TEXT("WR_Vol_169.wav")));
+	m_SoundFrames.push_back(SOUNDDESC());
+
 	return S_OK;
 }
 
 void CState_WR_VolcanoEruption_Fail::Enter_State()
 {
+	m_iSoundCnt = 0;
+
 	m_pPlayer->Reserve_Animation(m_iVolcano_Fail, 0.1f, 0, 0);
 	if (true == static_cast<CController_WR*>(m_pController)->Is_In_Identity())
 		m_pPlayer->Get_ModelCom()->Set_Anim_Speed(m_iVolcano_Fail, 1.4f);
@@ -43,16 +49,37 @@ void CState_WR_VolcanoEruption_Fail::Tick_State(_float fTimeDelta)
 
 void CState_WR_VolcanoEruption_Fail::Exit_State()
 {
+	if (true == m_pPlayer->Is_CancelState())
+	{
+		StopStateSound();
+	}
+
 	if (true == m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor())
 		m_pPlayer->Set_SuperArmorState(false);
 }
 
 void CState_WR_VolcanoEruption_Fail::Tick_State_Control(_float fTimeDelta)
 {
+	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iVolcano_Fail);
+
+	if (-1 != m_SoundFrames[m_iSoundCnt].iFrame && m_SoundFrames[m_iSoundCnt].iFrame <= (_int)iAnimFrame)
+	{
+		if (false == m_SoundFrames[m_iSoundCnt].bAddChannel)
+		{
+			CSound_Manager::GetInstance()->PlaySoundFile(m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume);
+		}
+		else
+		{
+			CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume, true);
+		}
+
+		m_iSoundCnt++;
+	}
+
 	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iVolcano_Fail))
 		m_pPlayer->Set_State(TEXT("Idle"));
 
-	if (30 <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iVolcano_Fail))
+	if (30 <= (_int)iAnimFrame)
 	{
 		Vec3 vClickPos;
 		if (true == m_pController->Is_Dash())

@@ -198,8 +198,8 @@ void CEsther_Silian_Cut::Cut3(_float fTimeDelta)
 {
 	if (90 <= m_pModelCom->Get_Anim_Frame(m_iAnimIndex) && false == m_bCut[2])
 	{
-		m_pCutCamera->Set_Lerp_Offset(0.9f, Vec3(0.767, -0.591f, -0.249f), LERP_MODE::EASE_OUT);
-		m_pCutCamera->ZoomInOut(1.990, 6.f);
+		m_pCutCamera->Set_Lerp_Offset(0.9f, Vec3(0.767f, -0.591f, -0.249f), LERP_MODE::EASE_OUT);
+		m_pCutCamera->ZoomInOut(1.990f, 6.f);
 		m_pCutCamera->Set_Lerp_TargetOffset(0.9f, Vec3(-0.995f, 1.892f, -0.060f), LERP_MODE::EASE_OUT);
 
 		m_bCut[2] = true;

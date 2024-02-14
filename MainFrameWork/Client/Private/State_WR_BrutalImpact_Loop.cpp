@@ -27,10 +27,15 @@ HRESULT CState_WR_BrutalImpact_Loop::Initialize()
 		m_TickFunc = &CState_WR_BrutalImpact_Loop::Tick_State_NoneControl;
 
 
-	m_fSkillEndTime = 1.f;
+	m_fSkillEndTime = 1.5f;
 
 	m_fSkillSuccessTime_Max = 1.5f;
-	m_fSkillSuccessTime_Min = 0.5f;
+	m_fSkillSuccessTime_Min = 1.0f;
+
+	m_SoundFrames.push_back(SOUNDDESC(0, TEXT("Effect"), TEXT("WR_loudU_394.wav")));
+	m_SoundFrames.push_back(SOUNDDESC(0, TEXT("Effect"), TEXT("WR_Brutal_30.wav")));
+	m_SoundFrames.push_back(SOUNDDESC());
+
 
 	if (m_pPlayer->Is_Control())
 	{
@@ -45,11 +50,15 @@ HRESULT CState_WR_BrutalImpact_Loop::Initialize()
 		if (nullptr == m_pHoldingUI)
 			return E_FAIL;
 	}
+
+
 	return S_OK;
 }
 
 void CState_WR_BrutalImpact_Loop::Enter_State()
 {
+	m_iSoundCnt = 0;
+
 	for(_int i = 0; i < 3; ++i)
 		m_bEffectStart[i] = false;
 
@@ -77,10 +86,28 @@ void CState_WR_BrutalImpact_Loop::Exit_State()
 		m_pPlayer->Set_SuperArmorState(false);
 	if (nullptr != m_pHoldingUI)
 		m_pHoldingUI->Set_SkillOn(false);
+
+	StopStateSound();
 }
 
 void CState_WR_BrutalImpact_Loop::Tick_State_Control(_float fTimeDelta)
 {
+	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iBrutalImpact_Loop);
+
+	if (-1 != m_SoundFrames[m_iSoundCnt].iFrame && m_SoundFrames[m_iSoundCnt].iFrame <= (_int)iAnimFrame)
+	{
+		if (false == m_SoundFrames[m_iSoundCnt].bAddChannel)
+		{
+			CSound_Manager::GetInstance()->PlaySoundFile(m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume);
+		}
+		else
+		{
+			CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume, true);
+		}
+
+		m_iSoundCnt++;
+	}
+
 	m_fSkillTimeAcc += fTimeDelta;
 	if (nullptr != m_pHoldingUI)
 		m_pHoldingUI->Set_SkillTimeAcc(m_fSkillTimeAcc);
@@ -101,8 +128,6 @@ void CState_WR_BrutalImpact_Loop::Tick_State_Control(_float fTimeDelta)
 			m_pPlayer->Set_State(TEXT("Skill_WR_BrutalImpact_End"));
 		}
 	}
-
-	_int iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iBrutalImpact_Loop);
 
 	if (false == m_bEffectStart[0])
 	{

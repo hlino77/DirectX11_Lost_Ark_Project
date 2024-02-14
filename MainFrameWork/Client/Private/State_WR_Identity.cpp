@@ -23,6 +23,11 @@ HRESULT CState_WR_Identity::Initialize()
 	else
 		m_TickFunc = &CState_WR_Identity::Tick_State_NoneControl;
 
+	m_SoundFrames.push_back(SOUNDDESC(2, TEXT("Effect"), TEXT("WR_Yiaa_387.wav")));
+	m_SoundFrames.push_back(SOUNDDESC(2, TEXT("Effect"), TEXT("WR_Iden_192.wav")));
+	m_SoundFrames.push_back(SOUNDDESC());
+
+
 	return S_OK;
 }
 
@@ -30,11 +35,15 @@ void CState_WR_Identity::Enter_State()
 {
 	m_bEffect = false;
 
+	m_iSoundCnt = 0;
+
 	m_pPlayer->Reserve_Animation(m_iIdentity, 0.2f, 0, 0);
 
 	m_pController->Get_StopMessage();
 	
 	static_cast<CController_WR*>(m_pController)->Get_WR_IdentityMessage();
+
+	m_pPlayer->Set_Invincible(true);
 
 	m_Effects.clear();
 }
@@ -46,12 +55,32 @@ void CState_WR_Identity::Tick_State(_float fTimeDelta)
 
 void CState_WR_Identity::Exit_State()
 {
-	
+	if (true == m_pPlayer->Is_CancelState())
+	{
+		StopStateSound();
+	}
+	m_pPlayer->Set_Invincible(false);
 }
 
 void CState_WR_Identity::Tick_State_Control(_float fTimeDelta)
 {
-	if (!m_bEffect && 9 <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iIdentity))
+	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iIdentity);
+
+	if (-1 != m_SoundFrames[m_iSoundCnt].iFrame && m_SoundFrames[m_iSoundCnt].iFrame <= (_int)iAnimFrame)
+	{
+		if (false == m_SoundFrames[m_iSoundCnt].bAddChannel)
+		{
+			CSound_Manager::GetInstance()->PlaySoundFile(m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume);
+		}
+		else
+		{
+			CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume, true);
+		}
+
+		m_iSoundCnt++;
+	}
+
+	if (!m_bEffect && 9 <= iAnimFrame)
 	{
 		m_bEffect = true;
 

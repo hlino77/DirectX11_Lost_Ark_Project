@@ -45,6 +45,10 @@ HRESULT CState_WR_VolcanoEruption_Loop::Initialize()
 	m_fSkillSuccessTime_Min = 1.3f;
 	m_fSkillSuccessTime_Max = 1.8f;
 
+	m_SoundFrames.push_back(SOUNDDESC(0, TEXT("Effect"), TEXT("WR_Grr_379.wav")));
+	m_SoundFrames.push_back(SOUNDDESC(0, TEXT("Effect"), TEXT("WR_Vol_167.wav")));
+	m_SoundFrames.push_back(SOUNDDESC());
+
 	if (m_pPlayer->Is_Control())
 	{
 		CUI_HoldingFrame::HOLDING_SKILL_DESC HoldingDesc;
@@ -64,6 +68,7 @@ HRESULT CState_WR_VolcanoEruption_Loop::Initialize()
 void CState_WR_VolcanoEruption_Loop::Enter_State()
 {
 	m_iSkillCnt = 0;
+	m_iSoundCnt = 0;
 
 	m_bEffectStart = false;
 	m_Effect.clear();
@@ -95,11 +100,29 @@ void CState_WR_VolcanoEruption_Loop::Exit_State()
 
 	for (auto& pEffect : m_Effect)
 		pEffect->EffectEnd();
+
+	StopStateSound();
 }
 
 void CState_WR_VolcanoEruption_Loop::Tick_State_Control(_float fTimeDelta)
 {
-	if (-1 != m_SkillFrames[m_iSkillCnt] && m_SkillFrames[m_iSkillCnt] == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iVolcano_Loop))
+	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iVolcano_Loop);
+
+	if (-1 != m_SoundFrames[m_iSoundCnt].iFrame && m_SoundFrames[m_iSoundCnt].iFrame <= (_int)iAnimFrame)
+	{
+		if (false == m_SoundFrames[m_iSoundCnt].bAddChannel)
+		{
+			CSound_Manager::GetInstance()->PlaySoundFile(m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume);
+		}
+		else
+		{
+			CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume, true);
+		}
+
+		m_iSoundCnt++;
+	}
+
+	if (-1 != m_SkillFrames[m_iSkillCnt] && m_SkillFrames[m_iSkillCnt] <= (_int)iAnimFrame)
 	{
 		m_iSkillCnt++;
 		m_pController->Get_SkillAttackMessage(m_eSkillSelectKey);

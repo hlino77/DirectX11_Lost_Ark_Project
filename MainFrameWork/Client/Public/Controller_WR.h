@@ -77,7 +77,7 @@ private:
 	_float  m_fTimeAcc = { 0.f };
 
 	_float	m_fIdenTimeAcc = { 0.f };
-	_float	m_fIdenCoolTime = { 30.f };
+	_float	m_fIdenCoolTime = { 15.f };
 
 	_float	m_fIdenSkillCool = { 5.f };
 

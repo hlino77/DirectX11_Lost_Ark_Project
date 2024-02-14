@@ -27,12 +27,17 @@ HRESULT CState_WR_Guillotine_Loop::Initialize()
 	m_SkillFrames.push_back(6);
 	m_SkillFrames.push_back(-1);
 
+	m_SoundFrames.push_back(SOUNDDESC(1, TEXT("Effect"), TEXT("WR_Hot_346.wav")));
+	m_SoundFrames.push_back(SOUNDDESC(3, TEXT("Effect"), TEXT("WR_Gill_150.wav")));
+	m_SoundFrames.push_back(SOUNDDESC());
+
 	return S_OK;
 }
 
 void CState_WR_Guillotine_Loop::Enter_State()
 {
 	m_iSkillCnt = 0;
+	m_iSoundCnt = 0;
 	m_bEffectStart = false;
 
 	m_pPlayer->Reserve_Animation(m_iGuillotine_Loop, 0.1f, 0, 0);
@@ -59,6 +64,11 @@ void CState_WR_Guillotine_Loop::Exit_State()
 
 	if (m_pPlayer->Is_Control())
 		Reset_Camera();
+
+	if (true == m_pPlayer->Is_CancelState())
+	{
+		StopStateSound();
+	}
 }
 
 void CState_WR_Guillotine_Loop::Tick_State_Control(_float fTimeDelta)
@@ -69,6 +79,20 @@ void CState_WR_Guillotine_Loop::Tick_State_Control(_float fTimeDelta)
 	{
 		m_iSkillCnt++;
 		m_pController->Get_SkillAttackMessage(m_eSkillSelectKey);
+	}
+
+	if (-1 != m_SoundFrames[m_iSoundCnt].iFrame && m_SoundFrames[m_iSoundCnt].iFrame <= (_int)iAnimFrame)
+	{
+		if (false == m_SoundFrames[m_iSoundCnt].bAddChannel)
+		{
+			CSound_Manager::GetInstance()->PlaySoundFile(m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume);
+		}
+		else
+		{
+			CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume, true);
+		}
+
+		m_iSoundCnt++;
 	}
 
 	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iGuillotine_Loop))

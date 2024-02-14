@@ -30,13 +30,18 @@ HRESULT CState_WR_Attack_2::Initialize()
 	m_AttackFrames.push_back(9);
 	m_AttackFrames.push_back(-1);
 
+	m_SoundFrames.push_back(SOUNDDESC(7, TEXT("Effect"), TEXT("WR_Default_2.wav")));
+	m_SoundFrames.push_back(SOUNDDESC());
+
 	return S_OK;
 }
 
 void CState_WR_Attack_2::Enter_State()
 {
-	m_bEffect = false;
 	m_iAttackCnt = 0;
+	m_iSoundCnt = 0;
+
+	m_bEffect = false;
 
 	m_pPlayer->Reserve_Animation(m_Attack_2, 0.1f, 0, 0, 1.f);
 	m_pController->Get_LerpDirLookMessage(m_pPlayer->Get_TargetPos());
@@ -49,6 +54,11 @@ void CState_WR_Attack_2::Tick_State(_float fTimeDelta)
 
 void CState_WR_Attack_2::Exit_State()
 {
+	if (true == m_pPlayer->Is_CancelState())
+	{
+		StopStateSound();
+	}
+
 	m_IsAttackContinue = false;
 }
 
@@ -69,6 +79,21 @@ void CState_WR_Attack_2::Tick_State_Control(_float fTimeDelta)
 		m_iAttackCnt++;
 		static_cast<CController_WR*>(m_pController)->Get_AttackMessage();
 	}
+
+	if (-1 != m_SoundFrames[m_iSoundCnt].iFrame && m_SoundFrames[m_iSoundCnt].iFrame <= (_int)iAnimFrame)
+	{
+		if (false == m_SoundFrames[m_iSoundCnt].bAddChannel)
+		{
+			CSound_Manager::GetInstance()->PlaySoundFile(m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume);
+		}
+		else
+		{
+			CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume, true);
+		}
+
+		m_iSoundCnt++;
+	}
+
 
 	if (true == m_pController->Is_Attack() &&
 		15 > m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_2) &&

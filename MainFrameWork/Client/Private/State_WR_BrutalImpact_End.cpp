@@ -27,12 +27,18 @@ HRESULT CState_WR_BrutalImpact_End::Initialize()
 	m_SkillFrames.push_back(23);
 	m_SkillFrames.push_back(-1);
 
+	m_SoundFrames.push_back(SOUNDDESC(0, TEXT("Effect"), TEXT("WR_Brutal_31.wav")));
+	m_SoundFrames.push_back(SOUNDDESC(19, TEXT("Effect"), TEXT("WR_loudCha_395.wav")));
+	m_SoundFrames.push_back(SOUNDDESC(21, TEXT("Effect"), TEXT("WR_Brutal_32.wav")));
+	m_SoundFrames.push_back(SOUNDDESC());
+
 	return S_OK;
 }
 
 void CState_WR_BrutalImpact_End::Enter_State()
 {
 	m_iSkillCnt = 0;
+	m_iSoundCnt = 0;
 	m_bEffectStart = false;
 
 	m_pPlayer->Reserve_Animation(m_BrutalImpact_End, 0.1f, 0, 0, 1.f);
@@ -55,11 +61,30 @@ void CState_WR_BrutalImpact_End::Exit_State()
 
 	if (true == m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor())
 		m_pPlayer->Set_SuperArmorState(false);
+
+	if (true == m_pPlayer->Is_CancelState())
+	{
+		StopStateSound();
+	}
 }
 
 void CState_WR_BrutalImpact_End::Tick_State_Control(_float fTimeDelta)
 {
 	_int iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_BrutalImpact_End);
+
+	if (-1 != m_SoundFrames[m_iSoundCnt].iFrame && m_SoundFrames[m_iSoundCnt].iFrame <= (_int)iAnimFrame)
+	{
+		if (false == m_SoundFrames[m_iSoundCnt].bAddChannel)
+		{
+			CSound_Manager::GetInstance()->PlaySoundFile(m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume);
+		}
+		else
+		{
+			CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume, true);
+		}
+
+		m_iSoundCnt++;
+	}
 
 	if (-1 != m_SkillFrames[m_iSkillCnt] && m_SkillFrames[m_iSkillCnt] == iAnimFrame)
 	{

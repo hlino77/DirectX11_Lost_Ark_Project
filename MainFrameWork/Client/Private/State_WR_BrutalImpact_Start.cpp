@@ -24,11 +24,16 @@ HRESULT CState_WR_BrutalImpact_Start::Initialize()
 	else
 		m_TickFunc = &CState_WR_BrutalImpact_Start::Tick_State_NoneControl;
 
+	m_SoundFrames.push_back(SOUNDDESC(1, TEXT("Effect"), TEXT("WR_Ch_398.wav")));
+	m_SoundFrames.push_back(SOUNDDESC(1, TEXT("Effect"), TEXT("WR_Brutal_29.wav")));
+	m_SoundFrames.push_back(SOUNDDESC());
+
 	return S_OK;
 }
 
 void CState_WR_BrutalImpact_Start::Enter_State()
 {
+	m_iSoundCnt = 0;
 	m_bTrailStart = false;
 	m_bEffectStart = false;
 
@@ -59,10 +64,31 @@ void CState_WR_BrutalImpact_Start::Exit_State()
 	{
 		static_cast<CEffect_Trail*>(iter)->TrailEnd(0.5f);
 	}
+
+	if (true == m_pPlayer->Is_CancelState())
+	{
+		StopStateSound();
+	}
 }
 
 void CState_WR_BrutalImpact_Start::Tick_State_Control(_float fTimeDelta)
 {
+	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iBrutalImpact_Start);
+
+	if (-1 != m_SoundFrames[m_iSoundCnt].iFrame && m_SoundFrames[m_iSoundCnt].iFrame <= (_int)iAnimFrame)
+	{
+		if (false == m_SoundFrames[m_iSoundCnt].bAddChannel)
+		{
+			CSound_Manager::GetInstance()->PlaySoundFile(m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume);
+		}
+		else
+		{
+			CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume, true);
+		}
+
+		m_iSoundCnt++;
+	}
+
 	if (false == m_bTrailStart)
 	{
 		auto func = bind(&CPartObject::Load_Part_WorldMatrix, static_cast<CPartObject*>(m_pPlayer->Get_Parts(CPartObject::PARTS::WEAPON_1)), placeholders::_1);
