@@ -353,6 +353,17 @@ float4 PS_SHADOW(VS_OUT_SHADOW In) : SV_TARGET0
     return float4(In.vProjPos.z / In.vProjPos.w, 0.0f, 0.0f, 0.0f);
 }
 
+
+float4 PS_SHADOW_DISCARD(VS_OUT_SHADOW In) : SV_TARGET0
+{
+    float4 vColor = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
+
+     if (vColor.a == 0.0f)
+         discard;
+
+     return float4(In.vProjPos.z / In.vProjPos.w, 0.0f, 0.0f, 0.0f);
+}
+
 float4 PS_ALPHABLEND(VS_OUT_OUTLINE In) : SV_TARGET0
 {
     float4 vColor = float4(0.f, 0.f, 0.f, 0.f);
@@ -498,6 +509,17 @@ technique11 DefaultTechnique
         VertexShader = compile vs_5_0 VS_MAIN_WORLD();
         GeometryShader = NULL;
         PixelShader = compile ps_5_0 PS_ALPHABLEND();
+    }
+
+    pass DiscardShadowPass // 8
+    {
+        SetRasterizerState(RS_Effect);
+        SetDepthStencilState(DSS_Default, 0);
+        SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+        VertexShader = compile vs_5_0 VS_SHADOW();
+        GeometryShader = NULL;
+        PixelShader = compile ps_5_0 PS_SHADOW_DISCARD();
     }
 
 }

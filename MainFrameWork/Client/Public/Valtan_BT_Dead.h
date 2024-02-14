@@ -18,7 +18,18 @@ private:
     virtual void		OnEnd()								override;
 
 
+    void    Update_Camera(_float fTimeDelta);
+private:
 
+    _bool		m_bDeadEffect = false;
+
+    _uint       m_iCameraSequence = 0;
+
+    Vec3        m_vCameraPos, m_vCamTargetPos;
+
+    _float      m_fSlowMotionSpeed = 0.0f;
+
+    _float      m_fAnimSpeed;
 public:
     static	CValtan_BT_Dead* Create(void* pArg);
     virtual void Free() override;

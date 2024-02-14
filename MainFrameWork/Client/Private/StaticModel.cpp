@@ -944,7 +944,12 @@ void CStaticModel::LateTick(_float fTimeDelta)
 				m_pRendererCom->Add_RenderGroup(m_eRenderGroup, this);
 			}
 		}
-		  
+		
+		if (m_bBreakableObject == true)
+		{
+			m_pRendererCom->Add_InstanceRenderGroup(CRenderer::RENDERGROUP::RENDER_SHADOW, this);
+		}
+
 		// Draw Collider
 		m_pRendererCom->Add_DebugObject(this);
 	}
@@ -1088,7 +1093,7 @@ HRESULT CStaticModel::Render_ShadowDepth()
 		/*if (FAILED(m_pModelCom->SetUp_OnShader(m_pShaderCom, m_pModelCom->Get_MaterialIndex(i), aiTextureType_NORMALS, "g_NormalTexture")))
 			return E_FAIL;*/
 
-		if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 2)))
+		if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 8)))
 			return S_OK;
 	}
 
@@ -1098,7 +1103,6 @@ HRESULT CStaticModel::Render_ShadowDepth()
 
 HRESULT CStaticModel::Render_Instance(_uint iSize)
 {
-
 	if (nullptr == m_pModelCom || nullptr == m_pShaderCom)
 		return E_FAIL;
 
@@ -1252,6 +1256,7 @@ void CStaticModel::Add_Collider()
 		return;
 
 	m_StaticColliders.push_back(pCollider);
+	m_bBreakableObject = true;
 
 	Safe_Release(pGameInstance);
 }
@@ -1373,6 +1378,31 @@ HRESULT CStaticModel::Render_Debug()
 		{
 			Collider->DebugRender();
 		}
+	}
+
+	return S_OK;
+}
+
+HRESULT CStaticModel::Render_ShadowDepth_Instance(_uint iSize)
+{
+	if (nullptr == m_pModelCom || nullptr == m_pShaderCom)
+		return E_FAIL;
+
+	if (FAILED((*m_pInstaceData)[m_szModelName].pInstanceShader->Push_ShadowWVP()))
+		return E_FAIL;
+
+	_uint		iNumMeshes = m_pModelCom->Get_NumMeshes();
+
+	for (_uint i = 0; i < iNumMeshes; ++i)
+	{
+		if (FAILED(m_pModelCom->SetUp_OnShader(m_pShaderCom, m_pModelCom->Get_MaterialIndex(i), aiTextureType_DIFFUSE, "g_DiffuseTexture")))
+			return S_OK;
+
+		/*if (FAILED(m_pModelCom->SetUp_OnShader(m_pShaderCom, m_pModelCom->Get_MaterialIndex(i), aiTextureType_NORMALS, "g_NormalTexture")))
+			return E_FAIL;*/
+
+		if (FAILED(m_pModelCom->Render_Instance((*m_pInstaceData)[m_szModelName].pInstanceBuffer, iSize, (*m_pInstaceData)[m_szModelName].pInstanceShader, i, sizeof(Matrix), "ShadowInstance")))
+			return S_OK;
 	}
 
 	return S_OK;

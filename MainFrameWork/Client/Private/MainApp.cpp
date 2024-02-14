@@ -65,6 +65,7 @@
 namespace fs = std::filesystem;
 
 _float g_fVolume;
+_float g_fTimeDeltaRatio;
 
 CMainApp::CMainApp()	
 	: m_pGameInstance(CGameInstance::GetInstance())
@@ -75,6 +76,7 @@ CMainApp::CMainApp()
 HRESULT CMainApp::Initialize()
 {
 	g_fVolume = 0.5f;
+	g_fTimeDeltaRatio = 1.0f;
 
 	/* 1. 내 게임의 초기화를 수행할꺼야. */
 	/* 1-1. 그래픽장치를 초기화한다. */
@@ -143,11 +145,22 @@ void CMainApp::Tick(_float fTimeDelta)
 		CQuadTreeMgr::GetInstance()->Set_Stop(true);
 	}
 
+	if (KEY_TAP(KEY::F5))
+	{
+		g_fTimeDeltaRatio = 0.1f;
+	}
+	if (KEY_TAP(KEY::F6))
+	{
+		g_fTimeDeltaRatio = 1.0f;
+	}
+
 	if (KEY_HOLD(KEY::N) && KEY_TAP(KEY::NUM_1))
 		CNavigationMgr::GetInstance()->OnOff_Render();
 
 	//if (KEY_HOLD(KEY::CTRL) && KEY_TAP(KEY::S))
 	//	m_pRenderer_Com->Set_StaticShadow();
+
+	fTimeDelta *= g_fTimeDeltaRatio;
 
 	m_pGameInstance->FinalTick(fTimeDelta);
 

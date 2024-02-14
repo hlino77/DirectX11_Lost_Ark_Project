@@ -20,6 +20,8 @@ void CValtan_BT_Attack_TeleportRush_Server::OnStart()
 	static_cast<CMonster_Server*>(m_pGameObject)->Send_Monster_Action();
 	static_cast<CMonster_Server*>(m_pGameObject)->Set_SetuponCell(false);
 	m_iStack = 0;
+
+	m_fLoopTime = 1.0f;
 }
 
 CBT_Node::BT_RETURN CValtan_BT_Attack_TeleportRush_Server::OnUpdate(const _float& fTimeDelta)
@@ -35,14 +37,14 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_TeleportRush_Server::OnUpdate(const _float
 		if (m_pGameObject->Get_NearTarget() != nullptr)
 		{
 			vPlayerPosition = static_cast<CMonster_Server*>(m_pGameObject)->Get_NearTarget()->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
-			vPlayerPosition += (m_vDirection * 35.f);
+			vPlayerPosition += (m_vDirection * 20.f);
 			m_pGameObject->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPlayerPosition);
 			static_cast<CMonster_Server*>(m_pGameObject)->LookAt_Target_Direction();
 		}
 		else
 		{
 			vPlayerPosition = static_cast<CBoss_Server*>(m_pGameObject)->Get_SpawnPosition();
-			vPlayerPosition += (m_vDirection * 35.f);
+			vPlayerPosition += (m_vDirection * 3.f);
 			m_pGameObject->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPlayerPosition);
 			static_cast<CMonster_Server*>(m_pGameObject)->Get_TransformCom()->LookAt_ForLandObject(static_cast<CBoss_Server*>(m_pGameObject)->Get_SpawnPosition());
 		}

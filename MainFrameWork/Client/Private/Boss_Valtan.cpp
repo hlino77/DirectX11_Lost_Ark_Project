@@ -52,6 +52,9 @@
 #include "ColliderOBB.h"
 #include <Weapon_Boss_Valtan.h>
 
+#include "Camera_Player.h"
+#include "Player.h"
+#include "ServerSessionManager.h"
 
 CBoss_Valtan::CBoss_Valtan(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CBoss(pDevice, pContext)
@@ -372,7 +375,11 @@ void CBoss_Valtan::Update_Dissolve(_float fTimeDelta)
 		if (m_fDissolvetime > m_fMaxDissolvetime)
 		{
 			m_fDissolvetime = m_fMaxDissolvetime;
-			Set_Dead(true);
+			Set_Active(false);
+
+			CServerSessionManager::GetInstance()->Get_Player()->Get_Camera()->Set_Mode(CCamera_Player::CameraState::DEFAULT);
+			CServerSessionManager::GetInstance()->Get_Player()->Get_Camera()->Set_DefaultOffset();
+			CServerSessionManager::GetInstance()->Get_Player()->Get_Camera()->DefaultLength(7.0f);
 		}
 	}
 	else if (m_bDissolveIn)
@@ -573,6 +580,8 @@ HRESULT CBoss_Valtan::Ready_BehaviourTree()
 	CBT_Action* pDead = CValtan_BT_Dead::Create(&ActionDesc);
 	AnimationDesc.fRootDist = 1.5f;
 	AnimationDesc.fAnimSpeed = 1.15f;
+
+
 
 	ActionDesc.vecAnimations.clear();
 	AnimationDesc.strAnimName = TEXT("abn_groggy_1_start");

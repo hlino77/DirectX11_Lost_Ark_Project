@@ -31,8 +31,6 @@ public:
 	virtual void LateTick(_float fTimeDelta);
 	virtual HRESULT Render();
 
-	virtual void Update_Dissolve(_float fTimeDelta);
-
 public:
 
 
@@ -44,13 +42,14 @@ private:
 	virtual HRESULT		Ready_Coliders();
 	virtual	HRESULT		Ready_BehaviourTree();
 
-	
+	virtual	void		Update_Dissolve(_float fTimeDelta) override;
 private:
 	CModel* m_pModelPartCom[(_uint)PARTS::PARTS_END] = {};
 private:
 	Vec3							m_vSummonPositions[3] = {};
 	_float							m_fSummonTime = 0.f;
 	_bool							m_bRenderPostValtan = true;
+
 public:
 	static CBoss* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg);

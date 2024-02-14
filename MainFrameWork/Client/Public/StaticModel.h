@@ -48,6 +48,7 @@ public:
 	virtual HRESULT Render_ShadowDepth();
 	virtual HRESULT	Render_Instance(_uint iSize);
 	virtual HRESULT	Render_Debug();
+	virtual HRESULT Render_ShadowDepth_Instance(_uint iSize) override;
 
 	virtual void	Add_InstanceData(_uint iSize, _uint& iIndex) override;
 public:
@@ -87,6 +88,7 @@ protected:
 	virtual HRESULT	Ready_Proto_InstanceBuffer() override;
 	virtual HRESULT	Ready_Instance_For_Render(_uint iSize) override;
 
+
 private:
 
 	CRenderer::RENDERGROUP			m_eRenderGroup = { CRenderer::RENDERGROUP::RENDER_END };
@@ -117,6 +119,7 @@ private:
 	_float			m_fBreakDelayTime = 0.f;
 	_bool			m_bBreakEffect = false;
 	_bool			m_bBreakCustomEffect = false;
+	_bool			m_bBreakableObject = false;
 
 	// Sound
 	_bool			m_bBreakSound = false;

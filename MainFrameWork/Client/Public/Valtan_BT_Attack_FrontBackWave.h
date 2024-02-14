@@ -19,7 +19,6 @@ private:
 
 private:
     _bool   m_bShoot[3] = {};
-
 public:
     static	CValtan_BT_Attack_FrontBackWave* Create(void* pArg);
     virtual void Free() override;

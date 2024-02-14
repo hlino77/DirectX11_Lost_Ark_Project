@@ -151,6 +151,7 @@ wstring SoundName = sound;									\
 CGameInstance::GetInstance()->Find_Stop_Sound(SoundName);
 
 extern _float g_fVolume;
+extern _float g_fTimeDeltaRatio;
 extern HWND g_hWnd;
 extern HINSTANCE g_hInstance;
 using namespace Client;

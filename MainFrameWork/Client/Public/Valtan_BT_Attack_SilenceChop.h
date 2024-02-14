@@ -20,6 +20,8 @@ private:
 private:
     _bool   m_bShoot[2] = {};
     _bool   m_bOutSide;
+
+    _bool   m_bWarning = false;
 public:
     static	CValtan_BT_Attack_SilenceChop* Create(void* pArg);
     virtual void Free() override;

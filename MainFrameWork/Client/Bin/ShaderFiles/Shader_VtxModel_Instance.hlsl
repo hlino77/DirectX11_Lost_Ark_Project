@@ -33,6 +33,25 @@ VS_OUT VS_MAIN(STATIC_INSTANCE_IN In)
     return Out;
 }
 
+
+VS_OUT_SHADOW VS_SHADOW_INSTANCE(STATIC_INSTANCE_IN In)
+{
+    VS_OUT_SHADOW Out = (VS_OUT_SHADOW)0;
+
+    matrix		matWVP;
+
+    matWVP = mul(In.matWorld, ViewProj);
+
+    Out.vPosition = mul(float4(In.vPosition, 1.f), matWVP);
+    Out.vProjPos = Out.vPosition;
+
+    Out.vTexUV = In.vTexUV;
+
+    return Out;
+}
+
+
+
 VS_OUT VS_GRASS_INSTANCE(STATIC_INSTANCE_IN In)
 {
     VS_OUT Out = (VS_OUT)0;
@@ -130,6 +149,17 @@ PS_OUT_PHONG PS_PHONG(VS_OUT In)
     return Out;
 }
 
+
+float4 PS_SHADOW_INSTANCE(VS_OUT_SHADOW In) : SV_TARGET0
+{
+    float4 vColor = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
+
+     if (vColor.a == 0.0f)
+         discard;
+
+     return float4(In.vProjPos.z / In.vProjPos.w, 0.0f, 0.0f, 0.0f);
+}
+
 technique11 DefaultTechnique
 {
     pass PBRInstance
@@ -175,6 +205,17 @@ technique11 DefaultTechnique
         VertexShader = compile vs_5_0 VS_GRASS_INSTANCE();
         GeometryShader = NULL;
         PixelShader = compile ps_5_0 PS_PBR();
+    }
+
+    pass ShadowInstance
+    {
+        SetRasterizerState(RS_Default);
+        SetDepthStencilState(DSS_Default, 0);
+        SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+        VertexShader = compile vs_5_0 VS_SHADOW_INSTANCE();
+        GeometryShader = NULL;
+        PixelShader = compile ps_5_0 PS_SHADOW_INSTANCE();
     }
 
 }

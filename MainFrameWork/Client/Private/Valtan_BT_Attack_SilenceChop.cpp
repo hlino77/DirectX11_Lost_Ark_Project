@@ -9,6 +9,8 @@
 #include "ServerSessionManager.h"
 #include "Player.h"
 #include "Camera_Player.h"
+#include "Effect_Manager.h"
+#include "Effect.h"
 
 
 CValtan_BT_Attack_SilenceChop::CValtan_BT_Attack_SilenceChop()
@@ -21,6 +23,8 @@ void CValtan_BT_Attack_SilenceChop::OnStart()
 	m_bOutSide = m_pGameObject->Get_TargetPos().x;
 	m_bShoot[0] = true;
 	m_bShoot[1] = true;
+
+	m_bWarning = false;
 }
 
 CBT_Node::BT_RETURN CValtan_BT_Attack_SilenceChop::OnUpdate(const _float& fTimeDelta)
@@ -43,12 +47,39 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_SilenceChop::OnUpdate(const _float& fTimeD
 			pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
 			pSkill->Get_TransformCom()->LookAt_Dir(vLook);
 		}
+
+		CEffect_Manager::EFFECTPIVOTDESC tDesc;
+		tDesc.pPivotMatrix = &m_pGameObject->Get_TransformCom()->Get_WorldMatrix();
+		EFFECT_START(L"VT_Silence", &tDesc);
 	}
 
-	if (m_bOutSide && m_iCurrAnimation == 2)
+	if (m_iCurrAnimation == 2)
 	{
-		static_cast<CBoss*>(m_pGameObject)->Set_RimLight(0.05f, 0.7f);
+		if (m_bOutSide == true)
+		{
+			static_cast<CBoss*>(m_pGameObject)->Set_RimLight(0.05f, 0.7f);
+		}
+
+		if (m_bWarning == false && m_fLoopTime >= 0.8f)
+		{
+			CEffect_Manager::EFFECTPIVOTDESC tDesc;
+			tDesc.pPivotMatrix = &m_pGameObject->Get_TransformCom()->Get_WorldMatrix();
+
+			if (m_bOutSide == true)
+			{
+				EFFECT_START(L"VT_SilenceWarning2", &tDesc);
+			}
+			else
+			{
+				EFFECT_START(L"VT_SilenceWarning1", &tDesc);
+			}
+
+			m_bWarning = true;
+		}
 	}
+
+
+
 
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[3].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[3].iAnimIndex) >= 7 && m_bShoot[1])
 	{
@@ -70,6 +101,10 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_SilenceChop::OnUpdate(const _float& fTimeD
 				vPos += vLook * 3.f;
 				pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
 				pSkill->Get_TransformCom()->LookAt_Dir(vLook);
+
+				CEffect_Manager::EFFECTPIVOTDESC tDesc;
+				tDesc.pPivotMatrix = &m_pGameObject->Get_TransformCom()->Get_WorldMatrix();
+				EFFECT_START(L"VT_SilenceOut", &tDesc);
 			}
 		}
 		else
@@ -84,6 +119,10 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_SilenceChop::OnUpdate(const _float& fTimeD
 				pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
 				pSkill->Get_TransformCom()->LookAt_Dir(vLook);
 				pSkill->Get_Colider(_uint(LAYER_COLLIDER::LAYER_SKILL_BOSS))->Set_Radius(5.f);
+
+				CEffect_Manager::EFFECTPIVOTDESC tDesc;
+				tDesc.pPivotMatrix = &m_pGameObject->Get_TransformCom()->Get_WorldMatrix();
+				EFFECT_START(L"VT_SilenceIn", &tDesc);
 			}
 		}
 		vector<CGameObject*> vecTargets = CGameInstance::GetInstance()->Find_GameObjects(LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_PLAYER);
@@ -110,6 +149,10 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_SilenceChop::OnUpdate(const _float& fTimeD
 					static_cast<CSkill*>(pSkill)->Set_BlinkTime(1.0f);
 					static_cast<CSkill*>(pSkill)->Set_LastTime(1.2f);
 					static_cast<CSkill*>(pSkill)->Set_SoundTag(L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#249 (953298922).wav");
+
+					CEffect_Manager::EFFECTPIVOTDESC tDesc;
+					tDesc.pPivotMatrix = &Object->Get_TransformCom()->Get_WorldMatrix();
+					EFFECT_START(L"VT_SilencePlayer", &tDesc);
 				}
 			}
 		vecTargets = CGameInstance::GetInstance()->Find_GameObjects(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_PLAYER);
@@ -136,6 +179,10 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_SilenceChop::OnUpdate(const _float& fTimeD
 					static_cast<CSkill*>(pSkill)->Set_BlinkTime(1.0f);
 					static_cast<CSkill*>(pSkill)->Set_LastTime(1.2f);
 					static_cast<CSkill*>(pSkill)->Set_SoundTag(L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#249 (953298922).wav");
+
+					CEffect_Manager::EFFECTPIVOTDESC tDesc;
+					tDesc.pPivotMatrix = &Object->Get_TransformCom()->Get_WorldMatrix();
+					EFFECT_START(L"VT_SilencePlayer", &tDesc);
 				}
 			}
 	}
