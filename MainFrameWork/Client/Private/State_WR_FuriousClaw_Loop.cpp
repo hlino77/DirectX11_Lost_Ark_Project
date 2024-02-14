@@ -5,6 +5,7 @@
 #include "Controller_WR.h"
 #include "Player_Skill.h"
 #include "Effect_Manager.h"
+#include "Effect_Trail.h"
 #include "Model.h"
 
 CState_WR_FuriousClaw_Loop::CState_WR_FuriousClaw_Loop(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Slayer* pOwner)
@@ -44,7 +45,7 @@ void CState_WR_FuriousClaw_Loop::Enter_State()
 	m_iEffectCnt = 0;
 
 	m_bTrail = false;
-	m_Trail.clear();
+	m_Trails.clear();
 
 	for (_int i = 0; i < 3; ++i)
 		m_EffectStart[i] = false;
@@ -61,51 +62,20 @@ void CState_WR_FuriousClaw_Loop::Exit_State()
 {
 	if (true == m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor())
 		m_pPlayer->Set_SuperArmorState(false);
+
+	for (auto& iter : m_Trails)
+	{
+		static_cast<CEffect_Trail*>(iter)->TrailEnd(0.5f);
+	}
 }
 
 void CState_WR_FuriousClaw_Loop::Tick_State_Control(_float fTimeDelta)
 {
-	_int iCurrFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iFuriousClaw_Loop);
+	_int iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iFuriousClaw_Loop);
 
-	if (false == m_EffectStart[m_iEffectCnt] && -1 != m_SkillFrames[m_iEffectCnt] && m_SkillFrames[m_iEffectCnt] - 1 <= iCurrFrame)
-	{
-		CEffect_Manager::EFFECTPIVOTDESC desc;
-		desc.pPivotMatrix = &m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
+	Effect_FuriousClaw_Loop();
 
-		if (static_cast<CController_WR*>(m_pController)->Is_In_Identity())
-		{
-			if (0 == m_iEffectCnt)
-			{
-				EFFECT_START(TEXT("Slayer_Rage_FuriousClaw1"), &desc)
-
-				if (!m_bTrail)
-				{
-					m_bTrail = true;
-					
-					auto func = bind(&CPartObject::Load_Part_WorldMatrix, static_cast<CPartObject*>(m_pPlayer->Get_Parts(CPartObject::PARTS::WEAPON_1)), placeholders::_1);
-					TRAIL_START_OUTLIST(TEXT("Slayer_Rage_FuriousClaw_Trail"), func, m_Trail)
-				}
-			}
-			else if (1 == m_iEffectCnt)
-				EFFECT_START(TEXT("Slayer_Rage_FuriousClaw2"), &desc)
-			else if (2 == m_iEffectCnt)
-				EFFECT_START(TEXT("Slayer_Rage_FuriousClaw3"), &desc)
-		}
-		else
-		{
-			if (0 == m_iEffectCnt)
-				EFFECT_START(TEXT("Slayer_FuriousClaw1"), &desc)
-			else if (1 == m_iEffectCnt)
-				EFFECT_START(TEXT("Slayer_FuriousClaw2"), &desc)
-			else if (2 == m_iEffectCnt)
-				EFFECT_START(TEXT("Slayer_FuriousClaw3"), &desc)
-		}
-
-		m_EffectStart[m_iEffectCnt] = true;
-		++m_iEffectCnt;
-	}
-
-	if (-1 != m_SkillFrames[m_iSkillCnt] && m_SkillFrames[m_iSkillCnt] <= iCurrFrame)
+	if (-1 != m_SkillFrames[m_iSkillCnt] && m_SkillFrames[m_iSkillCnt] <= iAnimFrame)
 	{
 		m_iSkillCnt++;
 		m_pController->Get_SkillAttackMessage(m_eSkillSelectKey);
@@ -132,7 +102,52 @@ void CState_WR_FuriousClaw_Loop::Tick_State_NoneControl(_float fTimeDelta)
 	if (false == static_cast<CController_WR*>(m_pController)->Is_In_Identity())
 		m_pPlayer->Get_ModelCom()->Set_Anim_Speed(m_iFuriousClaw_Loop, 1.f);
 
+	Effect_FuriousClaw_Loop();
+
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
+}
+
+void CState_WR_FuriousClaw_Loop::Effect_FuriousClaw_Loop()
+{
+	_int iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iFuriousClaw_Loop);
+
+	if (false == m_EffectStart[m_iEffectCnt] && -1 != m_SkillFrames[m_iEffectCnt] && m_SkillFrames[m_iEffectCnt] - 1 <= iAnimFrame)
+	{
+		CEffect_Manager::EFFECTPIVOTDESC desc;
+		desc.pPivotMatrix = &m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
+
+		if (static_cast<CController_WR*>(m_pController)->Is_In_Identity())
+		{
+			if (0 == m_iEffectCnt)
+			{
+				EFFECT_START(TEXT("Slayer_Rage_FuriousClaw1"), &desc)
+
+					if (!m_bTrail)
+					{
+						m_bTrail = true;
+
+						auto func = bind(&CPartObject::Load_Part_WorldMatrix, static_cast<CPartObject*>(m_pPlayer->Get_Parts(CPartObject::PARTS::WEAPON_1)), placeholders::_1);
+						TRAIL_START_OUTLIST(TEXT("Slayer_Rage_FuriousClaw_Trail"), func, m_Trails)
+					}
+			}
+			else if (1 == m_iEffectCnt)
+				EFFECT_START(TEXT("Slayer_Rage_FuriousClaw2"), &desc)
+			else if (2 == m_iEffectCnt)
+				EFFECT_START(TEXT("Slayer_Rage_FuriousClaw3"), &desc)
+		}
+		else
+		{
+			if (0 == m_iEffectCnt)
+				EFFECT_START(TEXT("Slayer_FuriousClaw1"), &desc)
+			else if (1 == m_iEffectCnt)
+				EFFECT_START(TEXT("Slayer_FuriousClaw2"), &desc)
+			else if (2 == m_iEffectCnt)
+				EFFECT_START(TEXT("Slayer_FuriousClaw3"), &desc)
+		}
+
+		m_EffectStart[m_iEffectCnt] = true;
+		++m_iEffectCnt;
+	}
 }
 
 CState_WR_FuriousClaw_Loop* CState_WR_FuriousClaw_Loop::Create(wstring strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Slayer* pOwner)

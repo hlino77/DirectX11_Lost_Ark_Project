@@ -68,17 +68,7 @@ void CState_WR_WildStomp::Tick_State_Control(_float fTimeDelta)
 		m_pController->Get_SkillAttackMessage(m_eSkillSelectKey);
 	}
 
-	if (false == m_bEffectStart && 14 <= iAnimFrame)
-	{
-		CEffect_Manager::EFFECTPIVOTDESC desc;
-		Matrix& matPivot = m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
-		desc.pPivotMatrix = &matPivot;
-		EFFECT_START(TEXT("Slayer_WildStomp"), &desc)
-
-		m_pPlayer->Get_Camera()->Set_RadialBlur(0.1f, matPivot.Translation(), 0.25f, 0.04f);
-
-		m_bEffectStart = true;
-	}
+	Effect_WildStomp_Controll();
 
 	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iWildStomp))
 		m_pPlayer->Set_State(TEXT("Idle"));
@@ -151,7 +141,41 @@ void CState_WR_WildStomp::Tick_State_NoneControl(_float fTimeDelta)
 	if (false == static_cast<CController_WR*>(m_pController)->Is_In_Identity())
 		m_pPlayer->Get_ModelCom()->Set_Anim_Speed(m_iWildStomp, 1.f);
 
+	Effect_WildStomp_NonControll();
+
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
+}
+
+void CState_WR_WildStomp::Effect_WildStomp_Controll()
+{
+	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iWildStomp);
+
+	if (false == m_bEffectStart && 14 <= iAnimFrame)
+	{
+		CEffect_Manager::EFFECTPIVOTDESC desc;
+		Matrix& matPivot = m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
+		desc.pPivotMatrix = &matPivot;
+		EFFECT_START(TEXT("Slayer_WildStomp"), &desc)
+
+		m_pPlayer->Get_Camera()->Set_RadialBlur(0.1f, matPivot.Translation(), 0.25f, 0.04f);
+
+		m_bEffectStart = true;
+	}
+}
+
+void CState_WR_WildStomp::Effect_WildStomp_NonControll()
+{
+	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iWildStomp);
+
+	if (false == m_bEffectStart && 14 <= iAnimFrame)
+	{
+		CEffect_Manager::EFFECTPIVOTDESC desc;
+		Matrix& matPivot = m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
+		desc.pPivotMatrix = &matPivot;
+		EFFECT_START(TEXT("Slayer_WildStomp"), &desc)
+
+		m_bEffectStart = true;
+	}
 }
 
 CState_WR_WildStomp* CState_WR_WildStomp::Create(wstring strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Slayer* pOwner)

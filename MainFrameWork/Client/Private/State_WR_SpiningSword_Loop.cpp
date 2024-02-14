@@ -70,39 +70,7 @@ void CState_WR_SpiningSword_Loop::Tick_State_Control(_float fTimeDelta)
 		m_pController->Get_SkillAttackMessage(m_eSkillSelectKey);
 	}
 
-	if (false == m_bEffectStart[0])
-	{
-		CEffect_Manager::EFFECTPIVOTDESC tDesc;
-		Matrix& matPivot = m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
-		tDesc.pPivotMatrix = &matPivot;
-
-		vector<CEffect*> Effects;
-
-		EFFECT_START_OUTLIST(L"Slayer_SpinningSword_Trail", &tDesc, Effects);
-
-		CEffect* pEffect[2] = { Effects[0], Effects[1] };
-
-		m_pPlayer->Add_Effect(L"SpinningSword_Trail_Slash", pEffect[0]);
-		m_pPlayer->Add_Effect(L"SpinningSword_Trail_Wind", pEffect[1]);
-
-		pEffect[0]->CB_UpdatePivot += bind(&CPlayer::Load_WorldMatrix, m_pPlayer, placeholders::_1);
-		pEffect[0]->Set_Trace(true);
-		
-		pEffect[1]->CB_UpdatePivot += bind(&CPlayer::Load_WorldMatrix, m_pPlayer, placeholders::_1);
-		pEffect[1]->Set_Trace(true);
-
-		m_bEffectStart[0] = true;
-	}
-
-	if (false == m_bEffectStart[1] && 11 <= iAnimFrame)
-	{
-		CEffect_Manager::EFFECTPIVOTDESC tDesc;
-		Matrix& matPivot = m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
-		tDesc.pPivotMatrix = &matPivot;
-		EFFECT_START(TEXT("Slayer_SpinningSword_Smoke"), &tDesc)
-
-		m_bEffectStart[1] = true;
-	}
+	Effect_SpinningSword_Loop();
 
 	if (25 <= iAnimFrame)
 		m_pPlayer->Set_State(TEXT("Skill_WR_SpiningSword_End"));
@@ -127,7 +95,48 @@ void CState_WR_SpiningSword_Loop::Tick_State_NoneControl(_float fTimeDelta)
 	if (false == static_cast<CController_WR*>(m_pController)->Is_In_Identity())
 		m_pPlayer->Get_ModelCom()->Set_Anim_Speed(m_iSpiningSword_Loop, 1.1f);
 
+	Effect_SpinningSword_Loop();
+
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
+}
+
+void CState_WR_SpiningSword_Loop::Effect_SpinningSword_Loop()
+{
+	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iSpiningSword_Loop);
+
+	if (false == m_bEffectStart[0])
+	{
+		CEffect_Manager::EFFECTPIVOTDESC tDesc;
+		Matrix& matPivot = m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
+		tDesc.pPivotMatrix = &matPivot;
+
+		vector<CEffect*> Effects;
+
+		EFFECT_START_OUTLIST(L"Slayer_SpinningSword_Trail", &tDesc, Effects);
+
+		CEffect* pEffect[2] = { Effects[0], Effects[1] };
+
+		m_pPlayer->Add_Effect(L"SpinningSword_Trail_Slash", pEffect[0]);
+		m_pPlayer->Add_Effect(L"SpinningSword_Trail_Wind", pEffect[1]);
+
+		pEffect[0]->CB_UpdatePivot += bind(&CPlayer::Load_WorldMatrix, m_pPlayer, placeholders::_1);
+		pEffect[0]->Set_Trace(true);
+
+		pEffect[1]->CB_UpdatePivot += bind(&CPlayer::Load_WorldMatrix, m_pPlayer, placeholders::_1);
+		pEffect[1]->Set_Trace(true);
+
+		m_bEffectStart[0] = true;
+	}
+
+	if (false == m_bEffectStart[1] && 11 <= iAnimFrame)
+	{
+		CEffect_Manager::EFFECTPIVOTDESC tDesc;
+		Matrix& matPivot = m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
+		tDesc.pPivotMatrix = &matPivot;
+		EFFECT_START(TEXT("Slayer_SpinningSword_Smoke"), &tDesc)
+
+		m_bEffectStart[1] = true;
+	}
 }
 
 CState_WR_SpiningSword_Loop* CState_WR_SpiningSword_Loop::Create(wstring strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Slayer* pOwner)

@@ -10,7 +10,7 @@
 #include "ServerSessionManager.h"
 #include "Player.h"
 #include "Camera_Player.h"
-
+#include "Effect_Manager.h"
 
 CValtan_BT_Attack_TrippleCounterChop_1::CValtan_BT_Attack_TrippleCounterChop_1()
 {
@@ -53,6 +53,8 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_TrippleCounterChop_1::OnUpdate(const _floa
 		}
 
 	}
+	Update_Effect();
+
 	return __super::OnUpdate(fTimeDelta);
 }
 
@@ -78,6 +80,20 @@ void CValtan_BT_Attack_TrippleCounterChop_1::OnEnd()
 			pSkill->Get_TransformCom()->LookAt_Dir(vLook);
 			pSkill->Get_Colider(_uint(LAYER_COLLIDER::LAYER_SKILL_BOSS))->Set_Radius(6.f);
 		}
+	}
+}
+
+void CValtan_BT_Attack_TrippleCounterChop_1::Update_Effect()
+{
+	_uint iAnimFrame0 = m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[2].iAnimIndex);
+
+	if (iAnimFrame0 >= 31)
+	{
+		CEffect_Manager::EFFECTPIVOTDESC tDesc;
+		tDesc.pPivotMatrix = &m_pGameObject->Get_TransformCom()->Get_WorldMatrix();
+		EFFECT_START(L"VT_TrippleCounterChop_Fail", &tDesc);
+
+		CServerSessionManager::GetInstance()->Get_Player()->Get_Camera()->Cam_Shake(0.05f, 90.0f, 0.05f, 10.0f);
 	}
 }
 

@@ -63,7 +63,31 @@ void CState_WR_Iden_Skill::Exit_State()
 
 void CState_WR_Iden_Skill::Tick_State_Control(_float fTimeDelta)
 {
-	_int iCurrFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iIdentity_Skill);
+	_int iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iIdentity_Skill);
+
+	Effect_BloodyRust_Slash();
+
+	if (-1 != m_AttackFrames[m_iAttackCnt] && m_AttackFrames[m_iAttackCnt] <= iAnimFrame && true == m_EffectStart[m_iAttackCnt])
+	{
+		m_iAttackCnt++;
+
+		static_cast<CController_WR*>(m_pController)->Get_AttackMessage();
+	}	
+
+	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iIdentity_Skill))
+		m_pPlayer->Set_State(TEXT("Idle"));
+}
+
+void CState_WR_Iden_Skill::Tick_State_NoneControl(_float fTimeDelta)
+{
+	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
+
+	Effect_BloodyRust_Slash();
+}
+
+void CState_WR_Iden_Skill::Effect_BloodyRust_Slash()
+{
+	_int iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iIdentity_Skill);
 
 	if (!m_bTrail)
 	{
@@ -73,7 +97,7 @@ void CState_WR_Iden_Skill::Tick_State_Control(_float fTimeDelta)
 		TRAIL_START(TEXT("Slayer_BloodyRust_Trail"), func)
 	}
 
-	if (false == m_EffectStart[m_iAttackCnt] && m_AttackFrames[m_iAttackCnt] - 2 <= iCurrFrame)
+	if (false == m_EffectStart[m_iAttackCnt] && m_AttackFrames[m_iAttackCnt] - 2 <= iAnimFrame)
 	{
 		CEffect_Manager::EFFECTPIVOTDESC desc;
 		desc.pPivotMatrix = &m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
@@ -95,21 +119,6 @@ void CState_WR_Iden_Skill::Tick_State_Control(_float fTimeDelta)
 
 		m_EffectStart[m_iAttackCnt] = true;
 	}
-
-	if (-1 != m_AttackFrames[m_iAttackCnt] && m_AttackFrames[m_iAttackCnt] <= iCurrFrame && true == m_EffectStart[m_iAttackCnt])
-	{
-		m_iAttackCnt++;
-
-		static_cast<CController_WR*>(m_pController)->Get_AttackMessage();
-	}	
-
-	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iIdentity_Skill))
-		m_pPlayer->Set_State(TEXT("Idle"));
-}
-
-void CState_WR_Iden_Skill::Tick_State_NoneControl(_float fTimeDelta)
-{
-	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
 }
 
 CState_WR_Iden_Skill* CState_WR_Iden_Skill::Create(wstring strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Slayer* pOwner)

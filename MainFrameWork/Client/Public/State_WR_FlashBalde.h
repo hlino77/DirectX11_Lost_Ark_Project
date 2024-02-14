@@ -23,6 +23,9 @@ public:
 	void	Tick_State_NoneControl(_float fTimeDelta);
 
 private:
+	void	Effect_FlashBlade_Trail();
+
+private:
 	class CPlayer_Slayer* m_pPlayer = nullptr;
 
 	std::function<void(CState_WR_FlashBalde&, _float)> m_TickFunc;

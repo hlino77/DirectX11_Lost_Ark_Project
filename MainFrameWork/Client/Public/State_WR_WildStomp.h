@@ -22,6 +22,10 @@ public:
 	void	Tick_State_NoneControl(_float fTimeDelta);
 
 private:
+	void	Effect_WildStomp_Controll();
+	void	Effect_WildStomp_NonControll();
+
+private:
 	class CPlayer_Slayer* m_pPlayer = nullptr;
 
 	std::function<void(CState_WR_WildStomp&, _float)> m_TickFunc;

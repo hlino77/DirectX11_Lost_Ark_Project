@@ -61,24 +61,13 @@ void CState_WR_BrutalImpact_End::Tick_State_Control(_float fTimeDelta)
 {
 	_int iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_BrutalImpact_End);
 
-	if (-1 != m_SkillFrames[m_iSkillCnt] && m_SkillFrames[m_iSkillCnt] == iAnimFrame)
+	if (-1 != m_SkillFrames[m_iSkillCnt] && m_SkillFrames[m_iSkillCnt] == m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_BrutalImpact_End))
 	{
 		m_iSkillCnt++;
 		m_pController->Get_SkillAttackMessage(m_eSkillSelectKey);
 	}
 
-	if (false == m_bEffectStart && 23 == iAnimFrame)
-	{
-		CEffect_Manager::EFFECTPIVOTDESC desc;
-		Matrix& matPivot = m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
-		desc.pPivotMatrix = &matPivot;
-		EFFECT_START(TEXT("Slayer_BrutalImpact_Slash_Explode"), &desc)
-
-		m_pPlayer->Get_Camera()->Cam_Shake(0.1f, 60.0f, 0.4f, 5.0f);
-		m_pPlayer->Get_Camera()->Set_Chromatic(0.25f, matPivot.Translation(), 0.15f, 0.1f);
-
-		m_bEffectStart = true;
-	}
+	Effect_BrutalImpact_Slash_Explode_Control();
 
 	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_BrutalImpact_End))
 		m_pPlayer->Set_State(TEXT("Skill_WR_BrutalImpact_End_2"));
@@ -92,7 +81,42 @@ void CState_WR_BrutalImpact_End::Tick_State_NoneControl(_float fTimeDelta)
 	if (false == static_cast<CController_WR*>(m_pController)->Is_In_Identity())
 		m_pPlayer->Get_ModelCom()->Set_Anim_Speed(m_BrutalImpact_End, 1.f);
 
+	Effect_BrutalImpact_Slash_Explode_NonControl();
+
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
+}
+
+void CState_WR_BrutalImpact_End::Effect_BrutalImpact_Slash_Explode_Control()
+{
+	_int iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_BrutalImpact_End);
+
+	if (false == m_bEffectStart && 23 == iAnimFrame)
+	{
+		CEffect_Manager::EFFECTPIVOTDESC desc;
+		Matrix& matPivot = m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
+		desc.pPivotMatrix = &matPivot;
+		EFFECT_START(TEXT("Slayer_BrutalImpact_Slash_Explode"), &desc)
+
+		m_pPlayer->Get_Camera()->Cam_Shake(0.1f, 60.0f, 0.4f, 5.0f);
+		m_pPlayer->Get_Camera()->Set_Chromatic(0.25f, matPivot.Translation(), 0.15f, 0.1f);
+
+		m_bEffectStart = true;
+	}
+}
+
+void CState_WR_BrutalImpact_End::Effect_BrutalImpact_Slash_Explode_NonControl()
+{
+	_int iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_BrutalImpact_End);
+
+	if (false == m_bEffectStart && 23 == iAnimFrame)
+	{
+		CEffect_Manager::EFFECTPIVOTDESC desc;
+		Matrix& matPivot = m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
+		desc.pPivotMatrix = &matPivot;
+		EFFECT_START(TEXT("Slayer_BrutalImpact_Slash_Explode"), &desc)
+
+		m_bEffectStart = true;
+	}
 }
 
 CState_WR_BrutalImpact_End* CState_WR_BrutalImpact_End::Create(wstring strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Slayer* pOwner)

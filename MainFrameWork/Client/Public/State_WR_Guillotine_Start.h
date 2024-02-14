@@ -22,6 +22,8 @@ public:
 	void	Tick_State_NoneControl(_float fTimeDelta);
 
 private:
+	void	Effect_Guillotine_Charge();
+
 	void	Init_Camera();
 	void	Update_Camera(_uint iAnimFrame, _float fTimeDelta);
 

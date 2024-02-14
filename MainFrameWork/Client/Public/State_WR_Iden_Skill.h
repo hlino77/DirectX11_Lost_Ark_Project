@@ -21,6 +21,8 @@ public:
 	void	Tick_State_NoneControl(_float fTimeDelta);
 
 private:
+	void	Effect_BloodyRust_Slash();
+private:
 	class CPlayer_Slayer* m_pPlayer = nullptr;
 
 	std::function<void(CState_WR_Iden_Skill&, _float)> m_TickFunc;

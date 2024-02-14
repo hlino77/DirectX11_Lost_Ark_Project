@@ -22,6 +22,10 @@ public:
 	void	Tick_State_NoneControl(_float fTimeDelta);
 
 private:
+	void	Effect_VolcanoEruption_Explode_Control();
+	void	Effect_VolcanoEruption_Explode_NonControl();
+
+private:
 	class CPlayer_Slayer* m_pPlayer = nullptr;
 
 	std::function<void(CState_WR_VolcanoEruption_Success&, _float)> m_TickFunc;

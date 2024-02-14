@@ -38,6 +38,7 @@ private:
 
 	//
 	_bool m_bEffectStart = false;
+	_bool m_bCameraStart[2] = { false, false };
 
 	//Camera
 	Vec3 m_vCameraTargetPos;
