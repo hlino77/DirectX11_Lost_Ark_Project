@@ -5,6 +5,7 @@
 #include "UI_Lobby_NickName.h"
 #include "TextBox.h"
 #include "Chat_Manager.h"
+#include "Sound_Manager.h"
 
 CUI_Lobby_NickNameChange::CUI_Lobby_NickNameChange(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CUI(pDevice, pContext)
@@ -178,9 +179,19 @@ void CUI_Lobby_NickNameChange::Update_NickNameFrame()
 	Picking_UI();
 
 	if (m_bPick)
+	{
 		m_fAlpha = 1.f;
-	else 
+		if (!m_bSound)
+		{
+			m_bSound = true;
+			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"Is_PickingSound_Tooltip.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
+		}
+	}
+	else
+	{
 		m_fAlpha = 0.5f;
+		m_bSound = false;
+	}
 
 	if ((m_bPick) && (KEY_TAP(KEY::LBTN)))
 	{
@@ -189,6 +200,7 @@ void CUI_Lobby_NickNameChange::Update_NickNameFrame()
 		m_bOnWnd = true;
 		m_iTextureIndex = 1;
 		CChat_Manager::GetInstance()->Add_InputTextObject(this);
+		CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"Option_On.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
 	}
 	
 	if (!m_bOnWnd)
@@ -211,6 +223,7 @@ void CUI_Lobby_NickNameChange::Update_NickNameChangeWnd()
 			m_iTextureIndex = 0;
 			CChat_Manager::GetInstance()->Delete_InputTextObject(this);
 			m_pInputWnd->Set_Active(false);
+			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"Option_Off.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
 		}
 		else if (KEY_TAP(KEY::ESC))
 		{
@@ -219,6 +232,7 @@ void CUI_Lobby_NickNameChange::Update_NickNameChangeWnd()
 			m_iTextureIndex = 0;
 			CChat_Manager::GetInstance()->Delete_InputTextObject(this);
 			m_pInputWnd->Set_Active(false);
+			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"Option_Off.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
 		}
 		//static_cast<CUI_Lobby_NickName*>(m_pNickName)->Set_NickName();
 	}

@@ -61,6 +61,7 @@ private:
     wstring m_strCoolTime = TEXT("");
     wstring m_strWndName;
 
+    _bool m_bSound = { false };
 public:
     static  CUI_ItemIcon_Frame* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
     virtual CGameObject* Clone(void* pArg) override;

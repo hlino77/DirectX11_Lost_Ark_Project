@@ -838,7 +838,7 @@ void CUI_Option_Sound::Is_Picking_CheckButton_Master(POINT pt)
 		if (!m_bCheckSound[0])
 		{
 			m_bCheckSound[0] = true;
-			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"Is_PickngSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
+			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"Is_PickingSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
 		}
 
 		if (2 != m_iTextureIndex[0])
@@ -896,7 +896,7 @@ void CUI_Option_Sound::Is_Picking_CheckButton_BGM(POINT pt)
 		if (!m_bCheckSound[1])
 		{
 			m_bCheckSound[1] = true;
-			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"Is_PickngSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
+			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"Is_PickingSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
 		}
 		if (2 != m_iTextureIndex[1])
 			m_iTextureIndex[1] = 1;
@@ -932,7 +932,7 @@ void CUI_Option_Sound::Is_Picking_CheckButton_UI(POINT pt)
 		if (!m_bCheckSound[2])
 		{
 			m_bCheckSound[2] = true;
-			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"Is_PickngSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
+			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"Is_PickingSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
 		}
 		if (2 != m_iTextureIndex[2])
 			m_iTextureIndex[2] = 1;
@@ -971,7 +971,7 @@ void CUI_Option_Sound::Is_Picking_CheckButton_BACKGROUND(POINT pt)
 		if (!m_bCheckSound[3])
 		{
 			m_bCheckSound[3] = true;
-			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"Is_PickngSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
+			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"Is_PickingSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
 		}
 		if (2 != m_iTextureIndex[3])
 			m_iTextureIndex[3] = 1;
@@ -1007,7 +1007,7 @@ void CUI_Option_Sound::Is_Picking_CheckButton_EFFECT(POINT pt)
 		if (!m_bCheckSound[4])
 		{
 			m_bCheckSound[4] = true;
-			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"Is_PickngSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
+			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"Is_PickingSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
 		}
 		if (2 != m_iTextureIndex[4])
 			m_iTextureIndex[4] = 1;
@@ -1189,7 +1189,7 @@ void CUI_Option_Sound::Is_Picking_DragBar_Master(POINT pt)
 		if (!m_bSound[0])
 		{
 			m_bSound[0] = true;
-			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"Is_PickngSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
+			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"Is_PickingSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
 		}
 		if (KEY_HOLD(KEY::LBTN))
 		{
@@ -1212,7 +1212,7 @@ void CUI_Option_Sound::Is_Picking_DragBar_BGM(POINT pt)
 		if (!m_bSound[1])
 		{
 			m_bSound[1] = true;
-			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"Is_PickngSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
+			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"Is_PickingSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
 		}
 		if (KEY_HOLD(KEY::LBTN))
 		{
@@ -1235,7 +1235,7 @@ void CUI_Option_Sound::Is_Picking_DragBar_UI(POINT pt)
 		if (!m_bSound[2])
 		{
 			m_bSound[2] = true;
-			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"Is_PickngSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
+			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"Is_PickingSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
 		}
 		if (KEY_HOLD(KEY::LBTN))
 		{
@@ -1258,7 +1258,7 @@ void CUI_Option_Sound::Is_Picking_DragBar_BACKGROUND(POINT pt)
 		if (!m_bSound[3])
 		{
 			m_bSound[3] = true;
-			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"Is_PickngSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
+			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"Is_PickingSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
 		}
 		if (KEY_HOLD(KEY::LBTN))
 		{
@@ -1281,7 +1281,7 @@ void CUI_Option_Sound::Is_Picking_DragBar_EFFECT(POINT pt)
 		if (!m_bSound[4])
 		{
 			m_bSound[4] = true;
-			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"Is_PickngSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
+			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"Is_PickingSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
 		}
 		if (KEY_HOLD(KEY::LBTN))
 		{

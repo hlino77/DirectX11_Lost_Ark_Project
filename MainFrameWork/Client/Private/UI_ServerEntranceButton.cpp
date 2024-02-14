@@ -2,6 +2,7 @@
 #include "UI_ServerEntranceButton.h"
 #include "GameInstance.h"
 #include "Level_Loading.h"
+#include "Sound_Manager.h"
 
 CUI_ServerEntranceButton::CUI_ServerEntranceButton(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CUI(pDevice, pContext)
@@ -71,11 +72,23 @@ void CUI_ServerEntranceButton::Tick(_float fTimeDelta)
 		Moving_Rect();
 		Picking_UI();
 	}
-	if ((m_bPick) && (KEY_AWAY(KEY::LBTN)))
+
+	if ((m_bPick))
 	{
-		if ((CGameInstance::GetInstance()->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_LOBBY, L"None"))))
-			return;
+		if (!m_bSound)
+		{
+			m_bSound = true;
+			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"Is_PickingSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
+		}
+		if ((KEY_AWAY(KEY::LBTN)))
+		{
+			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"ClickedSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
+			if ((CGameInstance::GetInstance()->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_LOBBY, L"None"))))
+				return;
+		}
 	}
+	else
+		m_bSound = false;
 }
 
 void CUI_ServerEntranceButton::LateTick(_float fTimeDelta)

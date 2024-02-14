@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "UI_ETCIcon_Frame.h"
 #include "GameInstance.h"
+#include "Sound_Manager.h"
 
 CUI_ETCIcon_Frame::CUI_ETCIcon_Frame(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     :CUI(pDevice, pContext)
@@ -62,6 +63,17 @@ void CUI_ETCIcon_Frame::LateTick(_float fTimeDelta)
 {
     __super::LateTick(fTimeDelta);
    
+    if (m_bPick)
+    {
+        if (!m_bSound)
+        {
+            m_bSound = true;
+            CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"Is_PickingSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
+        }
+    }
+    else
+        m_bSound = false;
+
     if (m_fCurrCool == m_fCoolMaxTime)
         m_fCoolAngle = XM_PI;
     else

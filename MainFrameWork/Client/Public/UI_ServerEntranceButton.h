@@ -29,6 +29,7 @@ private:
     _float  m_fAlpha = { 1.f };
     Vec4    m_vColor = { 3.f, 3.f, 3.f, 1.f };
     wstring m_strWord = TEXT("¿‘¿Â");
+    _bool   m_bSound = { false };
 
 public:
     static  CUI_ServerEntranceButton* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

@@ -251,7 +251,7 @@ void CUI_OptionWnd::Is_Picking_ApplyButton(POINT pt)
 		if (!m_bSound[0])
 		{
 			m_bSound[0] = true;
-			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"Is_PickngSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
+			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"Is_PickingSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
 		}
 		if (KEY_TAP(KEY::LBTN))
 		{
@@ -274,7 +274,7 @@ void CUI_OptionWnd::Is_Picking_CancleButton(POINT pt)
 		if (!m_bSound[1])
 		{
 			m_bSound[1] = true;
-			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"Is_PickngSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
+			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"Is_PickingSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
 		}
 		m_iTextureIndex_Button[1] = 1;
 		if (KEY_TAP(KEY::LBTN))
@@ -298,7 +298,7 @@ void CUI_OptionWnd::Is_Picking_QuitButton(POINT pt)
 		if (!m_bSound[2])
 		{
 			m_bSound[2] = true;
-			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"Is_PickngSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
+			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"Is_PickingSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
 		}
 		m_iTextureIndex_Button[2] = 1;
 		if (KEY_TAP(KEY::LBTN))
@@ -323,7 +323,7 @@ void CUI_OptionWnd::Is_Picking_ObjectTag(POINT pt)
 		if (!m_bSound[3])
 		{
 			m_bSound[3] = true;
-			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"Is_PickngSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
+			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"Is_PickingSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
 		}
 		if (KEY_TAP(KEY::LBTN))
 		{
@@ -348,7 +348,7 @@ void CUI_OptionWnd::Is_Picking_ObjectTag(POINT pt)
 		if (!m_bSound[4])
 		{
 			m_bSound[4] = true;
-			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"Is_PickngSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
+			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"Is_PickingSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
 		}
 		if (KEY_TAP(KEY::LBTN))
 		{
