@@ -136,6 +136,10 @@ HRESULT CRenderer::Initialize_Prototype()
 		ViewportDesc.Width * m_fShadowTargetSizeRatio, ViewportDesc.Height * m_fShadowTargetSizeRatio, DXGI_FORMAT_R32G32B32A32_FLOAT, Vec4(1.0f, 1.0f, 1.0f, 1.0f))))
 		return E_FAIL;
 
+	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_StaticShadowDepth"),
+		ViewportDesc.Width * m_fStaticShadowTargetSizeRatio, ViewportDesc.Height * m_fStaticShadowTargetSizeRatio, DXGI_FORMAT_R32G32B32A32_FLOAT, Vec4(1.0f, 1.0f, 1.0f, 1.0f))))
+		return E_FAIL;
+
 	// Bloom
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_BloomDownSample1"),
 		ViewportDesc.Width / m_fSampleRatio5x5, ViewportDesc.Height / m_fSampleRatio5x5, DXGI_FORMAT_R16G16B16A16_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
@@ -376,8 +380,8 @@ HRESULT CRenderer::Initialize_Prototype()
 
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_ShadowDepth"), TEXT("Target_ShadowDepth"))))
 		return E_FAIL;
-	//if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_StaticShadowDepth"), TEXT("Target_StaticShadowDepth"))))
-	//	return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_StaticShadowDepth"), TEXT("Target_StaticShadowDepth"))))
+		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_MakeSRV"), TEXT("Target_MakeSRV"))))
 		return E_FAIL;
 
@@ -1929,32 +1933,32 @@ HRESULT CRenderer::Ready_ShadowDSV()
 	}
 
 	//StaticShadowDepth
-	//{
-	//	ID3D11Texture2D* pDepthStencilTexture = nullptr;
+	{
+		ID3D11Texture2D* pDepthStencilTexture = nullptr;
 
-	//	D3D11_TEXTURE2D_DESC	TextureDesc;
-	//	ZeroMemory(&TextureDesc, sizeof(D3D11_TEXTURE2D_DESC));
+		D3D11_TEXTURE2D_DESC	TextureDesc;
+		ZeroMemory(&TextureDesc, sizeof(D3D11_TEXTURE2D_DESC));
 
-	//	TextureDesc.Width = (_uint)(m_fStaticShadowTargetSizeRatio * ViewportDesc.Width);
-	//	TextureDesc.Height = (_uint)(m_fStaticShadowTargetSizeRatio * ViewportDesc.Height);
-	//	TextureDesc.MipLevels = 1;
-	//	TextureDesc.ArraySize = 1;
-	//	TextureDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+		TextureDesc.Width = (_uint)(m_fStaticShadowTargetSizeRatio * ViewportDesc.Width);
+		TextureDesc.Height = (_uint)(m_fStaticShadowTargetSizeRatio * ViewportDesc.Height);
+		TextureDesc.MipLevels = 1;
+		TextureDesc.ArraySize = 1;
+		TextureDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
 
-	//	TextureDesc.SampleDesc.Quality = 0;
-	//	TextureDesc.SampleDesc.Count = 1;
+		TextureDesc.SampleDesc.Quality = 0;
+		TextureDesc.SampleDesc.Count = 1;
 
-	//	TextureDesc.Usage = D3D11_USAGE_DEFAULT;
-	//	TextureDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL/*| D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE*/;
-	//	TextureDesc.CPUAccessFlags = 0;
-	//	TextureDesc.MiscFlags = 0;
+		TextureDesc.Usage = D3D11_USAGE_DEFAULT;
+		TextureDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL/*| D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE*/;
+		TextureDesc.CPUAccessFlags = 0;
+		TextureDesc.MiscFlags = 0;
 
-	//	if (FAILED(m_pDevice->CreateTexture2D(&TextureDesc, nullptr, &pDepthStencilTexture)))
-	//		return E_FAIL;
+		if (FAILED(m_pDevice->CreateTexture2D(&TextureDesc, nullptr, &pDepthStencilTexture)))
+			return E_FAIL;
 
-	//	if (FAILED(m_pDevice->CreateDepthStencilView(pDepthStencilTexture, nullptr, &m_pStaticShadowDSV)))
-	//		return E_FAIL;
-	//}
+		if (FAILED(m_pDevice->CreateDepthStencilView(pDepthStencilTexture, nullptr, &m_pStaticShadowDSV)))
+			return E_FAIL;
+	}
 
 	return S_OK;
 }

@@ -187,14 +187,14 @@ HRESULT CLevel_ValtanMain::Ready_Lights()
 
 	ZeroMemory(&LightDesc, sizeof(LIGHTDESC));
 	LightDesc.eType = LIGHTDESC::TYPE_DIRECTIONAL;
-	LightDesc.vDirection = Vec4(-0.353f, -0.734f, -0.579f, 0.f);
+	LightDesc.vDirection = Vec4(-0.454f, -0.89f, 0.007f, 0.f);
 	LightDesc.vDirection.Normalize();
 	LightDesc.vDiffuse = Vec4(0.3f, 0.3f, 0.3f, 1.f);
 	LightDesc.vAmbient = Vec4(1.0f, 1.0f, 1.0f, 1.f);
 	LightDesc.vSpecular = Vec4(1.f, 1.f, 1.f, 1.f);
 
 
-	CTexture* pStaticShadowMap = CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/LightMap/Light_Chaos1.dds");
+	CTexture* pStaticShadowMap = CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/LightMap/Light_Valtan.dds");
 
 	if (FAILED(pGameInstance->Set_LightShadowTexture(pStaticShadowMap)))
 		return E_FAIL;
@@ -203,15 +203,12 @@ HRESULT CLevel_ValtanMain::Ready_Lights()
 
 	Vec3 vLook = LightDesc.vDirection;
 	vLook.Normalize();
-	//Vec3 vPos = Vec3(-80.78f, 83.75f, 33.80f);
-	//Matrix matLightView = Matrix::CreateWorld(vPos, -vLook, Vec3(0.0f, 1.0f, 0.0f));
 
-	Vec3 vOffset = Vec3(129.90f, 19.58f, 121.53f);
+	Vec3 vOffset = Vec3(137.76f, 64.00f, 94.34f);
 
 	pGameInstance->Ready_StaticLightMatrix(vOffset, vLook);
 	vOffset = vLook * -30.0f;
 	pGameInstance->Ready_LightMatrix(vOffset, vLook);
-
 
 	Safe_Release(pGameInstance);
 
@@ -749,7 +746,6 @@ HRESULT CLevel_ValtanMain::Load_BossMapData(LEVELID eLevel, const wstring& szFul
 			Desc.bInstance = bInstance;
 
 			pObject = pGameInstance->Add_GameObject(eLevel, Desc.iLayer, TEXT("Prototype_GameObject_StaticModel"), &Desc);
-
 			pObject->Get_TransformCom()->Set_WorldMatrix(matWorld);
 
 
@@ -764,10 +760,13 @@ HRESULT CLevel_ValtanMain::Load_BossMapData(LEVELID eLevel, const wstring& szFul
 				dynamic_cast<CStaticModel*>(pObject)->Add_NaviCellIndex(CellIndex);
 				CNavigationMgr::GetInstance()->Set_NaviCell_Active(LEVEL_VALTANMAIN, CellIndex, false);
 			}
-			
-
 
 			_uint iColliderCount = file->Read<_uint>();
+
+		/*	if (iColliderCount == 0)
+			{
+				m_pRendererCom->Add_RenderGroup(CRenderer::RENDERGROUP::RENDER_STATICSHADOW, pObject);
+			}*/
 
 			for (_uint i = 0; i < iColliderCount; ++i)
 			{

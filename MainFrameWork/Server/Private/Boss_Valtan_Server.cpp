@@ -92,7 +92,7 @@ HRESULT CBoss_Valtan_Server::Initialize_Prototype()
 
 HRESULT CBoss_Valtan_Server::Initialize(void* pArg)
 {
-	//m_bTest = true;
+	m_bTest = true;
 
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
@@ -1702,7 +1702,11 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.f;	
 	AnimationDesc.iChangeFrame = 0;
+	AnimationDesc.bIsLoop = true;
+	AnimationDesc.fMaxLoopTime = 2.f;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	AnimationDesc.bIsLoop = false;
+
 	//3
 	AnimationDesc.strAnimName = TEXT("att_battle_18_03-1");
 	AnimationDesc.iStartFrame = 0;
@@ -1891,7 +1895,7 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 		else
 		{
 			// 테스트용
-			if (FAILED(pSequenceNormalAttack->AddChild(pBugSmash)))
+			if (FAILED(pSequenceNormalAttack->AddChild(pChainDestructionFist)))
 				return E_FAIL;
 		}
 

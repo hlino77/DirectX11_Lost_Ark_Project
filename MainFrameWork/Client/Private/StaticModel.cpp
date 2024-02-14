@@ -321,7 +321,7 @@ void CStaticModel::LateTick(_float fTimeDelta)
 		if (false == m_bBreakSound)
 		{
 			if(false == CSound_Manager::GetInstance()->Is_Channel_Playing(L"HitWall.wav"))
-				CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(L"HitWall.wav", L"Effect", L"HitWall.wav", 0.7f);
+				CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(L"HitWall.wav", L"Effect", L"HitWall.wav", 0.4f);
 
 			//CGameInstance::GetInstance()->PlaySoundFile(L"HitWall.wav", CHANNEL_EFFECT);
 
@@ -1380,7 +1380,7 @@ HRESULT CStaticModel::Render_Debug()
 
 HRESULT CStaticModel::Ready_Proto_InstanceBuffer()
 {
-	(*m_pInstaceData)[m_szModelName].iMaxInstanceCount = 500;
+	(*m_pInstaceData)[m_szModelName].iMaxInstanceCount = 600;
 
 	/* For.Com_Shader */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Shader_StaticModelInstace"),

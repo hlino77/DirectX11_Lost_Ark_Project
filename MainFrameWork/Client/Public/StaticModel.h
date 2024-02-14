@@ -79,6 +79,8 @@ public:
 	void					Set_RimLight(_float fTime) { m_bRimLight = true; m_fRimLightTime = fTime; }
 	_bool					Get_RimLight() { return m_bRimLight; }
 
+
+	_bool					Is_Grass() { return m_IsGrass; }
 protected:
 
 	virtual HRESULT Ready_Components() override;

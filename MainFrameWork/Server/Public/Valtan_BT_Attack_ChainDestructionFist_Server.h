@@ -19,6 +19,9 @@ private:
     virtual void On_FirstAnimStart()override;
     virtual void On_LastAnimEnd()  override;
 
+
+private:
+    Vec3 m_vTargetPos;
 public:
     static	CValtan_BT_Attack_ChainDestructionFist_Server* Create(void* pArg);
     virtual void Free() override;

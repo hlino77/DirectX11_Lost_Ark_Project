@@ -38,6 +38,8 @@ private:
     CEffect*    m_pLastWarning = nullptr;
 
     Vec3        m_vTargetPos;
+
+    Vec3                m_vLandPosition = {};
 public:
     static	CValtan_BT_Attack_Imposter* Create(void* pArg);
     virtual void Free() override;

@@ -12,6 +12,8 @@
 #include "ServerSessionManager.h"
 #include "Player.h"
 #include "Camera_Player.h"
+#include "Effect_Manager.h"
+#include "Effect.h"
 
 CValtan_BT_Attack_SecondTerrainDestruction::CValtan_BT_Attack_SecondTerrainDestruction()
 {
@@ -25,6 +27,11 @@ void CValtan_BT_Attack_SecondTerrainDestruction::OnStart()
 	m_bShoot[1] = true;
 	m_bShoot[2] = true;
 	m_bShoot[3] = true;
+
+	m_bTerrainWarning = false;
+	m_bWhirlWind = false;
+	m_pWarning3 = nullptr;
+	m_bLastAttack = false;
 }
 
 CBT_Node::BT_RETURN CValtan_BT_Attack_SecondTerrainDestruction::OnUpdate(const _float& fTimeDelta)
@@ -35,6 +42,16 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_SecondTerrainDestruction::OnUpdate(const _
 		m_pGameObject->Get_TransformCom()->LookAt_Dir(XMVector3Normalize(m_vLandPosition - static_cast<CBoss*>(m_pGameObject)->Get_SpawnPosition()));
 		m_pGameObject->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, m_vLandPosition);
 		m_pGameObject->Set_Render(false);
+
+		if (m_bTerrainWarning == false)
+		{
+			Matrix matWorld = XMMatrixIdentity();
+			matWorld.Translation(static_cast<CBoss*>(m_pGameObject)->Get_SpawnPosition());
+			CEffect_Manager::EFFECTPIVOTDESC tDesc;
+			tDesc.pPivotMatrix = &matWorld;
+			EFFECT_START(L"VT_STWarning", &tDesc);
+			m_bTerrainWarning = true;
+		}
 	}
 	if (m_iCurrAnimation == 2)
 		m_pGameObject->Set_Render(true);
@@ -42,10 +59,39 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_SecondTerrainDestruction::OnUpdate(const _
 	{
 		m_pGameObject->Get_TransformCom()->LookAt_ForLandObject(static_cast<CBoss*>(m_pGameObject)->Get_SpawnPosition());
 		m_pGameObject->Get_TransformCom()->Go_Straight(static_cast<CBoss*>(m_pGameObject)->Get_MoveSpeed() * 1.1f, fTimeDelta);
+
+		if (m_bWhirlWind == false)
+		{
+			vector<CEffect*> Effects;
+			CEffect_Manager::EFFECTPIVOTDESC tDesc;
+			tDesc.pPivotMatrix = &m_pGameObject->Get_TransformCom()->Get_WorldMatrix();
+			EFFECT_START_OUTLIST(L"VT_FTWhirlWind", &tDesc, Effects);
+			m_pWhirlWind = Effects.front();
+
+			m_bWhirlWind = true;
+		}
+		else
+		{
+			m_pWhirlWind->Update_Pivot(m_pGameObject->Get_TransformCom()->Get_WorldMatrix());
+		}
 	}
 
 	if (m_iCurrAnimation == 12 && m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[12].iAnimIndex && m_fLoopTime < 3.f)
+	{
 		static_cast<CMonster*>(m_pGameObject)->LookAt_Target_Direction_Lerp(fTimeDelta);
+		if (m_pWarning3 == nullptr)
+		{
+			vector<CEffect*> Effects;
+			CEffect_Manager::EFFECTPIVOTDESC tDesc;
+			tDesc.pPivotMatrix = &m_pGameObject->Get_TransformCom()->Get_WorldMatrix();
+			EFFECT_START_OUTLIST(L"VT_FTWarning3", &tDesc, Effects);
+			m_pWarning3 = Effects.front();
+		}
+		else
+		{
+			m_pWarning3->Update_Pivot(m_pGameObject->Get_TransformCom()->Get_WorldMatrix());
+		}
+	}
 
 	//Skill
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[2].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[2].iAnimIndex) >= 9 && m_bShoot[0])
@@ -118,9 +164,22 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_SecondTerrainDestruction::OnUpdate(const _
 			vDir.y = 0.f;
 			vDir.Normalize();
 			vPosition += vDir * 5.f;
-			vPosition.y = -10.f;
+
+			{
+				Matrix matWorld;
+				matWorld.Translation(vPosition);
+				CEffect_Manager::EFFECTPIVOTDESC tDesc;
+				tDesc.pPivotMatrix = &matWorld;
+				EFFECT_START(L"VT_FTStoneSpawn", &tDesc);
+			}
+
+			vPosition.y = -3.f;
 			Add_Stone(vPosition);
 		}
+
+		CEffect_Manager::EFFECTPIVOTDESC tDesc;
+		tDesc.pPivotMatrix = &m_pGameObject->Get_TransformCom()->Get_WorldMatrix();
+		EFFECT_START(L"VT_FTWarning2", &tDesc);
 	}
 
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[10].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[10].iAnimIndex) >= 22 && m_bShoot[1])
@@ -145,6 +204,19 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_SecondTerrainDestruction::OnUpdate(const _
 			static_cast<CSkill*>(pSkill)->Set_Atk(350);
 			static_cast<CSkill*>(pSkill)->Set_Force(32.f);
 		}
+
+		CEffect_Manager::EFFECTPIVOTDESC tDesc;
+		tDesc.pPivotMatrix = &m_pGameObject->Get_TransformCom()->Get_WorldMatrix();
+		EFFECT_START(L"VT_FTShout", &tDesc);
+	}
+
+	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[13].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[13].iAnimIndex) >= 5)
+	{
+		if (m_pWarning3 != nullptr)
+		{
+			m_pWarning3->EffectEnd();
+			m_pWarning3 = nullptr;
+		}
 	}
 
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[13].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[13].iAnimIndex) >= 15 && m_bShoot[2])
@@ -168,6 +240,15 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_SecondTerrainDestruction::OnUpdate(const _
 			static_cast<CSkill*>(pSkill)->Set_PizzaSlope(20.f, -20.f);
 			static_cast<CSkill*>(pSkill)->Set_SafeZonePierce(true);
 			static_cast<CSkill*>(pSkill)->Set_Destructive(true);
+		}
+
+		if (m_bLastAttack == false && m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[13].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[13].iAnimIndex) >= 13)
+		{
+			CEffect_Manager::EFFECTPIVOTDESC tDesc;
+			tDesc.pPivotMatrix = &m_pGameObject->Get_TransformCom()->Get_WorldMatrix();
+			EFFECT_START(L"VT_FTTrail", &tDesc);
+			EFFECT_START(L"VT_FTTrail2", &tDesc);
+			m_bLastAttack = true;
 		}
 	}	
 
