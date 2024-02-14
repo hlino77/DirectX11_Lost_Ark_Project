@@ -25,11 +25,27 @@ HRESULT CState_WDR_Identity::Initialize()
 	else
 		m_TickFunc = &CState_WDR_Identity::Tick_State_NoneControl;
 
+
+	m_SoundFrames.push_back(SOUNDDESC(0, TEXT("Effect"), TEXT("WDR_279.wav"))); // Player
+	m_SoundFrames.push_back(SOUNDDESC(0, TEXT("Effect"), TEXT("WDR_23.wav"))); //  Skill
+	m_SoundFrames.push_back(SOUNDDESC());
+
 	return S_OK;
 }
 
 void CState_WDR_Identity::Enter_State()
 {
+	m_EffectSound = false;
+
+
+	if (m_pPlayer->Is_Control())
+	{
+		CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume);
+		CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt + 1].strName, m_SoundFrames[m_iSoundCnt + 1].strGroup, m_SoundFrames[m_iSoundCnt + 1].strName, m_SoundFrames[m_iSoundCnt + 1].fVolume);
+	}
+
+
+
 	m_fTimeAcc = 0.f;
 
 	m_pPlayer->Reserve_Animation(m_Idle_Identity, 0.1f, 0, 0);

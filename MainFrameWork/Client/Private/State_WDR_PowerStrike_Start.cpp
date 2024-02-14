@@ -27,11 +27,26 @@ HRESULT CState_WDR_PowerStrike_Start::Initialize()
 	m_SkillFrames.push_back(24);
 	m_SkillFrames.push_back(-1);
 
+	// Sound
+	m_SoundFrames.push_back(SOUNDDESC(0, TEXT("Effect"), TEXT("WDR_34.wav"))); // Skill
+	m_SoundFrames.push_back(SOUNDDESC(3, TEXT("Effect"), TEXT("WDR_38.wav"))); // Skill
+	m_SoundFrames.push_back(SOUNDDESC());
+
 	return S_OK;
 }
 
 void CState_WDR_PowerStrike_Start::Enter_State()
 {
+	m_EffectSound = false;
+	m_PlayerSound = false;
+
+	
+	if (m_pPlayer->Is_Control())
+	{
+		CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume);
+	}
+
+
 	m_iSkillCnt = 0;
 
 	m_pPlayer->Reserve_Animation(m_iPowerStrike_Start, 0.1f, 0, 0, 1.f);
@@ -54,13 +69,30 @@ void CState_WDR_PowerStrike_Start::Exit_State()
 {
 	if (true == m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor())
 		m_pPlayer->Set_SuperArmorState(false);
+
+	if (true == m_pPlayer->Is_CancelState())
+	{
+		StopStateSound();
+	}
 }
 
 void CState_WDR_PowerStrike_Start::Tick_State_Control(_float fTimeDelta)
 {
-	_uint iAnimIndex = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iPowerStrike_Start);
+	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iPowerStrike_Start);
 
-	if (-1 != m_SkillFrames[m_iSkillCnt] && m_SkillFrames[m_iSkillCnt] <= iAnimIndex)
+
+	if (-1 != m_SoundFrames[m_iSoundCnt + 1].iFrame && m_SoundFrames[m_iSoundCnt + 1].iFrame <= (_int)iAnimFrame)
+	{
+		if (false == m_EffectSound)
+		{
+			CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt + 1].strName, m_SoundFrames[m_iSoundCnt + 1].strGroup, m_SoundFrames[m_iSoundCnt + 1].strName, m_SoundFrames[m_iSoundCnt + 1].fVolume);
+			m_EffectSound = true;
+		}
+	
+	}
+
+
+	if (-1 != m_SkillFrames[m_iSkillCnt] && m_SkillFrames[m_iSkillCnt] <= iAnimFrame)
 	{
 		m_iSkillCnt++;
 		m_pController->Get_SkillAttackMessage(m_eSkillSelectKey);
@@ -68,7 +100,7 @@ void CState_WDR_PowerStrike_Start::Tick_State_Control(_float fTimeDelta)
 		Effect_Shot();
 	}
 
-	if (25 <= iAnimIndex)
+	if (25 <= iAnimFrame)
 		m_pPlayer->Set_State(TEXT("Skill_WDR_PowerStrike_Loop"));
 
 	Vec3 vClickPos;

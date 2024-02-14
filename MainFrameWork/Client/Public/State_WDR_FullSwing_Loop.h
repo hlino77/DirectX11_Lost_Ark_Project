@@ -42,6 +42,14 @@ private:
 	_float m_fCamShakeDelay = 0.0f;
 	_float m_fCamShakeAcc = 0.0f;
 
+
+	// Sound
+	_bool   m_EffectSound = false;
+	_bool   m_PlayerSound = false;
+	_float  m_EffectSoundAccTime = 0.f;
+	_float	m_PlayerSoundAccTime = 0.f;
+
+
 public:
 	static CState_WDR_FullSwing_Loop* Create(wstring strStateName, class CStateMachine* pMachine, class CPlayer_Controller* pController, class CPlayer_Destroyer* pOwner);
 	virtual void Free() override;

@@ -110,8 +110,8 @@ _bool CController_SP::Is_EstherSkill()
 	/*if (false == static_cast<CPlayer*>(m_pOwner)->Is_PartyLeader())
 		return false;*/
 
-	if (m_iCurEstherGage < m_iMaxEstherGage)
-		return false;
+	//if (m_iCurEstherGage < m_iMaxEstherGage)
+	//	return false;
 
 	if (KEY_HOLD(KEY::CTRL) && KEY_TAP(KEY::Z))
 	{

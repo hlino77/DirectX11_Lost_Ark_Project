@@ -26,8 +26,15 @@ private:
 	std::function<void(CState_WDR_Dash&, _float)> m_TickFunc;
 
 private:
+
 	//Animation
 	_int m_iDash = 0;
+
+	// Sound
+	_bool   m_EffectSound = false;
+	_bool   m_PlayerSound = false;
+	_float  m_EffectSoundAccTime = 0.f;
+	_float	m_PlayerSoundAccTime = 0.f;
 
 
 public:

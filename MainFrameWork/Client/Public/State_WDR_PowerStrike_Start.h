@@ -32,6 +32,13 @@ private:
 	//Animation
 	_int m_iPowerStrike_Start = 0;
 
+	// Sound
+	_bool   m_EffectSound = false;
+	_bool   m_PlayerSound = false;
+	_float  m_EffectSoundAccTime = 0.f;
+	_float	m_PlayerSoundAccTime = 0.f;
+
+
 public:
 	static CState_WDR_PowerStrike_Start* Create(wstring strStateName, class CStateMachine* pMachine, class CPlayer_Controller* pController, class CPlayer_Destroyer* pOwner);
 	virtual void Free() override;

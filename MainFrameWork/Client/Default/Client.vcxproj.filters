@@ -742,15 +742,6 @@
     <Filter Include="02.GameObjects\Boss\Valtan\Skill">
       <UniqueIdentifier>{92545b1e-cf03-4e1d-9d88-887eb4ad7790}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Skill">
-      <UniqueIdentifier>{8d10cc98-e544-40a6-8131-c2be45aec2d1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Skill\Skill_RisingSun">
-      <UniqueIdentifier>{1591f76a-4ba6-4f84-884e-6b533c5da3e3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Skill\Skill_TeleportDoor">
-      <UniqueIdentifier>{2d2cab2b-bc34-459b-9531-6d91e1952e2c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\Effect">
       <UniqueIdentifier>{3ca42504-5a75-4395-9d26-b9b3c54b6523}</UniqueIdentifier>
     </Filter>
@@ -1942,6 +1933,15 @@
     <Filter Include="02.GameObjects\Npc\Function_Npc\Valtan_Npc">
       <UniqueIdentifier>{4b3adb89-3f1f-4967-a1a5-f5c1e57c8452}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Skill">
+      <UniqueIdentifier>{8d10cc98-e544-40a6-8131-c2be45aec2d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Skill\Skill_RisingSun">
+      <UniqueIdentifier>{1591f76a-4ba6-4f84-884e-6b533c5da3e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Skill\Skill_TeleportDoor">
+      <UniqueIdentifier>{2d2cab2b-bc34-459b-9531-6d91e1952e2c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -2469,9 +2469,6 @@
     </ClInclude>
     <ClInclude Include="..\Public\UI_Tool.h">
       <Filter>02.GameObjects\UI\98.Tool</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\UI_Chat.h">
-      <Filter>02.GameObjects\UI\02.Chat</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI_ChatFrame.h">
       <Filter>02.GameObjects\UI\02.Chat\00.Frame</Filter>
@@ -5135,6 +5132,7 @@
     <ClInclude Include="..\Public\Guide_Valtan_Npc.h">
       <Filter>02.GameObjects\Npc\Function_Npc\Valtan_Npc</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\UI_Chat.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -5666,9 +5664,6 @@
     </ClCompile>
     <ClCompile Include="..\Private\UI_Tool.cpp">
       <Filter>02.GameObjects\UI\98.Tool</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\UI_Chat.cpp">
-      <Filter>02.GameObjects\UI\02.Chat</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UI_ChatFrame.cpp">
       <Filter>02.GameObjects\UI\02.Chat\00.Frame</Filter>
@@ -8302,6 +8297,7 @@
     <ClCompile Include="..\Private\Guide_Valtan_Npc.cpp">
       <Filter>02.GameObjects\Npc\Function_Npc\Valtan_Npc</Filter>
     </ClCompile>
+    <ClCompile Include="..\Private\UI_Chat.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">

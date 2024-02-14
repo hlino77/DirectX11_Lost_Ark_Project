@@ -23,11 +23,13 @@ HRESULT CState_WDR_PerfectSwing_Start::Initialize()
 	else
 		m_TickFunc = &CState_WDR_PerfectSwing_Start::Tick_State_NoneControl;
 
+
 	return S_OK;
 }
 
 void CState_WDR_PerfectSwing_Start::Enter_State()
 {
+
 	m_pPlayer->Reserve_Animation(m_iPerfectSwing_Start, 0.1f, 0, 0);
 
 	m_pPlayer->Get_WDR_Controller()->Get_StopMessage();
@@ -53,6 +55,11 @@ void CState_WDR_PerfectSwing_Start::Exit_State()
 {
 	if (true == m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor())
 		m_pPlayer->Set_SuperArmorState(false);
+
+	if (true == m_pPlayer->Is_CancelState())
+	{
+		StopStateSound();
+	}
 }
 
 void CState_WDR_PerfectSwing_Start::Tick_State_Control(_float fTimeDelta)

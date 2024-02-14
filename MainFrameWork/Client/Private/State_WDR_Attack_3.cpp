@@ -32,11 +32,16 @@ HRESULT CState_WDR_Attack_3::Initialize()
 	m_AttackFrames.push_back(42);
 	m_AttackFrames.push_back(-1);
 
+	m_SoundFrames.push_back(SOUNDDESC(0, TEXT("Effect"), TEXT("WDR_11.wav"))); //  Skill
+	m_SoundFrames.push_back(SOUNDDESC());
+
 	return S_OK;
 }
 
 void CState_WDR_Attack_3::Enter_State()
 {
+	m_EffectSound = false;
+
 	m_iAttackCnt = 0;
 
 	m_pPlayer->Reserve_Animation(m_Attack_3, 0.1f, 0, 0, 1.f);
@@ -64,6 +69,16 @@ void CState_WDR_Attack_3::Tick_State_Control(_float fTimeDelta)
 		static_cast<CController_WDR*>(m_pController)->Get_AttackMessage();
 		
 		Effect_Attack();
+
+		if (m_pPlayer->Is_Control())
+		{
+			if (m_EffectSound == false)
+			{
+				CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume);
+				m_EffectSound = true;
+			}
+
+		}
 	}
 
 	if (true == m_pController->Is_Attack() &&

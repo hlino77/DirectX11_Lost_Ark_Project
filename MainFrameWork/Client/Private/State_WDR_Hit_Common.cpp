@@ -28,11 +28,20 @@ HRESULT CState_WDR_Hit_Common::Initialize()
 	else
 		m_TickFunc = &CState_WDR_Hit_Common::Tick_State_NoneControl;
 
+	m_SoundFrames.push_back(SOUNDDESC(0, TEXT("Effect"), TEXT("WDR_253.wav"))); // Skill
+	m_SoundFrames.push_back(SOUNDDESC());
+
 	return S_OK;
 }
 
 void CState_WDR_Hit_Common::Enter_State()
 {
+	if (m_pPlayer->Is_Control())
+	{
+		CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume);
+
+	}
+
 	m_fForceDist = m_pPlayer->Get_TargetPos().y;
 	Vec3 vHitCenter = m_pPlayer->Get_TargetPos();
 	vHitCenter.y = 0.0f;

@@ -66,6 +66,11 @@ void CState_WDR_PowerShoulder_Loop::Exit_State()
 
 	if (true == m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor())
 		m_pPlayer->Set_SuperArmorState(false);
+
+	if (true == m_pPlayer->Is_CancelState())
+	{
+		StopStateSound();
+	}
 }
 
 void CState_WDR_PowerShoulder_Loop::Tick_State_Control(_float fTimeDelta)
