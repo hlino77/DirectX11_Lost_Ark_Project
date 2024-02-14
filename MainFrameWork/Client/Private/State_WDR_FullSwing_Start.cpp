@@ -22,11 +22,24 @@ HRESULT CState_WDR_FullSwing_Start::Initialize()
 	else
 		m_TickFunc = &CState_WDR_FullSwing_Start::Tick_State_NoneControl;
 
+
+	m_SoundFrames.push_back(SOUNDDESC(0, TEXT("Effect"), TEXT("WDR_66.wav"))); //  Skill
+	m_SoundFrames.push_back(SOUNDDESC());
+
+
 	return S_OK;
 }
 
 void CState_WDR_FullSwing_Start::Enter_State()
 {
+	m_EffectSoundAccTime = 0.f;
+	m_EffectSound = false;
+
+	if (m_pPlayer->Is_Control())
+	{
+		CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume);
+	}
+
 	m_pPlayer->Reserve_Animation(m_iFullSwing_Start, 0.1f, 0, 0);
 
 	m_pPlayer->Get_WDR_Controller()->Get_StopMessage();
@@ -51,6 +64,8 @@ void CState_WDR_FullSwing_Start::Exit_State()
 
 void CState_WDR_FullSwing_Start::Tick_State_Control(_float fTimeDelta)
 {
+
+
 	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iFullSwing_Start))
 		m_pPlayer->Set_State(TEXT("Skill_WDR_FullSwing_Loop"));
 }

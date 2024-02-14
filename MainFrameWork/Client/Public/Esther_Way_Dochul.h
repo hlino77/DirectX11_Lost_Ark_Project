@@ -56,6 +56,8 @@ public:
 	virtual void			Call_Act2(_float fTimeDelta) { Act2(fTimeDelta); }
 	virtual void			Call_Act3(_float fTimeDelta) { Act3(fTimeDelta); }
 
+	void					Set_Sound_Init(_bool bSound) { m_bSound1 = bSound, m_bSound2 = bSound, m_bSound3 = bSound; }
+
 public:
 	virtual HRESULT			Ready_Coliders() { return S_OK; }
 
@@ -99,6 +101,11 @@ private:
 	_float			m_fRimLightColor = { 0.95f };
 
 	class CTexture* m_pDissolveTexture = { nullptr };
+
+
+	_bool			m_bSound1 = false;
+	_bool			m_bSound2 = false;
+	_bool			m_bSound3 = false;
 
 public:
 	static CEsther_Way_Dochul* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

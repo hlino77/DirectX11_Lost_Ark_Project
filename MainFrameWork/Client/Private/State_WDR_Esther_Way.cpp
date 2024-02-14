@@ -25,11 +25,22 @@ HRESULT CState_WDR_Esther_Way::Initialize()
 	else
 		m_TickFunc = &CState_WDR_Esther_Way::Tick_State_NoneControl;
 
+	
+	m_SoundFrames.push_back(SOUNDDESC(0, TEXT("Effect"), TEXT("WWISEDEFAULTBANK_PC_COMMON_ESTHER#4 (257889105).wav"))); //  Skill
+	m_SoundFrames.push_back(SOUNDDESC(0, TEXT("Effect"), TEXT("WWISEDEFAULTBANK_PC_COMMON_ESTHER#5 (639948326).wav"))); //  Skill
+	m_SoundFrames.push_back(SOUNDDESC(0, TEXT("Effect"), TEXT("WWISEDEFAULTBANK_PC_COMMON_ESTHER#6 (186271436).wav"))); //  Skill
+	m_SoundFrames.push_back(SOUNDDESC());
+
+
 	return S_OK;
 }
 
 void CState_WDR_Esther_Way::Enter_State()
 {
+	m_EffectSound = false;
+	m_EffectSound1 = false;
+	m_EffectSound2 = false;
+
 	m_bEstherActive = false;
 
 	m_pPlayer->Reserve_Animation(m_iEsther, 0.1f, 0, 0);

@@ -78,8 +78,12 @@ void CEsther_Way_Skill::Tick(_float fTimeDelta)
 
 	Effect(fTimeDelta);
 
+
 	__super::Tick(fTimeDelta);
 	m_pSkillMesh->Tick(fTimeDelta);
+	
+	m_pSkillMesh->Set_Sound_Init(false);
+
 }
 
 void CEsther_Way_Skill::LateTick(_float fTimeDelta)

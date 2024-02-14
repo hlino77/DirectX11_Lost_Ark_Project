@@ -30,11 +30,24 @@ HRESULT CState_WDR_Attack_1::Initialize()
 	m_AttackFrames.push_back(12);
 	m_AttackFrames.push_back(-1);
 
+
+	m_SoundFrames.push_back(SOUNDDESC(0, TEXT("Effect"), TEXT("WDR_7.wav"))); //  Skill
+	m_SoundFrames.push_back(SOUNDDESC());
+
+
 	return S_OK;
 }
 
 void CState_WDR_Attack_1::Enter_State()
 {
+	m_EffectSound = false;
+
+
+	if (m_pPlayer->Is_Control())
+	{
+		CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume);
+
+	}
 	m_iAttackCnt = 0;
 
 	m_pPlayer->Reserve_Animation(m_Attack_1, 0.1f, 0, 0, 1.f);

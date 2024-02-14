@@ -26,7 +26,7 @@ HRESULT CState_SP_Identity_Moon::Initialize()
 
 
 	// Sound
-	m_SoundFrames.push_back(SOUNDDESC(0, TEXT("Effect"), TEXT("SP_2.wav"))); // Skill
+	m_SoundFrames.push_back(SOUNDDESC(10, TEXT("Effect"), TEXT("SP_2.wav"))); // Skill
 	m_SoundFrames.push_back(SOUNDDESC());
 
 	return S_OK;
@@ -36,13 +36,6 @@ void CState_SP_Identity_Moon::Enter_State()
 {
 	m_EffectSound = false;
 	m_PlayerSound = false;
-
-
-	if (m_pPlayer->Is_Control())
-	{
-		CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume, true);
-
-	}
 
 	m_pPlayer->Reserve_Animation(m_iIdentity_Moon_Start, 0.1f, 0, 0);
 
@@ -80,6 +73,19 @@ void CState_SP_Identity_Moon::Exit_State()
 
 void CState_SP_Identity_Moon::Tick_State_Control(_float fTimeDelta)
 {
+	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iIdentity_Moon_Start);
+
+
+	if (-1 != m_SoundFrames[m_iSoundCnt].iFrame && m_SoundFrames[m_iSoundCnt].iFrame <= (_int)iAnimFrame)
+	{
+		if (false == m_EffectSound)
+		{
+			CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume);
+			m_EffectSound = true;
+		}
+	}
+
+
 	if (m_bTrail == false)
 	{
 		Effect_Trail();

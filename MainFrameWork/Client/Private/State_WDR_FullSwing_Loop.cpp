@@ -53,11 +53,22 @@ HRESULT CState_WDR_FullSwing_Loop::Initialize()
 			return E_FAIL;
 	}
 
+	m_SoundFrames.push_back(SOUNDDESC(0, TEXT("Effect"), TEXT("WDR_67.wav"))); //  Skill
+	m_SoundFrames.push_back(SOUNDDESC());
+
+
 	return S_OK;
 }
 
 void CState_WDR_FullSwing_Loop::Enter_State()
 {
+	if (m_pPlayer->Is_Control())
+	{
+		CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume);
+	}
+
+
+
 	m_fSkillTimeAcc = 0;
 	m_pPlayer->Reserve_Animation(m_iFullSwing_Loop, 0.1f, 0, 0);
 	m_pPlayer->Set_SuperArmorState(m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor());
@@ -83,6 +94,14 @@ void CState_WDR_FullSwing_Loop::Exit_State()
 		m_pPlayer->Set_SuperArmorState(false);
 	if (nullptr != m_pHoldingUI)
 		m_pHoldingUI->Set_SkillOn(false);
+
+	if (true == m_pPlayer->Is_CancelState())
+	{
+		StopStateSound();
+	}
+
+	CSound_Manager::GetInstance()->Stop_Channel_Sound(L"WDR_67.wav");
+
 }
 
 void CState_WDR_FullSwing_Loop::Tick_State_Control(_float fTimeDelta)

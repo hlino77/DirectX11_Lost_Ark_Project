@@ -22,11 +22,22 @@ HRESULT CState_WDR_Resurrect::Initialize()
 	else
 		m_TickFunc = &CState_WDR_Resurrect::Tick_State_NoneControl;
 
+
+	m_SoundFrames.push_back(SOUNDDESC(0, TEXT("Effect"), TEXT("WDR_247.wav"))); // Skill
+	m_SoundFrames.push_back(SOUNDDESC());
+
 	return S_OK;
 }
 
 void CState_WDR_Resurrect::Enter_State()
 {
+	if (m_pPlayer->Is_Control())
+	{
+		CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume);
+
+	}
+
+
 	m_pPlayer->Reserve_Animation(m_iResurrect, 0.2f, 0, 0);
 
 	m_pPlayer->Set_Invincible(true);

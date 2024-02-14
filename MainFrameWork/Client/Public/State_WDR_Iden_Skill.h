@@ -35,6 +35,11 @@ private:
 	_uint m_iAttackCnt = 0;
 	vector<_int> m_AttackFrames;
 
+
+	_bool m_EffectSound  = false;
+	_bool m_EffectSound1 = false;
+	_bool m_EffectSound2 = false;
+
 public:
 	static CState_WDR_Iden_Skill* Create(wstring strStateName, class CStateMachine* pMachine, class CPlayer_Controller* pController, class CPlayer_Destroyer* pOwner);
 	virtual void Free() override;

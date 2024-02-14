@@ -36,11 +36,25 @@ HRESULT CState_SP_Hit::Initialize()
 	else
 		m_TickFunc = &CState_SP_Hit::Tick_State_NoneControl;
 
+
+	m_SoundFrames.push_back(SOUNDDESC(0, TEXT("Effect"), TEXT("SP_417.wav"))); //  Skill
+	m_SoundFrames.push_back(SOUNDDESC());
+
 	return S_OK;
 }
 
 void CState_SP_Hit::Enter_State()
 {
+
+
+	if (m_pPlayer->Is_Control())
+	{
+		CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume);
+
+	}
+
+
+
 	m_pController->Get_StopMessage();
 
 	m_vHitCenter = m_pPlayer->Get_TargetPos();
