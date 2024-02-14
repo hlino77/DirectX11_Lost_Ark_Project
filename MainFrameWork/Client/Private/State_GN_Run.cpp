@@ -30,11 +30,21 @@ HRESULT CState_GN_Run::Initialize()
 	else
 		m_TickFunc = &CState_GN_Run::Tick_State_NoneControl;
 
+	m_SoundFrames.push_back(SOUNDDESC(0, TEXT("Effect"), TEXT("PC_Step_2.wav"), 0.5f, false));
+	m_SoundFrames.push_back(SOUNDDESC(0, TEXT("Effect"), TEXT("PC_Step_248.wav"), 0.5f, false));
+	m_SoundFrames.push_back(SOUNDDESC(11, TEXT("Effect"), TEXT("PC_Step_2.wav"), 0.5f, false));
+	m_SoundFrames.push_back(SOUNDDESC(11, TEXT("Effect"), TEXT("PC_Step_248.wav"), 0.5f, false));
+	m_SoundFrames.push_back(SOUNDDESC(22, TEXT("Effect"), TEXT("PC_Step_2.wav"), 0.5f, false));
+	m_SoundFrames.push_back(SOUNDDESC(22, TEXT("Effect"), TEXT("PC_Step_248.wav"), 0.5f, false));
+	m_SoundFrames.push_back(SOUNDDESC());
+
 	return S_OK;
 }
 
 void CState_GN_Run::Enter_State()
 {
+	m_iSoundCnt = 0;
+
 	CPlayer_Controller_GN::GN_IDENTITY eIden = static_cast<CPlayer_Controller_GN*>(m_pController)->Get_GN_Identity();
 
 	switch (eIden)
@@ -65,10 +75,35 @@ void CState_GN_Run::Tick_State(_float fTimeDelta)
 
 void CState_GN_Run::Exit_State()
 {
+	if (true == m_pPlayer->Is_CancelState())
+	{
+		StopStateSound();
+	}
 }
 
 void CState_GN_Run::Tick_State_Control(_float fTimeDelta)
 {
+	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Run);
+
+	if (-1 != m_SoundFrames[m_iSoundCnt].iFrame && m_SoundFrames[m_iSoundCnt].iFrame <= (_int)iAnimFrame)
+	{
+		if (false == m_SoundFrames[m_iSoundCnt].bAddChannel)
+		{
+			CSound_Manager::GetInstance()->PlaySoundFile(m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume);
+		}
+		else
+		{
+			CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume);
+		}
+
+		m_iSoundCnt++;
+	}
+
+	/*if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_Run))
+	{
+		m_iSoundCnt = 1;
+	}*/
+
 	_uint iIdentity = static_cast<CPlayer_Controller_GN*>(m_pController)->Is_GN_Identity();
 
 	if (true == m_pController->Is_Dash())
