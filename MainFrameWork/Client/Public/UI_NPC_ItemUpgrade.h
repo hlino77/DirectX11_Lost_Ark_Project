@@ -104,6 +104,7 @@ private:
     void    Print_WeaponItemGradeLevelWnd();
     void    Print_CurrGauge();
     void    Print_ResultWnd();
+    void    Print_Bahuntrr();
 
 private:
     virtual HRESULT Ready_Components();
@@ -396,14 +397,16 @@ private:
     CTextBox*   m_pCurrItemNameWnd = { nullptr };
     CTextBox*   m_pCurrGaugeWnd = { nullptr };
     CTextBox*   m_pResultWnd = { nullptr };
-    CTextBox*   m_pAmountWnd = { nullptr };
+    CTextBox*   m_pNpcScriptWnd = { nullptr };
     wstring     m_strTagItemsNameWnd;
     wstring     m_strTagNameWnd;
     wstring     m_strUpgradeGagueTag;
     wstring     m_strResultWndTag;
+    wstring     m_strScriptWndTag;
     wstring     m_strFont;
     wstring     m_strItemsName[SELECTED_END];
     wstring   m_strCurrItemName = TEXT("");
+    wstring     m_strNpcScript;
 
     CGameObject* m_pUsingPlayer = { nullptr };
     CItem* m_pEquips[SELECTED_END];
@@ -412,6 +415,8 @@ private:
 private:
     _bool   m_bDeActive = false;
     _float  m_fDeActiveAcc = 0.0f;
+
+    _bool   m_bSound[4] = {false,false,false,false };
 
 public:
     static  CUI_NPC_ItemUpgrade* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

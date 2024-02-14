@@ -4,6 +4,7 @@
 #include "TextBox.h"
 #include "ServerSessionManager.h"
 #include "Player.h"
+#include "Sound_Manager.h"
 
 CUI_DeadWnd::CUI_DeadWnd(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CUI(pDevice, pContext)
@@ -31,7 +32,7 @@ HRESULT CUI_DeadWnd::Initialize(void* pArg)
 
 	m_fSizeX = 460.f;
 	m_fSizeY = 240.f;
-	m_fX = g_iWinSizeX - m_fSizeX * 0.6f;
+	m_fX = g_iWinSizeX - m_fSizeX * 0.4f;
 	m_fY = 0.f + (m_fSizeY);
 
 	//m_pTransformCom
@@ -363,7 +364,10 @@ void CUI_DeadWnd::MovingWnd(POINT pt)
 		m_pTextBox_Watching->Get_TransformCom()->Set_State(CTransform::STATE_POSITION,
 			Vec3((g_iWinSizeX * 0.5f) - g_iWinSizeX * 0.5f, -(g_iWinSizeY * 0.5f + 180.f) + g_iWinSizeY * 0.5f, 0.f));
 		if (KEY_AWAY(KEY::LBTN))
+		{
 			m_bMovingWnd = false;
+			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"ClickedSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
+		}
 	}
 }
 
@@ -399,9 +403,15 @@ void CUI_DeadWnd::Is_Picking_ResurrectRect(POINT pt)
 {
 	if (PtInRect(&m_rcResurrect, pt))
 	{
+		if (!m_bSound[0])
+		{
+			m_bSound[0] = true;
+			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"Is_PickingSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
+		}
 		m_iTextureIndex_Button[0] = 1;
 		if (KEY_TAP(KEY::LBTN))
 		{
+			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"ClickedSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
 			CServerSessionManager::GetInstance()->Get_Player()->Set_State(TEXT("Resurrect"));
 			m_bWatchingMode = false;
 			m_bMovingWnd = false;
@@ -416,7 +426,10 @@ void CUI_DeadWnd::Is_Picking_ResurrectRect(POINT pt)
 		}
 	}
 	else
+	{
 		m_iTextureIndex_Button[0] = 0;
+		m_bSound[0] = false;
+	}
 }
 
 void CUI_DeadWnd::Create_WatchingRect()
@@ -431,6 +444,11 @@ void CUI_DeadWnd::Is_Picking_WatchingRect(POINT pt)
 {
 	if (PtInRect(&m_rcWatching, pt))
 	{
+		if (!m_bSound[1])
+		{
+			m_bSound[1] = true;
+			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"Is_PickingSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
+		}
 		if (2 != m_iTextureIndex_Button[1])
 			m_iTextureIndex_Button[1] = 1;
 
@@ -444,6 +462,7 @@ void CUI_DeadWnd::Is_Picking_WatchingRect(POINT pt)
 	{
 		if (2 != m_iTextureIndex_Button[1])
 			m_iTextureIndex_Button[1] = 0;
+		m_bSound[1] = false;
 	}
 }
 void CUI_DeadWnd::Print_TextBox()
@@ -457,6 +476,9 @@ void CUI_DeadWnd::Print_TextBox()
 	Vec2 vMeasure = CGameInstance::GetInstance()->MeasureString(m_strFont, TEXT("숙코인증버튼"));
 	Vec2 vOrigin = vMeasure * 0.5f;
 	m_pTextBox->Set_Text(m_strWndTag, m_strFont, TEXT("숙코인증버튼"), Vec2((m_fSizeX * 0.5f), (m_fSizeY - 48.f)), Vec2(0.3f, 0.3f), vOrigin, 0.f, Vec4(1.f, 1.f, 1.f, 1.0f));
+	vMeasure = CGameInstance::GetInstance()->MeasureString(m_strFont, TEXT("당신은 모작에서도 죽는 숙코입니까?"));
+	vOrigin = vMeasure * 0.5f;
+	m_pTextBox->Set_Text(m_strWndTag+TEXT("Tip"), m_strFont, TEXT("당신은 모작에서도 죽는 숙코입니까?"), Vec2((m_fSizeX * 0.5f), (m_fSizeY - 75.f)), Vec2(0.35f, 0.35f), vOrigin, 0.f, Vec4(1.f, 1.f, 1.f, 1.0f));
 }
 
 void CUI_DeadWnd::Print_TextBoxWatching()

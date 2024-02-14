@@ -40,6 +40,8 @@ void CClientEvent_BernStart::Enter_Event()
 	Safe_AddRef(pGameInstance);
 
 	CSound_Manager::GetInstance()->PlayBGM_AddChannel(L"CastleBern", L"BGM", L"CastleBern.wav", 0.5f);
+	//앞에 2초 자른 버전
+	//CSound_Manager::GetInstance()->PlayBGM_AddChannel(L"CastleBern", L"BGM", L"CastleBern_Edit.wav", 0.5f);
 
 	CPlayer* pPlayer = CServerSessionManager::GetInstance()->Get_Player();
 

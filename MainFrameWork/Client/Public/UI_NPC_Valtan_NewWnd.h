@@ -94,7 +94,8 @@ private:
 
     _bool       m_bDeActive = { false };
     _float      m_fDeActiveAcc = { 0.0f };
-
+    _bool       m_bUIActiveSound = { false };
+    _bool       m_bSound[2] = { false, false };
 public:
     static  CUI_NPC_ValtanEntrance_Wnd* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
     virtual CGameObject* Clone(void* pArg) override;

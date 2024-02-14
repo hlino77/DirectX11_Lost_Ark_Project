@@ -468,8 +468,6 @@ void CBoss::Set_Die(_float fTime)
 				Safe_Release(pItem_Manager);
 			}
 		}
-		else if (LEVELID::LEVEL_VALTANMAIN == (_uint)CGameInstance::GetInstance()->Get_CurrLevelIndex())
-			CUI_Manager::GetInstance()->Clear_Valtan();
 
 		m_pBossHpUI->Set_Dead_BossHpUI();
 		m_pBossHpUI = nullptr;

@@ -167,7 +167,6 @@ void CUI_Lobby_NickName::Update_NickNameFrame()
 	{
 		m_iButtonState = BUTTON_STATE::BUTTON_PICKED;
 		static_cast<CPlayer_Select*>(m_pLobbyCharacter)->Clicked();
-		CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"ClickedSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
 	}
 
 	if ((!m_bPick) && (BUTTON_STATE::BUTTON_PICKING == m_iButtonState))
@@ -192,9 +191,19 @@ void CUI_Lobby_NickName::LateUpdate_NickNameFrame()
 		m_iButtonState = BUTTON_STATE::BUTTON_NORMAL;
 
 	if (BUTTON_STATE::BUTTON_PICKED == m_iButtonState)
+	{
+		if (!m_bSound)
+		{
+			m_bSound = true;
+			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"ClickedSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
+		}
 		m_iTextureIndex = 1;
+	}
 	else
+	{
 		m_iTextureIndex = 0;
+		m_bSound = false;
+	}
 }
 
 void CUI_Lobby_NickName::InitialIze_EmblemPos()

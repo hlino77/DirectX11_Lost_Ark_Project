@@ -475,7 +475,7 @@ void CUI_Boss_Hp::Update_Hp(_float fTimeDelta)
 			if (HP_PURPLE < m_iNextHpColor)
 				m_iNextHpColor = HP_BLUE;
 
-			if (HP_BLUE < (m_iNextHpColor - 1))
+			if (-1 < (m_iNextHpColor - 1))
 			{
 				m_iCurrHpColor = m_iNextHpColor - 1;
 			}

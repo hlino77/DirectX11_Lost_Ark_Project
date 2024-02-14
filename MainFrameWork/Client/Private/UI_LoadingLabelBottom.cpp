@@ -61,7 +61,7 @@ HRESULT CUI_LoadingLabelBottom::Render()
     Vec2 vScale(0.6f, 0.6f);
     Vec2 vMeasure = CGameInstance::GetInstance()->MeasureString(L"던파연마된칼날", m_strTip);
     Vec2 vOrigin = vMeasure * 0.5f;
-    CGameInstance::GetInstance()->DrawFont(L"던파연마된칼날", m_strTip, vPos, Vec4(214.f / 255.f, 174.f/255.f, 90.f / 255.f, 1.0f), 0.0f, vOrigin, vScale);
+    CGameInstance::GetInstance()->DrawFont(L"던파연마된칼날", m_strTip, vPos, Vec4(0.84f, 0.68f, 0.35f, 1.f), 0.0f, vOrigin, vScale);
 
     vPos = Vec2(m_fX, m_fY + 15.f);
     vScale = Vec2(0.5f, 0.5f);

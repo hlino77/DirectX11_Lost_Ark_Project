@@ -13,6 +13,8 @@
 #include "Controller_WR.h"
 #include "Controller_SP.h"
 #include "ServerSessionManager.h"
+#include "Sound_Manager.h"
+#include "Camera_Player.h"
 
 CUI_NPC_ChaosDungeon_NewWnd::CUI_NPC_ChaosDungeon_NewWnd(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     :CUI(pDevice, pContext)
@@ -95,8 +97,9 @@ void CUI_NPC_ChaosDungeon_NewWnd::Tick(_float fTimeDelta)
     if (true == m_bDeActive)
     {
         m_fDeActiveAcc += fTimeDelta;
-        if (m_fDeActiveAcc >= 0.5f)
+        if (m_fDeActiveAcc >= 1.5f)
         {
+            m_bUIActiveSound = false;
             m_bDeActive = false;
             Reset_Player_Control();
             Set_Active(false);
@@ -105,6 +108,11 @@ void CUI_NPC_ChaosDungeon_NewWnd::Tick(_float fTimeDelta)
 
     if (true == m_bActive && false == m_bDeActive)
     {
+        if (!m_bUIActiveSound)
+        {
+            m_bUIActiveSound = true;
+            CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"Chaos_Entrance0.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
+        }
         __super::Tick(fTimeDelta);
 
         if (0 < m_fCurrTimer)
@@ -116,6 +124,7 @@ void CUI_NPC_ChaosDungeon_NewWnd::Tick(_float fTimeDelta)
         {
             m_fCurrTimer = 0.f;
             m_bDeActive = true;
+            m_bUIActiveSound = false;
             m_fDeActiveAcc = 0.0f;
             m_pTextBoxWnd->Set_Active(false);
             m_pTimeCountWnd->Set_Active(false);
@@ -134,7 +143,12 @@ void CUI_NPC_ChaosDungeon_NewWnd::LateTick(_float fTimeDelta)
             m_fDeActiveAcc = 0.0f;
             m_pTextBoxWnd->Set_Active(false);
             m_pTimeCountWnd->Set_Active(false);
-   
+            if (m_bClicked_Entrance)
+            {
+                if (nullptr != CServerSessionManager::GetInstance()->Get_Player())
+                    CServerSessionManager::GetInstance()->Get_Player()->Get_Camera()->Set_FadeInOut(2.f, true);
+                CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"Chaos_Entrance1.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
+            }
             return;
         }
         Update_Button();
@@ -391,30 +405,49 @@ void CUI_NPC_ChaosDungeon_NewWnd::Update_AcceptButton(POINT pt)
 {
     if (true == Is_Picking_AcceptButton(pt))
     {
+        if (!m_bSound[0])
+        {
+            m_bSound[0] = true;
+            CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"Is_PickingSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
+        }
         if (KEY_TAP(KEY::LBTN))
         {
+            CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"ClickedSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
+            CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"Chaos_Entrance1.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
             m_bClicked_Entrance = true;
             m_IsClicked = true;
         }
         m_iTextureIndex_AcceptButton = 1;
     }
     else
+    {
         m_iTextureIndex_AcceptButton = 0;
+        m_bSound[0] = false;
+    }
 }
 
 void CUI_NPC_ChaosDungeon_NewWnd::Update_RefuseButton(POINT pt)
 {
     if (true == Is_Picking_RefuseButton(pt))
     {
+        if (!m_bSound[1])
+        {
+            m_bSound[1] = true;
+            CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"Is_PickingSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
+        }
         if (KEY_TAP(KEY::LBTN))
         {
+            CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"ClickedSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
             m_bClicked_Entrance = false;
             m_IsClicked = true;
         }
         m_iTextureIndex_RefuseButton = 1;
     }
     else
+    {
         m_iTextureIndex_RefuseButton = 0;
+        m_bSound[1] = false;
+    }
 }
 
 void CUI_NPC_ChaosDungeon_NewWnd::Create_Rect_AcceptButton()

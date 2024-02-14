@@ -7,6 +7,7 @@
 #include "Player.h"
 #include "Party.h"
 #include "Camera_Player.h"
+#include "Sound_Manager.h"
 
 CUI_WatchingMode::CUI_WatchingMode(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CUI(pDevice, pContext)
@@ -47,7 +48,8 @@ HRESULT CUI_WatchingMode::Initialize(void* pArg)
 	//m_pTransform_NextButton
 	m_pTransform_NextButton->Set_Scale(Vec3(-23.f, 30.f, 1.f));
 	m_pTransform_NextButton->Set_State(CTransform::STATE_POSITION,
-		Vec3((m_fX + m_fSizeX*0.35f) - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f));
+		Vec3((m_fX + m_fSizeX * 0.35f) - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f));
+	//Vec3((m_fX + m_fSizeX*0.35f) - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f));
 	//m_pTransform_BackButton
 	m_pTransform_BackButton->Set_Scale(Vec3(23.f, 30.f, 1.f));
 	m_pTransform_BackButton->Set_State(CTransform::STATE_POSITION,
@@ -284,9 +286,15 @@ void CUI_WatchingMode::Is_Picking_BackButton(POINT pt)
 {
 	if (PtInRect(&m_rcButton[0], pt))
 	{
+		if (!m_bSound[0])
+		{
+			m_bSound[0] = true;
+			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"Is_PickingSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
+		}
 		m_iChangeButton[0] = 1;
 		if (KEY_TAP(KEY::LBTN))
 		{
+			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"ClickedSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
 			if (nullptr == CServerSessionManager::GetInstance()->Get_Player()->Get_Party())
 				return;
 			if ((m_iPartyIndex - 1) == CServerSessionManager::GetInstance()->Get_Player()->Get_ObjectID())
@@ -297,7 +305,7 @@ void CUI_WatchingMode::Is_Picking_BackButton(POINT pt)
 						== CServerSessionManager::GetInstance()->Get_Player()->Get_ObjectID())
 						m_iPartyIndex = CServerSessionManager::GetInstance()->Get_Player()->Get_Party()->Get_PartyMembers().size() - 1;
 					else
-						m_iPartyIndex --;
+						m_iPartyIndex--;
 				}
 				else
 					m_iPartyIndex -= 2;
@@ -325,7 +333,10 @@ void CUI_WatchingMode::Is_Picking_BackButton(POINT pt)
 		}
 	}
 	else
+	{
 		m_iChangeButton[0] = 0;
+		m_bSound[0] = false;
+	}
 }
 
 void CUI_WatchingMode::Create_ReturnButton()
@@ -340,13 +351,21 @@ void CUI_WatchingMode::Is_Picking_ReturnButton(POINT pt)
 {
 	if (PtInRect(&m_rcButton[1], pt))
 	{
+		if (!m_bSound[1])
+		{
+			m_bSound[1] = true;
+			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"Is_PickingSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
+		}
 		if (m_bWathingMode)
 			m_iTextureIndex = 1;
 		if (KEY_TAP(KEY::LBTN))
 		{
+			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"ClickedSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
 			m_bWathingMode = false;
 		}
 	}
+	else
+		m_bSound[1] = false;
 }
 
 void CUI_WatchingMode::Create_NextButton()
@@ -361,9 +380,15 @@ void CUI_WatchingMode::Is_Picking_NextButton(POINT pt)
 {
 	if (PtInRect(&m_rcButton[2], pt))
 	{
+		if (!m_bSound[2])
+		{
+			m_bSound[2] = true;
+			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"Is_PickingSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
+		}
 		m_iChangeButton[1] = 1;
 		if (KEY_TAP(KEY::LBTN))
 		{
+			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"ClickedSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
 			if (nullptr == CServerSessionManager::GetInstance()->Get_Player()->Get_Party())
 				return;
 			if ((m_iPartyIndex + 1) == CServerSessionManager::GetInstance()->Get_Player()->Get_ObjectID())
@@ -395,7 +420,10 @@ void CUI_WatchingMode::Is_Picking_NextButton(POINT pt)
 		}
 	}
 	else
+	{
 		m_iChangeButton[1] = 0;
+		m_bSound[2] = false;
+	}
 }
 
 HRESULT CUI_WatchingMode::Ready_Components()

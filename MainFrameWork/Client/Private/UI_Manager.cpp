@@ -373,9 +373,9 @@ void CUI_Manager::Clear_Valtan()
 {
 	for (auto iter : m_pUIList[(_uint)LEVEL_VALTANMAIN])
 	{
-		if (TEXT("ChaosDungeon_Clear") == iter->Get_UITag())
+		if (TEXT("UI_ValtanClearWnd") == iter->Get_UITag())
 		{
-			static_cast<CUI_ChaosDungeon_Clear*>(iter)->Set_ClearUIStart(true);
+			static_cast<CUI_ValtanClearWnd*>(iter)->Set_Is_ValtanClear(true);
 		}
 	}
 }

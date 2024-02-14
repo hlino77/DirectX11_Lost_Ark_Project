@@ -44,6 +44,7 @@ private:
 	Matrix			m_CameraMatrix = {};
 
 	wstring m_strObjectTag = TEXT("");
+
 public:
 	static class CLevel_Lobby* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual void Free() override;

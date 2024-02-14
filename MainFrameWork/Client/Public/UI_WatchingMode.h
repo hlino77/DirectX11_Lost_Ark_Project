@@ -77,7 +77,7 @@ private:
     RECT m_rcButton[3] = {};
 
     _bool   m_bWathingMode = { false };
-  
+    _bool   m_bSound[3] = { false, false, false };
 public:
     static  CUI_WatchingMode* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
     virtual CGameObject* Clone(void* pArg) override;

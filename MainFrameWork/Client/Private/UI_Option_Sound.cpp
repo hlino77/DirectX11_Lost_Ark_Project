@@ -1077,6 +1077,9 @@ void CUI_Option_Sound::Update_DragBar()
 			CSound_Manager::GetInstance()->Set_ChannelGroupVolume(TEXT("Effect"), m_fVolume[4]);
 		else
 			CSound_Manager::GetInstance()->Set_ChannelGroupVolume(TEXT("Effect"), 0.f);
+
+		if (KEY_AWAY(KEY::LBTN))
+			m_bClickSound[0] = false;
 	}
 	else if (m_bHolding[1])
 	{
@@ -1094,6 +1097,9 @@ void CUI_Option_Sound::Update_DragBar()
 			CSound_Manager::GetInstance()->Set_ChannelGroupVolume(TEXT("BGM"), m_fVolume[1]);
 		else
 			CSound_Manager::GetInstance()->Set_ChannelGroupVolume(TEXT("BGM"), 0.f);
+
+		if (KEY_AWAY(KEY::LBTN))
+			m_bClickSound[1] = false;
 	}
 	else if (m_bHolding[2])
 	{
@@ -1111,6 +1117,9 @@ void CUI_Option_Sound::Update_DragBar()
 			CSound_Manager::GetInstance()->Set_ChannelGroupVolume(TEXT("UI"), m_fVolume[2]);
 		else
 			CSound_Manager::GetInstance()->Set_ChannelGroupVolume(TEXT("UI"), 0.f);
+
+		if (KEY_AWAY(KEY::LBTN))
+			m_bClickSound[2] = false;
 	}
 	else if (m_bHolding[3])
 	{
@@ -1128,6 +1137,9 @@ void CUI_Option_Sound::Update_DragBar()
 			CSound_Manager::GetInstance()->Set_ChannelGroupVolume(TEXT("Ambient"), m_fVolume[3]);
 		else
 			CSound_Manager::GetInstance()->Set_ChannelGroupVolume(TEXT("Ambient"), 0.f);
+
+		if (KEY_AWAY(KEY::LBTN))
+			m_bClickSound[3] = false;
 	}
 	else if (m_bHolding[4])
 	{
@@ -1145,6 +1157,9 @@ void CUI_Option_Sound::Update_DragBar()
 			CSound_Manager::GetInstance()->Set_ChannelGroupVolume(TEXT("Effect"), m_fVolume[4]);
 		else
 			CSound_Manager::GetInstance()->Set_ChannelGroupVolume(TEXT("Effect"), 0.f);
+
+		if (KEY_AWAY(KEY::LBTN))
+			m_bClickSound[4] = false;
 	}
 
 	if (KEY_AWAY(KEY::LBTN))
@@ -1152,7 +1167,6 @@ void CUI_Option_Sound::Update_DragBar()
 		for (size_t i = 0; i < 5; i++)
 		{
 			m_bHolding[i] = false;
-			m_bClickSound[i] = false;
 		}
 	}
 }
@@ -1286,7 +1300,7 @@ void CUI_Option_Sound::Is_Picking_DragBar_EFFECT(POINT pt)
 		if (KEY_HOLD(KEY::LBTN))
 		{
 			m_bHolding[4] = true;
-			if (!m_bClickSound[0])
+			if (!m_bClickSound[4])
 			{
 				m_bClickSound[4] = true;
 				CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"ClickedSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));

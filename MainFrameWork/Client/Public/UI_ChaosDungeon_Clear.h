@@ -70,7 +70,7 @@ private:
     _bool   m_bDecreaseLine = { false };
     _bool   m_bShowFont = { false };
     _bool   m_bPickedCheckButton = { false };
-       
+
     _float  m_fSizeX_Line_L = { 0.f };
     _float  m_fX_Line_L = { 0.f };
     _float  m_fX_Line_L_Decrease = { 0.f };
@@ -85,7 +85,7 @@ private:
     RECT    m_rcClearCheckButton = {};
 
     _bool  m_bStart = { false };
-    
+    _bool   m_bSound = { false };
 public:
     static  CUI_ChaosDungeon_Clear* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
     virtual CGameObject* Clone(void* pArg) override;

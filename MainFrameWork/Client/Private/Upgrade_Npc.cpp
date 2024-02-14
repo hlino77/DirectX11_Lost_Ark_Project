@@ -87,6 +87,19 @@ void CUpgrade_Npc::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 
 		CSound_Manager::GetInstance()->Pause_Channel(L"CastleBern");
 		CSound_Manager::GetInstance()->PlayBGM_AddChannel(L"RomanticWeapon", L"BGM", L"RomanticWeapon.wav", 0.5f);
+
+		switch (CGameInstance::GetInstance()->Random_Int(0, 2))
+		{
+		case 0:
+			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"ItemUpgrade_Entrance0.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
+			break;
+		case 1:
+			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"ItemUpgrade_Entrance1.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
+			break;
+		case 2:
+			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"ItemUpgrade_Entrance2.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
+			break;
+		}
 	}
 }
 

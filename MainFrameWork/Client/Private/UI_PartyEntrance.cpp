@@ -13,6 +13,7 @@
 #include "ServerSessionManager.h"
 #include "UI_Manager.h"
 #include "Party.h"
+#include "Sound_Manager.h"
 
 CUI_PartyEntrance::CUI_PartyEntrance(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CUI(pDevice, pContext)
@@ -306,31 +307,48 @@ void CUI_PartyEntrance::Update_Buttons(POINT pt)
 {
 	if (true == Is_Picking_AcceptButton(pt))
 	{
+		if (!m_bSound[0])
+		{
+			m_bSound[0] = true;
+			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"Is_PickingSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
+		}
 		if (KEY_TAP(KEY::LBTN))
 		{
 			m_bClicked_Entrance = true;
 			m_IsClicked = true;
 			m_iTextureIndex_AcceptButton = 2;
-
+			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"ClickedSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
 			Send_Join_to_Party();
 		}
 		m_iTextureIndex_AcceptButton = 1;
 	}
 	else
+	{
 		m_iTextureIndex_AcceptButton = 0;
-
+		m_bSound[0] = false;
+	}
 	if (true == Is_Picking_RefuseButton(pt))
 	{
+		if (!m_bSound[1])
+		{
+			m_bSound[1] = true;
+			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"Is_PickingSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
+		}
 		if (KEY_TAP(KEY::LBTN))
 		{
 			m_bClicked_Entrance = false;
 			m_IsClicked = true;
 			m_iTextureIndex_RefuseButton = 2;
+			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"ClickedSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
+			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"Party_Reffuse.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
 		}
 		m_iTextureIndex_RefuseButton = 1;
 	}
 	else
+	{
 		m_iTextureIndex_RefuseButton = 0;
+		m_bSound[1] = false;
+	}
 }
 
 _bool CUI_PartyEntrance::Is_Picking_AcceptButton(POINT pt)

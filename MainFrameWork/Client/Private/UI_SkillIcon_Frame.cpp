@@ -469,6 +469,9 @@ HRESULT CUI_SkillIcon_Frame::Bind_ShaderResources_Skill()
     if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
         return E_FAIL;
 
+    if((TEXT("Dead_Start") == CServerSessionManager::GetInstance()->Get_Player()->Get_State()) || (TEXT("Dead_End") == CServerSessionManager::GetInstance()->Get_Player()->Get_State()))
+        m_bSilence = true;
+
     if (FAILED(m_pShaderCom->Bind_RawValue("g_Silence", &m_bSilence, sizeof(_bool))))
         return E_FAIL;
 

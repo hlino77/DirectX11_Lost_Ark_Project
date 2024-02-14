@@ -7,6 +7,7 @@
 #include "Player.h"
 #include "Item.h"
 #include "Chat_Manager.h"
+#include "Sound_Manager.h"
 
 CUI_Inventory::CUI_Inventory(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CUI(pDevice, pContext)
@@ -53,8 +54,13 @@ void CUI_Inventory::Tick(_float fTimeDelta)
 	{
 		Update_Used_Item();
 		m_bActiveKey = !m_bActiveKey;
-		if(!m_bActiveKey)
+		if (!m_bActiveKey)
+		{
 			static_cast<CUI_InventoryWnd*>(m_pInventoryWnd)->ReSet_Player_Control(m_pOwner);
+			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"Inventory_Off.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
+		}
+		else
+			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"Inventory_On.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
 		for (auto& iter : m_vecUIParts)
 		{
 			iter->Set_Render(m_bActiveKey);

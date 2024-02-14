@@ -120,6 +120,7 @@ void CUI_PartyUI::Print_Text()
 
 void CUI_PartyUI::Set_Active_EntranceParty(CPlayer* pPartyLeader, CPlayer* pPlayer)
 {
+	CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"Party_Alarm.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
 	m_pUI_PartyEntrance->Set_Active_EntranceParty(pPartyLeader, pPlayer);
 }
 

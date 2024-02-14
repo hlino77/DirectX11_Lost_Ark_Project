@@ -57,6 +57,8 @@ private:
     _int    m_iSlotIndexY = { -1 };
     _uint   m_iSlotIndex = { 0 };
     _float  m_fPickedAlpha = { 0.f };
+
+    _bool   m_bSound = { false };
 public:
     static  CUI_Inventory_ItemSlot* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
     virtual CGameObject* Clone(void* pArg) override;

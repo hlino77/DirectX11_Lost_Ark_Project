@@ -6,6 +6,7 @@
 #include "ColliderSphere.h"
 #include "ColliderOBB.h"
 #include "CollisionManager.h"
+#include "Sound_Manager.h"
 
 CDeco_Npc::CDeco_Npc(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CNpc(pDevice, pContext)
@@ -76,6 +77,12 @@ void CDeco_Npc::Tick(_float fTimeDelta)
 				m_iCurrTalk = 0;
 				m_fTalkStartAcc = 0.f;
 				m_IsTalkStart = false;
+
+				for (size_t i = 0; i < m_NpcDesc.vecTalkSound.size(); i++)
+				{
+					CSound_Manager::GetInstance()->Stop_Channel_Sound(m_NpcDesc.vecTalkSound[i]);
+				}
+				
 			}
 		}
 	}
@@ -401,6 +408,8 @@ void CDeco_Npc::Talk(const _float& fTimeDelta)
 	}
 		
 	Show_SpeechBuble(m_NpcDesc.vecTalks[m_iCurrTalk]);
+	if(0 != m_NpcDesc.vecTalkSound.size() && LEVELID::LEVEL_TOOL_NPC != m_NpcDesc.iCurLevel)
+		CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_NpcDesc.vecTalkSound[m_iCurrTalk], TEXT("Ambient"), m_NpcDesc.vecTalkSound[m_iCurrTalk], 0.5f);
 
 	m_iCurrTalk++;
 	if (m_NpcDesc.vecTalks.size() <= m_iCurrTalk)

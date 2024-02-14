@@ -11,6 +11,7 @@
 #include "UI_TextBox.h"
 #include "TextBox.h"
 #include "UI_Manager.h"
+#include "Sound_Manager.h"
 
 IMPLEMENT_SINGLETON(CChat_Manager);
 
@@ -66,6 +67,7 @@ void CChat_Manager::ClearCombineText()
 void CChat_Manager::Add_Text(const wstring& szText)
 {
     m_szInputText += szText;
+    CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"KeyBoard_Sound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(L"UI"));
     ResetBlink();
 }
 
@@ -111,8 +113,6 @@ LRESULT CChat_Manager::Chat_WndProcHandler(HWND hwnd, UINT uMsg, WPARAM wParam, 
         ClearCombineText();
 
     m_iLanguage = iLanguage;
-
-
     switch (uMsg)
     {
     case WM_CHAR:
@@ -363,6 +363,7 @@ void CChat_Manager::Add_Chat(_uint iPlayerID, _uint iLevel, wstring& szChat)
     }
 
     Update_ChatWindow();
+    CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"Add_Chat.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(L"UI"));
 
     Safe_Release(pGameInstance);
 }
