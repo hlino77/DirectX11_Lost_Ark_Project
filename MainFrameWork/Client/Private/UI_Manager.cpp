@@ -25,6 +25,7 @@
 #include "UI_DeadScene.h";
 #include "UI_Option.h"
 #include "Renderer.h"
+#include "Sound_Manager.h"
 
 IMPLEMENT_SINGLETON(CUI_Manager)
 
@@ -362,7 +363,9 @@ void CUI_Manager::Clear_ChaosGate()
 	for (auto iter : m_pUIList[(_uint)LEVEL_CHAOS_3])
 	{
 		if (TEXT("ChaosDungeon_Clear") == iter->Get_UITag())
+		{
 			static_cast<CUI_ChaosDungeon_Clear*>(iter)->Set_ClearUIStart(true);
+		}
 	}
 }
 
@@ -371,7 +374,9 @@ void CUI_Manager::Clear_Valtan()
 	for (auto iter : m_pUIList[(_uint)LEVEL_VALTANMAIN])
 	{
 		if (TEXT("ChaosDungeon_Clear") == iter->Get_UITag())
+		{
 			static_cast<CUI_ChaosDungeon_Clear*>(iter)->Set_ClearUIStart(true);
+		}
 	}
 }
 

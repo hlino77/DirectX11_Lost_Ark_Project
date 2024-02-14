@@ -835,6 +835,11 @@ void CUI_Option_Sound::Is_Picking_CheckButton_Master(POINT pt)
 
 	if (PtInRect(&m_rcCheckBox[0], pt))
 	{
+		if (!m_bCheckSound[0])
+		{
+			m_bCheckSound[0] = true;
+			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"Is_PickingSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
+		}
 
 		if (2 != m_iTextureIndex[0])
 			m_iTextureIndex[0] = 1;
@@ -847,6 +852,7 @@ void CUI_Option_Sound::Is_Picking_CheckButton_Master(POINT pt)
 				CSound_Manager::GetInstance()->Set_ChannelGroupVolume(TEXT("UI"), 0.f);
 				CSound_Manager::GetInstance()->Set_ChannelGroupVolume(TEXT("Ambient"), 0.f);
 				CSound_Manager::GetInstance()->Set_ChannelGroupVolume(TEXT("Effect"), 0.f);
+				CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"ClickedSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
 			}
 			else
 			{
@@ -866,6 +872,7 @@ void CUI_Option_Sound::Is_Picking_CheckButton_Master(POINT pt)
 					CSound_Manager::GetInstance()->Set_ChannelGroupVolume(TEXT("Effect"), m_fVolume[4]);
 				else
 					CSound_Manager::GetInstance()->Set_ChannelGroupVolume(TEXT("Effect"), 0.f);
+				CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"ClickedSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
 			}
 		}
 	}
@@ -873,6 +880,7 @@ void CUI_Option_Sound::Is_Picking_CheckButton_Master(POINT pt)
 	{
 		if (2 != m_iTextureIndex[0])
 			m_iTextureIndex[0] = 0;
+		m_bCheckSound[0] = false;
 	}
 }
 
@@ -885,11 +893,16 @@ void CUI_Option_Sound::Is_Picking_CheckButton_BGM(POINT pt)
 
 	if (PtInRect(&m_rcCheckBox[1], pt))
 	{
-
+		if (!m_bCheckSound[1])
+		{
+			m_bCheckSound[1] = true;
+			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"Is_PickingSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
+		}
 		if (2 != m_iTextureIndex[1])
 			m_iTextureIndex[1] = 1;
 		if (KEY_TAP(KEY::LBTN))
 		{
+			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"ClickedSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
 			m_bCheckVolume[1] = !m_bCheckVolume[1];
 			if (false == m_bCheckVolume[1])
 			{
@@ -903,6 +916,7 @@ void CUI_Option_Sound::Is_Picking_CheckButton_BGM(POINT pt)
 	{
 		if (2 != m_iTextureIndex[1])
 			m_iTextureIndex[1] = 0;
+		m_bCheckSound[1] = false;
 	}
 }
 
@@ -915,7 +929,11 @@ void CUI_Option_Sound::Is_Picking_CheckButton_UI(POINT pt)
 
 	if (PtInRect(&m_rcCheckBox[2], pt))
 	{
-
+		if (!m_bCheckSound[2])
+		{
+			m_bCheckSound[2] = true;
+			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"Is_PickingSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
+		}
 		if (2 != m_iTextureIndex[2])
 			m_iTextureIndex[2] = 1;
 		if (KEY_TAP(KEY::LBTN))
@@ -923,16 +941,21 @@ void CUI_Option_Sound::Is_Picking_CheckButton_UI(POINT pt)
 			m_bCheckVolume[2] = !m_bCheckVolume[2];
 			if (false == m_bCheckVolume[2])
 			{
+				CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"ClickedSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
 				CSound_Manager::GetInstance()->Set_ChannelGroupVolume(TEXT("UI"), 0.f);
 			}
 			else
+			{
 				CSound_Manager::GetInstance()->Set_ChannelGroupVolume(TEXT("UI"), m_fVolume[2]);
+				CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"ClickedSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
+			}
 		}
 	}
 	else
 	{
 		if (2 != m_iTextureIndex[2])
 			m_iTextureIndex[2] = 0;
+		m_bCheckSound[2] = false;
 	}
 }
 
@@ -945,11 +968,16 @@ void CUI_Option_Sound::Is_Picking_CheckButton_BACKGROUND(POINT pt)
 
 	if (PtInRect(&m_rcCheckBox[3], pt))
 	{
-
+		if (!m_bCheckSound[3])
+		{
+			m_bCheckSound[3] = true;
+			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"Is_PickingSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
+		}
 		if (2 != m_iTextureIndex[3])
 			m_iTextureIndex[3] = 1;
 		if (KEY_TAP(KEY::LBTN))
 		{
+			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"ClickedSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
 			m_bCheckVolume[3] = !m_bCheckVolume[3];
 			if (false == m_bCheckVolume[3])
 			{
@@ -963,6 +991,7 @@ void CUI_Option_Sound::Is_Picking_CheckButton_BACKGROUND(POINT pt)
 	{
 		if (2 != m_iTextureIndex[3])
 			m_iTextureIndex[3] = 0;
+		m_bCheckSound[3] = false;
 	}
 }
 
@@ -975,10 +1004,16 @@ void CUI_Option_Sound::Is_Picking_CheckButton_EFFECT(POINT pt)
 
 	if (PtInRect(&m_rcCheckBox[4], pt))
 	{
+		if (!m_bCheckSound[4])
+		{
+			m_bCheckSound[4] = true;
+			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"Is_PickingSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
+		}
 		if (2 != m_iTextureIndex[4])
 			m_iTextureIndex[4] = 1;
 		if (KEY_TAP(KEY::LBTN))
 		{
+			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"ClickedSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
 			m_bCheckVolume[4] = !m_bCheckVolume[4];
 			if (false == m_bCheckVolume[4])
 			{
@@ -992,6 +1027,7 @@ void CUI_Option_Sound::Is_Picking_CheckButton_EFFECT(POINT pt)
 	{
 		if (2 != m_iTextureIndex[4])
 			m_iTextureIndex[4] = 0;
+		m_bCheckSound[4] = false;
 	}
 }
 
@@ -1116,6 +1152,7 @@ void CUI_Option_Sound::Update_DragBar()
 		for (size_t i = 0; i < 5; i++)
 		{
 			m_bHolding[i] = false;
+			m_bClickSound[i] = false;
 		}
 	}
 }
@@ -1149,55 +1186,115 @@ void CUI_Option_Sound::Is_Picking_DragBar_Master(POINT pt)
 {
 	if (PtInRect(&m_rcDragBar[0], pt))
 	{
+		if (!m_bSound[0])
+		{
+			m_bSound[0] = true;
+			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"Is_PickingSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
+		}
 		if (KEY_HOLD(KEY::LBTN))
 		{
 			m_bHolding[0] = true;
+			if (!m_bClickSound[0])
+			{
+				m_bClickSound[0] = true;
+				CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"ClickedSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
+			}
 		}
 	}
+	else
+		m_bSound[0] = false;
 }
 
 void CUI_Option_Sound::Is_Picking_DragBar_BGM(POINT pt)
 {
 	if (PtInRect(&m_rcDragBar[1], pt))
 	{
+		if (!m_bSound[1])
+		{
+			m_bSound[1] = true;
+			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"Is_PickingSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
+		}
 		if (KEY_HOLD(KEY::LBTN))
 		{
 			m_bHolding[1] = true;
+			if (!m_bClickSound[1])
+			{
+				m_bClickSound[1] = true;
+				CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"ClickedSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
+			}
 		}
 	}
+	else
+		m_bSound[1] = false;
 }
 
 void CUI_Option_Sound::Is_Picking_DragBar_UI(POINT pt)
 {
 	if (PtInRect(&m_rcDragBar[2], pt))
 	{
+		if (!m_bSound[2])
+		{
+			m_bSound[2] = true;
+			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"Is_PickingSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
+		}
 		if (KEY_HOLD(KEY::LBTN))
 		{
 			m_bHolding[2] = true;
+			if (!m_bClickSound[2])
+			{
+				m_bClickSound[2] = true;
+				CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"ClickedSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
+			}
 		}
 	}
+	else
+		m_bSound[2] = false;
 }
 
 void CUI_Option_Sound::Is_Picking_DragBar_BACKGROUND(POINT pt)
 {
 	if (PtInRect(&m_rcDragBar[3], pt))
 	{
+		if (!m_bSound[3])
+		{
+			m_bSound[3] = true;
+			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"Is_PickingSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
+		}
 		if (KEY_HOLD(KEY::LBTN))
 		{
 			m_bHolding[3] = true;
+			if (!m_bClickSound[3])
+			{
+				m_bClickSound[3] = true;
+				CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"ClickedSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
+			}
 		}
 	}
+	else
+		m_bSound[3] = false;
 }
 
 void CUI_Option_Sound::Is_Picking_DragBar_EFFECT(POINT pt)
 {
 	if (PtInRect(&m_rcDragBar[4], pt))
 	{
+		if (!m_bSound[4])
+		{
+			m_bSound[4] = true;
+			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"Is_PickingSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
+		}
 		if (KEY_HOLD(KEY::LBTN))
 		{
 			m_bHolding[4] = true;
+			if (!m_bClickSound[0])
+			{
+				m_bClickSound[4] = true;
+				CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"ClickedSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
+			}
 		}
 	}
+	else
+		m_bSound[4] = false;
 }
 
 void CUI_Option_Sound::MovingWnd(CUI* pUI, _float fMoveX)

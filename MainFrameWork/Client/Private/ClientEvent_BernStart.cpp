@@ -38,7 +38,9 @@ void CClientEvent_BernStart::Enter_Event()
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
-	
+
+	CSound_Manager::GetInstance()->PlayBGM_AddChannel(L"CastleBern", L"BGM", L"CastleBern.wav", 0.5f);
+
 	CPlayer* pPlayer = CServerSessionManager::GetInstance()->Get_Player();
 
 	CCamera_Player* pCamera = pPlayer->Get_Camera();

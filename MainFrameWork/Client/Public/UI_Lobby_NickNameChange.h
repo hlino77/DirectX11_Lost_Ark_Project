@@ -65,7 +65,7 @@ private:
     CTextBox*   m_pInputWnd = { nullptr };
     wstring     m_strNickName;
     wstring     m_strFont;
-
+    _bool   m_bSound = { false };
 public:
     static  CUI_Lobby_NickNameChange* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
     virtual CGameObject* Clone(void* pArg) override;

@@ -795,7 +795,6 @@ void CUI_NPC_ItemUpgrade::Upadate_GrowthButton(POINT pt, _float fTimeDelta)
             m_fItemGrowthCurrGauge = m_pCurrUpgradeItem->Get_UpgradeGauge();
         }
     }
-
     if ((m_bMaxGauge) || (m_fItemGrowthCurrGauge == m_fItemGrowthMaxGauge))
     {
         m_iGrowthButton_TextureIndex = 2;
@@ -805,14 +804,17 @@ void CUI_NPC_ItemUpgrade::Upadate_GrowthButton(POINT pt, _float fTimeDelta)
     Is_Picking_GrowthButton(pt, fTimeDelta);
     if ((KEY_TAP(KEY::LBTN)&&(m_bGrowthButton)))
     {
+        if (m_bGrowthOn)
+            return;
         m_bGrowthOn = true;
         m_bMaxGaugeEffect = true;
+        CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"Item_GrowthUp.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
     }
 }
 
 void CUI_NPC_ItemUpgrade::Update_UpgradeButton(POINT pt, _float fTimeDelta)
 {
-    if ((!m_bMaxGauge) || (m_fItemGrowthMaxGauge > m_fItemGrowthCurrGauge ))
+    if ((!m_bMaxGauge) || (m_fItemGrowthMaxGauge > m_fItemGrowthCurrGauge))
     {
         m_iUpgradeButton_TextureIndex = 2;
         return;
@@ -825,31 +827,35 @@ void CUI_NPC_ItemUpgrade::Update_UpgradeButton(POINT pt, _float fTimeDelta)
             m_pCurrUpgradeItem->Set_UpgradeGauge(0.f);
             Print_CurrGauge();
         }
-        m_bResultWaiting = true;
-        _uint SuccessPercent = 0;
-        SuccessPercent = CGameInstance::GetInstance()->Random_Int(0, 100);
-        if (50 < SuccessPercent)
+        if (!m_bResultWaiting)
         {
-            CPlayer* pPlayer = CServerSessionManager::GetInstance()->Get_Player();
+            CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"Item_Upgrade_Wating.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
+            m_bResultWaiting = true;
+            _uint SuccessPercent = 0;
+            SuccessPercent = CGameInstance::GetInstance()->Random_Int(0, 100);
+            if (50 < SuccessPercent)
+            {
+                CPlayer* pPlayer = CServerSessionManager::GetInstance()->Get_Player();
 
-            m_pCurrUpgradeItem->Disuse_Item(pPlayer, true);
-            m_pCurrUpgradeItem->Upgrade_Item();
-            m_pCurrUpgradeItem->Use_Item(pPlayer);
+                m_pCurrUpgradeItem->Disuse_Item(pPlayer, true);
+                m_pCurrUpgradeItem->Upgrade_Item();
+                m_pCurrUpgradeItem->Use_Item(pPlayer);
 
-            m_pCurrUpgradeItem->Growth_UpgradeLevel();
-            Print_FaceItemGradeLevelWnd();
-            Print_HelmetItemGradeLevelWnd();
-            Print_ShoulderItemGradeLevelWnd();
-            Print_BodyItemGradeLevelWnd();
-            Print_ArmItemGradeLevelWnd();
-            Print_LegItemGradeLevelWnd();
-            Print_WeaponItemGradeLevelWnd();
-            Print_CurrGauge();
-            m_bResultSuccess = true;
-        }
-        else
-        {
-            m_bResultSuccess = false;
+                m_pCurrUpgradeItem->Growth_UpgradeLevel();
+                Print_FaceItemGradeLevelWnd();
+                Print_HelmetItemGradeLevelWnd();
+                Print_ShoulderItemGradeLevelWnd();
+                Print_BodyItemGradeLevelWnd();
+                Print_ArmItemGradeLevelWnd();
+                Print_LegItemGradeLevelWnd();
+                Print_WeaponItemGradeLevelWnd();
+                Print_CurrGauge();
+                m_bResultSuccess = true;
+            }
+            else
+            {
+                m_bResultSuccess = false;
+            }
         }
     }
 
@@ -867,7 +873,6 @@ void CUI_NPC_ItemUpgrade::Update_UpgradeButton(POINT pt, _float fTimeDelta)
         else
             m_bDecreaseUpgradeEffect = false;
     }
-
 
 }
 
@@ -894,6 +899,7 @@ void CUI_NPC_ItemUpgrade::Update_ResultCheckButton(POINT pt)
     Is_Picking_UpgradeButton(pt);
     if ((m_bUpgradeButton) && (KEY_TAP(KEY::LBTN)))
     {
+        CSound_Manager::GetInstance()->Resume_Channel(L"RomanticWeapon");
         m_bResultWnd = false;
         Print_ResultWnd();
     }
@@ -996,7 +1002,8 @@ void CUI_NPC_ItemUpgrade::Is_Picking_FaceItem(POINT pt)
         return;
     if (PtInRect(&m_rcFaceItem, pt))
     {
-        m_vColorFaceItem = Vec4(2.f, 2.f, 2.f, 1.f);
+        if(m_iCurrItem != SELECTED_FACE)
+            m_vColorFaceItem = Vec4(2.f, 2.f, 2.f, 1.f);
         if (KEY_TAP(KEY::LBTN))
         {
             m_iCurrItem = SELECTED_FACE;
@@ -1021,7 +1028,8 @@ void CUI_NPC_ItemUpgrade::Is_Picking_HelemtItem(POINT pt)
         return;
     if (PtInRect(&m_rcHelemtItem, pt))
     {
-        m_vColorHelemtItem = Vec4(2.f, 2.f, 2.f, 1.f);
+        if (m_iCurrItem != SELECTED_HELMET)
+            m_vColorHelemtItem = Vec4(2.f, 2.f, 2.f, 1.f);
         if (KEY_TAP(KEY::LBTN))
         {
             m_iCurrItem = SELECTED_HELMET;
@@ -1046,7 +1054,8 @@ void CUI_NPC_ItemUpgrade::Is_Picking_ShoulderItem(POINT pt)
         return;
     if (PtInRect(&m_rcShoulderItem, pt))
     {
-        m_vColorShoulderItem = Vec4(2.f, 2.f, 2.f, 1.f);
+        if (m_iCurrItem != SELECTED_SHOULDER)
+            m_vColorShoulderItem = Vec4(2.f, 2.f, 2.f, 1.f);
         if (KEY_TAP(KEY::LBTN))
         {
             m_iCurrItem = SELECTED_SHOULDER;
@@ -1071,7 +1080,8 @@ void CUI_NPC_ItemUpgrade::Is_Picking_BodyItem(POINT pt)
         return;
     if (PtInRect(&m_rcBodyItem, pt))
     {
-        m_vColorBodyItem = Vec4(2.f, 2.f, 2.f, 1.f);
+        if (m_iCurrItem != SELECTED_BODY)
+            m_vColorBodyItem = Vec4(2.f, 2.f, 2.f, 1.f);
         if (KEY_TAP(KEY::LBTN))
         {
             m_iCurrItem = SELECTED_BODY;
@@ -1096,7 +1106,8 @@ void CUI_NPC_ItemUpgrade::Is_Picking_ArmItem(POINT pt)
         return;
     if (PtInRect(&m_rcArmItem, pt))
     {
-        m_vColorArmItem = Vec4(2.f, 2.f, 2.f, 1.f);
+        if (m_iCurrItem != SELECTED_ARM)
+            m_vColorArmItem = Vec4(2.f, 2.f, 2.f, 1.f);
         if (KEY_TAP(KEY::LBTN))
         {
             m_iCurrItem = SELECTED_ARM;
@@ -1121,7 +1132,8 @@ void CUI_NPC_ItemUpgrade::Is_Picking_LegItem(POINT pt)
         return;
     if (PtInRect(&m_rcLegItem, pt))
     {
-        m_vColorLegItem = Vec4(2.f, 2.f, 2.f, 1.f);
+        if (m_iCurrItem != SELECTED_LEG)
+            m_vColorLegItem = Vec4(2.f, 2.f, 2.f, 1.f);
         if (KEY_TAP(KEY::LBTN))
         {
             m_iCurrItem = SELECTED_LEG;
@@ -1147,7 +1159,8 @@ void CUI_NPC_ItemUpgrade::Is_Picking_WeaponItem(POINT pt)
         return;
     if (PtInRect(&m_rcWeaponItem, pt))
     {
-        m_vColorWeaponItem = Vec4(2.f, 2.f, 2.f, 1.f);
+        if (m_iCurrItem != SELECTED_WEAPON)
+            m_vColorWeaponItem = Vec4(2.f, 2.f, 2.f, 1.f);
         if (KEY_TAP(KEY::LBTN))
         {
             m_iCurrItem = SELECTED_WEAPON;
@@ -1167,7 +1180,7 @@ void CUI_NPC_ItemUpgrade::Update_GrowthGauge(_float fTimeDelta)
     {
         if (m_fItemGrowthMaxGauge > m_pCurrUpgradeItem->Get_UpgradeGauge())
         {
-            m_pCurrUpgradeItem->Add_UpgradeGauge(100.f * fTimeDelta);
+            m_pCurrUpgradeItem->Add_UpgradeGauge(60.f * fTimeDelta);
             m_fItemGrowthCurrGauge = m_pCurrUpgradeItem->Get_UpgradeGauge();
             Print_CurrGauge();
         }
@@ -1371,7 +1384,7 @@ void CUI_NPC_ItemUpgrade::Update_ResultWaiting(_float fTimeDelta)
     if (77.f > m_fFrame_ResultWaiting)
         m_fFrame_ResultWaiting += 30.f * fTimeDelta;
 
-    if (77.f <= m_fFrame_ResultWaiting)
+    if (77.0f < m_fFrame_ResultWaiting)
     {
         m_bResult = true;
 
@@ -1392,6 +1405,11 @@ void CUI_NPC_ItemUpgrade::Update_ResultWaiting(_float fTimeDelta)
         m_pCurrUpgradeItem->Set_UpgradeGauge(0.f);
         Print_CurrItemNameWnd();
         Print_CurrGauge();
+        
+        if (true == m_bResultSuccess)
+            CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"Item_Upgrade_Succese.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
+        else if (false == m_bResultSuccess)
+            CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"Item_Upgrade_Failed.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
     }
 }
 
@@ -1974,6 +1992,7 @@ void CUI_NPC_ItemUpgrade::Print_ResultWnd()
                 strGradeLevel = TEXT("");
                 strUpgradeCheck = TEXT("재련 실패");
                 vResultColor = Vec4(0.69f, 0.28f, 0.27f, 1.f);
+                CSound_Manager::GetInstance()->Pause_Channel(L"RomanticWeapon");
             }
         }
         else

@@ -109,12 +109,13 @@ HRESULT CLevel_Bern::Initialize()
 
 	CChat_Manager::GetInstance()->Set_Active(true);
 
-	CSound_Manager::GetInstance()->PlayBGM_AddChannel(L"CastleBern", L"BGM", L"CastleBern.wav", 0.5f);
-
 	if (m_bFirstEnter)
 	{
 		//CEventMgr::GetInstance()->Start_Event((_uint)EVENT::BERNSTART);
 	}
+	else
+		CSound_Manager::GetInstance()->PlayBGM_AddChannel(L"CastleBern", L"BGM", L"CastleBern.wav", 0.5f);
+
 	CUI_Manager::GetInstance()->Set_LevelCustomOption();
 	return S_OK;
 }

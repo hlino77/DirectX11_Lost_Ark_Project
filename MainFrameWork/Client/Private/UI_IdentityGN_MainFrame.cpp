@@ -5,6 +5,7 @@
 #include "Player_Controller_GN.h"
 #include "Player_Gunslinger.h"
 #include "ServerSessionManager.h"
+#include "Sound_Manager.h"
 
 CUI_IdentityGN_MainFrame::CUI_IdentityGN_MainFrame(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CUI(pDevice, pContext)
@@ -94,6 +95,8 @@ void CUI_IdentityGN_MainFrame::Tick(_float fTimeDelta)
 				m_iPreStance = m_iCurrStance;
 				m_bChangeIcon = false;
 				m_bTapKey = false;
+
+				CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"Identity_GN_Change1.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
 			}
 		}
 		else if ((TEXT("Identity_GN_Back") == pPlayer->Get_State()) || ((TEXT("Identity_GN_Run_Back") == pPlayer->Get_State())))
@@ -103,6 +106,8 @@ void CUI_IdentityGN_MainFrame::Tick(_float fTimeDelta)
 				m_iPreStance = m_iCurrStance;
 				m_bChangeIcon = false;
 				m_bTapKey = true;
+
+				CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"Identity_GN_Change0.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
 			}
 		}
 	}

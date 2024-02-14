@@ -15,6 +15,7 @@
 #include "Controller_SP.h"
 #include "Player_Doaga.h"
 #include "TextBox.h"
+#include "Sound_Manager.h"
 
 CUI_SkillIcon_Frame::CUI_SkillIcon_Frame(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     :CUI(pDevice, pContext)
@@ -82,6 +83,7 @@ HRESULT CUI_SkillIcon_Frame::Initialize_Percent()
 void CUI_SkillIcon_Frame::Tick(_float fTimeDelta)
 {
     __super::Tick(fTimeDelta);
+    Create_Rect();
     Picking_UI();
     Get_Player_BindingSkill();
 
@@ -97,6 +99,7 @@ void CUI_SkillIcon_Frame::LateTick(_float fTimeDelta)
             m_fAlphaShine -= 2.f* fTimeDelta;
         else if (0 >= m_fAlphaShine)
             m_fAlphaShine = 0.f;
+        m_bSound = false;
     }
     else
     {
@@ -104,6 +107,11 @@ void CUI_SkillIcon_Frame::LateTick(_float fTimeDelta)
             m_fAlphaShine += 2.5f * fTimeDelta;
         else if (0.8f <= m_fAlphaShine)
             m_fAlphaShine = 0.8f;
+        if (!m_bSound)
+        {
+            m_bSound = true;
+            CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"Is_PickingSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
+        }
     }
 
     if (m_fCoolMaxTime == m_fResultCool)

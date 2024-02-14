@@ -100,6 +100,7 @@ private:
 
     _uint   m_iOptionMode = { 0 };
 
+    _bool   m_bSound[5] = { false, false, false, false, false };
 public:
     static  CUI_OptionWnd* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
     virtual CGameObject* Clone(void* pArg) override;

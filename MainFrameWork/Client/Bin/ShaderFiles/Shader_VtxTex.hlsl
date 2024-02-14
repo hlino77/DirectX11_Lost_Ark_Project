@@ -573,7 +573,7 @@ technique11 DefaultTechnique
 {
 	pass DefaultPass
 	{
-		SetRasterizerState(RS_Effect);
+		SetRasterizerState(RS_Default);
 		SetDepthStencilState(DSS_Default, 0);
 		SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
 
@@ -595,7 +595,7 @@ technique11 DefaultTechnique
 
 	pass ColorTex
 	{
-		SetRasterizerState(RS_Effect);
+		SetRasterizerState(RS_Default);
 		SetDepthStencilState(DSS_Default, 0);
 		SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
 
@@ -606,7 +606,7 @@ technique11 DefaultTechnique
 	
 	pass Masked
 	{
-		SetRasterizerState(RS_Effect);
+		SetRasterizerState(RS_Default);
 		SetDepthStencilState(DSS_Default, 0);
 		SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
 
@@ -618,7 +618,7 @@ technique11 DefaultTechnique
 
 	pass SkillPass
 	{
-		SetRasterizerState(RS_Effect);
+		SetRasterizerState(RS_Default);
 		SetDepthStencilState(DSS_Default, 0);
 		SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
 
@@ -630,7 +630,7 @@ technique11 DefaultTechnique
 
 	pass TextBoxPass
 	{
-		SetRasterizerState(RS_Effect);
+		SetRasterizerState(RS_Default);
 		SetDepthStencilState(DSS_Default, 0);
 		SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
 
@@ -642,7 +642,7 @@ technique11 DefaultTechnique
 
 	pass PixColorPass
 	{
-		SetRasterizerState(RS_Effect);
+		SetRasterizerState(RS_Default);
 		SetDepthStencilState(DSS_Default, 0);
 		SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
 
@@ -653,7 +653,7 @@ technique11 DefaultTechnique
 
 	pass PixTexturePassX
 	{
-		SetRasterizerState(RS_Effect);
+		SetRasterizerState(RS_Default);
 		SetDepthStencilState(DSS_Default, 0);
 		SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
 
@@ -664,7 +664,7 @@ technique11 DefaultTechnique
 
 	pass CoolTimePass
 	{
-		SetRasterizerState(RS_Effect);
+		SetRasterizerState(RS_Default);
 		SetDepthStencilState(DSS_Default, 0);
 		SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
 
@@ -675,7 +675,7 @@ technique11 DefaultTechnique
 
 	pass PS_MAIN_WRGAUGE
 	{
-		SetRasterizerState(RS_Effect);
+		SetRasterizerState(RS_Default);
 		SetDepthStencilState(DSS_Default, 0);
 		SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
 
@@ -686,7 +686,7 @@ technique11 DefaultTechnique
 
 	pass PS_MAIN_WRSHINE//Num.10
 	{
-		SetRasterizerState(RS_Effect);
+		SetRasterizerState(RS_Default);
 		SetDepthStencilState(DSS_Default, 0);
 		SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
 
@@ -697,7 +697,7 @@ technique11 DefaultTechnique
 
 	pass PS_MAIN_WREYESHINE
 	{
-		SetRasterizerState(RS_Effect);
+		SetRasterizerState(RS_Default);
 		SetDepthStencilState(DSS_Default, 0);
 		SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
 
@@ -708,7 +708,7 @@ technique11 DefaultTechnique
 
 	pass PixTexturePassY
 	{
-		SetRasterizerState(RS_Effect);
+		SetRasterizerState(RS_Default);
 		SetDepthStencilState(DSS_Default, 0);
 		SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
 
@@ -719,7 +719,7 @@ technique11 DefaultTechnique
 
 	pass PixTextureSaturation
 	{
-		SetRasterizerState(RS_Effect);
+		SetRasterizerState(RS_Default);
 		SetDepthStencilState(DSS_Default, 0);
 		SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
 
@@ -730,7 +730,7 @@ technique11 DefaultTechnique
 
 	pass PixTextureRoughOrange//No.14
 	{
-		SetRasterizerState(RS_Effect);
+		SetRasterizerState(RS_Default);
 		SetDepthStencilState(DSS_Default, 0);
 		SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
 
@@ -741,7 +741,7 @@ technique11 DefaultTechnique
 
 	pass PixTextureDeleteBlack
 	{
-		SetRasterizerState(RS_Effect);
+		SetRasterizerState(RS_Default);
 		SetDepthStencilState(DSS_Default, 0);
 		SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
 
@@ -752,7 +752,7 @@ technique11 DefaultTechnique
 
 	pass PixTexturePassX_NoGamma
 	{
-		SetRasterizerState(RS_Effect);
+		SetRasterizerState(RS_Default);
 		SetDepthStencilState(DSS_Default, 0);
 		SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
 
@@ -763,7 +763,7 @@ technique11 DefaultTechnique
 	
 	pass PixTexturePassY_NoGamma
 	{
-		SetRasterizerState(RS_Effect);
+		SetRasterizerState(RS_Default);
 		SetDepthStencilState(DSS_Default, 0);
 		SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
 
@@ -774,7 +774,7 @@ technique11 DefaultTechnique
 
 	pass Masked_TextureColor//No.18
 	{
-		SetRasterizerState(RS_Effect);
+		SetRasterizerState(RS_Default);
 		SetDepthStencilState(DSS_Default, 0);
 		SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
 
@@ -785,7 +785,7 @@ technique11 DefaultTechnique
 
 	pass Skill_SilenceColor
 	{
-		SetRasterizerState(RS_Effect);
+		SetRasterizerState(RS_Default);
 		SetDepthStencilState(DSS_Default, 0);
 		SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
 
@@ -796,7 +796,7 @@ technique11 DefaultTechnique
 
 	pass TextureCoolTime_NoGamma //No.2O
 	{
-		SetRasterizerState(RS_Effect);
+		SetRasterizerState(RS_Default);
 		SetDepthStencilState(DSS_Default, 0);
 		SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
 
@@ -807,7 +807,7 @@ technique11 DefaultTechnique
 
 	pass Texture_DoagaGauge
 	{
-		SetRasterizerState(RS_Effect);
+		SetRasterizerState(RS_Default);
 		SetDepthStencilState(DSS_Default, 0);
 		SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
 
@@ -818,7 +818,7 @@ technique11 DefaultTechnique
 
 	pass Texture_FadeInOut
 	{
-		SetRasterizerState(RS_Effect);
+		SetRasterizerState(RS_Default);
 		SetDepthStencilState(DSS_None, 0);
 		SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
 
@@ -829,7 +829,7 @@ technique11 DefaultTechnique
 
     pass Esther_Scence
     {
-        SetRasterizerState(RS_Effect);
+        SetRasterizerState(RS_Default);
         SetDepthStencilState(DSS_Default, 0);
         SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
 

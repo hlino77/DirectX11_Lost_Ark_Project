@@ -49,6 +49,8 @@ private:
     wstring m_strFont;
     wstring m_strText = TEXT("게임시작");
 
+    _bool   m_bSound = { false };
+
 public:
     static  CUILobby_Entrance_to_ServrerButton* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
     virtual CGameObject* Clone(void* pArg) override;
