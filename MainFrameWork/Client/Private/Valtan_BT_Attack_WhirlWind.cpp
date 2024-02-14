@@ -48,6 +48,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_WhirlWind::OnUpdate(const _float& fTimeDel
 		Add_Sound(0, 0,L"Effect",  L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#88 (84610412)");
 		Add_Sound(1, 1,L"Effect",  L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#222 (193078861)");
 		Add_Sound(2, 2,L"Effect",  L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#223 (403055014)");
+		Add_Sound(2, 3, L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#113 (872104708)");
 	}
 	return __super::OnUpdate(fTimeDelta);
 }

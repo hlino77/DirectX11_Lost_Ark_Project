@@ -32,7 +32,7 @@ HRESULT CSkill_Valtan_SilenceSphere::Initialize(void* pArg)
 	m_SkillDesc.iAtk = 0;
 	m_SkillDesc.fForce = 13.f;
 	m_SkillDesc.eStatusEffect = STATUSEFFECT::SILENCE;
-	m_SkillDesc.fStatusEffectDuration = 5.f;
+	m_SkillDesc.fStatusEffectDuration = 15.f;
     return S_OK;
 }
 

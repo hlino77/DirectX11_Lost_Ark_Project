@@ -31,6 +31,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_TrippleCounterChop_2::OnUpdate(const _floa
 	if (m_iCurrAnimation == 2 && m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[2].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[2].iAnimIndex) >= 31 && m_bShoot)
 	{
 		m_bShoot = false;
+		Add_Sound(L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#42 (236377491)");
 		CServerSessionManager::GetInstance()->Get_Player()->Get_Camera()->Cam_Shake(0.5f, 50.0f, 0.1f, 10.0f);
 		CSkill::ModelDesc ModelDesc = {};
 		ModelDesc.iLayer = (_uint)LAYER_TYPE::LAYER_SKILL;
@@ -52,6 +53,11 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_TrippleCounterChop_2::OnUpdate(const _floa
 		}
 
 	}
+	Add_Sound(0, 0, L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#44 (813796387)");
+	Add_Sound(1, 1, L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#14 (1063317697)");
+	Add_Sound(1, 2, L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#15 (848266953)");
+	Add_Sound(2, 3, L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#229 (889718513)");
+
 	return __super::OnUpdate(fTimeDelta);
 }
 
