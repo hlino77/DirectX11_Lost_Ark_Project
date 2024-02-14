@@ -23,6 +23,11 @@ public:
 	void	Tick_State_NoneControl(_float fTimeDelta);
 
 private:
+	void	Effect_BrutalImpact_Loop_Aura_Impact2();
+	void	Effect_BrutalImpact_Loop_Impact3_NonControl();
+	void	Effect_BrutalImpact_Loop_Impact3_Control();
+
+private:
 	class CPlayer_Slayer* m_pPlayer = nullptr;
 	CUI_HoldingFrame* m_pHoldingUI = { nullptr };
 	std::function<void(CState_WR_BrutalImpact_Loop&, _float)> m_TickFunc;

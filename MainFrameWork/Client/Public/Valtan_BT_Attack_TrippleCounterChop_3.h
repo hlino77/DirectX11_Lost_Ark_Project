@@ -16,6 +16,10 @@ private:
     virtual void		OnStart()							override;
     virtual BT_RETURN	OnUpdate(const _float& fTimeDelta)	override;
     virtual void		OnEnd()								override;
+
+private:
+    void    Update_Effect();
+
 private:
     _bool m_bShoot = false;
 

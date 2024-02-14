@@ -51,6 +51,21 @@ void CState_WR_Identity::Exit_State()
 
 void CState_WR_Identity::Tick_State_Control(_float fTimeDelta)
 {
+	Effect_Rage_Control();
+
+	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iIdentity))
+		m_pPlayer->Set_State(TEXT("Idle"));
+}
+
+void CState_WR_Identity::Tick_State_NoneControl(_float fTimeDelta)
+{
+	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
+
+	Effect_Rage_NonControl();
+}
+
+void CState_WR_Identity::Effect_Rage_Control()
+{
 	if (!m_bEffect && 9 <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iIdentity))
 	{
 		m_bEffect = true;
@@ -72,14 +87,25 @@ void CState_WR_Identity::Tick_State_Control(_float fTimeDelta)
 
 		m_pPlayer->Add_Effect(L"Slayer_Rage_Aura", m_Effects[0]);
 	}
-
-	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iIdentity))
-		m_pPlayer->Set_State(TEXT("Idle"));
 }
 
-void CState_WR_Identity::Tick_State_NoneControl(_float fTimeDelta)
+void CState_WR_Identity::Effect_Rage_NonControl()
 {
-	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
+	if (!m_bEffect && 9 <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iIdentity))
+	{
+		m_bEffect = true;
+
+		Matrix& matPivot = m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
+
+		CEffect_Manager::EFFECTPIVOTDESC desc;
+		desc.pPivotMatrix = &matPivot;
+		EFFECT_START_OUTLIST(L"Slayer_Rage_Aura", &desc, m_Effects);
+
+		auto func = bind(&CTransform::Load_WorldMatrix, m_pPlayer->Get_TransformCom(), placeholders::_1);
+		m_pPlayer->Get_WR_Controller()->CB_UpdateIdentityAuraPivot += func;
+
+		m_pPlayer->Add_Effect(L"Slayer_Rage_Aura", m_Effects[0]);
+	}
 }
 
 CState_WR_Identity* CState_WR_Identity::Create(wstring strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Slayer* pOwner)

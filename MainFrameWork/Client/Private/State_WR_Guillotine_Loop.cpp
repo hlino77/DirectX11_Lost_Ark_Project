@@ -35,6 +35,9 @@ void CState_WR_Guillotine_Loop::Enter_State()
 	m_iSkillCnt = 0;
 	m_bEffectStart = false;
 
+	for(_int i = 0; i < 2; ++i)
+		m_bCameraStart[i] = false;
+
 	m_pPlayer->Reserve_Animation(m_iGuillotine_Loop, 0.1f, 0, 0);
 	if (true == static_cast<CController_WR*>(m_pController)->Is_In_Identity())
 		m_pPlayer->Get_ModelCom()->Set_Anim_Speed(m_iGuillotine_Loop, 1.2f);
@@ -124,29 +127,43 @@ void CState_WR_Guillotine_Loop::Init_Camera()
 
 	m_vCameraTargetPos = vPos + vLook * 1.f;
 
-	Vec3 vTargetPos = vPos + vLook * 1.5f + Vec3::Up * 0.85f;
+	Vec3 vTargetPos = vPos + vLook * 1.5f + Vec3::Up * 0.87f;
 
-	Vec3 vOffset = vLook * 5.0f + Vec3::Up * 0.85f;
+	Vec3 vOffset = vLook * 5.0f + Vec3::Up * 0.87f;
 	vOffset.Normalize();
 
 	pCamera->Set_Mode(CCamera_Player::CameraState::FREE);
 	pCamera->Set_TargetPos(vTargetPos);
 	pCamera->Set_Offset(vOffset);
 	pCamera->Set_CameraLength(1.25f);
-
-	pCamera->ZoomInOut(10.0f, 15.0f);
 }
 
 void CState_WR_Guillotine_Loop::Update_Camera(_uint iAnimFrame, _float fTimeDelta)
 {
 	CCamera_Player* pCamera = m_pPlayer->Get_Camera();
 
+	if (false == m_bCameraStart[0] && 2 <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iGuillotine_Loop))
+	{
+		pCamera->ZoomInOut(6.7f, 9.0f);
+
+		m_bCameraStart[0] = true;
+	}
+
+	if (false == m_bCameraStart[1] && 3 <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iGuillotine_Loop))
+	{
+		pCamera->Cam_Shake(0.05f, 100.f, 0.1f, 5.5f);
+		pCamera->Set_RadialBlur(0.055f, m_vCameraTargetPos, 0.15f, 0.1f);
+		pCamera->Set_Chromatic(0.08f, m_vCameraTargetPos, 0.15f, 0.12f);
+
+		m_bCameraStart[1] = true;
+	}
+
 	Vec3 vPos = m_pPlayer->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
 	Vec3 vLook = m_vCameraTargetPos - vPos;
 	vLook.y = 0.0f;
 	vLook.Normalize();
 
-	pCamera->Set_Offset(vLook * 5.0f + Vec3::Up * 0.85f);
+	pCamera->Set_Offset(vLook * 5.0f + Vec3::Up * 1.f);
 	pCamera->Set_TargetPos(vPos + vLook * 1.5f + Vec3::Up * 0.85f); // 여기서 심어주면 다음 프레임 시작때 볼 위치가 되는 듯
 }
 

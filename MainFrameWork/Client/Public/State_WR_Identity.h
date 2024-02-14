@@ -21,6 +21,10 @@ public:
 	void	Tick_State_NoneControl(_float fTimeDelta);
 
 private:
+	void	Effect_Rage_Control();
+	void	Effect_Rage_NonControl();
+
+private:
 	class CPlayer_Slayer* m_pPlayer = nullptr;
 
 	std::function<void(CState_WR_Identity&, _float)> m_TickFunc;

@@ -67,17 +67,7 @@ void CState_WR_Guillotine_Start::Tick_State_Control(_float fTimeDelta)
 	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iGuillotine_Start))
 		m_pPlayer->Set_State(TEXT("Skill_WR_Guillotine_Loop"));
 
-	if (false == m_bEffectStart && 4 <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iGuillotine_Start))
-	{
-		CEffect_Manager::EFFECTPIVOTDESC desc;
-		Matrix& matPivot = m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
-		desc.pPivotMatrix = &matPivot;
-		EFFECT_START(TEXT("Slayer_Guillotine_Charge"), &desc)
-
-		m_pPlayer->Get_Camera()->Set_RadialBlur(0.05f, matPivot.Translation(), 1.f, 0.05f);
-
-		m_bEffectStart = true;
-	}
+	Effect_Guillotine_Charge();
 
 	if (false == static_cast<CController_WR*>(m_pController)->Is_In_Identity())
 		m_pPlayer->Get_ModelCom()->Set_Anim_Speed(m_iGuillotine_Start, 1.f);
@@ -90,7 +80,24 @@ void CState_WR_Guillotine_Start::Tick_State_NoneControl(_float fTimeDelta)
 	if (false == static_cast<CController_WR*>(m_pController)->Is_In_Identity())
 		m_pPlayer->Get_ModelCom()->Set_Anim_Speed(m_iGuillotine_Start, 1.f);
 
+	Effect_Guillotine_Charge();
+
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
+}
+
+void CState_WR_Guillotine_Start::Effect_Guillotine_Charge()
+{
+	if (false == m_bEffectStart && 4 <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iGuillotine_Start))
+	{
+		CEffect_Manager::EFFECTPIVOTDESC desc;
+		Matrix& matPivot = m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
+		desc.pPivotMatrix = &matPivot;
+		EFFECT_START(TEXT("Slayer_Guillotine_Charge"), &desc)
+
+		m_pPlayer->Get_Camera()->Set_RadialBlur(0.05f, matPivot.Translation(), 1.f, 0.05f);
+
+		m_bEffectStart = true;
+	}
 }
 
 void CState_WR_Guillotine_Start::Init_Camera()
@@ -130,14 +137,14 @@ void CState_WR_Guillotine_Start::Update_Camera(_uint iAnimFrame, _float fTimeDel
 	Vec3 vRight = Vec3::Up.Cross(vLook);
 	vRight.Normalize();
 
-	Vec3 vTargetOffset = vLook * 5.0f + Vec3::Up * 0.85f; // 카메라가 도착할 최종 목표 위치 인듯
+	Vec3 vTargetOffset = vLook * 5.0f + Vec3::Up * 0.87f; // 카메라가 도착할 최종 목표 위치 인듯
 	vTargetOffset.Normalize();
 		
 	Vec3 vOffset = pCamera->Get_Offset();
 	vOffset = Vec3::Lerp(vOffset, vTargetOffset, 6.f * fTimeDelta);
 	pCamera->Set_Offset(vOffset);
 
-	Vec3 vTargetPos = vPos + vLook * 1.5f + Vec3::Up * 0.85f;
+	Vec3 vTargetPos = vPos + vLook * 1.5f + Vec3::Up * 0.87f;
 	Vec3 vCameraTargetPos = pCamera->Get_TargetPos();
 	vCameraTargetPos = Vec3::Lerp(vCameraTargetPos, vTargetPos, 3.0f * fTimeDelta);
 	pCamera->Set_TargetPos(vCameraTargetPos); // 여기서 심어주면 다음 프레임 시작때 볼 위치가 되는 듯

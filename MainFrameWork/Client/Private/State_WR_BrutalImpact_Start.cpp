@@ -63,6 +63,27 @@ void CState_WR_BrutalImpact_Start::Exit_State()
 
 void CState_WR_BrutalImpact_Start::Tick_State_Control(_float fTimeDelta)
 {
+	Effect_BrutalImpact_Start();
+
+	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iBrutalImpact_Start))
+		m_pPlayer->Set_State(TEXT("Skill_WR_BrutalImpact_Loop"));
+
+	if (false == static_cast<CController_WR*>(m_pController)->Is_In_Identity())
+		m_pPlayer->Get_ModelCom()->Set_Anim_Speed(m_iBrutalImpact_Start, 1.f);
+}
+
+void CState_WR_BrutalImpact_Start::Tick_State_NoneControl(_float fTimeDelta)
+{
+	Effect_BrutalImpact_Start();
+
+	if (false == static_cast<CController_WR*>(m_pController)->Is_In_Identity())
+		m_pPlayer->Get_ModelCom()->Set_Anim_Speed(m_iBrutalImpact_Start, 1.f);
+
+	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
+}
+
+void CState_WR_BrutalImpact_Start::Effect_BrutalImpact_Start()
+{
 	if (false == m_bTrailStart)
 	{
 		auto func = bind(&CPartObject::Load_Part_WorldMatrix, static_cast<CPartObject*>(m_pPlayer->Get_Parts(CPartObject::PARTS::WEAPON_1)), placeholders::_1);
@@ -80,20 +101,6 @@ void CState_WR_BrutalImpact_Start::Tick_State_Control(_float fTimeDelta)
 		EFFECT_START(TEXT("Slayer_BrutalImpact_Loop_Impact1"), &desc)
 		m_bEffectStart = true;
 	}
-
-	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iBrutalImpact_Start))
-		m_pPlayer->Set_State(TEXT("Skill_WR_BrutalImpact_Loop"));
-
-	if (false == static_cast<CController_WR*>(m_pController)->Is_In_Identity())
-		m_pPlayer->Get_ModelCom()->Set_Anim_Speed(m_iBrutalImpact_Start, 1.f);
-}
-
-void CState_WR_BrutalImpact_Start::Tick_State_NoneControl(_float fTimeDelta)
-{
-	if (false == static_cast<CController_WR*>(m_pController)->Is_In_Identity())
-		m_pPlayer->Get_ModelCom()->Set_Anim_Speed(m_iBrutalImpact_Start, 1.f);
-
-	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
 }
 
 CState_WR_BrutalImpact_Start* CState_WR_BrutalImpact_Start::Create(wstring strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Slayer* pOwner)

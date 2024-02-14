@@ -28,6 +28,9 @@ private:
 	std::function<void(CState_WR_WildRush_Stop&, _float)> m_TickFunc;
 
 private:
+	void	Effect_WildRush_Stop();
+
+private:
 	//Animation
 	_int m_iWildRush = 0;
 

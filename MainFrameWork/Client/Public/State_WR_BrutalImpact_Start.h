@@ -23,6 +23,9 @@ public:
 	void	Tick_State_NoneControl(_float fTimeDelta);
 
 private:
+	void	Effect_BrutalImpact_Start();
+
+private:
 	class CPlayer_Slayer* m_pPlayer = nullptr;
 
 	std::function<void(CState_WR_BrutalImpact_Start&, _float)> m_TickFunc;

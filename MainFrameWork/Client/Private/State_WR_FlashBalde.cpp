@@ -77,28 +77,7 @@ void CState_WR_FlashBalde::Tick_State_Control(_float fTimeDelta)
 	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iFlashBlade))
 		m_pPlayer->Set_State(TEXT("Idle"));
 
-	if (false == m_bTrailStart && 5 <= iAnimFrame)
-	{
-		auto func = bind(&CPartObject::Load_Part_WorldMatrix, static_cast<CPartObject*>(m_pPlayer->Get_Parts(CPartObject::PARTS::WEAPON_1)), placeholders::_1);
-		TRAIL_START_OUTLIST(TEXT("Slayer_FlashBlade_Trail"), func, m_Trail)
-
-		m_bTrailStart = true;
-	}
-
-	if (false == m_bEffectStart && m_Trail.size() && 10 <= iAnimFrame)
-	{
-		for (auto& iter : m_Trail)
-		{
-			static_cast<CEffect_Trail*>(iter)->TrailEnd(1.f);
-		}
-
-		CEffect_Manager::EFFECTPIVOTDESC desc;
-		Matrix& matPivot = m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
-		desc.pPivotMatrix = &matPivot;
-		EFFECT_START(TEXT("Slayer_FlashBlade_Decal"), &desc)
-
-		m_bEffectStart = true;
-	}
+	Effect_FlashBlade_Trail();
 
 	if (15 <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iFlashBlade))
 	{
@@ -168,7 +147,37 @@ void CState_WR_FlashBalde::Tick_State_NoneControl(_float fTimeDelta)
 	if (false == static_cast<CController_WR*>(m_pController)->Is_In_Identity())
 		m_pPlayer->Get_ModelCom()->Set_Anim_Speed(m_iFlashBlade, 1.f);
 
+	Effect_FlashBlade_Trail();
+
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
+}
+
+void CState_WR_FlashBalde::Effect_FlashBlade_Trail()
+{
+	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iFlashBlade);
+
+	if (false == m_bTrailStart && 5 <= iAnimFrame)
+	{
+		auto func = bind(&CPartObject::Load_Part_WorldMatrix, static_cast<CPartObject*>(m_pPlayer->Get_Parts(CPartObject::PARTS::WEAPON_1)), placeholders::_1);
+		TRAIL_START_OUTLIST(TEXT("Slayer_FlashBlade_Trail"), func, m_Trail)
+
+			m_bTrailStart = true;
+	}
+
+	if (false == m_bEffectStart && m_Trail.size() && 10 <= iAnimFrame)
+	{
+		for (auto& iter : m_Trail)
+		{
+			static_cast<CEffect_Trail*>(iter)->TrailEnd(1.f);
+		}
+
+		CEffect_Manager::EFFECTPIVOTDESC desc;
+		Matrix& matPivot = m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
+		desc.pPivotMatrix = &matPivot;
+		EFFECT_START(TEXT("Slayer_FlashBlade_Decal"), &desc)
+
+			m_bEffectStart = true;
+	}
 }
 
 CState_WR_FlashBalde* CState_WR_FlashBalde::Create(wstring strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Slayer* pOwner)

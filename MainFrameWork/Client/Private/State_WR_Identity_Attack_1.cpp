@@ -68,21 +68,7 @@ void CState_WR_Identity_Attack_1::Tick_State_Control(_float fTimeDelta)
 {
 	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_1);
 
-	if (4 <= iAnimFrame && false == m_bEffectOn[0])
-	{
-		auto func = bind(&CPartObject::Load_Part_WorldMatrix, static_cast<CPartObject*>(m_pPlayer->Get_Parts(CPartObject::PARTS::WEAPON_1)), placeholders::_1);
-		TRAIL_START(TEXT("Slayer_Rage_Attack_1"), func)
-
-		m_bEffectOn[0] = true;
-	}
-
-	if (17 <= iAnimFrame && false == m_bEffectOn[1])
-	{
-		auto func = bind(&CPartObject::Load_Part_WorldMatrix, static_cast<CPartObject*>(m_pPlayer->Get_Parts(CPartObject::PARTS::WEAPON_1)), placeholders::_1);
-		TRAIL_START(TEXT("Slayer_Rage_Attack_1"), func)
-
-		m_bEffectOn[1] = true;
-	}
+	Effect_Identity_Attack_1();
 
 	if (-1 != m_AttackFrames[m_iAttackCnt] && m_AttackFrames[m_iAttackCnt] <= (_int)iAnimFrame)
 	{
@@ -162,14 +148,21 @@ void CState_WR_Identity_Attack_1::Tick_State_Control(_float fTimeDelta)
 
 void CState_WR_Identity_Attack_1::Tick_State_NoneControl(_float fTimeDelta)
 {
-	/*_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_1);
+	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
+
+	Effect_Identity_Attack_1();
+}
+
+void CState_WR_Identity_Attack_1::Effect_Identity_Attack_1()
+{
+	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_1);
 
 	if (4 <= iAnimFrame && false == m_bEffectOn[0])
 	{
 		auto func = bind(&CPartObject::Load_Part_WorldMatrix, static_cast<CPartObject*>(m_pPlayer->Get_Parts(CPartObject::PARTS::WEAPON_1)), placeholders::_1);
 		TRAIL_START(TEXT("Slayer_Rage_Attack_1"), func)
 
-			m_bEffectOn[0] = true;
+		m_bEffectOn[0] = true;
 	}
 
 	if (17 <= iAnimFrame && false == m_bEffectOn[1])
@@ -177,10 +170,8 @@ void CState_WR_Identity_Attack_1::Tick_State_NoneControl(_float fTimeDelta)
 		auto func = bind(&CPartObject::Load_Part_WorldMatrix, static_cast<CPartObject*>(m_pPlayer->Get_Parts(CPartObject::PARTS::WEAPON_1)), placeholders::_1);
 		TRAIL_START(TEXT("Slayer_Rage_Attack_1"), func)
 
-			m_bEffectOn[1] = true;
-	}*/
-
-	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
+		m_bEffectOn[1] = true;
+	}
 }
 
 CState_WR_Identity_Attack_1* CState_WR_Identity_Attack_1::Create(wstring strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Slayer* pOwner)

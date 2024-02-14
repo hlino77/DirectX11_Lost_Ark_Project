@@ -105,26 +105,7 @@ void CState_WR_VolcanoEruption_Loop::Tick_State_Control(_float fTimeDelta)
 		m_pController->Get_SkillAttackMessage(m_eSkillSelectKey);
 	}
 
-	if (false == m_bEffectStart)
-	{
-		CEffect_Manager::EFFECTPIVOTDESC desc;
-		Matrix& matPivot = m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
-		desc.pPivotMatrix = &matPivot;
-
-		EFFECT_START_OUTLIST(TEXT("Slayer_VolcanoEruption_Charge"), &desc, m_Effect)
-
-		/*for(_int i = 0; i < 8; ++i)
-			m_pPlayer->Add_Effect(TEXT("Slayer_VolcanoEruption_Charge%d", i), m_Effect[i]);*/
-
-		m_bEffectStart = true;
-
-		m_pPlayer->Get_Camera()->Set_RadialBlur(1.f, matPivot.Translation(), 0.1f, 0.1f);		
-		//m_pPlayer->Get_Camera()->Set_Chromatic(0.5f, matPivot.Translation(), 0.1f, 0.1f);
-	}
-	else
-	{
-		m_pPlayer->Get_Camera()->Cam_Shake(0.08f, 0.08f, fTimeDelta, 0.f);
-	}
+	Effect_VolcanoEruption_Charge_Control(fTimeDelta);
 
 	m_fSkillTimeAcc += fTimeDelta;
 	if (nullptr != m_pHoldingUI)
@@ -167,7 +148,40 @@ void CState_WR_VolcanoEruption_Loop::Tick_State_NoneControl(_float fTimeDelta)
 	if (false == static_cast<CController_WR*>(m_pController)->Is_In_Identity())
 		m_pPlayer->Get_ModelCom()->Set_Anim_Speed(m_iVolcano_Loop, 1.f);
 
+	Effect_VolcanoEruption_Charge_NonControl(fTimeDelta);
+
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
+}
+
+void CState_WR_VolcanoEruption_Loop::Effect_VolcanoEruption_Charge_Control(_float fTimeDelta)
+{
+	if (false == m_bEffectStart)
+	{
+		CEffect_Manager::EFFECTPIVOTDESC desc;
+		Matrix& matPivot = m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
+		desc.pPivotMatrix = &matPivot;
+
+		EFFECT_START_OUTLIST(TEXT("Slayer_VolcanoEruption_Charge"), &desc, m_Effect)
+
+		m_bEffectStart = true;
+
+		m_pPlayer->Get_Camera()->Set_RadialBlur(1.f, matPivot.Translation(), 0.1f, 0.1f);
+	}
+	else
+	{
+		m_pPlayer->Get_Camera()->Cam_Shake(0.08f, 0.08f, fTimeDelta, 0.f);
+	}
+}
+
+void CState_WR_VolcanoEruption_Loop::Effect_VolcanoEruption_Charge_NonControl(_float fTimeDelta)
+{
+	CEffect_Manager::EFFECTPIVOTDESC desc;
+	Matrix& matPivot = m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
+	desc.pPivotMatrix = &matPivot;
+
+	EFFECT_START_OUTLIST(TEXT("Slayer_VolcanoEruption_Charge"), &desc, m_Effect)
+
+	m_bEffectStart = true;
 }
 
 CState_WR_VolcanoEruption_Loop* CState_WR_VolcanoEruption_Loop::Create(wstring strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Slayer* pOwner)

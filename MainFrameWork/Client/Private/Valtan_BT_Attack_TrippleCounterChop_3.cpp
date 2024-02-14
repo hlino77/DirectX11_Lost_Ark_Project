@@ -10,6 +10,7 @@
 #include "ServerSessionManager.h"
 #include "Player.h"
 #include "Camera_Player.h"
+#include "Effect_Manager.h"
 
 
 CValtan_BT_Attack_TrippleCounterChop_3::CValtan_BT_Attack_TrippleCounterChop_3()
@@ -54,10 +55,14 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_TrippleCounterChop_3::OnUpdate(const _floa
 		}
 
 	}
+
 	Add_Sound(0, 0, L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#43 (1015057785)");
 	Add_Sound(1, 1, L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#14 (1063317697)");
 	Add_Sound(1, 2, L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#16 (800951587)");
 	Add_Sound(2, 3, L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#459 (119952812)");
+
+	Update_Effect();
+
 
 	return __super::OnUpdate(fTimeDelta);
 }
@@ -86,6 +91,19 @@ void CValtan_BT_Attack_TrippleCounterChop_3::OnEnd()
 	}
 }
 
+void CValtan_BT_Attack_TrippleCounterChop_3::Update_Effect()
+{
+	_uint iAnimFrame0 = m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[2].iAnimIndex);
+
+	if (iAnimFrame0 >= 31)
+	{
+		CEffect_Manager::EFFECTPIVOTDESC tDesc;
+		tDesc.pPivotMatrix = &m_pGameObject->Get_TransformCom()->Get_WorldMatrix();
+		EFFECT_START(L"VT_TrippleCounterChop_Fail", &tDesc);
+
+		CServerSessionManager::GetInstance()->Get_Player()->Get_Camera()->Cam_Shake(0.1f, 90.0f, 0.1f, 10.0f);
+	}
+}
 
 
 CValtan_BT_Attack_TrippleCounterChop_3* CValtan_BT_Attack_TrippleCounterChop_3::Create(void* pArg)

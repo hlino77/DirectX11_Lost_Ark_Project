@@ -57,13 +57,7 @@ void CState_WR_Attack_3::Exit_State()
 
 void CState_WR_Attack_3::Tick_State_Control(_float fTimeDelta)
 {
-	if (!m_bEffect)
-	{
-		m_bEffect = true;
-
-		auto func = bind(&CPartObject::Load_Part_WorldMatrix, static_cast<CPartObject*>(m_pPlayer->Get_Parts(CPartObject::PARTS::WEAPON_1)), placeholders::_1);
-		TRAIL_START(TEXT("Slayer_Attack_3"), func)
-	}
+	Effect_Attack_3();
 
 	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_3);
 
@@ -145,6 +139,17 @@ void CState_WR_Attack_3::Tick_State_Control(_float fTimeDelta)
 void CState_WR_Attack_3::Tick_State_NoneControl(_float fTimeDelta)
 {
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
+}
+
+void CState_WR_Attack_3::Effect_Attack_3()
+{
+	if (!m_bEffect)
+	{
+		m_bEffect = true;
+
+		auto func = bind(&CPartObject::Load_Part_WorldMatrix, static_cast<CPartObject*>(m_pPlayer->Get_Parts(CPartObject::PARTS::WEAPON_1)), placeholders::_1);
+		TRAIL_START(TEXT("Slayer_Attack_3"), func)
+	}
 }
 
 CState_WR_Attack_3* CState_WR_Attack_3::Create(wstring strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Slayer* pOwner)
