@@ -27,7 +27,6 @@ void CValtan_BT_Attack_GhostGrab_Server::OnEnd()
 {
 	__super::OnEnd();
 	static_cast<CMonster_Server*>(m_pGameObject)->Set_Attacked(true);
-	static_cast<CBoss_Valtan_Server*>(m_pGameObject)->Clear_GrabbedPlayerIDs();
 }
 
 

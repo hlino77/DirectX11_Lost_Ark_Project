@@ -66,7 +66,7 @@ CBT_Node::BT_RETURN CValtan_BT_Spawn::OnUpdate(const _float& fTimeDelta)
 	{
 		m_bSoundOn[0] = true;
 		CSound_Manager::GetInstance()->PlaySoundFile(L"Effect", L"Scream.wav", 0.5f);
-		CSound_Manager::GetInstance()->PlayBGM_AddChannel(L"Commander of Beast Valtan", L"BGM", L"Commander of Beast Valtan.wav", 0.5f);
+		CSound_Manager::GetInstance()->PlayBGM_AddChannel(L"Commander of Beast Valtan", L"BGM", L"Commander of Beast Valtan.wav", 0.25f);
 	}
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[3].iAnimIndex && m_bSoundOn[1] == false)
 	{

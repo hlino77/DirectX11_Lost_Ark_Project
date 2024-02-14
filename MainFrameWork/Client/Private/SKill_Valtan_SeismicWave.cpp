@@ -61,7 +61,8 @@ void CSkill_Valtan_SeismicWave::Tick(_float fTimeDelta)
 			break;
 		}
 	}
-
+	if (false == CSound_Manager::GetInstance()->Is_Channel_Playing(m_strSoundTag))
+		CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_strSoundTag, L"Effect", m_strSoundTag, 0.7f);
 }
 
 void CSkill_Valtan_SeismicWave::LateTick(_float fTimeDelta)

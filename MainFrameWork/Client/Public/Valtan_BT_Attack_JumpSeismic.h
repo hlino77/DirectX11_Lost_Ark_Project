@@ -20,7 +20,7 @@ private:
 private:
     _bool m_bShoot = {};
     _bool m_bWhirlWind = false;
-
+    _float m_fAttackAcc = 0.f;
     CEffect* m_pWhirlWind = nullptr;
 public:
     static	CValtan_BT_Attack_JumpSeismic* Create(void* pArg);

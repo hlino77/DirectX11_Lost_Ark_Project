@@ -167,6 +167,7 @@ void CValtanMain_Server::Broadcast_Boss(Vec3 vPos, wstring ModelName)
 
 		SendBufferRef pSendBuffer = CServerPacketHandler::MakeSendBuffer(tMonsterPkt);
 		CGameSessionManager::GetInstance()->Broadcast(pSendBuffer);
+		pBoss->Tick(0.f);
 		pBoss->Send_Monster_Action();
 	}
 

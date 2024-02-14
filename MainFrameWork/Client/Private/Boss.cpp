@@ -83,6 +83,8 @@ HRESULT CBoss::Initialize(void* pArg)
 void CBoss::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
+	if (m_pWeapon != nullptr)
+		m_pWeapon->Tick(fTimeDelta);
 	if (KEY_HOLD(KEY::CTRL) && KEY_HOLD(KEY::SHIFT) && KEY_TAP(KEY::Q))
 		m_bTest = !m_bTest;
 }
@@ -91,7 +93,13 @@ void CBoss::LateTick(_float fTimeDelta)
 {
 	__super::LateTick(fTimeDelta);
 	if (m_IsCounterSkill)
-		Set_RimLight(0.1f, 0.9f);
+		Set_RimLight(0.05f, 0.9f);
+	if (m_pWeapon != nullptr && m_bRender)
+	{
+		m_pWeapon->LateTick(fTimeDelta);
+		if (m_IsCounterSkill)
+			m_pWeapon->Set_RimLight(0.05f, 0.9f);
+	}
 }
 
 HRESULT CBoss::Render()
@@ -157,9 +165,11 @@ void CBoss::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEffect, _flo
 	}
 	if (iDamage == 0.f)
 	{
-		CServerSessionManager::GetInstance()->Get_Player()->Get_Camera()->Cam_Shake(0.3f, 100.0f, 1.5f, 9.0f);
-		if(vHitPos.x == (_float)STATUSEFFECT::GROGGY)
-			Set_RimLight(0.05f,1.f);
+		if (vHitPos.x == (_float)STATUSEFFECT::GROGGY)
+		{
+
+			Set_RimLight(0.05f, 1.f);
+		}
 	}
 	else
 		Set_RimLight(0.05f, 1.f);
@@ -263,13 +273,6 @@ void CBoss::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 			Show_Damage(iDamage, IsCritical);
 		}
 	}
-	if (iColLayer == (_uint)LAYER_COLLIDER::LAYER_GRAB_BOSS)
-	{
-		if (pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER)
-		{
-			Send_Collision(0, Vec3(), STATUSEFFECT::EFFECTEND , (_float)pOther->Get_Owner()->Get_ObjectID(), -1.f, 0);
-		}
-	}
 	if (pOther->Get_ColLayer() == (_uint)LAYER_COLLIDER::LAYER_BODY_STATICMODEL && iColLayer == (_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)
 	{
 		if (pOther->Get_Owner()->Get_ModelName() == L"ITR_02307_Pillar_Small"|| pOther->Get_Owner()->Get_ModelName() == L"ITR_022306_GiYurk")
@@ -281,6 +284,7 @@ void CBoss::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 			m_iAtk=0;
 			m_fForce=0.f;
 			Send_Collision(0, Vec3(), STATUSEFFECT::GROGGY, 0, 0.f, 0);
+			CServerSessionManager::GetInstance()->Get_Player()->Get_Camera()->Cam_Shake(0.3f, 100.0f, 1.5f, 9.0f);
 		}
 	}
 }

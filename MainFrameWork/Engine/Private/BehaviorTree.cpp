@@ -67,6 +67,7 @@ HRESULT CBehaviorTree::Change_Action(wstring strActionName)
 	const auto& iter = m_hashActions.find(strActionName);
 	if (iter == m_hashActions.end())
 	{ 
+		cout << CAsUtils::ToString( strActionName) << endl;
 		return E_FAIL;
 	}
 	m_PreviousAction->second->OnEnd();

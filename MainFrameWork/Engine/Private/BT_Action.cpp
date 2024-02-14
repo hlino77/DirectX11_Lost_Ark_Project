@@ -55,7 +55,6 @@ void CBT_Action::OnStart(_int iAnimIndex)
 	m_iCurrAnimation = iAnimIndex;
 	m_bStart = true;
 	m_bEnd = true;
-	Reset_Sound();
 }
 
 CBT_Node::BT_RETURN CBT_Action::OnUpdate(const _float& fTimeDelta)
@@ -113,7 +112,7 @@ CBT_Node::BT_RETURN CBT_Action::OnUpdate(const _float& fTimeDelta)
 
 void CBT_Action::On_FirstAnimStart()
 {
-
+	Reset_Sound();
 }
 
 void CBT_Action::On_LastAnimEnd()

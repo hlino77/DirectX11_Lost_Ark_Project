@@ -74,19 +74,11 @@ HRESULT CBoss_King::Initialize(void* pArg)
 void CBoss_King::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
-
-
-	if (m_pWeapon != nullptr)
-		m_pWeapon->Tick(fTimeDelta);
 }
 
 void CBoss_King::LateTick(_float fTimeDelta)
 {
 	__super::LateTick(fTimeDelta);
-	if (m_pWeapon != nullptr)
-		m_pWeapon->LateTick(fTimeDelta);
-	if (m_IsCounterSkill)
-		m_pWeapon->Set_RimLight(0.1f, 0.9f);
 }
 
 

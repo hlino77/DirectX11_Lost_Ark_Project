@@ -92,7 +92,7 @@ HRESULT CBoss_Valtan_Server::Initialize_Prototype()
 
 HRESULT CBoss_Valtan_Server::Initialize(void* pArg)
 {
-	//m_bTest = true;
+	m_bTest = true;
 
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
@@ -141,16 +141,7 @@ HRESULT CBoss_Valtan_Server::Render()
 void CBoss_Valtan_Server::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEffect, _float fForce, _float fDuration, _uint iGroggy)
 {
 	WRITE_LOCK
-		if (fDuration == -1.f)
-		{
-			for (auto iter : m_vecGrabbedPlayerIDs)
-			{
-				if ((_int)fForce == iter)
-					return;
-			}
-			m_vecGrabbedPlayerIDs.push_back((_int)fForce);
-		}
-		else if (!m_IsInvincible)
+		 if (!m_IsInvincible)
 		{
 			_uint iDamage_Result = _uint((_float)iDamage * ((10.f - (_float)m_iArmor) / 10.f));
 			_uint iGroggy_Result = iGroggy;
@@ -728,7 +719,7 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 
 	AnimationDesc.strAnimName = TEXT("att_battle_18_03-2");
 	AnimationDesc.iStartFrame = 0;
-	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.fChangeTime = 0.f;
 	AnimationDesc.iChangeFrame = 0;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	// 어디로든지문 돌격
@@ -847,7 +838,7 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	AnimationDesc.fChangeTime = 0.f;
 	AnimationDesc.iChangeFrame = 0;
 	AnimationDesc.bIsLoop = true;
-	AnimationDesc.fMaxLoopTime = 1.5f;
+	AnimationDesc.fMaxLoopTime = 1.f;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	AnimationDesc.bIsLoop = false;
 
@@ -1607,7 +1598,7 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
 	AnimationDesc.bIsLoop = true;
-	AnimationDesc.fMaxLoopTime = 1.5f;
+	AnimationDesc.fMaxLoopTime = 2.f;
 	AnimationDesc.IsEndInstant = true;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	AnimationDesc.bIsLoop = false;
@@ -1651,7 +1642,7 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
 	AnimationDesc.bIsLoop = true;
-	AnimationDesc.fMaxLoopTime = 1.5f;
+	AnimationDesc.fMaxLoopTime = 2.f;
 	AnimationDesc.IsEndInstant = true;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
 	AnimationDesc.bIsLoop = false;
@@ -1891,7 +1882,7 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 		else
 		{
 			// 테스트용
-			if (FAILED(pSequenceNormalAttack->AddChild(pBugSmash)))
+			if (FAILED(pSequenceNormalAttack->AddChild(pWipeAssult)))
 				return E_FAIL;
 		}
 
@@ -2187,36 +2178,28 @@ void CBoss_Valtan_Server::Find_NearTarget(_float fTimeDelta)
 			m_pNearTarget = nullptr;
 		else
 		{
-			for (auto& Object : pTargets)
+			for (auto& pObject : pTargets)
 			{
-				_bool	Is_Grabbed = false;
-				_int iObjectID = Object->Get_ObjectID();
-				for (auto iID : m_vecGrabbedPlayerIDs)
-					if (iID == iObjectID)
-					{
-						Is_Grabbed = true;
-						break;
-					}
-				if (Object->Is_Dead() || Object->Is_Active() == false|| Is_Grabbed==true ||(Object)->Get_ServerState()== L"Dead_Start"|| (Object)->Get_ServerState() == L"Dead_End")
+				if (pObject->Is_Dead() || pObject->Is_Active() == false|| TEXT("Grabbed") == pObject->Get_ServerState() ||(pObject)->Get_ServerState()== L"Dead_Start"|| (pObject)->Get_ServerState() == L"Dead_End")
 					continue;
 
 				if (pNearTarget == nullptr)
 				{
-					pNearTarget = Object;
+					pNearTarget = pObject;
 					Vec3 vCallObjectPos = m_pTransformCom->Get_State(CTransform::STATE::STATE_POSITION);
-					Vec3 vObjectPos = Object->Get_TransformCom()->Get_State(CTransform::STATE::STATE_POSITION);
+					Vec3 vObjectPos = pObject->Get_TransformCom()->Get_State(CTransform::STATE::STATE_POSITION);
 					fDistance = (vCallObjectPos - vObjectPos).Length();
 					continue;
 				}
 
 				Vec3 vCallObjectPos = m_pTransformCom->Get_State(CTransform::STATE::STATE_POSITION);
-				Vec3 vObjectPos = Object->Get_TransformCom()->Get_State(CTransform::STATE::STATE_POSITION);
+				Vec3 vObjectPos = pObject->Get_TransformCom()->Get_State(CTransform::STATE::STATE_POSITION);
 
 				_float fNewDistance = (vObjectPos - vCallObjectPos).Length();
 
 				if (fNewDistance < fDistance)
 				{
-					pNearTarget = Object;
+					pNearTarget = pObject;
 					fDistance = fNewDistance;
 				}
 			}
@@ -2231,10 +2214,6 @@ void CBoss_Valtan_Server::Find_NearTarget(_float fTimeDelta)
 
 }
 
-void CBoss_Valtan_Server::Clear_GrabbedPlayerIDs()
-{
-	m_vecGrabbedPlayerIDs.clear();
-}
 
 CBoss_Server* CBoss_Valtan_Server::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {

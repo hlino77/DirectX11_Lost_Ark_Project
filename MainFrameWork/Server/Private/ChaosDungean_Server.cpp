@@ -280,6 +280,7 @@ void CChaosDungean_Server::Broadcast_Monster(Vec3 vPos, wstring ModelName)
 
 		SendBufferRef pSendBuffer = CServerPacketHandler::MakeSendBuffer(tMonsterPkt);
 		CGameSessionManager::GetInstance()->Broadcast(pSendBuffer);
+		pMonster->Tick(0.f);
 		static_cast<CMonster_Server*>(pMonster)->Send_Monster_Action();
 	}
 
@@ -327,6 +328,7 @@ void CChaosDungean_Server::Broadcast_Boss(Vec3 vPos, wstring ModelName)
 
 		SendBufferRef pSendBuffer = CServerPacketHandler::MakeSendBuffer(tMonsterPkt);
 		CGameSessionManager::GetInstance()->Broadcast(pSendBuffer);
+		pBoss->Tick(0.f);
 		pBoss->Send_Monster_Action();
 	}
 

@@ -37,6 +37,7 @@ void CValtan_BT_Attack_BugSmash::OnStart()
 
 CBT_Node::BT_RETURN CValtan_BT_Attack_BugSmash::OnUpdate(const _float& fTimeDelta)
 {
+	m_pGameObject->Get_TransformCom()->Set_Up(Vec3(0.f,1.f,0.f));
 	if (m_SmokeEffects.empty() == false)
 	{
 		Matrix matWorld = Get_GrabMatrix();
@@ -72,12 +73,19 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_BugSmash::OnUpdate(const _float& fTimeDelt
 
 	if ( m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[7].iAnimIndex && m_fLoopTime <= 1.0f && m_pGameObject->Get_ModelCom()->IsNext() == false)
 	{
-		static_cast<CMonster*>(m_pGameObject)->LookAt_Target_Direction_Lerp(fTimeDelta);
+		static_cast<CMonster*>(m_pGameObject)->LookAt_Target_Direction_Lerp(fTimeDelta);	
+		Vec3 vLook = m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_LOOK);
+		vLook.y = 0.f;
+		vLook.Normalize();
+		m_pGameObject->Get_TransformCom()->LookAt_Dir(vLook);
 	}
-	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[7].iAnimIndex && m_fLoopTime > 1.f && !static_cast<CBoss*>(m_pGameObject)->Is_CounterSkill())
+	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[7].iAnimIndex&& !m_pGameObject->Get_ModelCom()->IsNext() && m_fLoopTime > 1.f && !static_cast<CBoss*>(m_pGameObject)->Is_CounterSkill())
 	{
 		static_cast<CBoss*>(m_pGameObject)->Set_CounterSkill(true);
-
+		Vec3 vLook = m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_LOOK);
+		vLook.y = 0.f;
+		vLook.Normalize();
+		m_pGameObject->Get_TransformCom()->LookAt_Dir(vLook);
 		if (m_pRushWarning == nullptr)
 		{
 			vector<CEffect*> Effects;
@@ -87,9 +95,11 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_BugSmash::OnUpdate(const _float& fTimeDelt
 			m_pRushWarning = Effects.front();
 		}
 	}
-	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[7].iAnimIndex && m_fLoopTime > m_vecAnimDesc[m_iCurrAnimation].fMaxLoopTime  && static_cast<CBoss*>(m_pGameObject)->Is_CounterSkill())
-		static_cast<CBoss*>(m_pGameObject)->Set_CounterSkill(false);
 
+	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[7].iAnimIndex && m_pGameObject->Get_ModelCom()->IsNext() && static_cast<CBoss*>(m_pGameObject)->Is_CounterSkill())
+	{
+		static_cast<CBoss*>(m_pGameObject)->Set_CounterSkill(false);
+	}
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[14].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[14].iAnimIndex) > m_pGameObject->Get_ModelCom()->Get_Anim_MaxFrame(m_vecAnimDesc[14].iAnimIndex) - 3 && !m_pGameObject->Get_ModelCom()->IsNext())
 	{
 		m_iCurrAnimation = 10;
@@ -198,6 +208,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_BugSmash::OnUpdate(const _float& fTimeDelt
 	}
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[14].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[14].iAnimIndex) >= 44 && m_bShoot[1] && !m_pGameObject->Get_ModelCom()->IsNext())
 	{
+
 		if (m_bSoundOn[8] == false)
 		{
 			m_bSoundOn[8] = true;
@@ -235,7 +246,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_BugSmash::OnUpdate(const _float& fTimeDelt
 			tDesc.pPivotMatrix = &m_pGameObject->Get_TransformCom()->Get_WorldMatrix();
 			EFFECT_START(L"VT_BugGrabExplosion1", &tDesc);
 		}
-
+		
 		m_bShoot[1] = false;
 	}
 	Add_Sound(0, 0, L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#113 (872104708)");
@@ -251,7 +262,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_BugSmash::OnUpdate(const _float& fTimeDelt
 
 	Add_Sound(3, 3, L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#16 (800951587)");
 
-	Add_Sound(5, 4, L"Effect", L"IwillSmashYouBugs");
+	Add_Sound(5, 4, L"Effect", L"IwillSmashYouBugs",0 ,1.f);
 
 	if (m_pGameObject->Get_NearTarget() == nullptr && !m_pGameObject->Get_ModelCom()->IsNext())
 		Add_Sound(14, 5, L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#468 (401443118)");
@@ -266,6 +277,11 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_BugSmash::OnUpdate(const _float& fTimeDelt
 void CValtan_BT_Attack_BugSmash::OnEnd()
 {
 	__super::OnEnd();
+	if (m_pRushWarning != nullptr)
+	{
+		m_pRushWarning->EffectEnd();
+		m_pRushWarning = nullptr;
+	}
 	static_cast<CBoss*>(m_pGameObject)->Set_CounterSkill(false);
 	CSkill::ModelDesc ModelDesc = {};
 	ModelDesc.iLayer = (_uint)LAYER_TYPE::LAYER_SKILL;
@@ -274,10 +290,10 @@ void CValtan_BT_Attack_BugSmash::OnEnd()
 	CGameObject* pSkill = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_Skill_Valtan_SphereInstant", &ModelDesc);
 	if (pSkill != nullptr)
 	{
-		Vec3 vPos = m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+		Vec3 vPos = Get_GrabMatrix().Translation();
 		Vec3 vLook = m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_LOOK);
 		vLook.Normalize();
-		pSkill->Get_Colider(_uint(LAYER_COLLIDER::LAYER_SKILL_BOSS))->Set_Radius(3.f);
+		pSkill->Get_Colider(_uint(LAYER_COLLIDER::LAYER_SKILL_BOSS))->Set_Radius(0.5f);
 		pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
 		pSkill->Get_TransformCom()->LookAt_Dir(vLook);
 		static_cast<CSkill*>(pSkill)->Set_Atk(0);
