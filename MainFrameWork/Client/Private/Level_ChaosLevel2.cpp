@@ -252,7 +252,7 @@ HRESULT CLevel_ChaosLevel2::Ready_Layer_SkyBox(const LAYER_TYPE eLayerType)
 
 	// Fog
 	CRenderer::Set_Fog_Color(Vec3(0.8f, 0.4f, 0.3f));
-	CRenderer::Set_Fog_StartHeight(-10.f);
+	CRenderer::Set_Fog_StartHeight(-15.f);
 	CRenderer::Set_Fog_EndHeight(-30.f);
 	CRenderer::Set_Fog_Density(0.03f);
 	CRenderer::Set_Fog_ChangeSpeed(1.2f);

@@ -52,10 +52,9 @@ void CState_WDR_FullSwing_Success::Enter_State()
 	m_EffectSound1 = false;
 	m_EffectSound2 = false;
 	
-	if (m_pPlayer->Is_Control())
-	{
-		CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume);
-	}
+	
+	CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume);
+	
 
 	m_iSkillCnt = 0;
 
@@ -204,22 +203,45 @@ void CState_WDR_FullSwing_Success::Tick_State_NoneControl(_float fTimeDelta)
 
 	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iFullSwing_Success);
 
+
+
+
 	if (m_eEffectState == EFFECTSTATE::TRAIL1 && iAnimFrame >= 11)
 	{
 		Effect_TrailStart();
 		m_eEffectState = EFFECTSTATE::TRAIL2;
+
+		if (false == m_EffectSound)
+		{
+			CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt + 1].strName, m_SoundFrames[m_iSoundCnt + 1].strGroup, m_SoundFrames[m_iSoundCnt + 1].strName, m_SoundFrames[m_iSoundCnt + 1].fVolume);
+			m_EffectSound = true;
+		}
+
+
 	}
 
 	if (m_eEffectState == EFFECTSTATE::TRAIL2 && iAnimFrame >= 30)
 	{
 		Effect_TrailStart2();
 		m_eEffectState = EFFECTSTATE::TRAILEND1;
+
+		if (false == m_EffectSound1)
+		{
+			CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt + 2].strName, m_SoundFrames[m_iSoundCnt + 2].strGroup, m_SoundFrames[m_iSoundCnt + 2].strName, m_SoundFrames[m_iSoundCnt + 2].fVolume);
+			m_EffectSound1 = true;
+		}
 	}
 
 	if (m_eEffectState == EFFECTSTATE::TRAILEND1 && iAnimFrame >= 34)
 	{
 		Effect_TrailEnd1();
 		m_eEffectState = EFFECTSTATE::EFFECTEND;
+
+		if (false == m_EffectSound2)
+		{
+			CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt + 3].strName, m_SoundFrames[m_iSoundCnt + 3].strGroup, m_SoundFrames[m_iSoundCnt + 3].strName, m_SoundFrames[m_iSoundCnt + 3].fVolume);
+			m_EffectSound2 = true;
+		}
 	}
 
 	if (m_eEffectState == EFFECTSTATE::EFFECTEND && iAnimFrame >= 39)

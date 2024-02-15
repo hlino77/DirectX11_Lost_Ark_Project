@@ -42,14 +42,12 @@ void CState_SP_Flyheaven::Enter_State()
 	m_iSoundCnt = 0.f;
 
 
-	if (m_pPlayer->Is_Control())
-	{
-		// Player Sound
-		CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume, true);
 
-	}
+	// Player Sound
+	CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume, true);
+
+
 	
-
 	m_iSkillCnt = 0;
 
 	m_pPlayer->Reserve_Animation(m_iFlyheaven, 0.1f, 0, 0);
@@ -180,6 +178,24 @@ void CState_SP_Flyheaven::Tick_State_Control(_float fTimeDelta)
 
 void CState_SP_Flyheaven::Tick_State_NoneControl(_float fTimeDelta)
 {
+	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iFlyheaven);
+
+	if (-1 != m_SoundFrames[m_iSoundCnt + 1].iFrame && m_SoundFrames[m_iSoundCnt + 1].iFrame <= (_int)iAnimFrame)
+	{
+		if (false == m_SoundFrames[m_iSoundCnt].bAddChannel)
+		{
+			CSound_Manager::GetInstance()->PlaySoundFile(m_SoundFrames[m_iSoundCnt + 1].strGroup, m_SoundFrames[m_iSoundCnt + 1].strName, m_SoundFrames[m_iSoundCnt + 1].fVolume);
+
+		}
+		else if (true == m_SoundFrames[m_iSoundCnt].bAddChannel)
+		{
+			CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt + 1].strName, m_SoundFrames[m_iSoundCnt + 1].strGroup, m_SoundFrames[m_iSoundCnt + 1].strName, m_SoundFrames[m_iSoundCnt + 1].fVolume);
+		}
+
+		m_iSoundCnt++;
+	}
+
+
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
 
 	if (m_SkillFrames[m_iSkillCnt] <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iFlyheaven))

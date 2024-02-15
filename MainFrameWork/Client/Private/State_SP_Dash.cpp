@@ -38,16 +38,13 @@ void CState_SP_Dash::Enter_State()
 	m_pController->Get_SkillEndMessage();
 
 
-	if (m_pPlayer->Is_Control())
-	{
 
-		// Skill Sound 
-		CSound_Manager::GetInstance()->PlaySoundFile(m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume);
+	// Skill Sound 
+	CSound_Manager::GetInstance()->PlaySoundFile(m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume);
 
-		// Player Sound
-		CSound_Manager::GetInstance()->PlaySoundFile(m_SoundFrames[m_iSoundCnt + 1].strGroup, m_SoundFrames[m_iSoundCnt + 1].strName, m_SoundFrames[m_iSoundCnt + 1].fVolume);
+	// Player Sound
+	CSound_Manager::GetInstance()->PlaySoundFile(m_SoundFrames[m_iSoundCnt + 1].strGroup, m_SoundFrames[m_iSoundCnt + 1].strName, m_SoundFrames[m_iSoundCnt + 1].fVolume);
 
-	}
 
 }
 

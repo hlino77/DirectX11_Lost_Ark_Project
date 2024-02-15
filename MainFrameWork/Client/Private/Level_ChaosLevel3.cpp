@@ -477,7 +477,7 @@ HRESULT CLevel_ChaosLevel3::Ready_Player_Camera(const LAYER_TYPE eLayerType)
 	CameraDesc.tCameraDesc.TransformDesc.fRotationPerSec = XMConvertToRadians(90.0f);
 
 	CameraDesc.pPlayer = pPlayer;
-	CameraDesc.vOffset = Vec3(0.0f, 0.0f, -1.0f);
+	CameraDesc.vOffset = Vec3(0.0f, 0.0f, 1.0f);
 
 	CGameObject* pCamera = pGameInstance->Add_GameObject(LEVEL_CHAOS_3, _uint(eLayerType), TEXT("Prototype_GameObject_Camera_Player"), &CameraDesc);
 	if (pCamera == nullptr)
@@ -512,7 +512,7 @@ HRESULT CLevel_ChaosLevel3::Send_UserInfo()
 
 		pPlayer->Set_CurrLevel(LEVELID::LEVEL_CHAOS_3);
 		Vec3 vScale = pPlayer->Get_TransformCom()->Get_Scale();
-		pPlayer->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, Vec3(100.f, 0.19f, 98.0f));
+		pPlayer->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, Vec3(110.76f, 0.19f, 137.f));
 		pPlayer->Get_TransformCom()->Set_Scale(vScale);
 		pPlayer->Set_TargetPos(Vec3());
 		pPlayer->Ready_PhysxBoneBranch();
