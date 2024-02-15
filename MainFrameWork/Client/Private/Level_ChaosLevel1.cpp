@@ -190,7 +190,7 @@ HRESULT CLevel_ChaosLevel1::Ready_Lights()
 	vOffset = vLook * -30.0f;
 	pGameInstance->Ready_LightMatrix(vOffset, vLook);
 
-	CSound_Manager::GetInstance()->PlayBGM(L"BGM", L"Albion's Rage.wav", 0.5f);
+	CSound_Manager::GetInstance()->PlayBGM(L"BGM", L"Albion_s Rage.wav", 0.5f);
 
 	Safe_Release(pGameInstance);
 

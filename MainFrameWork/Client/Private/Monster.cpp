@@ -940,13 +940,13 @@ void CMonster::CullingObject()
 		if (true == m_bInstance && false == m_IsAlphaBlend)
 		{
 			m_pRendererCom->Add_InstanceRenderGroup(CRenderer::RENDER_NONBLEND, this);
-			if (m_bRenderShadow)
+			if (!m_bDissolveIn && !m_bDissolveOut)
 				m_pRendererCom->Add_InstanceRenderGroup(CRenderer::RENDER_SHADOW, this);
 		}
 		else if (false == m_bInstance && false == m_IsAlphaBlend)
 		{
 			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONBLEND, this);
-			if (m_bRenderShadow)
+			if (!m_bDissolveIn && !m_bDissolveOut)
 				m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOW, this);
 		}
 		else if (false == m_bInstance && true == m_IsAlphaBlend)

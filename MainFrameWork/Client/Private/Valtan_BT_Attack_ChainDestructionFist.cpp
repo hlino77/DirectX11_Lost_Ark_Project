@@ -108,7 +108,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_ChainDestructionFist::OnUpdate(const _floa
 			CEffect_Manager::EFFECTPIVOTDESC tDesc;
 			tDesc.pPivotMatrix = &m_pGameObject->Get_TransformCom()->Get_WorldMatrix();
 			EFFECT_START(L"VT_ChainWarning1", &tDesc);
-			m_bLandWarning[0] == true;
+			m_bLandWarning[0] = true;
 		}
 
 		if (m_bLandWarning[1] == false && m_fLoopTime >= 1.0f)
@@ -116,7 +116,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_ChainDestructionFist::OnUpdate(const _floa
 			CEffect_Manager::EFFECTPIVOTDESC tDesc;
 			tDesc.pPivotMatrix = &m_pGameObject->Get_TransformCom()->Get_WorldMatrix();
 			EFFECT_START(L"VT_ChainWarning2", &tDesc);
-			m_bLandWarning[1] == true;
+			m_bLandWarning[1] = true;
 		}
 	}
 
