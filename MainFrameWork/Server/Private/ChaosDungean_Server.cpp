@@ -455,13 +455,13 @@ void CChaosDungean_Server::Update_Ratio()
 	switch (m_eDungeanLevel)
 	{
 	case CHAOSDUNGEANLEVEL::LEVEL1:
-		Send_Ratio(1.0f - (m_iMonsterCount + m_Monsters.size() / 100.0f));
+		Send_Ratio(1.0f - ((m_iMonsterCount + m_Monsters.size()) / 100.0f));
 		break;
 	case CHAOSDUNGEANLEVEL::LEVEL2:
-		Send_Ratio(1.0f - (m_iBossCount + m_Bosses.size() / 9.0f));
+		Send_Ratio(1.0f - ((m_iBossCount + m_Bosses.size()) / 9.0f));
 		break;
 	case CHAOSDUNGEANLEVEL::LEVEL3:
-		Send_Ratio(1.0f - (m_iBossCount + m_Bosses.size() / 1));
+		Send_Ratio(1.0f - ((m_iBossCount + m_Bosses.size()) / 1));
 		break;
 	}
 
