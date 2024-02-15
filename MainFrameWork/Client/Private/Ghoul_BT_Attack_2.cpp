@@ -34,6 +34,7 @@ CBT_Node::BT_RETURN CGhoul_BT_Attack_2::OnUpdate(const _float& fTimeDelta)
 	if (m_pGameObject->Get_ModelCom()->IsNext())
 		static_cast<CMonster*>(m_pGameObject)->LookAt_Target_Direction_Lerp(fTimeDelta * 5.f);
 
+
 	Add_Sound(0, 0, L"Effect", L"Ghoul_Attack1_Start", 20);
 
 	return BT_RUNNING;
