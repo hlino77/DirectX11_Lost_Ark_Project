@@ -49,7 +49,7 @@ private:
     wstring m_strName = TEXT("");
     wstring m_strTag;
     CTextBox* m_pInGameNameWnd = nullptr;
-    _bool   m_bTextOn = false;
+    _bool   m_bTextOn = true;
     
 public:
     static  CUI_InGame_NamePlate* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
