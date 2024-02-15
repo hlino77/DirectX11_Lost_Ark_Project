@@ -39,6 +39,7 @@ HRESULT CMainApp_Server::Initialize()
 
 	CServerPacketHandler::Init();
 
+
 	wstring strIP = L"192.168.0.30";
 
 	ServerServiceRef service = std::make_shared<ServerService>
