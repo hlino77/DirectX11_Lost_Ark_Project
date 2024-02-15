@@ -208,7 +208,7 @@ void CBoss::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 			 iDamage = static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().iDamage;
 			int iCritical = rand() % 10;
 
-			iDamage = (CGameInstance::GetInstance()->Random_Int(iDamage, _int((_float)iDamage * 1.4f)) + 1) * 26789;
+			iDamage = (CGameInstance::GetInstance()->Random_Int(iDamage, _int((_float)iDamage * 1.4f))) * 24567;
 			_bool IsCritical = false;
 			if (CGameInstance::GetInstance()->Random_Coin(0.3f))
 			{
@@ -241,7 +241,7 @@ void CBoss::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 
 			int iCritical = rand() % 10;
 
-			iDamage = (CGameInstance::GetInstance()->Random_Int(iDamage, _int((_float)iDamage * 1.5f)) + 1) * 26789;
+			iDamage = (CGameInstance::GetInstance()->Random_Int(_int((_float)iDamage * 0.7f), _int((_float)iDamage * 1.3f))) * 24567;
 			_bool IsCritical = false;
 			if (CGameInstance::GetInstance()->Random_Coin(0.3f))
 			{
@@ -275,7 +275,7 @@ void CBoss::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 			_float fForce = static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().fRepulsion;
 
 
-			iDamage = (CGameInstance::GetInstance()->Random_Int(iDamage, _int((_float)iDamage * 1.5f)) + 1) * 26789;
+			iDamage = (CGameInstance::GetInstance()->Random_Int(_int((_float)iDamage * 0.7f), _int((_float)iDamage * 1.3f))) * 24567;
 			_bool IsCritical = true;
 			iDamage *= 2;
 			if (m_bTest)
