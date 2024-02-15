@@ -58,9 +58,11 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Rush::OnUpdate(const _float& fTimeDelta)
 			m_pEffectWarning = Effect.front();
 		}
 	}
-	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex && m_iLoop == 2 && static_cast<CBoss*>(m_pGameObject)->Get_Armor() < 1|| static_cast<CBoss*>(m_pGameObject)->Get_Phase() > 1)
-		static_cast<CBoss*>(m_pGameObject)->Set_CounterSkill(true);
-
+	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex && m_iLoop == 2)
+	{
+		if (static_cast<CBoss*>(m_pGameObject)->Get_Armor() < 1 || static_cast<CBoss*>(m_pGameObject)->Get_Phase() > 1)
+			static_cast<CBoss*>(m_pGameObject)->Set_CounterSkill(true);
+	}
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[0].iAnimIndex) > 48 && m_iLoop < 3)
 	{
 		m_iLoop++;
@@ -140,6 +142,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Rush::OnUpdate(const _float& fTimeDelta)
 void CValtan_BT_Attack_Rush::OnEnd()
 {
 	__super::OnEnd();		
+	m_iLoop = 0;
 	static_cast<CBoss*>(m_pGameObject)->Set_CounterSkill(false);
 	m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->SetActive(false);
 	m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->Set_Radius(1.5f);
