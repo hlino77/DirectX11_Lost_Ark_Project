@@ -473,9 +473,9 @@ void CUI_ChaosDungeon_Clear::Update_ClearFont(_float fTimeDelta)
 		return;
 
 	if (553.f < m_fSizeX_Font)
-		m_fSizeX_Font -= ((m_fSizeX_Font * 0.2f) * fTimeDelta);
+		m_fSizeX_Font -= ((m_fSizeX_Font * 0.5f) * fTimeDelta);
 	if(138.f < m_fSizeY_Font)
-		m_fSizeY_Font -= ((m_fSizeY_Font * 0.2f) * fTimeDelta);
+		m_fSizeY_Font -= ((m_fSizeY_Font * 0.5f) * fTimeDelta);
 
 	if (1.f > m_fClearFontAlpha)
 		m_fClearFontAlpha += 0.5f * fTimeDelta;
