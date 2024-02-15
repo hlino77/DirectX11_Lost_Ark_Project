@@ -164,6 +164,37 @@ void CPlayer_Doaga::Tick(_float fTimeDelta)
 	{
 		Set_State(TEXT("Resurrect"));
 	}
+	if (KEY_HOLD(KEY::ALT) && KEY_TAP(KEY::B))
+	{
+		CItem* pItem = nullptr;
+		CItem_Manager* pItem_Manager = GET_INSTANCE(CItem_Manager);
+
+		pItem = pItem_Manager->Get_Item(ITEMCODE::SP_Helmet_Legend);
+		if (nullptr == pItem)
+			return;
+
+		Add_Item(pItem->Get_ObjectTag(), pItem);
+
+		pItem = pItem_Manager->Get_Item(ITEMCODE::SP_Body_Legend);
+		if (nullptr == pItem)
+			return;
+
+		Add_Item(pItem->Get_ObjectTag(), pItem);
+
+		pItem = pItem_Manager->Get_Item(ITEMCODE::SP_Leg_Legend);
+		if (nullptr == pItem)
+			return;
+
+		Add_Item(pItem->Get_ObjectTag(), pItem);
+
+		pItem = pItem_Manager->Get_Item(ITEMCODE::SP_WP_Legend);
+		if (nullptr == pItem)
+			return;
+
+		Add_Item(pItem->Get_ObjectTag(), pItem);
+
+		RELEASE_INSTANCE(CItem_Manager);
+	}
 
 	m_pRigidBody->Tick(fTimeDelta);
 	m_pStateMachine->Tick_State(fTimeDelta);

@@ -136,7 +136,7 @@ void CState_WR_Grabbed::ToNone_GrabPos(_float fTimeDelta)
 	else
 	{
 		m_fGrabTimeAcc += fTimeDelta;
-		if (0.25f >= m_fGrabTimeAcc)
+		if (0.2f >= m_fGrabTimeAcc)
 		{
 			m_pPlayer->Get_TransformCom()->Set_WorldMatrix(ComputeMatrix);
 			m_pPlayer->Get_TransformCom()->Set_Scale(Vec3(1.f, 1.f, 1.f));
