@@ -156,8 +156,8 @@ HRESULT CChaosDungean_Server::Ready_ChaosDungean(CHAOSDUNGEANLEVEL eLevel)
 	case CHAOSDUNGEANLEVEL::LEVEL1:
 		m_iCurrLevel = LEVELID::LEVEL_CHAOS_1;
 		m_fStartDelay = 5.0f;
-		m_iMonsterCount = 270;
-		m_iMonsterMaxSpawnCount = 50;
+		m_iMonsterCount = 100;
+		m_iMonsterMaxSpawnCount = 20;
 		m_iBossCount = 0;
 		m_MonsterSpawnList.push_back(L"Ghoul");
 		m_MonsterSpawnList.push_back(L"Reaper");
@@ -165,9 +165,9 @@ HRESULT CChaosDungean_Server::Ready_ChaosDungean(CHAOSDUNGEANLEVEL eLevel)
 	case CHAOSDUNGEANLEVEL::LEVEL2:
 		m_iCurrLevel = LEVELID::LEVEL_CHAOS_2;
 		m_fStartDelay = 5.0f;
-		m_iMonsterCount = 50;
-		m_iMonsterMaxSpawnCount = 50;
-		m_iBossCount = 9;
+		m_iMonsterCount = 30;
+		m_iMonsterMaxSpawnCount = 30;
+		m_iBossCount = 6;
 		m_MonsterSpawnList.push_back(L"Zombie");
 		m_MonsterSpawnList.push_back(L"Plant");	
 		m_BossSpawnList.push_back(L"Golem");
@@ -220,9 +220,9 @@ void CChaosDungean_Server::Spawn_Monster()
 		if (m_iMonsterCount <= 3 && m_iBossCount >= 0 && m_Monsters.size() <= 3)
 		{
 			if (m_iBossCount > 0)
-				m_iMonsterCount += 50;
+				m_iMonsterCount += 30;
 
-			for (_uint i = 0; i < 3; ++i)
+			for (_uint i = 0; i < 2; ++i)
 			{
 				if (m_iBossCount > 0)
 				{
@@ -455,7 +455,7 @@ void CChaosDungean_Server::Update_Ratio()
 	switch (m_eDungeanLevel)
 	{
 	case CHAOSDUNGEANLEVEL::LEVEL1:
-		Send_Ratio(1.0f - (m_iMonsterCount / 270.0f));
+		Send_Ratio(1.0f - (m_iMonsterCount / 100.0f));
 		break;
 	case CHAOSDUNGEANLEVEL::LEVEL2:
 		Send_Ratio(1.0f - (m_iBossCount / 9.0f));
