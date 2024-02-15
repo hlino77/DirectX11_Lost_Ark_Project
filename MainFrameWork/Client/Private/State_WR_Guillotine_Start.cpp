@@ -117,9 +117,10 @@ void CState_WR_Guillotine_Start::Effect_Guillotine_Charge()
 		CEffect_Manager::EFFECTPIVOTDESC desc;
 		Matrix& matPivot = m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
 		desc.pPivotMatrix = &matPivot;
-		EFFECT_START(TEXT("Slayer_Guillotine_Charge"), &desc)
+		EFFECT_START(TEXT("Slayer_Guillotine_Charge"), &desc);
 
-		m_pPlayer->Get_Camera()->Set_RadialBlur(0.05f, matPivot.Translation(), 1.f, 0.05f);
+		if(m_pPlayer->Is_Control())
+			m_pPlayer->Get_Camera()->Set_RadialBlur(0.05f, matPivot.Translation(), 1.f, 0.05f);
 
 		m_bEffectStart = true;
 	}
