@@ -62,7 +62,7 @@ technique11 DefaultTechnique
 {
 	pass SkyDome
 	{
-        SetRasterizerState(RS_Effect);
+        SetRasterizerState(RS_Default);
 		SetDepthStencilState(DSS_Default, 0);
 		SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 1.f), 0xffffffff);
 

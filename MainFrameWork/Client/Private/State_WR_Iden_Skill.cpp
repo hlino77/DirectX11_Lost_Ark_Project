@@ -90,6 +90,20 @@ void CState_WR_Iden_Skill::Tick_State_Control(_float fTimeDelta)
 		static_cast<CController_WR*>(m_pController)->Get_AttackMessage();
 	}	
 
+	if (-1 != m_SoundFrames[m_iSoundCnt].iFrame && m_SoundFrames[m_iSoundCnt].iFrame <= (_int)iAnimFrame)
+	{
+		if (false == m_SoundFrames[m_iSoundCnt].bAddChannel)
+		{
+			CSound_Manager::GetInstance()->PlaySoundFile(m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume);
+		}
+		else
+		{
+			CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume, true);
+		}
+
+		m_iSoundCnt++;
+	}
+
 	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iIdentity_Skill))
 		m_pPlayer->Set_State(TEXT("Idle"));
 }
@@ -103,7 +117,7 @@ void CState_WR_Iden_Skill::Tick_State_NoneControl(_float fTimeDelta)
 
 void CState_WR_Iden_Skill::Effect_BloodyRust_Slash()
 {
-	_int iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iIdentity_Skill);
+	_int iCurrFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iIdentity_Skill);
 
 	if (!m_bTrail)
 	{
@@ -111,20 +125,6 @@ void CState_WR_Iden_Skill::Effect_BloodyRust_Slash()
 
 		auto func = bind(&CPartObject::Load_Part_WorldMatrix, static_cast<CPartObject*>(m_pPlayer->Get_Parts(CPartObject::PARTS::WEAPON_1)), placeholders::_1);
 		TRAIL_START(TEXT("Slayer_BloodyRust_Trail"), func)
-	}
-
-	if (-1 != m_SoundFrames[m_iSoundCnt].iFrame && m_SoundFrames[m_iSoundCnt].iFrame <= (_int)iCurrFrame)
-	{
-		if (false == m_SoundFrames[m_iSoundCnt].bAddChannel)
-		{
-			CSound_Manager::GetInstance()->PlaySoundFile(m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume);
-		}
-		else
-		{
-			CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume, true);
-		}
-
-		m_iSoundCnt++;
 	}
 
 	if (false == m_EffectStart[m_iAttackCnt] && m_AttackFrames[m_iAttackCnt] - 2 <= iCurrFrame)

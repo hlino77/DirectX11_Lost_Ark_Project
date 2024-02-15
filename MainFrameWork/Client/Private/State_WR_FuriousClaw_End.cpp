@@ -74,7 +74,6 @@ void CState_WR_FuriousClaw_End::Exit_State()
 
 void CState_WR_FuriousClaw_End::Tick_State_Control(_float fTimeDelta)
 {
-
 	Effect_FuriousClaw_End();
 
 	_int iCurrFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iFuriousClaw_End);
@@ -91,36 +90,6 @@ void CState_WR_FuriousClaw_End::Tick_State_Control(_float fTimeDelta)
 		}
 
 		m_iSoundCnt++;
-	}
-
-	if (!m_bEffectStart && -1 != m_SkillFrames[m_iSkillCnt] && m_SkillFrames[m_iSkillCnt] <= iCurrFrame)
-	{
-		CEffect_Manager::EFFECTPIVOTDESC desc;
-		desc.pPivotMatrix = &m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
-
-		if (static_cast<CController_WR*>(m_pController)->Is_In_Identity())
-		{
-			if (!m_bTrail)
-			{
-				m_bTrail = true;
-
-				auto func = bind(&CPartObject::Load_Part_WorldMatrix, static_cast<CPartObject*>(m_pPlayer->Get_Parts(CPartObject::PARTS::WEAPON_1)), placeholders::_1);
-				TRAIL_START_OUTLIST(TEXT("Slayer_Rage_FuriousClaw_Trail"), func, m_Trail)
-			}
-
-			EFFECT_START(TEXT("Slayer_Rage_FuriousClaw3"), &desc)
-			EFFECT_START(TEXT("Slayer_Rage_FuriousClaw4"), &desc)
-		}
-		else
-		{
-			EFFECT_START(TEXT("Slayer_FuriousClaw3"), &desc)
-			EFFECT_START(TEXT("Slayer_FuriousClaw4"), &desc)
-		}
-
-		m_bEffectStart = true;
-
-		m_iSkillCnt++;
-		m_pController->Get_SkillAttackMessage(m_eSkillSelectKey);
 	}
 
 	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iFuriousClaw_End))

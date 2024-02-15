@@ -69,10 +69,7 @@ void CState_WR_VolcanoEruption_Success::Tick_State_Control(_float fTimeDelta)
 {
 	_int iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iVolcano_Success);
 
-<<<<<<< HEAD
-	if (-1 != m_SkillFrames[m_iSkillCnt] && m_SkillFrames[m_iSkillCnt] == iAnimFrame)
-=======
-	if (-1 != m_SoundFrames[m_iSoundCnt].iFrame && m_SoundFrames[m_iSoundCnt].iFrame <= (_int)iSkillFrame)
+	if (-1 != m_SoundFrames[m_iSoundCnt].iFrame && m_SoundFrames[m_iSoundCnt].iFrame <= (_int)iAnimFrame)
 	{
 		if (false == m_SoundFrames[m_iSoundCnt].bAddChannel)
 		{
@@ -86,8 +83,7 @@ void CState_WR_VolcanoEruption_Success::Tick_State_Control(_float fTimeDelta)
 		m_iSoundCnt++;
 	}
 
-	if (-1 != m_SkillFrames[m_iSkillCnt] && m_SkillFrames[m_iSkillCnt] == iSkillFrame)
->>>>>>> origin/feature/Jongmin
+	if (-1 != m_SkillFrames[m_iSkillCnt] && m_SkillFrames[m_iSkillCnt] <= iAnimFrame)
 	{
 		m_iSkillCnt++;
 		m_pController->Get_SkillAttackMessage(m_eSkillSelectKey);

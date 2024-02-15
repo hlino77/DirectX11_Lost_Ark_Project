@@ -87,11 +87,12 @@ void CState_WR_Guillotine_Start::Tick_State_Control(_float fTimeDelta)
 
 		m_iSoundCnt++;
 	}
+	
+	Effect_Guillotine_Charge();
 
 	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iGuillotine_Start))
 		m_pPlayer->Set_State(TEXT("Skill_WR_Guillotine_Loop"));
 
-	Effect_Guillotine_Charge();
 
 	if (false == static_cast<CController_WR*>(m_pController)->Is_In_Identity())
 		m_pPlayer->Get_ModelCom()->Set_Anim_Speed(m_iGuillotine_Start, 1.f);
