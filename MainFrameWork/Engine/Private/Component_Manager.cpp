@@ -26,7 +26,7 @@ HRESULT CComponent_Manager::Add_Prototype(_uint iLevelIndex, const wstring& strP
 
     if (nullptr != Find_Component(iLevelIndex, strProtoTypeTag))
     {
-        Safe_Release(pPrototype);
+        //Safe_Release(pPrototype);
         return S_OK;
     }
 
