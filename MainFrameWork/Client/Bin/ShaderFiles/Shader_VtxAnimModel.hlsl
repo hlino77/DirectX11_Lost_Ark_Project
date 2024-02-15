@@ -286,7 +286,7 @@ PS_OUT_PBR PS_PBR(VS_OUT In)
         if (false == any(Out.vEmissive))
         {
             Out.vEmissive = g_EmissiveTexture.Sample(LinearSampler, In.vTexUV);
-            //Out.vEmissive *= g_vBloomColor;
+            Out.vEmissive *= g_vBloomColor;
         }
     }
 
@@ -378,7 +378,7 @@ PS_OUT_PHONG PS_CHANGECOLOR(VS_OUT In)
     if (1.f == SpecMaskEmisExtr.z)
     {
         Out.vEmissive = g_EmissiveTexture.Sample(LinearSampler, In.vTexUV);
-        //Out.vEmissive *= g_vBloomColor;
+        Out.vEmissive *= g_vBloomColor;
     }
     
     if (0 != g_vHairColor_1.a || 0 != g_vHairColor_2.a)
@@ -536,7 +536,7 @@ float4 PS_ALPHABLEND(VS_OUT_OUTLINE In) : SV_TARGET0
         float3 vEmissive = g_EmissiveTexture.Sample(LinearSampler, In.vTexUV);
         if (true == any(vEmissive))
         {
-            vColor.rgb = vEmissive/* * g_vBloomColor.rgb*/;
+            vColor.rgb = vEmissive * g_vBloomColor.rgb;
         }
     }
     
