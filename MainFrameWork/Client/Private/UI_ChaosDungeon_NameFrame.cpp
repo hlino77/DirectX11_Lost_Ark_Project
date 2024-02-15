@@ -77,6 +77,8 @@ HRESULT CUI_ChaosDungeon_NameFrame::Render()
 
 	m_pVIBufferCom->Render();
 
+	m_pStageNameWnd->Render();
+
 	return S_OK;
 }
 
@@ -168,7 +170,7 @@ HRESULT CUI_ChaosDungeon_NameFrame::Ready_TextBox()
 			Safe_Release(pGameInstance);
 			return E_FAIL;
 		}
-
+		m_pStageNameWnd->Set_Render(false);
 		m_pStageNameWnd->Set_ScaleUV(Vec2(1.0f, 1.0f));
 		m_pStageNameWnd->Set_Pos(g_iWinSizeX * 0.5f, g_iWinSizeY * 0.5f);
 	}

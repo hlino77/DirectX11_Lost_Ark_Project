@@ -392,6 +392,7 @@ void CUI_NPC_ItemUpgrade::Tick(_float fTimeDelta)
         if (0.5f <= m_fDeActiveAcc)
         {
             CServerSessionManager::GetInstance()->Get_Player()->Get_Camera()->Set_FadeInOut(1.f, false);
+            CChat_Manager::GetInstance()->Set_Active(true);
             CUI* pUI = CUI_Manager::GetInstance()->Find_UI((LEVELID)CGameInstance::GetInstance()->Get_CurrLevelIndex(), TEXT("UI_Chat"));
             if (nullptr != pUI)
             {
@@ -850,8 +851,8 @@ void CUI_NPC_ItemUpgrade::Update_UpgradeButton(POINT pt, _float fTimeDelta)
             CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"Item_Upgrade_Wating.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
             m_bResultWaiting = true;
             _uint SuccessPercent = 0;
-            SuccessPercent = CGameInstance::GetInstance()->Random_Int(0, 100);
-            if (50 < SuccessPercent)
+            SuccessPercent = CGameInstance::GetInstance()->Random_Int(1, 100);
+            if (75 < SuccessPercent)
             {
                 CPlayer* pPlayer = CServerSessionManager::GetInstance()->Get_Player();
 
@@ -908,7 +909,6 @@ void CUI_NPC_ItemUpgrade::Update_QuitButton(POINT pt)
         CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"ClickedSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
         CSound_Manager::GetInstance()->Stop_Channel_Sound(L"RomanticWeapon");
         CSound_Manager::GetInstance()->Resume_Channel(L"CastleBern");
-        CChat_Manager::GetInstance()->Set_Active(true);
     }
 }
 

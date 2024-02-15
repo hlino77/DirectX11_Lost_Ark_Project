@@ -89,11 +89,11 @@ void CUI_LoadingLabelBottom::Set_ToolTip()
         break;
 
     case 3:
-        m_strToolTips = TEXT("쓸거추천받습니다.");
+        m_strToolTips = TEXT("C++ 강의는 인프런 버거형");
         break;
 
     case 4:
-        m_strToolTips = TEXT("쓸게없다");
+        m_strToolTips = TEXT("자료참고 녹화 중, 팀에서 한 명만이 발탄레이드 중 낙사했습니다.");
         break;
     }
 }

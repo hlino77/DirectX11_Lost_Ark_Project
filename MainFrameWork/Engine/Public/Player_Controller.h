@@ -253,7 +253,7 @@ protected:
 	_uint					m_iEstherFill = { 5 };
 
 	_uint					m_iMaxEstherGage = { 100 };
-	_uint					m_iCurEstherGage = { 0 };
+	_uint					m_iCurEstherGage = { 95 };
 	vector<CGameObject*>	m_vecEsther;
 
 	/* Äð Å¸ÀÓ */

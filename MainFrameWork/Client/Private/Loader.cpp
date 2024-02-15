@@ -5200,6 +5200,11 @@ HRESULT CLoader::Loading_ChaosDungeon_UI()
 			return E_FAIL;
 		pUIManager->Add_CurrFile();
 
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Chaos_Dungeon_OrangeShine"),
+			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Chaos_Dungeon/OrangeShine.png"))))
+			return E_FAIL;
+		pUIManager->Add_CurrFile();
+
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Boss_Emblem"),
 			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/Monster_Hp/Boss_Emblem%d.png",3))))
 			return E_FAIL;
@@ -5294,6 +5299,8 @@ HRESULT CLoader::Loading_ChaosDungeon_UI()
 			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/InteruptSkill/Fill.png"))))
 			return E_FAIL;
 		pUIManager->Add_CurrFile();
+
+
 
 	}
 
