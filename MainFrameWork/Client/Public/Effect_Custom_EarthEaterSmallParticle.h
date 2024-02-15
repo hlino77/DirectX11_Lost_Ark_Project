@@ -44,6 +44,7 @@ public:
 
 	void	Set_Swing();
 	
+	void	Effect_Exit();
 private:
 	virtual HRESULT Ready_Components() override;
 	void	Update_Rotation(_float fTimeDelta);

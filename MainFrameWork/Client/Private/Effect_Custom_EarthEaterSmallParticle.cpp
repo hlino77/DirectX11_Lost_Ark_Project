@@ -258,6 +258,12 @@ void CEffect_Custom_EarthEaterSmallParticle::Set_Swing()
 	m_SwingPos.push_front(vPos);
 }
 
+void CEffect_Custom_EarthEaterSmallParticle::Effect_Exit()
+{
+	Set_Active(false);
+	CPool<CEffect_Custom_EarthEaterSmallParticle>::Return_Obj(this);
+}
+
 void CEffect_Custom_EarthEaterSmallParticle::Update_Rotation(_float fTimeDelta)
 {
 	Vec3 vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);

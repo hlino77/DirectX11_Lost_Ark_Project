@@ -380,13 +380,13 @@ void CState_WDR_EarthEater::Effect_Exit()
 {
 	for (auto& Effect : m_Particles)
 	{
-		Effect->Set_Dead(true);
+		dynamic_cast<CEffect_Custom_EarthEaterParticle*>(Effect)->Effect_Exit();
 	}
 
 
 	for (auto& Effect : m_SmallParticles)
 	{
-		Effect->Set_Dead(true);
+		dynamic_cast<CEffect_Custom_EarthEaterSmallParticle*>(Effect)->Effect_Exit();
 	}
 
 
