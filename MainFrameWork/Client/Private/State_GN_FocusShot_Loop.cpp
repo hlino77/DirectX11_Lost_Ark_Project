@@ -126,6 +126,8 @@ void CState_GN_FocusShot_Loop::Tick_State_NoneControl(_float fTimeDelta)
 	if (-1 != m_SkillFrames[m_iSkillCnt] && m_SkillFrames[m_iSkillCnt] <= (_int)m_pPlayer->Get_ModelCom()->Get_Anim_Frame((_uint)m_iFocusShot_Loop))
 	{
 		Effect_Shot();
+
+		m_iSkillCnt++;
 	}
 }
 
