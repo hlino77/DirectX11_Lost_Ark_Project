@@ -71,7 +71,8 @@ private:
     CTextBox* m_pReturnTextBox = { nullptr };
     wstring m_strReturnWndTag;
 
-    _int m_iPartyIndex = { 1 };
+    _int    m_iPartyIndex = { 0 };
+    _int    m_iPartyIds[3] = {0,0,0};
     _uint   m_iChangeButton[2] = { 0, 0 };
 
     RECT m_rcButton[3] = {};

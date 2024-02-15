@@ -46,7 +46,8 @@ HRESULT CUI_WatchingMode::Initialize(void* pArg)
 	m_pTransform_Button->Set_State(CTransform::STATE_POSITION,
 		Vec3((g_iWinSizeX - 100.f) - g_iWinSizeX * 0.5f, -(100.f) + g_iWinSizeY * 0.5f, 0.f));
 	//m_pTransform_NextButton
-	m_pTransform_NextButton->Set_Scale(Vec3(-23.f, 30.f, 1.f));
+	m_pTransform_NextButton->Set_Scale(Vec3(23.f, 30.f, 1.f));
+	m_pTransform_NextButton->Rotation(Vec3(0.f, 0.f, 1.f), XMConvertToRadians(180.f));
 	m_pTransform_NextButton->Set_State(CTransform::STATE_POSITION,
 		Vec3((m_fX + m_fSizeX * 0.35f) - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f));
 	//Vec3((m_fX + m_fSizeX*0.35f) - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f));
@@ -226,14 +227,14 @@ void CUI_WatchingMode::Set_TargetPlayer()
 {
 	if (nullptr == CServerSessionManager::GetInstance()->Get_Player()->Get_Party())
 		return;
-	if (m_iPartyIndex == CServerSessionManager::GetInstance()->Get_Player()->Get_ObjectID())
+	_uint iIndex = 0;
+	for (auto& iter : CServerSessionManager::GetInstance()->Get_Player()->Get_Party()->Get_PartyMembers())
 	{
-		if ((m_iPartyIndex + 1) > CServerSessionManager::GetInstance()->Get_Player()->Get_Party()->Get_PartyMembers().size())
+		if (iter != CServerSessionManager::GetInstance()->Get_Player()->Get_ObjectID())
 		{
-			m_iPartyIndex = 1;
+			m_iPartyIds[iIndex] = iter;
+			iIndex++;
 		}
-		else
-			m_iPartyIndex ++;
 	}
 
 	Find_IndexPartyMember();
@@ -297,35 +298,31 @@ void CUI_WatchingMode::Is_Picking_BackButton(POINT pt)
 			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"ClickedSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
 			if (nullptr == CServerSessionManager::GetInstance()->Get_Player()->Get_Party())
 				return;
-			if ((m_iPartyIndex - 1) == CServerSessionManager::GetInstance()->Get_Player()->Get_ObjectID())
+
+			if ((m_iPartyIndex - 1) < 0)
 			{
-				if ((m_iPartyIndex - 2) < 1)
+				for (size_t i = 2; i >= 0; i--)
 				{
-					if (CServerSessionManager::GetInstance()->Get_Player()->Get_Party()->Get_PartyMembers().size()
-						== CServerSessionManager::GetInstance()->Get_Player()->Get_ObjectID())
-						m_iPartyIndex = CServerSessionManager::GetInstance()->Get_Player()->Get_Party()->Get_PartyMembers().size() - 1;
-					else
-						m_iPartyIndex--;
+					if (0 != m_iPartyIds[i])
+					{
+						m_iPartyIndex = i;
+						break;
+					}
 				}
-				else
-					m_iPartyIndex -= 2;
 			}
 			else
 			{
-				if ((m_iPartyIndex - 1) < 1)
+				m_iPartyIndex--;
+				if (0 == m_iPartyIds[m_iPartyIndex])
 				{
-					if (CServerSessionManager::GetInstance()->Get_Player()->Get_Party()->Get_PartyMembers().size() !=
-						CServerSessionManager::GetInstance()->Get_Player()->Get_ObjectID())
-						m_iPartyIndex = CServerSessionManager::GetInstance()->Get_Player()->Get_Party()->Get_PartyMembers().size();
-					else
-						m_iPartyIndex = CServerSessionManager::GetInstance()->Get_Player()->Get_Party()->Get_PartyMembers().size() - 1;
-				}
-				else
-				{
-					if (1 < CServerSessionManager::GetInstance()->Get_Player()->Get_ObjectID())
-						m_iPartyIndex--;
-					else
-						m_iPartyIndex = CServerSessionManager::GetInstance()->Get_Player()->Get_Party()->Get_PartyMembers().size();
+					for (size_t i = 2; i >= 0; i--)
+					{
+						if (0 != m_iPartyIds[i])
+						{
+							m_iPartyIndex = i;
+							break;
+						}
+					}
 				}
 			}
 			Find_IndexPartyMember();
@@ -391,28 +388,31 @@ void CUI_WatchingMode::Is_Picking_NextButton(POINT pt)
 			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"ClickedSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
 			if (nullptr == CServerSessionManager::GetInstance()->Get_Player()->Get_Party())
 				return;
-			if ((m_iPartyIndex + 1) == CServerSessionManager::GetInstance()->Get_Player()->Get_ObjectID())
+
+			if (2 < (m_iPartyIndex + 1))
 			{
-				if ((m_iPartyIndex + 2) < CServerSessionManager::GetInstance()->Get_Player()->Get_Party()->Get_PartyMembers().size())
+				for (size_t i = 0; i < 3; i++)
 				{
-					if (1 != CServerSessionManager::GetInstance()->Get_Player()->Get_ObjectID())
-						m_iPartyIndex = 1;
-					else
-						m_iPartyIndex = 2;
+					if (0 != m_iPartyIds[i])
+					{
+						m_iPartyIndex = i;
+						break;
+					}
 				}
-				else
-					m_iPartyIndex += 2;
 			}
 			else
 			{
-				if ((m_iPartyIndex + 1) < CServerSessionManager::GetInstance()->Get_Player()->Get_Party()->Get_PartyMembers().size())
-					m_iPartyIndex += 1;
-				else
+				m_iPartyIndex++;
+				if (0 == m_iPartyIds[m_iPartyIndex])
 				{
-					if (1 != CServerSessionManager::GetInstance()->Get_Player()->Get_ObjectID())
-						m_iPartyIndex = 1;
-					else
-						m_iPartyIndex = 2;
+					for (size_t i = 0; i < 3; i++)
+					{
+						if (0 != m_iPartyIds[i])
+						{
+							m_iPartyIndex = i;
+							break;
+						}
+					}
 				}
 			}
 			Find_IndexPartyMember();
@@ -575,7 +575,7 @@ void CUI_WatchingMode::Find_IndexPartyMember()
 {
 	for (auto& iter : CServerSessionManager::GetInstance()->Get_Player()->Get_Party()->Get_PartyMembers())
 	{
-		if (m_iPartyIndex == iter)
+		if (m_iPartyIds[m_iPartyIndex] == iter)
 		{
 			m_pWatchingPlayer = static_cast<CPlayer*>(CGameInstance::GetInstance()->Find_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_PLAYER, iter));
 			if (nullptr == m_pWatchingPlayer)
