@@ -249,11 +249,11 @@ protected:
 	_uint					m_iEstherType;
 
 	_float					m_fEstherAcc = { 0.0f };
-	_float					m_fEstherFillTime = { 5.f };
+	_float					m_fEstherFillTime = { 15.f };
 	_uint					m_iEstherFill = { 5 };
 
 	_uint					m_iMaxEstherGage = { 100 };
-	_uint					m_iCurEstherGage = { 100 };
+	_uint					m_iCurEstherGage = { 0 };
 	vector<CGameObject*>	m_vecEsther;
 
 	/* Äð Å¸ÀÓ */

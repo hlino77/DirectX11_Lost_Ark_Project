@@ -31,9 +31,9 @@ HRESULT CSkill_WR_Guillotine::Initialize(void* pArg)
 	Proj_Desc.eLayer_Collider = (_uint)LAYER_COLLIDER::LAYER_SKILL_PLAYER;
 	Proj_Desc.fAttackTime = 0.1f;
 	Proj_Desc.fRadius = 2.5f;
-	Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 1.7f);
-	Proj_Desc.vChildScale = Vec3(1.2f, 0.6f, 1.5f);
-	Proj_Desc.vChildOffset = Vec3(0.0f, 0.6f, 1.7f);
+	Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 2.2f);
+	Proj_Desc.vChildScale = Vec3(1.2f, 0.6f, 2.0f);
+	Proj_Desc.vChildOffset = Vec3(0.0f, 0.6f, 2.2f);
 	Proj_Desc.iDamage = 900;
 	Proj_Desc.iStagger = 60;
 	Proj_Desc.fRepulsion = 31.f;
