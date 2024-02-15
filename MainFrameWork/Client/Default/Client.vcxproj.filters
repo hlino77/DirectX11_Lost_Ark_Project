@@ -1932,7 +1932,7 @@
     </Filter>
     <Filter Include="02.GameObjects\UI\20.Esther_Gauge">
       <UniqueIdentifier>{2e51cbc3-7eaf-41fc-a5c7-b743285bb551}</UniqueIdentifier>
-	</Filter>
+    </Filter>
     <Filter Include="02.GameObjects\Skill">
       <UniqueIdentifier>{8d10cc98-e544-40a6-8131-c2be45aec2d1}</UniqueIdentifier>
     </Filter>
@@ -2652,9 +2652,6 @@
     </ClInclude>
     <ClInclude Include="..\Public\UI_Tool.h">
       <Filter>02.GameObjects\UI\98.Tool</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\UI_Chat.h">
-      <Filter>02.GameObjects\UI\02.Chat</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI_ChatFrame.h">
       <Filter>02.GameObjects\UI\02.Chat\00.Frame</Filter>
@@ -5133,6 +5130,10 @@
       <Filter>02.GameObjects\Npc\Function_Npc\Valtan_Npc</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI_Chat.h" />
+    <ClInclude Include="..\Public\UI_Chat.h" />
+    <ClInclude Include="..\Public\SkyFloor_Blue.h">
+      <Filter>02.GameObjects\SkyDome</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -5844,9 +5845,6 @@
     </ClCompile>
     <ClCompile Include="..\Private\UI_Tool.cpp">
       <Filter>02.GameObjects\UI\98.Tool</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\UI_Chat.cpp">
-      <Filter>02.GameObjects\UI\02.Chat</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UI_ChatFrame.cpp">
       <Filter>02.GameObjects\UI\02.Chat\00.Frame</Filter>
@@ -8298,6 +8296,10 @@
       <Filter>02.GameObjects\Npc\Function_Npc\Valtan_Npc</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UI_Chat.cpp" />
+    <ClCompile Include="..\Private\UI_Chat.cpp" />
+    <ClCompile Include="..\Private\SkyFloor_Blue.cpp">
+      <Filter>02.GameObjects\SkyDome</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">

@@ -28,7 +28,7 @@ HRESULT CState_SP_Hit_Common::Initialize()
 	else
 		m_TickFunc = &CState_SP_Hit_Common::Tick_State_NoneControl;
 
-	m_SoundFrames.push_back(SOUNDDESC(0, TEXT("Effect"), TEXT("SP_425.wav"))); //  Skill
+	m_SoundFrames.push_back(SOUNDDESC(0, TEXT("Effect"), TEXT("SP_425.wav"), 0.3f)); //  Skill
 	m_SoundFrames.push_back(SOUNDDESC());
 
 	return S_OK;

@@ -29,7 +29,7 @@ HRESULT CState_SP_DimensionalShift_End::Initialize()
 
 
 	// Sound
-	m_SoundFrames.push_back(SOUNDDESC(0, TEXT("Effect"), TEXT("SP_65.wav"))); // Player 
+	m_SoundFrames.push_back(SOUNDDESC(0, TEXT("Effect"), TEXT("SP_65.wav"))); // Skill
 	m_SoundFrames.push_back(SOUNDDESC());
 
 	return S_OK;

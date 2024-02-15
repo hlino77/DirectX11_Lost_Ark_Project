@@ -418,6 +418,7 @@
     <ClInclude Include="..\Public\IT_SP_Helmet_Dino.h" />
     <ClInclude Include="..\Public\IT_SP_Helmet_Legend.h" />
     <ClInclude Include="..\Public\SkyFloor.h" />
+    <ClInclude Include="..\Public\SkyFloor_Blue.h" />
     <ClInclude Include="..\Public\State_GN_Dead_End.h" />
     <ClInclude Include="..\Public\State_GN_Dead_Start.h" />
     <ClInclude Include="..\Public\State_GN_Esther_Bahuntur.h" />
@@ -1111,6 +1112,7 @@
     <ClCompile Include="..\Private\IT_SP_Helmet_Dino.cpp" />
     <ClCompile Include="..\Private\IT_SP_Helmet_Legend.cpp" />
     <ClCompile Include="..\Private\SkyFloor.cpp" />
+    <ClCompile Include="..\Private\SkyFloor_Blue.cpp" />
     <ClCompile Include="..\Private\State_GN_Dead_End.cpp" />
     <ClCompile Include="..\Private\State_GN_Dead_Start.cpp" />
     <ClCompile Include="..\Private\State_GN_Esther_Bahuntur.cpp" />

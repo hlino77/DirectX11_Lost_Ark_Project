@@ -31,8 +31,8 @@ HRESULT CState_SP_Inkshot::Initialize()
 	// Sound
 	m_SoundFrames.push_back(SOUNDDESC(0, TEXT("Effect"), TEXT("SP_118.wav"))); // Skill   0
 	m_SoundFrames.push_back(SOUNDDESC(0, TEXT("Effect"), TEXT("SP_119.wav"))); // Skill   1
-	m_SoundFrames.push_back(SOUNDDESC(0, TEXT("Effect"), TEXT("SP_215.wav"))); // Player  2
-	m_SoundFrames.push_back(SOUNDDESC(0, TEXT("Effect"), TEXT("SP_212.wav"))); // Player  3
+	m_SoundFrames.push_back(SOUNDDESC(0, TEXT("Effect"), TEXT("SP_215.wav"), 0.3f)); // Player  2
+	m_SoundFrames.push_back(SOUNDDESC(0, TEXT("Effect"), TEXT("SP_212.wav"), 0.3f)); // Player  3
 	m_SoundFrames.push_back(SOUNDDESC());
 
 	return S_OK;

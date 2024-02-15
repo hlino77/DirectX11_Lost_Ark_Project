@@ -29,7 +29,7 @@ HRESULT CState_SP_Flyheaven::Initialize()
 	m_SkillFrames.push_back(-1);
 
 	// Sound
-	m_SoundFrames.push_back(SOUNDDESC(0, TEXT("Effect"), TEXT("SP_241.wav"))); // Player
+	m_SoundFrames.push_back(SOUNDDESC(0, TEXT("Effect"), TEXT("SP_241.wav"), 0.3f)); // Player
 	m_SoundFrames.push_back(SOUNDDESC(20, TEXT("Effect"), TEXT("SP_89.wav"))); // Skill
 	m_SoundFrames.push_back(SOUNDDESC());
 

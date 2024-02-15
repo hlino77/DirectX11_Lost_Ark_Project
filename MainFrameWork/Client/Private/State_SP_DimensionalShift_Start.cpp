@@ -24,7 +24,7 @@ HRESULT CState_SP_DimensionalShift_Start::Initialize()
 		m_TickFunc = &CState_SP_DimensionalShift_Start::Tick_State_NoneControl;
 
 	// Sound
-	m_SoundFrames.push_back(SOUNDDESC(0, TEXT("Effect"), TEXT("SP_246.wav"))); // Player 
+	m_SoundFrames.push_back(SOUNDDESC(0, TEXT("Effect"), TEXT("SP_246.wav"), 0.3f)); // Player 
 	m_SoundFrames.push_back(SOUNDDESC());
 
 

@@ -30,6 +30,7 @@
 #include "UI_SpaceBar_Icon.h"
 
 #include "SkyFloor.h"
+#include "SkyFloor_Blue.h"
 
 #include <filesystem>
 #include "QuadTreeMgr.h"
@@ -289,16 +290,19 @@ HRESULT CLevel_Bern::Ready_Layer_SkyBox(const LAYER_TYPE eLayerType)
 	//pSkyFloor->Get_TransformCom()->Set_Scale(Vec3(140.f, 140.f, 140.f));
 	pSkyFloor->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, Vec3(160.f, -136.f, 100.f));
 	
+
+	CSkyFloor_Blue::SkyFloorDescription Bdesc;
 	// ¼¼ ¹øÂ°
-	desc.vTileCount = Vec2(5.f, 5.f);
-	desc.vFloorUVoffset = Vec2(0.0047f, 0.0047f);
-	desc.fAlpha = 0.4f;
-	pSkyFloor = pGameInstance->Add_GameObject(LEVEL_BERN, _uint(eLayerType), TEXT("Prototype_GameObject_SkyFloor"), &desc);
-	if (nullptr == pSkyFloor)
+	Bdesc.vTileCount = Vec2(5.f, 5.f);
+	Bdesc.vFloorUVoffset = Vec2(0.0047f, 0.0047f);
+	Bdesc.fAlpha = 0.4f;
+	CGameObject* pSkyFloor_Blue = pGameInstance->Add_GameObject(LEVEL_BERN, _uint(eLayerType), TEXT("Prototype_GameObject_SkyFloor_Blue"), &Bdesc);
+	if (nullptr == pSkyFloor_Blue)
 		return E_FAIL;
 
 	//pSkyFloor->Get_TransformCom()->Set_Scale(Vec3(140.f, 140.f, 140.f));
-	pSkyFloor->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, Vec3(160.f, -134.f, 100.f));
+	pSkyFloor_Blue->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, Vec3(160.f, -134.f, 100.f));
+
 
 	// IBL
 	CRenderer::Set_IBLTexture(19);

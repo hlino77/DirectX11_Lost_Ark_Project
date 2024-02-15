@@ -23,7 +23,7 @@ HRESULT CState_SP_Resurrect::Initialize()
 		m_TickFunc = &CState_SP_Resurrect::Tick_State_NoneControl;
 
 
-	m_SoundFrames.push_back(SOUNDDESC(0, TEXT("Effect"), TEXT("SP_530.wav"))); // Skill
+	m_SoundFrames.push_back(SOUNDDESC(0, TEXT("Effect"), TEXT("SP_530.wav"), 0.3f)); // Skill
 	m_SoundFrames.push_back(SOUNDDESC());
 
 

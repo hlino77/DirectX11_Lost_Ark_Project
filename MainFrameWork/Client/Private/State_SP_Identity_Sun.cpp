@@ -31,7 +31,7 @@ HRESULT CState_SP_Identity_Sun::Initialize()
 
 
 	// Sound
-	m_SoundFrames.push_back(SOUNDDESC(0, TEXT("Effect"), TEXT("SP_375.wav"))); // Player
+	m_SoundFrames.push_back(SOUNDDESC(0, TEXT("Effect"), TEXT("SP_375.wav"), 0.3f)); // Player
 	m_SoundFrames.push_back(SOUNDDESC(0, TEXT("Effect"), TEXT("SP_4.wav"))); // Skill
 	m_SoundFrames.push_back(SOUNDDESC());
 

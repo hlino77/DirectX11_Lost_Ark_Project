@@ -34,6 +34,7 @@
 
 #include "SkyDome.h"
 #include "SkyFloor.h"
+#include "SkyFloor_Blue.h"
 
 /* À¯Æ¿ */
 #include "Camera_Free.h"
@@ -1395,6 +1396,12 @@ HRESULT CLoader::Loading_For_Level_Bern()
 		CSkyFloor::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 	pUIManager->Add_CurrFile();
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SkyFloor_Blue"),
+		CSkyFloor_Blue::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_NamePlate"),
 		CUI_InGame_NamePlate::Create(m_pDevice, m_pContext))))
