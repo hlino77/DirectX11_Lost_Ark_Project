@@ -247,7 +247,7 @@ technique11 DrawTech
     pass OneBlend // 0
     {
         SetRasterizerState(RS_Effect);
-        SetDepthStencilState(DSS_Effect, 0);
+        SetDepthStencilState(DSS_Default, 0);
         SetBlendState(BS_OneBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
         
         VertexShader = compile vs_5_0 VS_MAIN_DRAW_SMOKE();
@@ -261,7 +261,7 @@ technique11 DrawTech
     pass AlphaBlend // 1
     {
         SetRasterizerState(RS_Effect);
-        SetDepthStencilState(DSS_Effect, 0);
+        SetDepthStencilState(DSS_Default, 0);
         SetBlendState(BS_AlphaBlendEffect, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
         
         VertexShader = compile vs_5_0 VS_MAIN_DRAW_SMOKE();
@@ -275,7 +275,7 @@ technique11 DrawTech
     pass OneBlendClamp // 0
     {
         SetRasterizerState(RS_Effect);
-        SetDepthStencilState(DSS_Effect, 0);
+        SetDepthStencilState(DSS_Default, 0);
         SetBlendState(BS_OneBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
         
         VertexShader = compile vs_5_0 VS_MAIN_DRAW_SMOKE();
@@ -289,7 +289,7 @@ technique11 DrawTech
     pass AlphaBlendClamp // 1
     {
         SetRasterizerState(RS_Effect);
-        SetDepthStencilState(DSS_Effect, 0);
+        SetDepthStencilState(DSS_Default, 0);
         SetBlendState(BS_AlphaBlendEffect, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
         
         VertexShader = compile vs_5_0 VS_MAIN_DRAW_SMOKE();
@@ -303,7 +303,7 @@ technique11 DrawTech
     pass OneBlendBorder // 0
     {
         SetRasterizerState(RS_Effect);
-        SetDepthStencilState(DSS_Effect, 0);
+        SetDepthStencilState(DSS_Default, 0);
         SetBlendState(BS_OneBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
         
         VertexShader = compile vs_5_0 VS_MAIN_DRAW_SMOKE();
@@ -317,7 +317,7 @@ technique11 DrawTech
     pass AlphaBlendBorder // 1
     {
         SetRasterizerState(RS_Effect);
-        SetDepthStencilState(DSS_Effect, 0);
+        SetDepthStencilState(DSS_Default, 0);
         SetBlendState(BS_AlphaBlendEffect, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
         
         VertexShader = compile vs_5_0 VS_MAIN_DRAW_SMOKE();
