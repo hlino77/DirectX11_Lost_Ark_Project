@@ -455,13 +455,32 @@ void CChaosDungean_Server::Update_Ratio()
 	switch (m_eDungeanLevel)
 	{
 	case CHAOSDUNGEANLEVEL::LEVEL1:
-		Send_Ratio(1.0f - ((m_iMonsterCount + m_Monsters.size()) / 100.0f));
+
+		if (m_iMonsterCount == 0 && m_Monsters.size() == 0)
+		{
+			Send_Ratio(1.0f);
+		}
+		else
+		{
+			Send_Ratio(1.0f - ((m_iMonsterCount + m_Monsters.size()) / 100.0f));
+		}
+	
 		break;
 	case CHAOSDUNGEANLEVEL::LEVEL2:
-		Send_Ratio(1.0f - ((m_iBossCount + m_Bosses.size()) / 9.0f));
+		if (m_iBossCount == 0 && m_Bosses.size() == 0)
+		{
+			Send_Ratio(1.0f);
+		}
+		else
+		{
+			Send_Ratio(1.0f - ((m_iBossCount + m_Bosses.size()) / 9.0f));
+		}
 		break;
 	case CHAOSDUNGEANLEVEL::LEVEL3:
-		Send_Ratio(1.0f - ((m_iBossCount + m_Bosses.size()) / 1));
+		if (m_iBossCount == 0 && m_Bosses.size() == 0)
+		{
+			Send_Ratio(1.0f);
+		}
 		break;
 	}
 
@@ -470,6 +489,8 @@ void CChaosDungean_Server::Update_Ratio()
 
 void CChaosDungean_Server::Send_Ratio(_float fRatio)
 {
+	
+
 	Protocol::S_DUNGEANRATIO pkt;
 	pkt.set_fratio(fRatio);
 	for (auto& Player : m_Players)
