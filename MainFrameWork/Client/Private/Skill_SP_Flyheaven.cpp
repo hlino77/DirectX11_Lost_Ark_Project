@@ -40,7 +40,7 @@ HRESULT CSkill_SP_Flyheaven::Initialize(void* pArg)
 	Proj_Desc.fRadius = 1.f;
 	Proj_Desc.vOffset = Vec3(0.0f, 0.6f, 0.0f);
 	Proj_Desc.IsMove = true;
-	Proj_Desc.fMoveSpeed = 4.8f;
+	Proj_Desc.fMoveSpeed = 4.6f;
 	Proj_Desc.iDamage = 1000;
 	Proj_Desc.iStagger = 70;
 	Proj_Desc.iStatusEffect = (_uint)STATUSEFFECT::STUN;

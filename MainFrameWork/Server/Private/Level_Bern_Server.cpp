@@ -65,17 +65,6 @@ HRESULT CLevel_Bern_Server::Initialize()
 
 HRESULT CLevel_Bern_Server::Tick(const _float& fTimeDelta)
 {
-	if (GetAsyncKeyState('V') & 0x8000 && GetAsyncKeyState('1') & 0x8000)
-	{
-		if (m_bKey_Lock)
-			return S_OK;
-		m_bKey_Lock = true;
-
-		Enter_ValtanMain();
-	}
-	else
-		m_bKey_Lock = false;
-
 
 	return S_OK;
 }
@@ -139,6 +128,7 @@ HRESULT CLevel_Bern_Server::Ready_Layer_Npc(const LAYER_TYPE eLayerType)
 	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 
 	pGameInstance->Add_GameObject(LEVEL_BERN, (_uint)eLayerType, TEXT("Prototype_GameObject_Guide_Chaos_Npc"));
+	pGameInstance->Add_GameObject(LEVEL_BERN, (_uint)eLayerType, TEXT("Prototype_GameObject_Guide_Valtan_Npc"));
 
 	RELEASE_INSTANCE(CGameInstance);
 

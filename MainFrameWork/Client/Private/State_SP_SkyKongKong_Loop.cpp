@@ -79,7 +79,6 @@ void CState_SP_SkyKongKong_Loop::Exit_State()
 		StopStateSound();
 	}
 
-	
 }
 
 void CState_SP_SkyKongKong_Loop::Tick_State_Control(_float fTimeDelta)
@@ -106,6 +105,8 @@ void CState_SP_SkyKongKong_Loop::Tick_State_Control(_float fTimeDelta)
 
 	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iSkyKongKong_Loop) && true == m_bComboContinue)
 	{
+		m_bComboContinue = false;
+
 		Vec3 vClickPos;
 		if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
 			m_pPlayer->Set_TargetPos(vClickPos);
@@ -116,62 +117,11 @@ void CState_SP_SkyKongKong_Loop::Tick_State_Control(_float fTimeDelta)
 	}
 	else if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iSkyKongKong_Loop) && false == m_bComboContinue)
 	{
-		m_pPlayer->Get_SP_Controller()->Get_SkillMessage(m_eSkillSelectKey);
 		m_iContinueCnt = 0;
 
-		_uint iIdentity = static_cast<CController_SP*>(m_pController)->Is_SP_Identity();
+		m_pPlayer->Get_SP_Controller()->Get_SkillMessage(m_eSkillSelectKey);
 
-		Vec3 vClickPos;
-		if (true == m_pController->Is_Dash())
-		{
-			if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
-				m_pPlayer->Set_TargetPos(vClickPos);
-			else
-				m_pPlayer->Set_TargetPos(Vec3());
-
-			m_pPlayer->Set_State(TEXT("Dash"));
-		}
-		else if (true == m_pController->Is_Skill())
-		{
-			if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
-				m_pPlayer->Set_TargetPos(vClickPos);
-			else
-				m_pPlayer->Set_TargetPos(Vec3());
-
-			m_pPlayer->Set_State(m_pController->Get_SkillStartName(m_pController->Get_Selected_Skill()));
-		}
-		else if (true == m_pController->Is_Attack())
-		{
-			if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
-				m_pPlayer->Set_TargetPos(vClickPos);
-			else
-				m_pPlayer->Set_TargetPos(Vec3());
-
-			m_pPlayer->Set_State(TEXT("Attack_1"));
-		}
-		else if (0 != iIdentity)
-		{
-			Vec3 vClickPos;
-			if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
-				m_pPlayer->Set_TargetPos(vClickPos);
-			else
-				m_pPlayer->Set_TargetPos(Vec3());
-
-			if (1 == iIdentity)
-				m_pPlayer->Set_State(TEXT("Identity_Moon"));
-			else if (2 == iIdentity)
-				m_pPlayer->Set_State(TEXT("Identity_Sun"));
-		}
-		else if (true == m_pController->Is_Run())
-		{
-			if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
-			{
-				m_pPlayer->Set_TargetPos(vClickPos);
-				m_pPlayer->Set_State(TEXT("Run"));
-			}
-		}
-		else
-			m_pPlayer->Set_State(TEXT("Skill_SP_SkyKongKong_End"));
+		m_pPlayer->Set_State(TEXT("Skill_SP_SkyKongKong_End"));
 	}
 		
 }

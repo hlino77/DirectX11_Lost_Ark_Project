@@ -364,7 +364,7 @@ void CPlayer_Gunslinger::OnCollisionEnter(const _uint iColLayer, CCollider* pOth
 					Add_CollisionStay((_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER, pOther);
 				}
 			}
-			else if ((_uint)LAYER_COLLIDER::LAYER_BODY_BOSS == pOther->Get_ColLayer())
+			else if ((_uint)LAYER_COLLIDER::LAYER_BODY_BOSS == pOther->Get_ColLayer() && TEXT("Dead_End") != Get_State())
 			{
 				if (false == static_cast<CBoss*>(pOther->Get_Owner())->Is_Dummy())
 				{
@@ -376,7 +376,14 @@ void CPlayer_Gunslinger::OnCollisionEnter(const _uint iColLayer, CCollider* pOth
 				m_pController->Set_Control_Active(false);
 				Set_State(TEXT("Idle"));
 			}
-
+		}
+		else if (iColLayer == (_uint)LAYER_COLLIDER::LAYER_ATTACK_PLAYER)
+		{
+			//CSound_Manager::GetInstance()->PlaySoundFile(TEXT("Effect"), TEXT("GN_Hitted_327.wav"), 0.2f);
+		}
+		else if (iColLayer == (_uint)LAYER_COLLIDER::LAYER_SKILL_PLAYER)
+		{
+			//CSound_Manager::GetInstance()->PlaySoundFile(TEXT("Effect"), TEXT("GN_Hitted_327.wav"), 0.2f);
 		}
 	}
 	else
@@ -388,7 +395,8 @@ void CPlayer_Gunslinger::OnCollisionEnter(const _uint iColLayer, CCollider* pOth
 				Add_CollisionStay((_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER, pOther);
 			}
 		}
-		else if (iColLayer == (_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER && (_uint)LAYER_COLLIDER::LAYER_BODY_BOSS == pOther->Get_ColLayer())
+		else if (iColLayer == (_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER && (_uint)LAYER_COLLIDER::LAYER_BODY_BOSS == pOther->Get_ColLayer()
+			&& TEXT("Dead_End") != Get_State())
 		{
 			if (false == static_cast<CBoss*>(pOther->Get_Owner())->Is_Dummy())
 			{
@@ -579,7 +587,8 @@ _bool CPlayer_Gunslinger::Get_CellPickingPos(Vec3& vPickPos)
 
 	if (true == m_IsClickNpc)
 	{
-		m_pController->Get_MoveToNpcMessage();
+		//m_pController->Get_MoveToNpcMessage();
+		m_pController->Get_MoveToCellMessage();
 	}
 	else
 	{

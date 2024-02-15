@@ -99,13 +99,14 @@ void CState_WDR_EarthEater::Exit_State()
 	if (true == m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor())
 		m_pPlayer->Set_SuperArmorState(false);
 
-	m_Particles.clear();
-	m_SmallParticles.clear();
-
 	if (true == m_pPlayer->Is_CancelState())
 	{
+		Effect_Exit();
 		StopStateSound();
 	}
+
+	m_Particles.clear();
+	m_SmallParticles.clear();
 }
 
 void CState_WDR_EarthEater::Tick_State_Control(_float fTimeDelta)

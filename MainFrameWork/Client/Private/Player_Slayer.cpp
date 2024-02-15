@@ -363,6 +363,15 @@ void CPlayer_Slayer::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 				Set_State(TEXT("Idle"));
 			}
 		}
+		else if (iColLayer == (_uint)LAYER_COLLIDER::LAYER_ATTACK_PLAYER)
+		{
+			//CSound_Manager::GetInstance()->PlaySoundFile(TEXT("Effect"), TEXT("WR_Hitted_56.wav"), 0.2f);
+		}
+		else if (iColLayer == (_uint)LAYER_COLLIDER::LAYER_SKILL_PLAYER)
+		{
+			//CSound_Manager::GetInstance()->PlaySoundFile(TEXT("Effect"), TEXT("WR_Hitted_56.wav"), 0.2f);
+		}
+
 
 		if (TEXT("WR_Identity_Skill") != Get_State() && false == m_pController->Is_Identity())
 		{
@@ -376,7 +385,7 @@ void CPlayer_Slayer::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 				else if ((_uint)LAYER_COLLIDER::LAYER_BODY_BOSS == pOther->Get_ColLayer())
 				{
 					if (-1 != m_pController->Get_IdenGage())
-						m_pController->Increase_IdenGage(0.1f);
+						m_pController->Increase_IdenGage(1.f);
 				}
 			}
 			else if (iColLayer == (_uint)LAYER_COLLIDER::LAYER_SKILL_PLAYER)
@@ -389,7 +398,7 @@ void CPlayer_Slayer::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 				else if ((_uint)LAYER_COLLIDER::LAYER_BODY_BOSS == pOther->Get_ColLayer())
 				{
 					if (-1 != m_pController->Get_IdenGage())
-						m_pController->Increase_IdenGage(0.8f);
+						m_pController->Increase_IdenGage(8.f);
 				}
 			}
 		}
@@ -457,7 +466,7 @@ void CPlayer_Slayer::OnCollisionStay(const _uint iColLayer, CCollider* pOther)
 				m_pController->Get_CheckLengthMessage(1.f, pOther->Get_Owner());
 			}
 		}
-		else if ((_uint)LAYER_COLLIDER::LAYER_BODY_BOSS == pOther->Get_ColLayer())
+		else if ((_uint)LAYER_COLLIDER::LAYER_BODY_BOSS == pOther->Get_ColLayer() && TEXT("Dead_End") != Get_State())
 		{
 			if (false == static_cast<CBoss*>(pOther->Get_Owner())->Is_Dummy())
 			{
@@ -512,7 +521,7 @@ void CPlayer_Slayer::OnCollisionExit(const _uint iColLayer, CCollider* pOther)
 				Delete_CollisionStay((_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER, pOther);
 			}
 		}
-		else if ((_uint)LAYER_COLLIDER::LAYER_BODY_BOSS == pOther->Get_ColLayer())
+		else if (iColLayer == (_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER && (_uint)LAYER_COLLIDER::LAYER_BODY_BOSS == pOther->Get_ColLayer() && TEXT("Dead_End") != Get_State())
 		{
 			if (false == static_cast<CBoss*>(pOther->Get_Owner())->Is_Dummy())
 			{

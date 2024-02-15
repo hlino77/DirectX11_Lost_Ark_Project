@@ -79,6 +79,8 @@ void CState_WDR_FullSwing_Fail::Exit_State()
 
 	if (true == m_pPlayer->Is_CancelState())
 	{
+		Effect_TrailEnd1();
+		Effect_TrailEnd2();
 		StopStateSound();
 	}
 }

@@ -172,6 +172,7 @@
     <ClCompile Include="..\Private\Common_BT_TwistLand_Server.cpp" />
     <ClCompile Include="..\Private\Common_BT_Twist_Server.cpp" />
     <ClCompile Include="..\Private\Guide_Chaos_Npc_Server.cpp" />
+    <ClCompile Include="..\Private\Guide_Valtan_Npc_Server.cpp" />
     <ClCompile Include="..\Private\King_BT_Attack_Attack2_Server.cpp" />
     <ClCompile Include="..\Private\King_BT_Attack_Attack3_Server.cpp" />
     <ClCompile Include="..\Private\King_BT_Attack_Attack4_Server.cpp" />
@@ -286,6 +287,7 @@
     <ClInclude Include="..\Public\BreakAbleObject_Server.h" />
     <ClInclude Include="..\Public\Common_BT_IF_SecondHit_Server.h" />
     <ClInclude Include="..\Public\Guide_Chaos_Npc_Server.h" />
+    <ClInclude Include="..\Public\Guide_Valtan_Npc_Server.h" />
     <ClInclude Include="..\Public\ItemCode.h" />
     <ClInclude Include="..\Public\Monster_Prison_Server.h" />
     <ClInclude Include="..\Public\Npc_Server.h" />

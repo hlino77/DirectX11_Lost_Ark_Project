@@ -32,10 +32,10 @@ HRESULT CState_WDR_SizemicHammer::Initialize()
 
 
 	m_SoundFrames.push_back(SOUNDDESC(0, TEXT("Effect"), TEXT("WDR_231.wav"))); // Player   0
-	m_SoundFrames.push_back(SOUNDDESC(10, TEXT("Effect"), TEXT("WDR_222.wav"))); // Player   1
-
+	m_SoundFrames.push_back(SOUNDDESC(8, TEXT("Effect"), TEXT("WDR_222.wav"))); // Player   1
+	
 	m_SoundFrames.push_back(SOUNDDESC(0, TEXT("Effect"), TEXT("WDR_166.wav"))); // Skill    2
-	m_SoundFrames.push_back(SOUNDDESC(10, TEXT("Effect"), TEXT("WDR_167.wav"))); // Skill    3
+	m_SoundFrames.push_back(SOUNDDESC(8, TEXT("Effect"), TEXT("WDR_167.wav"))); // Skill    3
 	m_SoundFrames.push_back(SOUNDDESC(20, TEXT("Effect"), TEXT("WDR_168.wav"))); // Skill    4
 	m_SoundFrames.push_back(SOUNDDESC());
 

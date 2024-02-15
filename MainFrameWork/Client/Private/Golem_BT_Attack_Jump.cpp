@@ -19,10 +19,20 @@ void CGolem_BT_Attack_Jump::OnStart()
 
 	m_Shoot[0] = true;
 	m_Shoot[1] = true;
+
+	m_iMaxSound = 2;
+	for (size_t i = 0; i < m_iMaxSound; i++)
+	{
+		m_bSoundOn[i] = false;
+	}
 };
 
 CBT_Node::BT_RETURN CGolem_BT_Attack_Jump::OnUpdate(const _float& fTimeDelta)
 {
+	Add_Sound(0, 0, TEXT("Effect"), TEXT("Rook_19"), 12);
+	Add_Sound(0, 1, TEXT("Effect"), TEXT("Rook_15"), 30, 1.f);
+	Add_Sound(0, 1, TEXT("Effect"), TEXT("Rook_40"), 31, 1.f);
+
 	if (m_Shoot[0] && m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex)
 	{ 
 		CEffect_Manager::EFFECTPIVOTDESC desc;

@@ -77,8 +77,12 @@ HRESULT CNpc::Initialize(void* pArg)
 		m_NpcDesc.iTalkSequence = pDesc->iTalkSequence;
 		m_NpcDesc.vecTalks = pDesc->vecTalks;
 		m_NpcDesc.vecTalkSound = pDesc->vecTalkSound;
-		if (0 < m_NpcDesc.vecTalks.size())
+
+		if (m_NpcDesc.vecTalks.size() != 0)
+		{
 			m_NpcDesc.IsTalk = true;
+		}
+
 		m_NpcDesc.bUseWeaponPart = pDesc->bUseWeaponPart;
 
 		m_NpcDesc.strLeftPart = pDesc->strLeftPart;
