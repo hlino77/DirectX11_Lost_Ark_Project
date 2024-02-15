@@ -2,6 +2,7 @@
 #include "Common_BT_Spawn.h"
 #include "Monster.h"
 #include "Model.h"
+#include <Boss.h>
 CCommon_BT_Spawn::CCommon_BT_Spawn()
 {
 }
@@ -9,15 +10,19 @@ CCommon_BT_Spawn::CCommon_BT_Spawn()
 void CCommon_BT_Spawn::OnStart()
 {
 	__super::OnStart(0);
-
-	if (m_pGameObject->Get_ObjectType() == OBJ_TYPE::MONSTER)
-		static_cast<CMonster*>(m_pGameObject)->LookAt_Target_Direction();
-
+	static_cast<CMonster*>(m_pGameObject)->LookAt_Target_Direction();
 }
 
 CBT_Node::BT_RETURN CCommon_BT_Spawn::OnUpdate(const _float& fTimeDelta)
 {
-
+	if (m_pGameObject->Get_ObjectType() == OBJ_TYPE::BOSS)
+	{
+		if (static_cast<CBoss*>(m_pGameObject)->Get_BossType() == CBoss::BOSS_TYPE::KING)
+		{
+			Add_Sound(0, 0, L"Effect", L"KING_75");
+			Add_Sound(0, 1, L"Effect", L"KING_78",104);
+		}
+	}
 	return __super::OnUpdate(fTimeDelta);
 }
 

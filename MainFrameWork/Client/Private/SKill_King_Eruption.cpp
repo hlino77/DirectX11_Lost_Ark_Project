@@ -4,6 +4,9 @@
 #include <ColliderFrustum.h>
 #include "ColliderSphere.h"
 #include "CollisionManager.h"
+#include "ServerSessionManager.h"
+#include "Player.h"
+#include "Camera_Player.h"
 
 CSkill_King_Eruption::CSkill_King_Eruption(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CSkill(pDevice,pContext)
@@ -38,9 +41,14 @@ void CSkill_King_Eruption::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
 	m_fBlinkTime -= fTimeDelta;
+
 	if (m_fBlinkTime < 0.f&&m_fLastTime > 0.f)
 	{
-		m_fBlinkTime =  5.f;
+		if (!m_bSoundOn)
+		{
+			CSound_Manager::GetInstance()->PlaySoundFile(L"Effect", L"KING_5.wav",0.7f);
+			m_bSoundOn = true;
+		}
 		m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->SetActive(true);
 	}
 }

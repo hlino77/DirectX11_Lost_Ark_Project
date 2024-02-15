@@ -114,7 +114,7 @@ void CValtan_BT_Attack_Attack_Base::Add_Stone(Vec3 vPosition)
 	pSkill->Get_TransformCom()->LookAt_ForLandObject(Vec3(100.0f, 0.19f, 100.0f));
 	static_cast<CSkill*>(pSkill)->Set_Atk(50);
 	static_cast<CSkill*>(pSkill)->Set_Force(32.f);
-	static_cast<CSkill*>(pSkill)->Set_SoundTag(L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#270 (446527950).wav");
+	static_cast<CSkill*>(pSkill)->Set_SoundTag(L"Valtan#270 (446527950).wav");
 }
 
 

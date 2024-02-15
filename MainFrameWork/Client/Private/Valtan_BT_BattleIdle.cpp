@@ -16,6 +16,8 @@ void CValtan_BT_BattleIdle::OnStart()
 CBT_Node::BT_RETURN CValtan_BT_BattleIdle::OnUpdate(const _float& fTimeDelta)
 {
 	static_cast<CMonster*>(m_pGameObject)->LookAt_Target_Direction_Lerp(fTimeDelta);
+
+	Add_Sound(0, 1, L"Effect", L"Valtan#110 (618835666)");
 	return BT_RUNNING;
 }
 

@@ -46,7 +46,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_SwingSeismic::OnUpdate(const _float& fTime
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[1].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[1].iAnimIndex) >= 56 && m_bShoot)
 	{
 		m_bShoot = false;
-		Add_Sound( L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#19 (579691751)");
+		Add_Sound( L"Effect", L"Valtan#19 (579691751)");
 		CServerSessionManager::GetInstance()->Get_Player()->Get_Camera()->Cam_Shake(0.05f, 50.0f, 0.1f, 11.0f);
 		CSkill::ModelDesc ModelDesc = {};
 		ModelDesc.iLayer = (_uint)LAYER_TYPE::LAYER_SKILL;
@@ -62,7 +62,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_SwingSeismic::OnUpdate(const _float& fTime
 			vPos += vLook * 2.5f;
 			pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
 			pSkill->Get_TransformCom()->LookAt_Dir(vLook);
-			static_cast<CSkill*>(pSkill)->Set_SoundTag(L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#220 (262642769)");
+			static_cast<CSkill*>(pSkill)->Set_SoundTag(L"Valtan#220 (262642769)");
 		}
 		if (static_cast<CBoss*>(m_pGameObject)->Is_Dummy())
 		{
@@ -88,11 +88,11 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_SwingSeismic::OnUpdate(const _float& fTime
 			static_cast<CBoss*>(m_pGameObject)->Set_CounterSkill(false);
 	}
 
-	Add_Sound(0, 0, L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#16 (800951587)");
-	Add_Sound(0, 1, L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#13 (8442846)");
-	Add_Sound(0, 2, L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#18 (376955622)",45);
-	Add_Sound(1, 3, L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#14 (1063317697)");
-	Add_Sound(1, 4, L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#21 (9074067)",50);
+	Add_Sound(0, 0, L"Effect", L"Valtan#16 (800951587)");
+	Add_Sound(0, 1, L"Effect", L"Valtan#13 (8442846)");
+	Add_Sound(0, 2, L"Effect", L"Valtan#18 (376955622)",45);
+	Add_Sound(1, 3, L"Effect", L"Valtan#14 (1063317697)");
+	Add_Sound(1, 4, L"Effect", L"Valtan#21 (9074067)",50);
 
 	return __super::OnUpdate(fTimeDelta);
 }

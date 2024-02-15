@@ -163,8 +163,8 @@ HRESULT CChaosDungean_Server::Ready_ChaosDungean(CHAOSDUNGEANLEVEL eLevel)
 	case CHAOSDUNGEANLEVEL::LEVEL3:
 		m_iCurrLevel = LEVELID::LEVEL_CHAOS_3;
 		m_fStartDelay = 5.0f;
-		m_iMonsterCount = 1;
-		m_iMonsterMaxSpawnCount = 1;
+		m_iMonsterCount = 40;
+		m_iMonsterMaxSpawnCount = 20;
 		m_iBossCount = 1;
 		m_MonsterSpawnList.push_back(L"Pawn");
 		m_BossSpawnList.push_back(L"King");
@@ -226,11 +226,10 @@ void CChaosDungean_Server::Spawn_Monster()
 		vPos = Vec3(99.84f, -1.8f, 111.9f);
 		_uint iMonster = rand() % m_MonsterSpawnList.size();
 		szMonsterName = m_MonsterSpawnList[iMonster];
-		vPos = Vec3(vPos.x + CGameInstance::GetInstance()->Get_RandomFloat(-4.f, 4.f), vPos.y, vPos.z + CGameInstance::GetInstance()->Get_RandomFloat(-4.f, 4.f));
 
 		if (m_iBossCount > 0)
 			Broadcast_Boss(vPos, m_BossSpawnList[0]);
-
+		vPos = Vec3(vPos.x + CGameInstance::GetInstance()->Get_RandomFloat(-4.f, 4.f), vPos.y, vPos.z + CGameInstance::GetInstance()->Get_RandomFloat(-4.f, 4.f));
 	}
 		break;
 	}

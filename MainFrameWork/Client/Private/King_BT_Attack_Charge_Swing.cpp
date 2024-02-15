@@ -29,6 +29,9 @@ CBT_Node::BT_RETURN CKing_BT_Attack_Charge_Swing::OnUpdate(const _float& fTimeDe
 		CGameObject* pSkill = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_Skill_King_ChargeSwing", &ModelDesc);
 		if (pSkill != nullptr)
 		{
+			Add_Sound(L"Effect", L"KING_56");
+			Add_Sound(L"Effect", L"KING_48");
+			Add_Sound(L"Effect", L"KING_77");
 			Vec3 vPos = m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
 			Vec3 vLook = m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_LOOK);
 			vLook.Normalize();
@@ -51,6 +54,8 @@ CBT_Node::BT_RETURN CKing_BT_Attack_Charge_Swing::OnUpdate(const _float& fTimeDe
 		static_cast<CBoss*>(m_pGameObject)->Set_GroggyLock(false);
 		static_cast<CBoss*>(m_pGameObject)->Set_CounterSkill(false);
 	}
+	Add_Sound(0, 0, L"Effect", L"KING_69");
+	Add_Sound(1, 1, L"Effect", L"KING_77");
 	return  __super::OnUpdate(fTimeDelta);
 }
 

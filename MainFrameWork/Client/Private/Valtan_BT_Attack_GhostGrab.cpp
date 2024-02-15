@@ -29,15 +29,15 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_GhostGrab::OnUpdate(const _float& fTimeDel
 	}
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[0].iAnimIndex) >= 52)
 	{
-		CSound_Manager::GetInstance()->Stop_Channel_Sound(L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#28 (615573039)");
+		CSound_Manager::GetInstance()->Stop_Channel_Sound(L"Valtan#28 (615573039)");
 		m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_GRAB_BOSS)->SetActive(false);
 	}
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[3].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[3].iAnimIndex) >= 20&& m_bShoot)
 	{
 		m_bShoot = false;
-		CSound_Manager::GetInstance()->Stop_Channel_Sound(L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#217 (1053313532)");
-		Add_Sound( L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#48 (503572100)"); 
-		Add_Sound( L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#50 (428724023)");
+		CSound_Manager::GetInstance()->Stop_Channel_Sound(L"Valtan#217 (1053313532)");
+		Add_Sound( L"Effect", L"Valtan#48 (503572100)"); 
+		Add_Sound( L"Effect", L"Valtan#50 (428724023)");
 		CSkill::ModelDesc ModelDesc = {};
 			ModelDesc.iLayer = (_uint)LAYER_TYPE::LAYER_SKILL;
 			ModelDesc.iObjectID = -1;
@@ -54,8 +54,8 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_GhostGrab::OnUpdate(const _float& fTimeDel
 				pSkill->Get_TransformCom()->LookAt_Dir(vLook);
 			}
 	}
-	Add_Sound_Channel(0, 0, L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#28 (615573039)");
-	Add_Sound_Channel(2, 1, L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#217 (1053313532)");
+	Add_Sound_Channel(0, 0, L"Effect", L"Valtan#28 (615573039)");
+	Add_Sound_Channel(2, 1, L"Effect", L"Valtan#217 (1053313532)");
 	return __super::OnUpdate(fTimeDelta);
 }
 

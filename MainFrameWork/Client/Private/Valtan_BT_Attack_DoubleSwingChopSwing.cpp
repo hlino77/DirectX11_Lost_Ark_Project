@@ -29,29 +29,29 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_DoubleSwingChopSwing::OnUpdate(const _floa
 {
 	_uint iAnimFrame0 = m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[0].iAnimIndex);
 
-	//if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex && iAnimFrame0 >= 49 && iAnimFrame0 < 53)
-	//{
-	//	m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->SetActive(true);
-	//	m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->Set_Radius(1.5f);
-	//	m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->Set_Offset(Vec3(1.42f, -0.8536f, -0.3f));
-	//	m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->Set_BoneIndex(m_pGameObject->Get_ModelCom()->Find_BoneIndex(TEXT("b_wp_r_01")));
-	//	static_cast<CBoss*>(m_pGameObject)->Set_Atk(30);
-	//	static_cast<CBoss*>(m_pGameObject)->Set_Force(15.f);
-	//}
-	//else if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex && iAnimFrame0 >= 53 && iAnimFrame0 < 68)
-	//	m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->SetActive(false);
+	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex && iAnimFrame0 >= 49 && iAnimFrame0 < 53)
+	{
+		m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->SetActive(true);
+		m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->Set_Radius(1.5f);
+		m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->Set_Offset(Vec3(1.42f, -0.8536f, -0.3f));
+		m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->Set_BoneIndex(m_pGameObject->Get_ModelCom()->Find_BoneIndex(TEXT("b_wp_r_01")));
+		static_cast<CBoss*>(m_pGameObject)->Set_Atk(30);
+		static_cast<CBoss*>(m_pGameObject)->Set_Force(15.f);
+	}
+	else if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex && iAnimFrame0 >= 53 && iAnimFrame0 < 68)
+		m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->SetActive(false);
 
-	//else if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex && iAnimFrame0 >= 68 && iAnimFrame0 < 70)
-	//	m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->SetActive(true);
+	else if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex && iAnimFrame0 >= 68 && iAnimFrame0 < 70)
+		m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->SetActive(true);
 
-	//else if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex && iAnimFrame0 >= 70 && iAnimFrame0 < 92)
-	//	m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->SetActive(false);
+	else if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex && iAnimFrame0 >= 70 && iAnimFrame0 < 92)
+		m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->SetActive(false);
 
-	//else if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex && iAnimFrame0 >= 92 && iAnimFrame0 < 94)
-	//	m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->SetActive(true);
+	else if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex && iAnimFrame0 >= 92 && iAnimFrame0 < 94)
+		m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->SetActive(true);
 
-	//else if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex && iAnimFrame0 >= 94)
-	//	m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->SetActive(false);
+	else if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex && iAnimFrame0 >= 94)
+		m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->SetActive(false);
 
 	_uint iAnimFrame1 = m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[1].iAnimIndex);
 
@@ -62,43 +62,31 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_DoubleSwingChopSwing::OnUpdate(const _floa
 		m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->SetActive(false);
 
 
-	//if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex && iAnimFrame0 >= 94 && m_bShoot[0])
-	//{
-	//	Add_Sound(L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#103 (562236440)");
-	//	m_bShoot[0] = false;
-	//	CServerSessionManager::GetInstance()->Get_Player()->Get_Camera()->Cam_Shake(0.15f, 90.0f, 0.1f, 11.0f);
-	//	CSkill::ModelDesc ModelDesc = {};
-	//	ModelDesc.iLayer = (_uint)LAYER_TYPE::LAYER_SKILL;
-	//	ModelDesc.iObjectID = -1;
-	//	ModelDesc.pOwner = m_pGameObject;
+	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex && iAnimFrame0 >= 94 && m_bShoot[0])
+	{
+		Add_Sound(L"Effect", L"Valtan#103 (562236440)");
+		m_bShoot[0] = false;
+		CServerSessionManager::GetInstance()->Get_Player()->Get_Camera()->Cam_Shake(0.15f, 90.0f, 0.1f, 11.0f);
+		CSkill::ModelDesc ModelDesc = {};
+		ModelDesc.iLayer = (_uint)LAYER_TYPE::LAYER_SKILL;
+		ModelDesc.iObjectID = -1;
+		ModelDesc.pOwner = m_pGameObject;
 
-	//	CGameObject* pSkill = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_Skill_Valtan_DoughnutFirstHit", &ModelDesc);
-	//	if (pSkill != nullptr)
-	//	{
-	//		Vec3 vPos = m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
-	//		Vec3 vLook = m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_LOOK);
-	//		vLook.Normalize();
-	//		vPos += vLook * 1.5f;
-	//		pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
-	//		pSkill->Get_TransformCom()->LookAt_Dir(vLook);
-	//		static_cast<CSkill*>(pSkill)->Set_DoughnutRadii(7.5f,3.3f);
-	//		static_cast<CSkill*>(pSkill)->Set_SoundTag(L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#104 (160150074).wav");
-	//		static_cast<CSkill*>(pSkill)->Set_BlinkTime(1.5f);
-	//		static_cast<CSkill*>(pSkill)->Set_LastTime(1.7f);
-	//	}
-	//}
-	if (KEY_HOLD(KEY::UP_ARROW))
-		m_fDounutRadii[0] += fTimeDelta;
-	if (KEY_HOLD(KEY::DOWN_ARROW))
-		m_fDounutRadii[0] -= fTimeDelta;
-	if (KEY_HOLD(KEY::LEFT_ARROW))
-		m_fDounutRadii[1] -= fTimeDelta;
-	if (KEY_HOLD(KEY::RIGHT_ARROW))
-		m_fDounutRadii[1] += fTimeDelta;
-	if (KEY_TAP(KEY::P))
-		cout << m_fDounutRadii[0] << " , " << m_fDounutRadii[1] << endl;
-	if (KEY_TAP(KEY::O))
-		cout << static_cast<CBoss_Valtan*>(m_pGameObject)->Get_Target_Distance() << endl;
+		CGameObject* pSkill = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_Skill_Valtan_DoughnutFirstHit", &ModelDesc);
+		if (pSkill != nullptr)
+		{
+			Vec3 vPos = m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+			Vec3 vLook = m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_LOOK);
+			vLook.Normalize();
+			vPos += vLook * 3.6f;
+			pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
+			pSkill->Get_TransformCom()->LookAt_Dir(vLook);
+			static_cast<CSkill*>(pSkill)->Set_DoughnutRadii(9.5f, 3.2f);
+			static_cast<CSkill*>(pSkill)->Set_SoundTag(L"Valtan#104 (160150074).wav");
+			static_cast<CSkill*>(pSkill)->Set_BlinkTime(1.5f);
+			static_cast<CSkill*>(pSkill)->Set_LastTime(1.7f);
+		}
+	}
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[1].iAnimIndex && iAnimFrame1 >= 68 && m_bShoot[1])
 	{
 		m_bShoot[1] = false;
@@ -115,7 +103,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_DoubleSwingChopSwing::OnUpdate(const _floa
 			vLook.Normalize();
 			pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
 			pSkill->Get_TransformCom()->LookAt_Dir(vLook);
-			static_cast<CSkill*>(pSkill)->Set_SoundTag(L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#106 (917948767).wav");
+			static_cast<CSkill*>(pSkill)->Set_SoundTag(L"Valtan#106 (917948767).wav");
 			static_cast<CSkill*>(pSkill)->Set_DoughnutRadii(7.f, 2.75f);
 			static_cast<CSkill*>(pSkill)->Set_BlinkTime(1.f);
 			static_cast<CSkill*>(pSkill)->Set_LastTime(1.2f);
@@ -129,18 +117,18 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_DoubleSwingChopSwing::OnUpdate(const _floa
 			vLook.Normalize();
 			pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
 			pSkill->Get_TransformCom()->LookAt_Dir(vLook);		
-			static_cast<CSkill*>(pSkill)->Set_SoundTag(L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#107 (1071718533).wav");
+			static_cast<CSkill*>(pSkill)->Set_SoundTag(L"Valtan#107 (1071718533).wav");
 			static_cast<CSkill*>(pSkill)->Set_DoughnutRadii(10, 6);
 			static_cast<CSkill*>(pSkill)->Set_BlinkTime(2.f);
 			static_cast<CSkill*>(pSkill)->Set_LastTime(2.2f);
 		}
 	}
 	{
-		Add_Sound(0, 0,L"Effect", L"Voice");
-		Add_Sound(0, 4,L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#84 (271442095)");		
-		Add_Sound(0, 1,L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#101 (278609772)", 49);
-		Add_Sound(0, 2,L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#102 (856646398)", 67);
-		Add_Sound(1, 3,L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#105 (220501608)", 45);
+		Add_Sound(0, 0,L"Effect", L"Boss_Voice");
+		Add_Sound(0, 4,L"Effect", L"Valtan#84 (271442095)");		
+		Add_Sound(0, 1,L"Effect", L"Valtan#101 (278609772)", 49);
+		Add_Sound(0, 2,L"Effect", L"Valtan#102 (856646398)", 67);
+		Add_Sound(1, 3,L"Effect", L"Valtan#105 (220501608)", 45);
 	}
 	Update_Effect();
 

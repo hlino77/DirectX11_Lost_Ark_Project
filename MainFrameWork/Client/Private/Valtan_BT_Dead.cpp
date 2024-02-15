@@ -23,7 +23,8 @@ CBT_Node::BT_RETURN CValtan_BT_Dead::OnUpdate(const _float& fTimeDelta)
 		m_pGameObject->Get_ModelCom()->Reserve_NextAnimation(m_vecAnimDesc[m_iCurrAnimation].iAnimIndex, m_vecAnimDesc[m_iCurrAnimation].fChangeTime,
 			m_vecAnimDesc[m_iCurrAnimation].iStartFrame, m_vecAnimDesc[m_iCurrAnimation].iChangeFrame, m_vecAnimDesc[m_iCurrAnimation].fRootDist, m_vecAnimDesc[m_iCurrAnimation].IsRootRot);
 	}
-
+	Add_Sound(0, 0, L"Effect", L"Boss_Down");
+	Add_Sound(0, 1, L"Effect", L"Valtan#2 (613355816)");
 	return __super::OnUpdate(fTimeDelta);
 }
 

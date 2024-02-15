@@ -16,6 +16,18 @@ void CBoss_BT_Groggy::OnStart()
 
 CBT_Node::BT_RETURN CBoss_BT_Groggy::OnUpdate(const _float& fTimeDelta)
 {
+	if (static_cast<CBoss*>(m_pGameObject)->Get_BossType() == CBoss::BOSS_TYPE::VAlTAN)
+	{
+		Add_Sound(0, 0, L"Effect", L"Valtan#420 (392456203)");
+		Add_Sound(0, 1, L"Effect", L"Boss_Down");
+		Add_Sound(2, 2, L"Effect", L"Valtan#433 (156533662)");
+	}
+	else if (static_cast<CBoss*>(m_pGameObject)->Get_BossType() == CBoss::BOSS_TYPE::KING)
+	{
+		Add_Sound(0, 0, L"Effect", L"KING_61");
+		Add_Sound(0, 1, L"Effect", L"KING_58");
+		Add_Sound(2, 2, L"Effect", L"KING_63");
+	}
 	return __super::OnUpdate(fTimeDelta);
 }
 

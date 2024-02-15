@@ -37,6 +37,15 @@ CBT_Node::BT_RETURN CCommon_BT_Attack1::OnUpdate(const _float& fTimeDelta)
 	}
 	if (m_pGameObject->Get_ModelCom()->IsNext())
 		static_cast<CMonster*>(m_pGameObject)->LookAt_Target_Direction_Lerp(fTimeDelta * 5.f);
+
+	if (m_pGameObject->Get_ObjectType() == OBJ_TYPE::BOSS)
+	{
+		if (static_cast<CBoss*>(m_pGameObject)->Get_BossType() == CBoss::BOSS_TYPE::GOLEM)
+		{
+			Add_Sound(0, 0, L"Effect", L"KING_74");
+			Add_Sound(0, 1, L"Effect", L"KING_58");
+		}
+	}
 	return __super::OnUpdate(fTimeDelta);
 }
 

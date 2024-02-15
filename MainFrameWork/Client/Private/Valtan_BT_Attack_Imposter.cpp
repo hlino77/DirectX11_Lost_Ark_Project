@@ -57,9 +57,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Imposter::OnUpdate(const _float& fTimeDelt
 		m_pGameObject->Set_Render(true);
 	if (m_bShoutEffect == false && m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[4].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[4].iAnimIndex) >= 43)
 	{
-		static_cast<CBoss*>(m_pGameObject)->Set_RimLight(0.1f, 0.6f);
 		static_cast<CBoss_Valtan*>(m_pGameObject)->Set_Weapon_RimLight(0.1f, 0.7f);
-
 		CEffect_Manager::EFFECTPIVOTDESC tDesc;
 		tDesc.pPivotMatrix = &m_pGameObject->Get_TransformCom()->Get_WorldMatrix();
 		EFFECT_START(L"VT_ImpShouting", &tDesc);
@@ -74,8 +72,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Imposter::OnUpdate(const _float& fTimeDelt
 			static_cast<CBoss*>(m_pGameObject)->Set_Weapon_Render(false);
 			m_pGameObject->Get_ModelCom()->Set_Anim_Speed(m_vecAnimDesc[4].iAnimIndex, 1.15f);
 		}
-
-		if(m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[4].iAnimIndex) >= 112)
+		if (m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[4].iAnimIndex) >= 112)
 			m_pGameObject->Get_TransformCom()->Go_Up(fTimeDelta * 6.f);
 		else
 			m_pGameObject->Get_TransformCom()->Go_Up(fTimeDelta * 2.f);
@@ -88,7 +85,6 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Imposter::OnUpdate(const _float& fTimeDelt
 		{
 			m_pGameObject->Get_ModelCom()->Set_Anim_Speed(m_vecAnimDesc[4].iAnimIndex, 1.15f);
 		}
-
 		if (m_bJumpEffect == false)
 		{
 			CEffect_Manager::EFFECTPIVOTDESC tDesc;
@@ -149,8 +145,8 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Imposter::OnUpdate(const _float& fTimeDelt
 			m_pLastWarning->Update_Pivot(m_pGameObject->Get_TransformCom()->Get_WorldMatrix());
 		}
 	}
-		
-	
+
+
 	if (m_bWarning[0] == false && m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[3].iAnimIndex)
 	{
 		CEffect_Manager::EFFECTPIVOTDESC tDesc;
@@ -158,7 +154,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Imposter::OnUpdate(const _float& fTimeDelt
 		EFFECT_START(L"VT_ImpWarning", &tDesc);
 		m_bWarning[0] = true;
 	}
-	
+
 
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[3].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[3].iAnimIndex) >= 73 && m_bShoot[0])
 	{
@@ -180,6 +176,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Imposter::OnUpdate(const _float& fTimeDelt
 			pSkill->Get_Colider(_uint(LAYER_COLLIDER::LAYER_SKILL_BOSS))->Set_Radius(3.f);
 			static_cast<CSkill*>(pSkill)->Set_Atk(40);
 			static_cast<CSkill*>(pSkill)->Set_Force(32.f);
+			static_cast<CSkill*>(pSkill)->Set_SoundTag(L"Valtan#160 (275687761)");
 		}
 
 		Matrix matWorld = m_pGameObject->Get_TransformCom()->Get_WorldMatrix();
@@ -206,7 +203,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Imposter::OnUpdate(const _float& fTimeDelt
 				pSkill->Get_TransformCom()->My_Rotation(Vec3(0.f, 60.f * (_float)i, 0.f));
 				static_cast<CSkill*>(pSkill)->Set_Atk(40);
 				static_cast<CSkill*>(pSkill)->Set_Force(32.f);
-				static_cast<CSkill*>(pSkill)->Set_PizzaSlope(15.f,-15.f);
+				static_cast<CSkill*>(pSkill)->Set_PizzaSlope(15.f, -15.f);
 			}
 
 			CEffect_Manager::EFFECTPIVOTDESC tDesc;
@@ -247,6 +244,8 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Imposter::OnUpdate(const _float& fTimeDelt
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[6].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[6].iAnimIndex) >= 8 && m_bShoot[1])
 	{
 		m_bShoot[1] = false;
+		Add_Sound(L"Effect", L"Valtan#160 (275687761)");
+		Add_Sound(L"Effect", L"Valtan#375 (293240220)");
 		CServerSessionManager::GetInstance()->Get_Player()->Get_Camera()->Cam_Shake(2.f, 110.0f, 1.5f, 11.0f);
 		CSkill::ModelDesc ModelDesc = {};
 		ModelDesc.iLayer = (_uint)LAYER_TYPE::LAYER_SKILL;
@@ -255,7 +254,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Imposter::OnUpdate(const _float& fTimeDelt
 		Vec3 vPos = m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
 		Vec3 vLook = m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_LOOK);
 		vLook.Normalize();
-		CGameObject* pSkill =  CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_Skill_Valtan_PizzaInstant", &ModelDesc);
+		CGameObject* pSkill = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_Skill_Valtan_PizzaInstant", &ModelDesc);
 		if (pSkill != nullptr)
 		{
 			pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
@@ -275,15 +274,16 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Imposter::OnUpdate(const _float& fTimeDelt
 			static_cast<CSkill*>(pSkill)->Set_Atk(450);
 			static_cast<CSkill*>(pSkill)->Set_Force(33.f);
 		}
-		
+
 		CEffect_Manager::EFFECTPIVOTDESC tDesc;
 		tDesc.pPivotMatrix = &m_pGameObject->Get_TransformCom()->Get_WorldMatrix();
 		EFFECT_START(L"VT_ImpLand", &tDesc);
 	}
-	
+
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[10].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[10].iAnimIndex) >= 5 && m_bShoot[2])
 	{
 		m_bShoot[2] = false;
+		Add_Sound(L"Effect", L"Valtan#225 (910655979)");
 		CSkill::ModelDesc ModelDesc = {};
 		ModelDesc.iLayer = (_uint)LAYER_TYPE::LAYER_SKILL;
 		ModelDesc.iObjectID = -1;
@@ -319,7 +319,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Imposter::OnUpdate(const _float& fTimeDelt
 			EFFECT_START(L"VT_ImpTrail1", &tDesc);
 			m_bLastTrail = true;
 		}
-		
+
 		if (m_bLastAttack == false && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[10].iAnimIndex) >= 6)
 		{
 			CEffect_Manager::EFFECTPIVOTDESC tDesc;
@@ -329,6 +329,26 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Imposter::OnUpdate(const _float& fTimeDelt
 		}
 	}
 
+	//sound
+	{
+		Add_Sound(0, 0, L"Effect", L"Valtan#113 (872104708)");
+		Add_Sound(0, 1, L"Effect", L"Valtan#153 (153317365)", 24);
+		Add_Sound(2, 2, L"Effect", L"Valtan#43 (1015057785)", 7);
+		Add_Sound(2, 3, L"Effect", L"Valtan#42 (236377491)", 7);
+		Add_Sound(3, 4, L"Effect", L"Valtan#150 (508288221)");
+		Add_Sound(3, 5, L"Effect", L"Valtan#59 (137026933)");
+		Add_Sound(3, 6, L"Effect", L"Valtan#14 (1063317697)", 30);
+		Add_Sound(3, 7, L"Effect", L"Valtan#388 (332056691)", 30);
+		Add_Sound(4, 8, L"Effect", L"Valtan#281#Revised");
+		Add_Sound(4, 9, L"Effect", L"Valtan#161 (23475606)", 43);
+		Add_Sound(4, 10, L"Effect", L"Valtan#401 (669702991)", 90);
+		Add_Sound(4, 11, L"Effect", L"Valtan#50 (428724023)", 108);
+		Add_Sound(5, 12, L"Effect", L"Valtan#110 (618835666)");
+		Add_Sound(8, 13, L"Effect", L"Valtan#15 (848266953)");
+		Add_Sound(8, 14, L"Effect", L"Valtan#84 (271442095)", 27);
+		Add_Sound(9, 15, L"Effect", L"Valtan [146]");
+		Add_Sound(10, 16, L"Effect", L"Valtan#110 (618835666)");
+	}
 	return __super::OnUpdate(fTimeDelta);
 }
 
