@@ -38,7 +38,7 @@ HRESULT CChaosDungean_Server::Initialize(void* pArg)
 
 	m_bEnd = false;
 	m_bStart = false;
-	m_fEndDelay = 5.0f;
+	m_fEndDelay = 30.0f;
 
     return S_OK;
 }
@@ -164,10 +164,10 @@ HRESULT CChaosDungean_Server::Ready_ChaosDungean(CHAOSDUNGEANLEVEL eLevel)
 		break;
 	case CHAOSDUNGEANLEVEL::LEVEL2:
 		m_iCurrLevel = LEVELID::LEVEL_CHAOS_2;
-		m_fStartDelay = 5.0f;
-		m_iMonsterCount = 30;
-		m_iMonsterMaxSpawnCount = 30;
-		m_iBossCount = 6;
+		m_fStartDelay = 3.f;
+		m_iMonsterCount = 100;
+		m_iMonsterMaxSpawnCount = 100;
+		m_iBossCount = 0;
 		m_MonsterSpawnList.push_back(L"Zombie");
 		m_MonsterSpawnList.push_back(L"Plant");	
 		m_BossSpawnList.push_back(L"Golem");

@@ -54,7 +54,7 @@ HRESULT CBoss_King::Initialize(void* pArg)
 	m_eBossType = KING;
 	m_iMaxGroggyGauge = 400;
 	m_iGroggyGauge = m_iMaxGroggyGauge;
-	m_iMaxHp = 6000000000;
+	m_iMaxHp = 12000000000;
 	m_iHp = m_iMaxHp;
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
