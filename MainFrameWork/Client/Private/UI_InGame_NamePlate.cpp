@@ -33,6 +33,9 @@ HRESULT CUI_InGame_NamePlate::Initialize(void* pArg)
 	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixIdentity());
 	XMStoreFloat4x4(&m_ProjMatrix, XMMatrixOrthographicLH(g_iWinSizeX, g_iWinSizeY, 0.f, 1.f));
 
+	if (FAILED(Ready_Components()))
+		return E_FAIL;
+
 	if (nullptr != pArg)
 	{
 		m_pOwner = static_cast<CGameObject*>(pArg);
@@ -72,19 +75,26 @@ void CUI_InGame_NamePlate::Tick(_float fTimeDelta)
 
 void CUI_InGame_NamePlate::LateTick(_float fTimeDelta)
 {
+	__super::LateTick(fTimeDelta);
 	Update_NamePlatePos();
 }
 
 HRESULT CUI_InGame_NamePlate::Render()
 {
-	if(m_bTextOn)
-		m_pInGameNameWnd->Render();
-
+	if (m_bTextOn)
+	{
+		if(m_bRender)
+			m_pInGameNameWnd->Render();
+	}
 	return S_OK;
 }
 
 HRESULT CUI_InGame_NamePlate::Ready_Components()
 {
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Renderer"),
+		TEXT("Com_Renderer"), (CComponent**)&m_pRendererCom)))
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -117,12 +127,11 @@ void CUI_InGame_NamePlate::Update_NamePlatePos()
 
 		if (((-1.f <= vHostPos.x) && (1.f >= vHostPos.x)) && ((-1.f <= vHostPos.y) && (1.f >= vHostPos.y)) && ((0.f <= vHostPos.z) && (1.f >= vHostPos.z)))
 		{
-			if (m_bTextOn)
-				m_pInGameNameWnd->Set_Render(true);
+			m_bRender = true;
 		}
 		else
 		{
-			m_pInGameNameWnd->Set_Render(false);
+			m_bRender = false;
 		}
 	}
 }
@@ -169,6 +178,7 @@ HRESULT CUI_InGame_NamePlate::Ready_TextBox(const wstring& strName)
 			Safe_Release(pGameInstance);
 			return E_FAIL;
 		}
+		m_pInGameNameWnd->Set_Render(false);
 		m_pInGameNameWnd->Set_ScaleUV(Vec2(1.0f, 1.0f));
 		m_pInGameNameWnd->Set_Pos(g_iWinSizeX * 0.5f, g_iWinSizeY * 0.5f);
 	}

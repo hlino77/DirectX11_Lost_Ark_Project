@@ -45,16 +45,16 @@ HRESULT CUI_SpeechBubble::Initialize(void* pArg)
 
     m_pTransformCom->Set_Scale(Vec3(m_fSizeX, m_fSizeY, 1.f));
     m_pTransformCom->Set_State(CTransform::STATE_POSITION,
-        Vec3(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f));
+        Vec3(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.2f));
 
 
     m_pTransformUp->Set_Scale(Vec3(m_fSizeX, 10.0f, 1.f));
     m_pTransformUp->Set_State(CTransform::STATE_POSITION,
-        Vec3(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f));
+        Vec3(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.2f));
 
     m_pTransformDown->Set_Scale(Vec3(m_fSizeX, 19.0f, 1.f));
     m_pTransformDown->Set_State(CTransform::STATE_POSITION,
-        Vec3(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f));
+        Vec3(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.2f));
 
     XMStoreFloat4x4(&m_ViewMatrix, XMMatrixIdentity());
     XMStoreFloat4x4(&m_ProjMatrix, XMMatrixOrthographicLH(g_iWinSizeX, g_iWinSizeY, 0.f, 1.f));
@@ -125,6 +125,8 @@ HRESULT CUI_SpeechBubble::Render()
     m_pShaderCom->Begin(2);
 
     m_pVIBufferCom->Render();
+
+    m_pTextBox->Render();
 
     return S_OK;
 }
@@ -254,19 +256,19 @@ void CUI_SpeechBubble::Setting_HostPos()
         Vec3 vScale = m_pTransformCom->Get_Scale();
 
         m_pTransformCom->Set_State(CTransform::STATE_POSITION,
-            Vec3(vHostPos.x - 20.f, vHostPos.y + (vScale.y * 0.5f) + 30.0f, 0.1f));
+            Vec3(vHostPos.x - 20.f, vHostPos.y + (vScale.y * 0.5f) + 30.0f, 0.2f));
 
         Vec3 vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
         Vec3 vDownScale = m_pTransformDown->Get_Scale();
         Vec3 vUpScale = m_pTransformUp->Get_Scale();
 
         m_pTransformDown->Set_State(CTransform::STATE_POSITION,
-            Vec3(vPos.x, vPos.y - (vScale.y * 0.5f) - (vDownScale.y * 0.5f), 0.1f));
+            Vec3(vPos.x, vPos.y - (vScale.y * 0.5f) - (vDownScale.y * 0.5f), 0.2f));
 
         m_pTransformUp->Set_State(CTransform::STATE_POSITION,
-            Vec3(vPos.x, vPos.y + (vScale.y * 0.5f) + (vUpScale.y * 0.5f), 0.1f));
+            Vec3(vPos.x, vPos.y + (vScale.y * 0.5f) + (vUpScale.y * 0.5f), 0.2f));
 
-        m_pTextBox->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, Vec3(vPos.x, vPos.y, 0.0f));
+        m_pTextBox->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, Vec3(vPos.x, vPos.y, 0.2f));
     }
 }
 
@@ -284,7 +286,7 @@ HRESULT CUI_SpeechBubble::Ready_TextBox(_uint iIndex)
         Safe_Release(pGameInstance);
         return E_FAIL;
     }
-
+    m_pTextBox->Set_Render(false);
     m_pTextBox->Set_ScaleUV(Vec2(1.0f, 1.0f));
     m_pTextBox->Set_Pos(0.0f, 0.0f);
 
