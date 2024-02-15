@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "UI_ChaosDungeon.h"
 #include "GameInstance.h"
+#include "UI_ChaosDungeon_Gauge.h"
 
 CUI_ChaosDungeon::CUI_ChaosDungeon(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CUI(pDevice, pContext)
@@ -47,6 +48,16 @@ HRESULT CUI_ChaosDungeon::Render()
 	return S_OK;
 }
 
+void CUI_ChaosDungeon::Update_Gauge(_float fGauge)
+{
+	m_pGaugeUI->Set_Ratio(fGauge);
+}
+
+_float CUI_ChaosDungeon::Get_Gauge()
+{
+	return m_pGaugeUI->Get_GaugeRatio();
+}
+
 HRESULT CUI_ChaosDungeon::UI_Set()
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
@@ -71,13 +82,13 @@ HRESULT CUI_ChaosDungeon::UI_Set()
 	else
 		return E_FAIL;
 
-	CUI* pUIGauge = static_cast<CUI*>(CGameInstance::GetInstance()->Add_GameObject(pGameInstance->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_ChaosDungeon_Gauge")));
-	if (nullptr != pUIGauge)
-		m_vecUIParts.push_back(pUIGauge);
+	m_pGaugeUI = static_cast<CUI_ChaosDungeon_Gauge*>(CGameInstance::GetInstance()->Add_GameObject(pGameInstance->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_ChaosDungeon_Gauge")));
+	if (nullptr != m_pGaugeUI)
+		m_vecUIParts.push_back(m_pGaugeUI);
 	else
 		return E_FAIL;
 
-	pUI = static_cast<CUI*>(CGameInstance::GetInstance()->Add_GameObject(pGameInstance->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_ChaosDungeon_GaugeCut"), pUIGauge));
+	pUI = static_cast<CUI*>(CGameInstance::GetInstance()->Add_GameObject(pGameInstance->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_ChaosDungeon_GaugeCut"), m_pGaugeUI));
 	if (nullptr != pUI)
 		m_vecUIParts.push_back(pUI);
 	else

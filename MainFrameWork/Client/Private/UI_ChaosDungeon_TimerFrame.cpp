@@ -134,14 +134,17 @@ void CUI_ChaosDungeon_TimerFrame::Print_Stage_Timer()
 	m_pStageNameWnd->Clear_Text();
 	m_pStageNameWnd->Set_Alpha(1.f);
 
-	Vec3 vResultPos = Vec3(m_fX - g_iWinSizeX * 0.5f, -(m_fY - 25.f) + g_iWinSizeY * 0.5f, 0.f);//Vec3(m_fX- g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f);
+	Vec3 vResultPos = Vec3(m_fX - g_iWinSizeX * 0.5f, -(m_fY) + g_iWinSizeY * 0.5f, 0.f);//Vec3(m_fX- g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f);
 	m_pStageNameWnd->Get_TransformCom()->Set_Scale(Vec3(240.f, 80.0f, 0.f));
 	m_pStageNameWnd->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vResultPos);
 
 	Vec2 vMeasure = CGameInstance::GetInstance()->MeasureString(L"던파연마된칼날", m_strTimerAnnounce);
 	Vec2 vOrigin = vMeasure * 0.5f;
-	m_pStageNameWnd->Set_Text(L"ChaosAnnounceWnd", m_szFont, m_strTimerAnnounce, Vec2(120.f, 40.f), Vec2(0.4f, 0.4f), vOrigin, 0.f, Vec4(1.0f, 1.0f, 1.0f, 1.0f));
-	//m_pStageNameWnd->Set_Text(L"ChaosTimerWnd", m_szFont, m_strStageTimer, Vec2(110.f, 40.f), Vec2(1.0f, 1.0f), vOrigin, 0.f, m_vColor);
+	m_pStageNameWnd->Set_Text(L"ChaosAnnounceWnd", m_szFont, m_strTimerAnnounce, Vec2(120.f, 15.f), Vec2(0.4f, 0.4f), vOrigin, 0.f, Vec4(1.0f, 1.0f, 1.0f, 1.0f));
+
+	vMeasure = CGameInstance::GetInstance()->MeasureString(L"던파연마된칼날", TEXT("D - Day"));
+	vOrigin = vMeasure * 0.5f;
+	m_pStageNameWnd->Set_Text(L"ChaosTimerWnd", m_szFont, TEXT("D - Day"), Vec2(m_fSizeX * 0.5f, m_fSizeY * 0.7f), Vec2(0.4f, 0.4f), vOrigin, 0.f, Vec4(1.0f, 1.0f, 1.0f, 1.0f));
 }
 
 void CUI_ChaosDungeon_TimerFrame::Set_Active(_bool bActive)

@@ -26,6 +26,7 @@
 #include "UI_Option.h"
 #include "Renderer.h"
 #include "Sound_Manager.h"
+#include "UI_ChaosDungeon.h"
 
 IMPLEMENT_SINGLETON(CUI_Manager)
 
@@ -442,6 +443,29 @@ void CUI_Manager::Set_LevelCustomOption()
 			static_cast<CUI_Option*>(iter)->Set_LevelCustomOption();
 		}
 	}
+}
+
+void CUI_Manager::Set_ChaosGauge(_float fGauge)
+{
+	for (auto iter : m_pUIList[CGameInstance::GetInstance()->Get_CurrLevelIndex()])
+	{
+		if (TEXT("ChaosDungeon_UI") == iter->Get_UITag())
+		{
+			static_cast<CUI_ChaosDungeon*>(iter)->Update_Gauge(fGauge);
+		}
+	}
+}
+
+_float CUI_Manager::Get_Ratio()
+{
+	for (auto iter : m_pUIList[CGameInstance::GetInstance()->Get_CurrLevelIndex()])
+	{
+		if (TEXT("ChaosDungeon_Gauge") == iter->Get_UITag())
+		{
+			return static_cast<CUI_ChaosDungeon*>(iter)->Get_Gauge();
+		}
+	}
+	return 0.f;
 }
 
 void CUI_Manager::Free()

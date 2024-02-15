@@ -139,6 +139,18 @@ void CUI_ChaosDungeon_NameFrame::Print_Stage_Name()
 	m_pStageNameWnd->Get_TransformCom()->Set_Scale(Vec3(220.f, 80.f, 0.f));
 	m_pStageNameWnd->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vResultPos);
 
+	switch (CGameInstance::GetInstance()->Get_CurrLevelIndex())
+	{
+	case LEVEL_CHAOS_1:
+		m_strStageName = TEXT("타락 1단계");
+		break;
+	case LEVEL_CHAOS_2:
+		m_strStageName = TEXT("타락 2단계");
+		break;
+	case LEVEL_CHAOS_3:
+		m_strStageName = TEXT("타락 3단계");
+		break;
+	}
 	Vec2 vMeasure = CGameInstance::GetInstance()->MeasureString(L"던파연마된칼날", m_strStageName);
 	Vec2 vOrigin = vMeasure * 0.5f;
 	m_pStageNameWnd->Set_Text(m_strWndTag, m_szFont, m_strStageName, Vec2(110.f, 40.f), Vec2(0.5f, 0.5f), vOrigin, 0.f, m_vColor);

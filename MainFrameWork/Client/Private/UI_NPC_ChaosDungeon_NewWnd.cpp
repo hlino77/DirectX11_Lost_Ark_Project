@@ -148,7 +148,9 @@ void CUI_NPC_ChaosDungeon_NewWnd::LateTick(_float fTimeDelta)
                 if (nullptr != CServerSessionManager::GetInstance()->Get_Player())
                     CServerSessionManager::GetInstance()->Get_Player()->Get_Camera()->Set_FadeInOut(2.f, true);
                 CUI_Manager::GetInstance()->Set_RenderUIs(false, LEVEL_BERN);
+                CUI_Manager::GetInstance()->Set_RenderNickName(false, LEVEL_BERN);
                 CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"Chaos_Entrance1.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
+
             }
             return;
         }

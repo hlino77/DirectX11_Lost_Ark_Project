@@ -42,13 +42,13 @@ public:
 
 private:
     wstring m_szFont;
-    wstring m_strTimerAnnounce = TEXT("다음 지역 진입까지 남은 시간");
+    wstring m_strTimerAnnounce = TEXT("팀폴 마감까지 남은 시간");
     wstring m_strStageTimer = TEXT("");
     CTextBox* m_pStageNameWnd = nullptr;
     _bool   m_bTextOn = false;
 
     CTextBox* m_pStageTimerWnd = { nullptr }; 
-
+    
 public:
     static  CUI_ChaosDungeon_TimerFrame* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
     virtual CGameObject* Clone(void* pArg) override;

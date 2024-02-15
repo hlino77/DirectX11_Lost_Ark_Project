@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "UI_ChaosDungeon_GaugeShine.h"
 #include "GameInstance.h"
+#include "UI_ChaosDungeon.h"
 
 CUI_ChaosDungeon_GaugeShine::CUI_ChaosDungeon_GaugeShine(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CUI(pDevice, pContext)
@@ -47,8 +48,18 @@ HRESULT CUI_ChaosDungeon_GaugeShine::Initialize(void* pArg)
 void CUI_ChaosDungeon_GaugeShine::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
+	CUI* pUI = CUI_Manager::GetInstance()->Find_UI((LEVELID)CGameInstance::GetInstance()->Get_CurrLevelIndex(), TEXT("ChaosDungeon_UI"));
+	if (nullptr != pUI)
+	{
+		if (0.9f <= static_cast<CUI_ChaosDungeon*>(pUI)->Get_Gauge())
+		{
+			m_bRender = true;
+			m_fFrame += 30.f * fTimeDelta;
+		}
+		else
+			m_bRender = false;
+	}
 	m_fFrame += 30.f * fTimeDelta;
-	//m_bRender = false;
 }
 
 void CUI_ChaosDungeon_GaugeShine::LateTick(_float fTimeDelta)

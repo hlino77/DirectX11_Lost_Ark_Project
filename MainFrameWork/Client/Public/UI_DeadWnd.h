@@ -77,6 +77,7 @@ private:
     _bool   m_bWatchingMode = { false };
     _bool   m_bMovingWnd = { false };
     _bool   m_bDecreaseAlpha = { false };
+    _bool   m_bOn = { false };
 
     RECT    m_rcMovingWnd = {};
     RECT    m_rcResurrect = {};
