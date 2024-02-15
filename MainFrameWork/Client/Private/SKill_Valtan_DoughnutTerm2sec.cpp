@@ -5,6 +5,8 @@
 #include "ColliderSphere.h"
 #include "CollisionManager.h"
 #include <ColliderDoughnut.h>
+#include "ServerSessionManager.h"
+#include "Player.h"
 
 CSkill_Valtan_DoughnutTerm2sec::CSkill_Valtan_DoughnutTerm2sec(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CSkill(pDevice,pContext)
@@ -63,7 +65,7 @@ HRESULT CSkill_Valtan_DoughnutTerm2sec::Render()
 }
 
 void CSkill_Valtan_DoughnutTerm2sec::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
-{
+{ 
 }
 
 void CSkill_Valtan_DoughnutTerm2sec::OnCollisionStay(const _uint iColLayer, CCollider* pOther)

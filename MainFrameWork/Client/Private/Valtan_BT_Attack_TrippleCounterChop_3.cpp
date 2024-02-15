@@ -81,12 +81,14 @@ void CValtan_BT_Attack_TrippleCounterChop_3::OnEnd()
 		CGameObject* pSkill = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_Skill_Valtan_SilenceSphere", &ModelDesc);
 		if (pSkill != nullptr)
 		{
+			CServerSessionManager::GetInstance()->Get_Player()->Get_Camera()->Cam_Shake(0.1f, 90.0f, 0.1f, 10.0f);
 			Vec3 vPos = m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
 			Vec3 vLook = m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_LOOK);
 			vLook.Normalize();
 			pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
 			pSkill->Get_TransformCom()->LookAt_Dir(vLook);
 			pSkill->Get_Colider(_uint(LAYER_COLLIDER::LAYER_SKILL_BOSS))->Set_Radius(6.f);
+			static_cast<CSkill*>(pSkill)->Set_StatusEffectDuration(5.f);
 		}
 	}
 }
@@ -101,10 +103,9 @@ void CValtan_BT_Attack_TrippleCounterChop_3::Update_Effect()
 		tDesc.pPivotMatrix = &m_pGameObject->Get_TransformCom()->Get_WorldMatrix();
 		EFFECT_START(L"VT_TrippleCounterChop_Fail", &tDesc);
 
-		CServerSessionManager::GetInstance()->Get_Player()->Get_Camera()->Cam_Shake(0.1f, 90.0f, 0.1f, 10.0f);
+
 	}
 }
-
 
 CValtan_BT_Attack_TrippleCounterChop_3* CValtan_BT_Attack_TrippleCounterChop_3::Create(void* pArg)
 {

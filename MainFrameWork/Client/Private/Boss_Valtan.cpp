@@ -76,7 +76,7 @@ HRESULT CBoss_Valtan::Initialize_Prototype()
 
 HRESULT CBoss_Valtan::Initialize(void* pArg)
 {
-	m_eBossType =  BOSS_TYPE::VAlTAN;
+	m_eBossType = VALTAN;
 	m_iMaxGroggyGauge = 2000;
 	m_iGroggyGauge = m_iMaxGroggyGauge;
 	m_iMaxHp = 8214139495;
@@ -552,7 +552,9 @@ HRESULT CBoss_Valtan::Ready_BehaviourTree()
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
+	AnimationDesc.fAnimSpeed = 0.8f;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	AnimationDesc.fAnimSpeed = 1.15f;
 	//5
 	AnimationDesc.strAnimName = TEXT("evt1_att_battle_5_01_end");
 	AnimationDesc.iStartFrame = 0;

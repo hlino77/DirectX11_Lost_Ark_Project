@@ -21,7 +21,11 @@ CBT_Node::BT_RETURN CCommon_BT_Move::OnUpdate(const _float& fTimeDelta)
 		return BT_FAIL;
 
 	static_cast<CMonster*>(m_pGameObject)->Move_to_RandomPosition(fTimeDelta);
-
+	if (static_cast<CMonster*>(m_pGameObject)->Get_MonsterType() == CMonster::PAWN)
+	{
+		if (CSound_Manager::GetInstance()->Is_Channel_Playing(L"Pawn_3"))
+			Add_Sound_Channel(L"Effect", L"Pawn_3", 0.2f);
+	}
 	return BT_RUNNING;
 }
 

@@ -14,6 +14,11 @@ void CCommon_BT_BattleIdle::OnStart()
 CBT_Node::BT_RETURN CCommon_BT_BattleIdle::OnUpdate(const _float& fTimeDelta)
 {
 	static_cast<CMonster*>(m_pGameObject)->LookAt_Target_Direction_Lerp(fTimeDelta);
+	if (static_cast<CMonster*>(m_pGameObject)->Get_MonsterType() == CMonster::PAWN)
+	{
+		Add_Sound(0, 0, L"Effect", L"Pawn_57");
+
+	}
 	return BT_RUNNING;
 }
 

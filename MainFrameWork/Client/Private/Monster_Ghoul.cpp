@@ -59,6 +59,7 @@ HRESULT CMonster_Ghoul::Initialize_Prototype()
 
 HRESULT CMonster_Ghoul::Initialize(void* pArg)
 {
+	m_eMonsterType = GHOUL;
 	m_iMaxHp = 40000000;
 	m_iHp = m_iMaxHp;
 	if (FAILED(__super::Initialize(pArg)))

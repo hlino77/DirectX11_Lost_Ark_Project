@@ -98,7 +98,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_FrontBackWave::OnUpdate(const _float& fTim
 			vPos += vLook * 2.5f;
 			pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
 			pSkill->Get_TransformCom()->LookAt_Dir(vLook);
-			pSkill->Get_Colider((_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS)->Set_Radius(2.5f);
+			pSkill->Get_Colider((_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS)->Set_Radius(5.f);
 		}
 
 		CEffect_Manager::EFFECTPIVOTDESC tDesc;

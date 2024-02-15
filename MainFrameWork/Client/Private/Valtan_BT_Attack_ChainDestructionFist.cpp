@@ -174,7 +174,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_ChainDestructionFist::OnUpdate(const _floa
 		ModelDesc.iObjectID = -1;
 		ModelDesc.pOwner = m_pGameObject;
 
-		CGameObject* pSkill = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_Skill_Valtan_AxeWave", &ModelDesc);
+		CGameObject* pSkill = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_Skill_Valtan_PizzaInstant", &ModelDesc);
 		if (pSkill != nullptr)
 		{
 			Vec3 vPos = m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
@@ -184,8 +184,8 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_ChainDestructionFist::OnUpdate(const _floa
 			pSkill->Get_TransformCom()->LookAt_Dir(vLook);
 			static_cast<CSkill*>(pSkill)->Set_Atk(20);
 			static_cast<CSkill*>(pSkill)->Set_Force(41.f);
-			static_cast<CSkill*>(pSkill)->Set_PizzaRadii(1.f, 0.f);
-			static_cast<CSkill*>(pSkill)->Set_PizzaSlope(45.f, -45.f);
+			static_cast<CSkill*>(pSkill)->Set_PizzaRadii(30.f, 0.f);
+			static_cast<CSkill*>(pSkill)->Set_PizzaSlope(30.f, -30.f);
 		}
 
 		CEffect_Manager::EFFECTPIVOTDESC tDesc;
@@ -202,7 +202,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_ChainDestructionFist::OnUpdate(const _floa
 		ModelDesc.iObjectID = -1;
 		ModelDesc.pOwner = m_pGameObject;
 
-		CGameObject* pSkill = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_Skill_Valtan_AxeWave", &ModelDesc);
+		CGameObject* pSkill = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_Skill_Valtan_PizzaInstant", &ModelDesc);
 		if (pSkill != nullptr)
 		{
 			Vec3 vPos = m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
@@ -213,8 +213,8 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_ChainDestructionFist::OnUpdate(const _floa
 			pSkill->Get_Colider(_uint(LAYER_COLLIDER::LAYER_SKILL_BOSS))->Set_Radius(20.f);
 			static_cast<CSkill*>(pSkill)->Set_Atk(20);
 			static_cast<CSkill*>(pSkill)->Set_Force(41.f);
-			static_cast<CSkill*>(pSkill)->Set_PizzaRadii(1.f, 0.f);
-			static_cast<CSkill*>(pSkill)->Set_PizzaSlope(45.f, -45.f);
+			static_cast<CSkill*>(pSkill)->Set_PizzaRadii(30.f, 0.f);
+			static_cast<CSkill*>(pSkill)->Set_PizzaSlope(30.f, -30.f);
 		}
 
 		CEffect_Manager::EFFECTPIVOTDESC tDesc;
@@ -231,7 +231,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_ChainDestructionFist::OnUpdate(const _floa
 		ModelDesc.iObjectID = -1;
 		ModelDesc.pOwner = m_pGameObject;
 
-		CGameObject* pSkill = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_Skill_Valtan_AxeWave", &ModelDesc);
+		CGameObject* pSkill = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_Skill_Valtan_PizzaInstant", &ModelDesc);
 		if (pSkill != nullptr)
 		{
 			Vec3 vPos = m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
@@ -241,8 +241,8 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_ChainDestructionFist::OnUpdate(const _floa
 			pSkill->Get_TransformCom()->LookAt_Dir(-vRight);
 			static_cast<CSkill*>(pSkill)->Set_Atk(20);
 			static_cast<CSkill*>(pSkill)->Set_Force(41.f);
-			static_cast<CSkill*>(pSkill)->Set_PizzaRadii(1.f, 0.f);
-			static_cast<CSkill*>(pSkill)->Set_PizzaSlope(45.f, -45.f);
+			static_cast<CSkill*>(pSkill)->Set_PizzaRadii(30.f, 0.f);
+			static_cast<CSkill*>(pSkill)->Set_PizzaSlope(30.f, -30.f);
 		}
 
 		CEffect_Manager::EFFECTPIVOTDESC tDesc;
@@ -259,7 +259,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_ChainDestructionFist::OnUpdate(const _floa
 		ModelDesc.iObjectID = -1;
 		ModelDesc.pOwner = m_pGameObject;
 
-		CGameObject* pSkill = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_Skill_Valtan_AxeWave", &ModelDesc);
+		CGameObject* pSkill = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_Skill_Valtan_PizzaInstant", &ModelDesc);
 		if (pSkill != nullptr)
 		{
 			Vec3 vPos = m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
@@ -270,8 +270,8 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_ChainDestructionFist::OnUpdate(const _floa
 			pSkill->Get_Colider(_uint(LAYER_COLLIDER::LAYER_SKILL_BOSS))->Set_Radius(20.f);
 			static_cast<CSkill*>(pSkill)->Set_Atk(20);
 			static_cast<CSkill*>(pSkill)->Set_Force(41.f);
-			static_cast<CSkill*>(pSkill)->Set_PizzaRadii(1.f, 0.f);
-			static_cast<CSkill*>(pSkill)->Set_PizzaSlope(45.f, -45.f);
+			static_cast<CSkill*>(pSkill)->Set_PizzaRadii(30.f, 0.f);
+			static_cast<CSkill*>(pSkill)->Set_PizzaSlope(30.f, -30.f);
 		}
 
 		CEffect_Manager::EFFECTPIVOTDESC tDesc;
@@ -391,7 +391,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_ChainDestructionFist::OnUpdate(const _floa
 		{
 			if(m_iCurrAnimation == 7 && m_bShoot[9])
 				m_bShoot[9] = false;
-			if ((m_iCurrAnimation == 9 && m_bShoot[10]))
+			if (m_iCurrAnimation == 9 && m_bShoot[10])
 				m_bShoot[10] = false;
 			vector<CGameObject*> vecTargets = CGameInstance::GetInstance()->Find_GameObjects(LEVEL_STATIC, (_uint)LAYER_TYPE::LAYER_PLAYER);
 			if (!vecTargets.empty())
@@ -415,7 +415,8 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_ChainDestructionFist::OnUpdate(const _floa
 						static_cast<CSkill*>(pSkill)->Set_Atk(30);
 						static_cast<CSkill*>(pSkill)->Set_Force(42.f);
 						static_cast<CSkill*>(pSkill)->Set_SoundTag(L"Valtan#262 (50890152).wav");
-
+						static_cast<CSkill*>(pSkill)->Set_BlinkTime(3.f);
+						static_cast<CSkill*>(pSkill)->Set_LastTime(3.2f);
 						Matrix matWorld;
 						matWorld.Translation(vPos);
 						CEffect_Manager::EFFECTPIVOTDESC tDesc;
@@ -445,7 +446,8 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_ChainDestructionFist::OnUpdate(const _floa
 						static_cast<CSkill*>(pSkill)->Set_Atk(30);
 						static_cast<CSkill*>(pSkill)->Set_Force(42.f);
 						static_cast<CSkill*>(pSkill)->Set_SoundTag(L"Valtan#262 (50890152).wav");
-
+						static_cast<CSkill*>(pSkill)->Set_BlinkTime(3.f);
+						static_cast<CSkill*>(pSkill)->Set_LastTime(3.2f);
 						Matrix matWorld;
 						matWorld.Translation(vPos);
 						CEffect_Manager::EFFECTPIVOTDESC tDesc;
@@ -487,9 +489,10 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_ChainDestructionFist::OnUpdate(const _floa
 			Vec3 vPos = m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
 			Vec3 vLook = m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_LOOK);
 			vLook.Normalize();
-			vPos += vLook * 0.5f;
+			vPos += vLook * 1.8f;
 			pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
 			pSkill->Get_TransformCom()->LookAt_Dir(vLook);
+			static_cast<CSkill*>(pSkill)->Set_SphereRadius(5.5f);
 		}
 		pSkill = nullptr;
 		pSkill = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_Skill_Valtan_DoughnutTerm2sec", &ModelDesc);
@@ -498,13 +501,14 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_ChainDestructionFist::OnUpdate(const _floa
 			Vec3 vPos = m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
 			Vec3 vLook = m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_LOOK);
 			vLook.Normalize();
-			vPos += vLook * 0.5f;
+			vPos += vLook * 1.8f;
 			pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
 			pSkill->Get_TransformCom()->LookAt_Dir(vLook);
-			static_cast<CSkill*>(pSkill)->Set_DoughnutRadii(30.f, 3.3f);
+			static_cast<CSkill*>(pSkill)->Set_DoughnutRadii(9.f, 4.5f);
 			static_cast<CSkill*>(pSkill)->Set_SoundTag(L"Valtan#107 (1071718533).wav");
-			static_cast<CSkill*>(pSkill)->Set_BlinkTime(1.f);
-			static_cast<CSkill*>(pSkill)->Set_LastTime(1.2f);
+			static_cast<CSkill*>(pSkill)->Set_BlinkTime(2.f);
+			static_cast<CSkill*>(pSkill)->Set_LastTime(2.2f);
+			static_cast<CSkill*>(pSkill)->Set_SafeZonePierce(true);		
 		}
 
 		Vec3 vDir = -m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_LOOK);;

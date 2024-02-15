@@ -96,7 +96,7 @@ HRESULT CSkill_Valtan_DoughnutInstant::Ready_Coliders()
 	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->Set_Offset(Vec3(0.0f, 0.6f, 0.0f));
 
 	CDoughnutCollider* pChildCollider = dynamic_cast<CDoughnutCollider*>(m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->Get_Child());
-	pChildCollider->Set_Radius(4.3f);
+	pChildCollider->Set_Radius(4.8f);
 	pChildCollider->SetActive(true);
 	pChildCollider->Set_Offset(Vec3(0.0f, 0.6f, 0.0f));
 

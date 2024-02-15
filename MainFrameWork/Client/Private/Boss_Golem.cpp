@@ -49,7 +49,7 @@ HRESULT CBoss_Golem::Initialize_Prototype()
 
 HRESULT CBoss_Golem::Initialize(void* pArg)
 {
-	m_eBossType = BOSS_TYPE::GOLEM;
+	m_eBossType = GOLEM;
 	m_iMaxGroggyGauge = 200;
 	m_iGroggyGauge = m_iMaxGroggyGauge;
 	m_iMaxHp = 2400000000;

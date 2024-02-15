@@ -618,7 +618,7 @@ void CMonster::Set_Die(_float fTime)
 
 	if (m_bDissolveOut == false)
 		Set_DissolveOut(fTime);
-
+	m_bRenderShadow = false;
 	if (m_pHpUI != nullptr)
 		m_pHpUI->Set_Active(false);
 }
@@ -940,18 +940,20 @@ void CMonster::CullingObject()
 		if (true == m_bInstance && false == m_IsAlphaBlend)
 		{
 			m_pRendererCom->Add_InstanceRenderGroup(CRenderer::RENDER_NONBLEND, this);
-			m_pRendererCom->Add_InstanceRenderGroup(CRenderer::RENDER_SHADOW, this);
+			if (m_bRenderShadow)
+				m_pRendererCom->Add_InstanceRenderGroup(CRenderer::RENDER_SHADOW, this);
 		}
 		else if (false == m_bInstance && false == m_IsAlphaBlend)
 		{
 			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONBLEND, this);
-			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOW, this);
+			if (m_bRenderShadow)
+				m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOW, this);
 		}
 		else if (false == m_bInstance && true == m_IsAlphaBlend)
 		{
 			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_ALPHABLEND, this);
 		}
-			
+
 		m_pRendererCom->Add_DebugObject(this);
 	}
 
