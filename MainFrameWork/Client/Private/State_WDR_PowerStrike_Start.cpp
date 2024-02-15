@@ -40,11 +40,9 @@ void CState_WDR_PowerStrike_Start::Enter_State()
 	m_EffectSound = false;
 	m_PlayerSound = false;
 
+
+	CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume);
 	
-	if (m_pPlayer->Is_Control())
-	{
-		CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume);
-	}
 
 
 	m_iSkillCnt = 0;
@@ -91,7 +89,6 @@ void CState_WDR_PowerStrike_Start::Tick_State_Control(_float fTimeDelta)
 	
 	}
 
-
 	if (-1 != m_SkillFrames[m_iSkillCnt] && m_SkillFrames[m_iSkillCnt] <= iAnimFrame)
 	{
 		m_iSkillCnt++;
@@ -117,6 +114,20 @@ void CState_WDR_PowerStrike_Start::Tick_State_Control(_float fTimeDelta)
 
 void CState_WDR_PowerStrike_Start::Tick_State_NoneControl(_float fTimeDelta)
 {
+	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iPowerStrike_Start);
+
+
+	if (-1 != m_SoundFrames[m_iSoundCnt + 1].iFrame && m_SoundFrames[m_iSoundCnt + 1].iFrame <= (_int)iAnimFrame)
+	{
+		if (false == m_EffectSound)
+		{
+			CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt + 1].strName, m_SoundFrames[m_iSoundCnt + 1].strGroup, m_SoundFrames[m_iSoundCnt + 1].strName, m_SoundFrames[m_iSoundCnt + 1].fVolume);
+			m_EffectSound = true;
+		}
+
+	}
+
+
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
 
 	if (-1 != m_SkillFrames[m_iSkillCnt] && m_SkillFrames[m_iSkillCnt] <= (_int)m_pPlayer->Get_ModelCom()->Get_Anim_Frame((_uint)m_iPowerStrike_Start))

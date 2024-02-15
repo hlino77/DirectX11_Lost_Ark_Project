@@ -43,15 +43,13 @@ void CState_SP_Inkshot::Enter_State()
 	m_EffectSound = false;
 	m_PlayerSound = false;
 
-	if (m_pPlayer->Is_Control())
-	{
-		//// Skill Sound 
-		CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume, true);
+	
+	// Skill Sound 
+	CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume, true);
 
-		//// Player Sound
-		CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt + 2].strName, m_SoundFrames[m_iSoundCnt + 2].strGroup, m_SoundFrames[m_iSoundCnt + 2].strName, m_SoundFrames[m_iSoundCnt + 2].fVolume);
+	// Player Sound
+	CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt + 2].strName, m_SoundFrames[m_iSoundCnt + 2].strGroup, m_SoundFrames[m_iSoundCnt + 2].strName, m_SoundFrames[m_iSoundCnt + 2].fVolume);
 
-	}
 
 	m_iSkillCnt = 0;
 
@@ -209,6 +207,32 @@ void CState_SP_Inkshot::Tick_State_Control(_float fTimeDelta)
 
 void CState_SP_Inkshot::Tick_State_NoneControl(_float fTimeDelta)
 {
+
+	if (true == CSound_Manager::GetInstance()->Is_Channel_Playing(m_SoundFrames[m_iSoundCnt + 0].strName))
+	{
+		if (false == m_EffectSound)
+		{
+			m_EffectSoundAccTime += fTimeDelta;
+
+			if (m_EffectSoundAccTime >= 0.5f)
+			{
+				m_EffectSoundAccTime = 0.f;
+				CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt + 1].strName, m_SoundFrames[m_iSoundCnt + 1].strGroup, m_SoundFrames[m_iSoundCnt + 1].strName, m_SoundFrames[m_iSoundCnt + 1].fVolume);
+
+				m_EffectSound = true;
+			}
+		}
+	}
+
+	if (false == CSound_Manager::GetInstance()->Is_Channel_Playing(m_SoundFrames[m_iSoundCnt + 2].strName))
+	{
+		if (false == m_PlayerSound)
+		{
+			CSound_Manager::GetInstance()->PlaySoundFile(m_SoundFrames[m_iSoundCnt + 3].strGroup, m_SoundFrames[m_iSoundCnt + 3].strName, m_SoundFrames[m_iSoundCnt + 3].fVolume);
+			m_PlayerSound = true;
+		}
+	}
+
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
 
 	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iInkshot);

@@ -114,9 +114,6 @@ void CState_SP_DimensionalShift_End::Tick_State_Control(_float fTimeDelta)
 		}
 	}
 
-
-
-
 	if (30 <= iAnimFrame)
 	{
 		_uint iIdentity = static_cast<CController_SP*>(m_pController)->Is_SP_Identity();
@@ -175,6 +172,20 @@ void CState_SP_DimensionalShift_End::Tick_State_Control(_float fTimeDelta)
 
 void CState_SP_DimensionalShift_End::Tick_State_NoneControl(_float fTimeDelta)
 {
+
+	if (false == m_EffectSound)
+	{
+		m_EffectSoundAcctime += fTimeDelta;
+
+		if (m_EffectSoundAcctime >= 1.f)
+		{
+			m_EffectSoundAcctime = 0.f;
+			m_EffectSound = true;
+			CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume, true);
+
+		}
+	}
+
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
 
 	if (m_bEffect == false)

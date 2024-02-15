@@ -70,11 +70,10 @@ void CState_WDR_PerfectSwing_Loop::Enter_State()
 	m_EffectSound = false;
 
 
-	if (m_pPlayer->Is_Control())
-	{
-		CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume);
 
-	}
+	CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume);
+
+
 
 	m_fSkillTimeAcc = 0;
 	m_fUI_AccTime = 0.f;
@@ -120,9 +119,7 @@ void CState_WDR_PerfectSwing_Loop::Exit_State()
 	if (nullptr != m_pHoldingUI)
 		m_pHoldingUI->Set_SkillOn(false);
 
-	
-	//CSound_Manager::GetInstance()->Stop_Channel_Sound(L"WDR_84.wav");
-	//CSound_Manager::GetInstance()->Stop_Channel_Sound(L"WDR_88.wav");
+
 	
 }
 
@@ -199,6 +196,19 @@ void CState_WDR_PerfectSwing_Loop::Tick_State_Control(_float fTimeDelta)
 
 void CState_WDR_PerfectSwing_Loop::Tick_State_NoneControl(_float fTimeDelta)
 {
+
+	if (true == CSound_Manager::GetInstance()->Is_Channel_Playing(m_SoundFrames[m_iSoundCnt].strName) && m_eCameraState == CameraState::CHARGE2)
+	{
+		if (false == m_EffectSound)
+		{
+
+			CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt + 1].strName, m_SoundFrames[m_iSoundCnt + 1].strGroup, m_SoundFrames[m_iSoundCnt + 1].strName, m_SoundFrames[m_iSoundCnt + 1].fVolume);
+
+			m_EffectSound = true;
+		}
+	}
+
+
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
 
 	if (m_bEffect == false)

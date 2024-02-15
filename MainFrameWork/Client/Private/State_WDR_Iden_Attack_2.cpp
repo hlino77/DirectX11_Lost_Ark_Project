@@ -182,6 +182,23 @@ void CState_WDR_Iden_Attack_2::Tick_State_NoneControl(_float fTimeDelta)
 		m_iAttackCnt++;
 		Effect_Shot();
 	}
+
+
+	_uint iAnimIndex = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_2);
+
+	if (-1 != m_AttackFrames[m_iAttackCnt] && m_AttackFrames[m_iAttackCnt] <= iAnimIndex)
+	{
+		m_iAttackCnt++;
+
+		if (m_EffectSound == false)
+		{
+			CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume);
+
+			m_EffectSound = true;
+		}
+
+	}
+
 }
 
 void CState_WDR_Iden_Attack_2::Effect_Shot()

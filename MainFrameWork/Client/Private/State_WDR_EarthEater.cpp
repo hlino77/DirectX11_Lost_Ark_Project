@@ -61,12 +61,9 @@ void CState_WDR_EarthEater::Enter_State()
 	m_PlayerSound = false;
 	m_LateEffectSound = false;
 
-	if (m_pPlayer->Is_Control())
-	{
-		CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume);
-		CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt + 2].strName, m_SoundFrames[m_iSoundCnt + 2].strGroup, m_SoundFrames[m_iSoundCnt + 2].strName, m_SoundFrames[m_iSoundCnt + 2].fVolume);
 
-	}
+	CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume);
+	CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt + 2].strName, m_SoundFrames[m_iSoundCnt + 2].strGroup, m_SoundFrames[m_iSoundCnt + 2].strName, m_SoundFrames[m_iSoundCnt + 2].fVolume);
 
 
 	m_iSkillCnt = 0;
@@ -141,9 +138,6 @@ void CState_WDR_EarthEater::Tick_State_Control(_float fTimeDelta)
 			m_LateEffectSound = true;
 		}
 	}
-
-
-
 
 	//if (true == CSound_Manager::GetInstance()->Is_Channel_Playing(m_SoundFrames[m_iSoundCnt + 3].strName))
 	//{
@@ -235,6 +229,36 @@ void CState_WDR_EarthEater::Tick_State_NoneControl(_float fTimeDelta)
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
 
 	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iEarthEater);
+
+	// Swing Sound
+	if (-1 != m_SoundFrames[m_iSoundCnt + 3].iFrame && m_SoundFrames[m_iSoundCnt + 3].iFrame <= (_int)iAnimFrame)
+	{
+		if (false == m_EffectSound)
+		{
+			CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt + 3].strName, m_SoundFrames[m_iSoundCnt + 3].strGroup, m_SoundFrames[m_iSoundCnt + 3].strName, m_SoundFrames[m_iSoundCnt + 3].fVolume);
+			m_EffectSound = true;
+		}
+	}
+
+
+	if (-1 != m_SoundFrames[m_iSoundCnt + 1].iFrame && m_SoundFrames[m_iSoundCnt + 1].iFrame <= (_int)iAnimFrame)
+	{
+		if (false == m_PlayerSound)
+		{
+			CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt + 1].strName, m_SoundFrames[m_iSoundCnt + 1].strGroup, m_SoundFrames[m_iSoundCnt + 1].strName, m_SoundFrames[m_iSoundCnt + 1].fVolume);
+			m_PlayerSound = true;
+		}
+	}
+
+	if (-1 != m_SoundFrames[m_iSoundCnt + 4].iFrame && m_SoundFrames[m_iSoundCnt + 4].iFrame <= (_int)iAnimFrame)
+	{
+		if (false == m_LateEffectSound)
+		{
+			CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt + 4].strName, m_SoundFrames[m_iSoundCnt + 4].strGroup, m_SoundFrames[m_iSoundCnt + 4].strName, m_SoundFrames[m_iSoundCnt + 4].fVolume);
+			m_LateEffectSound = true;
+		}
+	}
+
 
 	if (-1 != m_SkillFrames[m_iSkillCnt] && m_SkillFrames[m_iSkillCnt] <= (_uint)iAnimFrame)
 	{

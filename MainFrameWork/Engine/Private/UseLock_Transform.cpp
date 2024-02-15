@@ -245,7 +245,7 @@ void CUseLock_Transform::LookAt_ForLandObject(Vec3 vAt)
 	Vec3 vRight = vUp.Cross(vLook);
 	vRight.Normalize();
 	vRight *= vScale.x;
-
+	 
 	vLook = vRight.Cross(vUp);
 	vLook.Normalize();
 	vLook *= vScale.z;

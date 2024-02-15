@@ -101,6 +101,20 @@ void CState_SP_Identity_Moon::Tick_State_Control(_float fTimeDelta)
 void CState_SP_Identity_Moon::Tick_State_NoneControl(_float fTimeDelta)
 {
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
+
+	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iIdentity_Moon_Start);
+
+
+	if (-1 != m_SoundFrames[m_iSoundCnt].iFrame && m_SoundFrames[m_iSoundCnt].iFrame <= (_int)iAnimFrame)
+	{
+		if (false == m_EffectSound)
+		{
+			CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume);
+			m_EffectSound = true;
+		}
+	}
+
+
 }
 
 void CState_SP_Identity_Moon::Effect_Trail()
