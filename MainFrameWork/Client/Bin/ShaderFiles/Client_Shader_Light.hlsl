@@ -4,7 +4,7 @@
 #include "Client_Shader_Defines.hlsl"
 #include "Client_Shader_Global.hlsl"
 
-float4  g_vBloomColor = float4(1.f, 1.f, 1.f, 1.f);
+float4  g_vBloomColor = float4(2.f, 2.f, 2.f, 1.f);
 float   g_fRimLight = 0.0f;
 bool    g_bReverseDissolve = false;
 

@@ -5,6 +5,7 @@
 #include "Controller_WR.h"
 #include "Model.h"
 #include "Camera_Player.h"
+#include "Effect.h"
 #include "Effect_Manager.h"
 
 CState_WR_Identity::CState_WR_Identity(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Slayer* pOwner)
@@ -114,8 +115,8 @@ void CState_WR_Identity::Effect_Rage_Control()
 		desc.pPivotMatrix = &matPivot;
 		EFFECT_START_OUTLIST(L"Slayer_Rage_Aura", &desc, m_Effects);
 
-		auto func = bind(&CTransform::Load_WorldMatrix, m_pPlayer->Get_TransformCom(), placeholders::_1);
-		m_pPlayer->Get_WR_Controller()->CB_UpdateIdentityAuraPivot += func;
+		/*auto func = bind(&CTransform::Load_WorldMatrix, m_pPlayer->Get_TransformCom(), placeholders::_1);
+		m_pPlayer->Get_WR_Controller()->CB_UpdateIdentityAuraPivot += func;*/
 
 		m_pPlayer->Add_Effect(L"Slayer_Rage_Aura", m_Effects[0]);
 	}
@@ -133,11 +134,14 @@ void CState_WR_Identity::Effect_Rage_NonControl()
 		desc.pPivotMatrix = &matPivot;
 		EFFECT_START_OUTLIST(L"Slayer_Rage_Aura", &desc, m_Effects);
 
-		auto func = bind(&CTransform::Load_WorldMatrix, m_pPlayer->Get_TransformCom(), placeholders::_1);
-		m_pPlayer->Get_WR_Controller()->CB_UpdateIdentityAuraPivot += func;
+		/*auto func = bind(&CTransform::Load_WorldMatrix, m_pPlayer->Get_TransformCom(), placeholders::_1);
+		m_pPlayer->Get_WR_Controller()->CB_UpdateIdentityAuraPivot += func;*/
 
 		m_pPlayer->Add_Effect(L"Slayer_Rage_Aura", m_Effects[0]);
 	}
+
+	/*for (_int i = 0; i < m_Effects.size(); ++i)
+		m_Effects[i]->Update_Pivot(m_pPlayer->Get_TransformCom()->Get_WorldMatrix());*/
 }
 
 CState_WR_Identity* CState_WR_Identity::Create(wstring strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Slayer* pOwner)
