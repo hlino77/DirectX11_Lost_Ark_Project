@@ -72,6 +72,9 @@ HRESULT CSkyFloor::Render()
 	if (FAILED(m_pShaderCom->Bind_Texture("g_NoiseTexture", m_pTexture->Get_SRV())))
 		return E_FAIL;
 
+	if (FAILED(m_pShaderCom->Bind_RawValue("g_vColorMul", &m_tSKyFloorDesc.vFloorColorMul, sizeof(Vec3))))
+		return E_FAIL;
+
 	if (FAILED(m_pModelCom->Render(m_pShaderCom, 0, "SkyFloor")))
 		return E_FAIL;
 

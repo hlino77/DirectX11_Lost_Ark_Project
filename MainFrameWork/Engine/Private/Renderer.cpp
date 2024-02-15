@@ -17,7 +17,7 @@
 _uint CRenderer::m_iIBLTextureIndex = 0;
 _uint CRenderer::m_iSSRLevel = 0;
 _bool CRenderer::m_bPBR_Switch = true;
-_int CRenderer::m_iSSAO_Switch = true;
+_int CRenderer::m_iSSAO_Switch = 0;
 _int  CRenderer::m_iFxaa_Switch = true;
 
 CRenderer::ScreenTone_Data CRenderer::m_tScreenTone_Data = { 1.f, 1.f, 1.f };

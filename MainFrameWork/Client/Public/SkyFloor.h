@@ -19,7 +19,7 @@ public:
 		Vec2 vTileCount = Vec2::One;
 		Vec2 vFloorUVoffset = Vec2::Zero;	// 여기엔 Speed를 전달해주자
 		_float fAlpha = FLT_MAX;
-		Vec3 vPadding;
+		Vec3 vFloorColorMul = Vec3::One;
 	};
 
 private:

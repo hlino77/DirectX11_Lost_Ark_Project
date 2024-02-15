@@ -251,6 +251,9 @@ HRESULT CMainApp::Ready_Prototype_Component()
 
 			if (SUCCEEDED(m_pGameInstance->Check_Prototype(LEVEL_STATIC, strComponentName)))
 			{
+				if(4 == i)
+					XMStoreFloat4x4(&matPivot, XMMatrixScaling(500.f, 500.f, 500.f) * XMMatrixRotationX(XMConvertToRadians(90.0f)));
+
 				if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
 					CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, false, matPivot))))
 					return E_FAIL;
