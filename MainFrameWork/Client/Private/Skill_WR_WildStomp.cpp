@@ -31,8 +31,8 @@ HRESULT CSkill_WR_WildStomp::Initialize(void* pArg)
 	Proj_Desc.eLayer_Collider = (_uint)LAYER_COLLIDER::LAYER_SKILL_PLAYER;
 
 	Proj_Desc.fAttackTime = 0.05f;
-	Proj_Desc.fRadius = 2.f;
-	Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 0.f);
+	Proj_Desc.fRadius = 2.5f;
+	Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 0.4f);
 	Proj_Desc.iDamage = 200;
 	Proj_Desc.iStagger = 10;
 	Proj_Desc.iStatusEffect = (_uint)STATUSEFFECT::EARTHQUAKE;
