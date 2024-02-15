@@ -213,7 +213,7 @@ HRESULT CBoss_Valtan_RunningGhost::Ready_Coliders()
 	}
 
 	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS]->SetActive(true);
-	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS]->Set_Radius(1.5f);
+	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS]->Set_Radius(1.2f);
 	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS]->Set_Offset(Vec3(0.46f, 0.f, -1.65f));
 	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS]->Set_BoneIndex(m_pModelCom->Find_BoneIndex(TEXT("bip001-spine")));
 	Set_Atk(20);
