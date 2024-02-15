@@ -74,6 +74,23 @@ void CQuadTreeNode::Tick(_float fTimeDelta)
 		else
 			Object->Set_Render(false);
 	}
+
+	Tick_Cascade();
+}
+
+void CQuadTreeNode::Tick_Cascade()
+{
+	for (auto& Object : m_Objects)
+	{
+		Object->Reset_CascadeRenderMark();
+	}
+
+	Set_CascadeRender();
+
+	for (auto& Object : m_Objects)
+	{
+		Object->Set_CascadeRender();
+	}
 }
 
 void CQuadTreeNode::Set_ObjectRender(const BoundingFrustum& tFrustum)
@@ -112,6 +129,33 @@ void CQuadTreeNode::Set_ObjectRender(const BoundingFrustum& tFrustum)
 	return;
 	}
 
+}
+
+void CQuadTreeNode::Set_CascadeRender()
+{
+	BoundingOrientedBox* pBox = CPipeLine::GetInstance()->Get_CascadeBoxes();
+
+	for (_uint i = 0; i < 3; ++i)
+	{
+		if (m_tBoudingBox.Intersects(pBox[i]))
+		{
+			if (m_Childs.empty())
+			{
+				for (auto& Object : m_Objects)
+				{
+					Object->Set_CascadeRenderMark(i, true);
+				}
+			}
+			else
+			{
+				for (auto& Child : m_Childs)
+				{
+					Child->Set_CascadeRender();
+				}
+			}
+			
+		}
+	}
 }
 
 void CQuadTreeNode::Render_DeBug()

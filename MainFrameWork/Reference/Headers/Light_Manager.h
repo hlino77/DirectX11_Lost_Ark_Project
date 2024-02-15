@@ -34,6 +34,7 @@ public:
 	Matrix Get_DirectionLightMatrix() { return m_DirectionLightMatrix; }
 	Matrix Get_StaticLightMatrix() { return m_StaticLightMatrix; }
 
+	Vec3	Get_LightDir() { return m_vLightLook; }
 private:
 	
 

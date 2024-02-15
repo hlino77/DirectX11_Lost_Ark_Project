@@ -945,15 +945,25 @@ void CStaticModel::LateTick(_float fTimeDelta)
 			}
 		}
 		
-		if (m_bBreakableObject == true)
+		/*if (m_bBreakableObject == true)
 		{
 			m_pRendererCom->Add_InstanceRenderGroup(CRenderer::RENDERGROUP::RENDER_SHADOW, this);
-		}
+		}*/
 
 		// Draw Collider
 		m_pRendererCom->Add_DebugObject(this);
 	}
 
+	if (m_IsGrass == false)
+	{
+		for (_uint i = 0; i < 3; ++i)
+		{
+			if (m_bCascadeRender[i] == true)
+			{
+				m_pRendererCom->Add_CascadeObject(i, this);
+			}
+		}
+	}
 }
 
 HRESULT CStaticModel::Render()
@@ -1379,7 +1389,7 @@ HRESULT CStaticModel::Render_Debug()
 			Collider->DebugRender();
 		}
 	}
-
+	
 	return S_OK;
 }
 
@@ -1407,6 +1417,33 @@ HRESULT CStaticModel::Render_ShadowDepth_Instance(_uint iSize)
 
 	return S_OK;
 }
+
+HRESULT CStaticModel::Render_CascadeShadowDepth(_uint iIndex)
+{
+	if (nullptr == m_pModelCom || nullptr == m_pShaderCom)
+		return S_OK;
+
+	m_pShaderCom->Push_GlobalWVP();
+
+	m_pShaderCom->Bind_Matrix("g_CascadeProj", &CGameInstance::GetInstance()->Get_ShadowProj()[iIndex]);
+
+	_uint		iNumMeshes = m_pModelCom->Get_NumMeshes();
+
+	for (_uint i = 0; i < iNumMeshes; ++i)
+	{
+		if (FAILED(m_pModelCom->SetUp_OnShader(m_pShaderCom, m_pModelCom->Get_MaterialIndex(i), aiTextureType_DIFFUSE, "g_DiffuseTexture")))
+			return S_OK;
+
+		/*if (FAILED(m_pModelCom->SetUp_OnShader(m_pShaderCom, m_pModelCom->Get_MaterialIndex(i), aiTextureType_NORMALS, "g_NormalTexture")))
+			return E_FAIL;*/
+
+		if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 9)))
+			return S_OK;
+	}
+
+	return S_OK;
+}
+
 
 HRESULT CStaticModel::Ready_Proto_InstanceBuffer()
 {

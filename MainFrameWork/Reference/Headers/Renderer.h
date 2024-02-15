@@ -39,6 +39,8 @@ public:
 	HRESULT Add_MakeSRV(CGameObject* pObject, ID3D11ShaderResourceView** pSRV);
 	HRESULT Add_DebugObject(CGameObject* pObject);
 
+	HRESULT Add_CascadeObject(_uint iIndex, CGameObject* pObject);
+
 	HRESULT Ready_InstanceRender();
 	HRESULT Draw();
 	HRESULT Draw_Server();
@@ -120,12 +122,15 @@ private:
 
 	HRESULT Render_Esther();
 
+	HRESULT Render_Cascade();
 private:
 	//Debug
 	vector<class CGameObject*> m_DebugRenderObjects;
 	vector<class CGameObject*> m_RenderObjects[RENDER_END];
 	unordered_map<wstring, vector<class CGameObject*>, djb2Hasher> m_InstanceRenderObjects[RENDER_END];
 
+
+	vector<class CGameObject*> m_CascadeObjects[3];
 private:
 	_uint	m_iBufferSize = 0;
 
@@ -300,6 +305,10 @@ private:
 	static  _float  m_fContrast;
 	static  _float  m_fSaturation;
 
+
+	//Cascade
+	ID3D11DepthStencilView* m_pCascadeShadowDSV[3];
+	HRESULT Ready_CascadeShadow();
 public:
 	static CRenderer* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CComponent* Clone(CGameObject* pObject, void* pArg) override;

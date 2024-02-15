@@ -119,6 +119,13 @@ struct VS_OUT_SHADOW
     float4  vProjPos : TEXCOORD1;
 };
 
+struct VS_OUT_CASCADE_SHADOW
+{
+    float4  vPosition : SV_POSITION;
+    float2  vTexUV : TEXCOORD0;
+};
+
+
 struct VS_OUT_FXTEX
 {
     float4 vPosition : POSITION;    // SV พฦดิ

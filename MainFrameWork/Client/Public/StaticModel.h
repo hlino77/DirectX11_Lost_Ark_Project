@@ -49,6 +49,7 @@ public:
 	virtual HRESULT	Render_Instance(_uint iSize);
 	virtual HRESULT	Render_Debug();
 	virtual HRESULT Render_ShadowDepth_Instance(_uint iSize) override;
+	virtual HRESULT	Render_CascadeShadowDepth(_uint iIndex) override;
 
 	virtual void	Add_InstanceData(_uint iSize, _uint& iIndex) override;
 public:

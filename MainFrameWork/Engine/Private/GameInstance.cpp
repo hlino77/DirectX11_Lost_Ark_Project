@@ -546,6 +546,11 @@ void CGameInstance::Set_MotionBlur(_bool bMotionBlur, _float fMotionBlurIntensit
 	m_pPipeLine->Set_MotionBlur(bMotionBlur, fMotionBlurIntensity);
 }
 
+Matrix* CGameInstance::Get_ShadowProj()
+{
+	return m_pPipeLine->Get_ShadowProj();
+}
+
 KEY_STATE CGameInstance::GetKeyState(KEY _eKey)
 {
 	if (nullptr == m_pKey_Manager)

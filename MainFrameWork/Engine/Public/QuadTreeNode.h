@@ -17,7 +17,9 @@ public:
 	HRESULT Add_Object(CGameObject* pObject);
 
 	void	Tick(_float fTimeDelta);
+	void	Tick_Cascade();
 	void	Set_ObjectRender(const BoundingFrustum& tFrustum);
+	void	Set_CascadeRender();
 
 	void	Render_DeBug();
 

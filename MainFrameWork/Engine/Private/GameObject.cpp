@@ -81,6 +81,16 @@ void CGameObject::Set_NoneControlState(const wstring& szName)
 	m_pStateMachine->Change_State(szName);
 }
 
+void CGameObject::Set_CascadeRender()
+{
+	memcpy(m_bCascadeRender, m_bCascadeRenderMark, 3);
+}
+
+void CGameObject::Reset_CascadeRenderMark()
+{
+	ZeroMemory(m_bCascadeRenderMark, 3);
+}
+
 HRESULT CGameObject::Add_Component(_uint iLevelIndex, const wstring& pPrototypeTag, const wstring& pComponentTag, CComponent** ppOut, void* pArg)
 {
 	if (nullptr != Find_Component(pComponentTag))

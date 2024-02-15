@@ -98,6 +98,7 @@ void CLight_Manager::Ready_LightMatrix(Vec3 vOffset, Vec3 vLook)
 {
 	m_vLightOffset = vOffset;
 	m_vLightLook = vLook;
+	m_vLightLook.Normalize();
 	Vec3 vPos(0.0f, 0.0f, 0.0f);
 
 	m_DirectionLightMatrix = XMMatrixLookAtLH(vPos, vPos + vLook, Vec3(0.0f, 1.0f, 0.0f));

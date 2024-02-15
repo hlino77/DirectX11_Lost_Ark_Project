@@ -9,7 +9,7 @@ float       g_fPower = 0.f;
 float       g_fTime = 2.f;
 float       g_fmaxHeight = 2.f;
 
-
+matrix      g_CascadeProj;
 
 VS_OUT VS_MAIN(STATIC_IN In)
 {
@@ -343,6 +343,21 @@ VS_OUT_SHADOW VS_SHADOW(STATIC_IN In)
     return Out;
 }
 
+VS_OUT_CASCADE_SHADOW VS_CASCADE_SHADOW(STATIC_IN In)
+{
+    VS_OUT_CASCADE_SHADOW Out = (VS_OUT_CASCADE_SHADOW)0;
+
+    float4 vPosition = float4(In.vPosition, 1.f);
+    vPosition = mul(vPosition, WorldMatrix);
+    vPosition = mul(vPosition, g_CascadeProj);
+
+    Out.vPosition = vPosition;
+    Out.vTexUV = In.vTexUV;
+
+    return Out;
+}
+
+
 float4 PS_SHADOW(VS_OUT_SHADOW In) : SV_TARGET0
 {
     float4 vColor = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
@@ -362,6 +377,17 @@ float4 PS_SHADOW_DISCARD(VS_OUT_SHADOW In) : SV_TARGET0
          discard;
 
      return float4(In.vProjPos.z / In.vProjPos.w, 0.0f, 0.0f, 0.0f);
+}
+
+float4 PS_CASCADE_SHADOW(VS_OUT_CASCADE_SHADOW In) : SV_TARGET0
+{
+    float4 vColor = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
+
+     if (vColor.a == 0.0f)
+         discard;
+
+     return float4(In.vPosition.z, 0.0f, 0.0f, 0.0f);
+    //return float4(1.0f, 0.0f, 0.0f, 0.0f);
 }
 
 float4 PS_ALPHABLEND(VS_OUT_OUTLINE In) : SV_TARGET0
@@ -522,4 +548,14 @@ technique11 DefaultTechnique
         PixelShader = compile ps_5_0 PS_SHADOW_DISCARD();
     }
 
+    pass CascadeShadowPass // 9
+    {
+        SetRasterizerState(RS_Default);
+        SetDepthStencilState(DSS_Default, 0);
+        SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+        VertexShader = compile vs_5_0 VS_CASCADE_SHADOW();
+        GeometryShader = NULL;
+        PixelShader = compile ps_5_0 PS_CASCADE_SHADOW();
+    }
 }

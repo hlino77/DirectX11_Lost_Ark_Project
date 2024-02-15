@@ -33,6 +33,12 @@ public:
 	const BoundingFrustum& Get_CamFrustum()										{ return m_tCamFrustum; }
 	void Set_Frustum(const BoundingFrustum& tBoundingFrustum)					{ m_tCamFrustum = tBoundingFrustum; }
 
+
+	void	Set_CascadeBoxes(BoundingOrientedBox* pBoxes);
+	void	Set_ShadowProj(Matrix* pMatrix);
+
+	BoundingOrientedBox* Get_CascadeBoxes() { return m_tCascadeShadowBox; }
+	Matrix* Get_ShadowProj() { return m_matShadowProj; }
 public:
 	void Update();
 	
@@ -47,6 +53,9 @@ private:
 	_float				m_fMotionBlurIntensity = 0.0f;
 
 	_bool				m_IsMotionBlur = false;
+
+	BoundingOrientedBox	m_tCascadeShadowBox[3];
+	Matrix m_matShadowProj[3];
 public:
 	virtual void Free() override;
 };

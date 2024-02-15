@@ -16,6 +16,8 @@ public:
 		_float					fFovy, fAspect, fNear, fFar;
 		_uint					iLayer;
 
+
+
 		CTransform::TRANSFORMDESC		TransformDesc;
 	}CAMERADESC;
 
@@ -27,10 +29,13 @@ protected:
 public:
 	virtual HRESULT Initialize_Prototype();
 	virtual HRESULT Initialize(void* pArg);
+
+	
 	virtual void Tick(_float fTimeDelta);
 	virtual void LateTick(_float fTimeDelta);
 	virtual HRESULT Render();
 
+	void	Update_Cascade();
 public:
 	Matrix&						Get_ProjMatrix() { return m_matProj; }
 
@@ -41,6 +46,11 @@ protected:
 
 
 	BoundingFrustum				m_tCamFrustum;
+
+	_float						m_fCascadeEnd[4];
+
+	Matrix m_shadowOrthoProj[3];
+	BoundingOrientedBox	m_tCascadeShadowBox[3];
 protected:
 	virtual HRESULT Ready_Components() override;
 

@@ -41,6 +41,8 @@ HRESULT CRenderer::Initialize_Prototype()
 {
 	if (m_pDevice == nullptr)
 		return S_OK;
+	//
+	Ready_CascadeShadow();
 
 	//RenderTarget
 
@@ -138,6 +140,19 @@ HRESULT CRenderer::Initialize_Prototype()
 
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_StaticShadowDepth"),
 		ViewportDesc.Width * m_fStaticShadowTargetSizeRatio, ViewportDesc.Height * m_fStaticShadowTargetSizeRatio, DXGI_FORMAT_R32G32B32A32_FLOAT, Vec4(1.0f, 1.0f, 1.0f, 1.0f))))
+		return E_FAIL;
+
+	//Cascade
+	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_Cascade1"),
+		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R32G32B32A32_FLOAT, Vec4(1.0f, 1.0f, 1.0f, 1.0f))))
+		return E_FAIL;
+
+	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_Cascade2"),
+		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R32G32B32A32_FLOAT, Vec4(1.0f, 1.0f, 1.0f, 1.0f))))
+		return E_FAIL;
+
+	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_Cascade3"),
+		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R32G32B32A32_FLOAT, Vec4(1.0f, 1.0f, 1.0f, 1.0f))))
 		return E_FAIL;
 
 	// Bloom
@@ -243,12 +258,20 @@ HRESULT CRenderer::Initialize_Prototype()
 	constexpr _float fTargetCX = 256.f;
 	constexpr _float fTargetCY = 144.f;
 
-	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Normal"), fTargetX, fTargetY, fTargetCX, fTargetCY)))
+	//Test
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Cascade1"), fTargetX, fTargetY, fTargetCX, fTargetCY)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Cascade2"), 3.f * fTargetX, fTargetY, fTargetCX, fTargetCY)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Cascade3"), 5.f * fTargetX, fTargetY, fTargetCX, fTargetCY)))
+		return E_FAIL;
+
+	/*if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Normal"), fTargetX, fTargetY, fTargetCX, fTargetCY)))
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Shade"), 3.f * fTargetX, fTargetY, fTargetCX, fTargetCY)))
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_NormalDepth"), 5.f * fTargetX, fTargetY, fTargetCX, fTargetCY)))
-		return E_FAIL;
+		return E_FAIL;*/
 	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Properties"), 7.f * fTargetX, fTargetY, fTargetCX, fTargetCY)))
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_EffectOneBlend"), fTargetX, 3.f * fTargetY, fTargetCX, fTargetCY)))
@@ -393,6 +416,17 @@ HRESULT CRenderer::Initialize_Prototype()
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_Lights"), TEXT("Target_Shade"))))
 		return E_FAIL;
 
+	//cascade
+	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_Cascade1"), TEXT("Target_Cascade1"))))
+		return E_FAIL;
+
+	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_Cascade2"), TEXT("Target_Cascade2"))))
+		return E_FAIL;
+
+	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_Cascade3"), TEXT("Target_Cascade3"))))
+		return E_FAIL;
+	//
+
 	m_pVIBuffer = CVIBuffer_Rect::Create(m_pDevice, m_pContext);
 	if (nullptr == m_pVIBuffer)
 		return E_FAIL;
@@ -516,6 +550,13 @@ HRESULT CRenderer::Add_DebugObject(CGameObject* pObject)
 	return S_OK;
 }
 
+HRESULT CRenderer::Add_CascadeObject(_uint iIndex, CGameObject* pObject)
+{
+	m_CascadeObjects[iIndex].push_back(pObject);
+	Safe_AddRef(pObject);
+	return S_OK;
+}
+
 HRESULT CRenderer::Ready_InstanceRender()
 {
 	for (_uint i = 0; i < CRenderer::RENDER_END; ++i)
@@ -559,6 +600,10 @@ HRESULT CRenderer::Draw()
 
 	if (FAILED(Render_NonAlphaBlend()))
 		return E_FAIL;
+
+	if (FAILED(Render_Cascade()))
+		return E_FAIL;
+
 	if (FAILED(Render_Decal()))
 		return E_FAIL;
 	if (FAILED(Render_Effect()))
@@ -1218,6 +1263,18 @@ HRESULT CRenderer::Render_Deferred()
 		return E_FAIL;
 
 
+	//Test
+	if (FAILED(m_pMRTShader->Bind_Matrices("g_CascadeProj", CPipeLine::GetInstance()->Get_ShadowProj(), 3)))
+		return E_FAIL;
+
+	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pMRTShader, TEXT("Target_Cascade1"), "g_CascadeTarget1")))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pMRTShader, TEXT("Target_Cascade2"), "g_CascadeTarget2")))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pMRTShader, TEXT("Target_Cascade3"), "g_CascadeTarget3")))
+		return E_FAIL;
+	//
+
 	// For Fog
 	if (FAILED(m_pMRTShader->Bind_RawValue("g_fFogStartHeight", &m_fFogStartHeight, sizeof(_float))))
 		return E_FAIL;
@@ -1796,6 +1853,35 @@ HRESULT CRenderer::Render_Esther()
 	return S_OK;
 }
 
+HRESULT CRenderer::Render_Cascade()
+{
+	for (_uint i = 0; i < 3; ++i)
+	{
+		wstring szTargetName = L"MRT_Cascade";
+		szTargetName += to_wstring(i + 1);
+
+		if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, szTargetName, m_pCascadeShadowDSV[i])))
+			return E_FAIL;
+
+		m_pContext->ClearDepthStencilView(m_pCascadeShadowDSV[i], D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0);
+
+		for (auto& iter : m_CascadeObjects[i])
+		{
+			if (FAILED(iter->Render_CascadeShadowDepth(i)))
+				return E_FAIL;
+			Safe_Release(iter);
+		}
+		m_CascadeObjects[i].clear();
+
+
+		if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
+			return E_FAIL;
+
+	}
+
+	return S_OK;
+}
+
 HRESULT CRenderer::Render_Mouse()
 {
 	for (auto& iter : m_RenderObjects[RENDERGROUP::RENDER_MOUSE])
@@ -1816,28 +1902,35 @@ HRESULT CRenderer::Render_Debug()
 	if (FAILED(m_pMRTShader->Bind_Matrix("g_ProjMatrix", &m_ProjMatrix)))
 		return E_FAIL;
 
-	if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_GameObjects"), m_pMRTShader, m_pVIBuffer)))
-		return E_FAIL;
+	//if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_GameObjects"), m_pMRTShader, m_pVIBuffer)))
+	//	return E_FAIL;
 
-	if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_Lights"), m_pMRTShader, m_pVIBuffer)))
-		return E_FAIL;
-	
-	if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_SSAO_Blur_V"), m_pMRTShader, m_pVIBuffer)))
-		return E_FAIL;
-	
-	if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_Effects"), m_pMRTShader, m_pVIBuffer)))
-		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_Decals"), m_pMRTShader, m_pVIBuffer)))
-		return E_FAIL;
+	//if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_Lights"), m_pMRTShader, m_pVIBuffer)))
+	//	return E_FAIL;
+	//
+	//if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_SSAO_Blur_V"), m_pMRTShader, m_pVIBuffer)))
+	//	return E_FAIL;
+	//
+	//if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_Effects"), m_pMRTShader, m_pVIBuffer)))
+	//	return E_FAIL;
+	//if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_Decals"), m_pMRTShader, m_pVIBuffer)))
+	//	return E_FAIL;
 
-	if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_PrePostProcessScene"), m_pMRTShader, m_pVIBuffer)))
+	//if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_PrePostProcessScene"), m_pMRTShader, m_pVIBuffer)))
+	//	return E_FAIL;
+	//
+	//if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_BloomDownSample1"), m_pMRTShader, m_pVIBuffer)))
+	//	return E_FAIL;
+	//if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_BloomBlur_HV_5x5"), m_pMRTShader, m_pVIBuffer)))
+	//	return E_FAIL;
+	//if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_SSR"), m_pMRTShader, m_pVIBuffer)))
+	//	return E_FAIL;
+
+	if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_Cascade1"), m_pMRTShader, m_pVIBuffer)))
 		return E_FAIL;
-	
-	if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_BloomDownSample1"), m_pMRTShader, m_pVIBuffer)))
+	if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_Cascade2"), m_pMRTShader, m_pVIBuffer)))
 		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_BloomBlur_HV_5x5"), m_pMRTShader, m_pVIBuffer)))
-		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_SSR"), m_pMRTShader, m_pVIBuffer)))
+	if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_Cascade3"), m_pMRTShader, m_pVIBuffer)))
 		return E_FAIL;
 
 	//if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_EffectShade"), m_pMRTShader, m_pVIBuffer)))
@@ -2179,6 +2272,45 @@ void CRenderer::Set_ScreenShot(_bool bShoot, wstring strPath)
 
 	m_bScreenShot = bShoot;  
 	m_strScreenShotPath = strPath; 
+}
+
+HRESULT CRenderer::Ready_CascadeShadow()
+{
+	D3D11_VIEWPORT		ViewportDesc;
+
+	_uint				iNumViewports = 1;
+	m_pContext->RSGetViewports(&iNumViewports, &ViewportDesc);
+
+	//ShadowDepth
+	for(_uint i = 0; i < 3; ++i)
+	{
+		ID3D11Texture2D* pDepthStencilTexture = nullptr;
+
+		D3D11_TEXTURE2D_DESC	TextureDesc;
+		ZeroMemory(&TextureDesc, sizeof(D3D11_TEXTURE2D_DESC));
+
+		TextureDesc.Width = 1600.0f;
+		TextureDesc.Height = 900.0f;
+		TextureDesc.MipLevels = 1;
+		TextureDesc.ArraySize = 1;
+		TextureDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+
+		TextureDesc.SampleDesc.Quality = 0;
+		TextureDesc.SampleDesc.Count = 1;
+
+		TextureDesc.Usage = D3D11_USAGE_DEFAULT;
+		TextureDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL/*| D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE*/;
+		TextureDesc.CPUAccessFlags = 0;
+		TextureDesc.MiscFlags = 0;
+
+		if (FAILED(m_pDevice->CreateTexture2D(&TextureDesc, nullptr, &pDepthStencilTexture)))
+			return E_FAIL;
+
+		if (FAILED(m_pDevice->CreateDepthStencilView(pDepthStencilTexture, nullptr, &m_pCascadeShadowDSV[i])))
+			return E_FAIL;
+	}
+
+	return S_OK;
 }
 
 CRenderer * CRenderer::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)

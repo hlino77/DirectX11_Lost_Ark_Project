@@ -25,6 +25,16 @@ void CPipeLine::Set_MotionBlur(_bool bMotionBlur, _float fMotionBlurIntensity)
 	}
 }
 
+void CPipeLine::Set_CascadeBoxes(BoundingOrientedBox* pBoxes)
+{
+	memcpy(m_tCascadeShadowBox, pBoxes, sizeof(BoundingOrientedBox) * 3);
+}
+
+void CPipeLine::Set_ShadowProj(Matrix* pMatrix)
+{
+	memcpy(m_matShadowProj, pMatrix, sizeof(Matrix) * 3);
+}
+
 void CPipeLine::Update()
 {
 	for (_uint i = 0; i < D3DTS_END; ++i)	

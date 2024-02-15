@@ -113,7 +113,7 @@ HRESULT CLevel_Bern::Initialize()
 
 	if (m_bFirstEnter)
 	{
-		//CEventMgr::GetInstance()->Start_Event((_uint)EVENT::BERNSTART);
+		CEventMgr::GetInstance()->Start_Event((_uint)EVENT::BERNSTART);
 	}
 	CUI_Manager::GetInstance()->Set_LevelCustomOption();
 	return S_OK;
@@ -498,7 +498,7 @@ HRESULT CLevel_Bern::Ready_Player_Camera(const LAYER_TYPE eLayerType)
 		return E_FAIL;
 
 	pPlayer->Set_Camera(dynamic_cast<CCamera_Player*>(pCamera));
-
+	
 	Safe_Release(pGameInstance);
 
 	return S_OK;

@@ -58,6 +58,7 @@ public:
 	virtual HRESULT				Render();
 	virtual HRESULT				Render_Instance(_uint iSize) { return S_OK; }
 	virtual HRESULT				Render_ShadowDepth() { return S_OK; }
+	virtual HRESULT				Render_CascadeShadowDepth(_uint iIndex) { return S_OK; }
 	virtual HRESULT				Render_Outline() { return S_OK; }
 	virtual HRESULT				Render_ShadowDepth_Instance(_uint iSize) { return S_OK; }
 	virtual HRESULT				Render_MakeSRV() { return S_OK; }
@@ -201,6 +202,9 @@ public:
 	const STATDESC&				Get_PlayerStat_Desc() { return m_tPCStatDesc; }
 	void						Set_PlayerStat_Desc(STATDESC tStatDesc) { m_tPCStatDesc = tStatDesc; }
 
+	void						Set_CascadeRender();
+	void						Set_CascadeRenderMark(_uint iIndex, _bool bRender) { m_bCascadeRenderMark[iIndex] = bRender; }
+	void						Reset_CascadeRenderMark();
 protected:
 	virtual HRESULT Ready_Components() PURE;
 	HRESULT Add_Component(_uint iLevelIndex, const wstring& pPrototypeTag, const wstring& pComponentTag, CComponent** ppOut, void* pArg = nullptr);
@@ -297,6 +301,11 @@ protected:
 
 	// ½ºÅÈº¯¼ö
 	STATDESC			m_tPCStatDesc;
+
+
+	//Cascade
+	_bool m_bCascadeRender[3] = { false, false, false };
+	_bool m_bCascadeRenderMark[3] = { false, false, false };
 private:
 	CComponent* Find_Component(const wstring & strComponentTag);
 

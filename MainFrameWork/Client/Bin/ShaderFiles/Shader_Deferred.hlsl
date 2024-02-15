@@ -40,6 +40,13 @@ float	g_fStaticShadowSizeRatio;
 float2	g_vWinSize = float2(1600.f, 900.f);	
 
 
+Texture2D		g_CascadeTarget1;
+Texture2D		g_CascadeTarget2;
+Texture2D		g_CascadeTarget3;
+
+matrix			g_CascadeProj[3];
+
+
 // For Fog
 float  g_fFogStartHeight =  0.f;
 float  g_fFogEndHeight   =  0.f;
@@ -60,6 +67,14 @@ sampler DefaultSampler = sampler_state {
 sampler ShadowSampler = sampler_state {
 	Filter = MIN_MAG_MIP_POINT;
 };
+
+sampler ShadowClampSampler = sampler_state {
+	Filter = MIN_MAG_MIP_POINT;
+	AddressU = clamp;
+	AddressV = clamp;
+	AddressW = clamp;
+};
+
 
 VS_OUT_TARGET VS_MAIN(TARGET_IN In)
 {
@@ -169,6 +184,117 @@ float PCF_StaticShadowCalculation(float4 fragPosLightSpace, float fBias)
 	return shadow;
 }
 
+
+
+float PCF_StaticShadowCalculation_Cascade(float4 vWorldPos, float fBias, float fViewZ)
+{
+	float4 vProjCoords;
+
+	float fShadow = 1.0f;
+
+	fBias = 0.001f;
+
+	if (fViewZ <= 15.0f)
+	{
+		vProjCoords = mul(vWorldPos, g_CascadeProj[0]);
+
+		vProjCoords.x = vProjCoords.x * 0.5f + 0.5f;
+		vProjCoords.y = vProjCoords.y * -0.5f + 0.5f;
+
+		//float2 vTexCoords = saturate(vProjCoords.xy);
+
+		/*if (vTexCoords.x != projCoords.x || vTexCoords.y != projCoords.y)
+			return 1.0f;*/
+
+		float currentDepth = vProjCoords.z;
+		if (currentDepth > 1.0)
+			return 1.0;
+
+		currentDepth -= fBias;
+
+		float2 texelSize = float2(1.f / 1600.0f, 1.f / 1600.0f);
+
+		for (int x = -1; x <= 1; ++x)
+		{
+			for (int y = -1; y <= 1; ++y)
+			{
+				float pcfDepth = g_CascadeTarget1.Sample(ShadowClampSampler, vProjCoords.xy + float2(x, y) * texelSize).x;
+				fShadow += currentDepth > pcfDepth ? 0.5f : 1.0f;
+			}
+		}
+		fShadow /= 9.0f;
+
+	}
+	else if (fViewZ > 15.0f && fViewZ <= 30.0f)
+	{
+		vProjCoords = mul(vWorldPos, g_CascadeProj[1]);
+
+		vProjCoords.x = vProjCoords.x * 0.5f + 0.5f;
+		vProjCoords.y = vProjCoords.y * -0.5f + 0.5f;
+
+		//float2 vTexCoords = saturate(vProjCoords.xy);
+
+	/*	if (vTexCoords.x != projCoords.x || vTexCoords.y != projCoords.y)
+			return 1.0f;*/
+
+		float currentDepth = vProjCoords.z;
+		if (currentDepth > 1.0)
+			return 1.0;
+
+		currentDepth -= fBias;
+
+		float2 texelSize = float2(1.f / 1600.0f, 1.f / 1600.0f);
+
+		for (int x = -1; x <= 1; ++x)
+		{
+			for (int y = -1; y <= 1; ++y)
+			{
+				float pcfDepth = g_CascadeTarget2.Sample(ShadowClampSampler, vProjCoords.xy + float2(x, y) * texelSize).x;
+				fShadow += currentDepth > pcfDepth ? 0.5f : 1.0f;
+			}
+		}
+		fShadow /= 9.0f;
+	}
+	else if (fViewZ > 30.0f)
+	{
+		vProjCoords = mul(vWorldPos, g_CascadeProj[2]);
+
+		vProjCoords.x = vProjCoords.x * 0.5f + 0.5f;
+		vProjCoords.y = vProjCoords.y * -0.5f + 0.5f;
+
+		float2 vTexCoords = saturate(vProjCoords.xy);
+
+		if (vTexCoords.x != vProjCoords.x || vTexCoords.y != vProjCoords.y)
+			return 1.0f;
+
+		float currentDepth = vProjCoords.z;
+		if (currentDepth > 1.0)
+			return 1.0;
+
+		currentDepth -= fBias;
+
+		float2 texelSize = float2(1.f / 1600.0f, 1.f / 1600.0f);
+
+		for (int x = -1; x <= 1; ++x)
+		{
+			for (int y = -1; y <= 1; ++y)
+			{
+				float pcfDepth = g_CascadeTarget3.Sample(ShadowClampSampler, vProjCoords.xy + float2(x, y) * texelSize).x;
+				fShadow += currentDepth > pcfDepth ? 0.5f : 1.0f;
+			}
+		}
+		fShadow /= 9.0f;
+	}
+	else
+	{
+
+
+		return 1.0f;
+	}
+
+	return fShadow;
+}
+
 float4 PS_MAIN_DEFERRED(VS_OUT_TARGET In) : SV_TARGET
 {
     vector vDiffuse = g_DiffuseTarget.Sample(LinearSampler, In.vTexcoord);
@@ -237,8 +363,8 @@ float4 PS_MAIN_PBR_DEFERRED(VS_OUT_TARGET In) : SV_TARGET
 		vector vStaticPosition = mul(vWorldPos, g_StaticLightViewMatrix);
 		vStaticPosition = mul(vStaticPosition, g_LightProjMatrix);
 
-		float fStaticShadow = PCF_StaticShadowCalculation(vStaticPosition, fBias);
-
+		//float fStaticShadow = PCF_StaticShadowCalculation(vStaticPosition, fBias);
+		float fStaticShadow = PCF_StaticShadowCalculation_Cascade(vWorldPos, fBias, fViewZ);
 		if (fStaticShadow > 0.51f)
 		{
 			vector vDynamicPosition = mul(vWorldPos, g_LightViewMatrix);

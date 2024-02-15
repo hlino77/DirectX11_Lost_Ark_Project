@@ -107,7 +107,7 @@ public: /* For.PipeLine */
 	Vec4 Get_CamPosition();
 	const BoundingFrustum& Get_CamFrustum();
 	void	Set_MotionBlur(_bool bMotionBlur, _float fMotionBlurIntensity = 0.0f);
-
+	Matrix* Get_ShadowProj();
 /* For. KeyManager */
 public:
 	KEY_STATE GetKeyState(KEY _eKey);
