@@ -165,7 +165,7 @@ void CState_GN_Attack_Hand3::Tick_State_NoneControl(_float fTimeDelta)
 
 	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_Hand3);
 
-	if (m_EffectFrames[m_iEffectCnt].iFrame <= (_int)iAnimFrame)
+	if (-1 != m_EffectFrames[m_iEffectCnt].iFrame && m_EffectFrames[m_iEffectCnt].iFrame <= (_int)iAnimFrame)
 	{
 		Effect_Shot();
 
