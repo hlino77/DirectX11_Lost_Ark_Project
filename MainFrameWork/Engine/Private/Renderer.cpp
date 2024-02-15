@@ -630,15 +630,6 @@ HRESULT CRenderer::Draw()
 	if (FAILED(Render_Cascade()))
 		return E_FAIL;
 
-	if (FAILED(Render_Decal()))
-		return E_FAIL;
-	if (FAILED(Render_Effect()))
-		return E_FAIL;
-	if (FAILED(Render_ShadowDepth()))
-		return E_FAIL;
-	if (FAILED(Render_Lights()))
-		return E_FAIL; 
-
 	if (0 == m_iSSAO_Switch)
 	{
 		if (FAILED(Render_HBAOPLUS()))
@@ -649,6 +640,15 @@ HRESULT CRenderer::Draw()
 		if (FAILED(Render_SSAO()))
 			return E_FAIL;
 	}
+
+	if (FAILED(Render_Decal()))
+		return E_FAIL;
+	if (FAILED(Render_Effect()))
+		return E_FAIL;
+	if (FAILED(Render_ShadowDepth()))
+		return E_FAIL;
+	if (FAILED(Render_Lights()))
+		return E_FAIL; 
 
 	if (FAILED(Render_Bloom()))
 		return E_FAIL;

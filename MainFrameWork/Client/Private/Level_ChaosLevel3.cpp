@@ -245,7 +245,7 @@ HRESULT CLevel_ChaosLevel3::Ready_Layer_SkyBox(const LAYER_TYPE eLayerType)
 
 	pSkyFloor->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, Vec3(100.f, -134.f, 100.f));
 
-	CRenderer::Set_IBLTexture(7);
+	CRenderer::Set_IBLTexture(8);
 
 
 	// Fog
