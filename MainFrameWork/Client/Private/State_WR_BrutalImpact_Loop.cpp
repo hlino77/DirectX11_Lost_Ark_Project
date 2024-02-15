@@ -132,38 +132,6 @@ void CState_WR_BrutalImpact_Loop::Tick_State_Control(_float fTimeDelta)
 	Effect_BrutalImpact_Loop_Aura_Impact2();
 	Effect_BrutalImpact_Loop_Impact3_Control();
 
-	if (false == m_bEffectStart[0])
-	{
-		CEffect_Manager::EFFECTPIVOTDESC desc;
-		Matrix& matPivot = m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
-		desc.pPivotMatrix = &matPivot;
-		EFFECT_START(TEXT("Slayer_BrutalImpact_Loop_Aura"), &desc)
-		m_bEffectStart[0] = true;
-	}
-
-	if (false == m_bEffectStart[1] && 4 <= iAnimFrame)
-	{
-		CEffect_Manager::EFFECTPIVOTDESC desc;
-		Matrix& matPivot = m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
-		desc.pPivotMatrix = &matPivot;
-		EFFECT_START(TEXT("Slayer_BrutalImpact_Loop_Impact2"), &desc)
-
-		m_bEffectStart[1] = true;
-	}
-
-	if (false == m_bEffectStart[2] && 23 <= iAnimFrame)
-	{
-		CEffect_Manager::EFFECTPIVOTDESC desc;
-		Matrix& matPivot = m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
-		desc.pPivotMatrix = &matPivot;
-		EFFECT_START(TEXT("Slayer_BrutalImpact_Loop_Impact3"), &desc)
-		EFFECT_START(TEXT("Slayer_BrutalImpact_Loop_Lightning"), &desc)
-
-		m_pPlayer->Get_Camera()->Set_RadialBlur(0.05f, matPivot.Translation(), 0.1f, 0.08f);
-
-		m_bEffectStart[2] = true;
-	}
-
 	Vec3 vClickPos;
 	if (true == m_pController->Is_Dash())
 	{

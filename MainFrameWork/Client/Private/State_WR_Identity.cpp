@@ -66,19 +66,6 @@ void CState_WR_Identity::Tick_State_Control(_float fTimeDelta)
 {
 	Effect_Rage_Control();
 
-	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iIdentity))
-		m_pPlayer->Set_State(TEXT("Idle"));
-}
-
-void CState_WR_Identity::Tick_State_NoneControl(_float fTimeDelta)
-{
-	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
-
-	Effect_Rage_NonControl();
-}
-
-void CState_WR_Identity::Effect_Rage_Control()
-{
 	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iIdentity);
 
 	if (-1 != m_SoundFrames[m_iSoundCnt].iFrame && m_SoundFrames[m_iSoundCnt].iFrame <= (_int)iAnimFrame)
@@ -94,6 +81,22 @@ void CState_WR_Identity::Effect_Rage_Control()
 
 		m_iSoundCnt++;
 	}
+
+
+	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iIdentity))
+		m_pPlayer->Set_State(TEXT("Idle"));
+}
+
+void CState_WR_Identity::Tick_State_NoneControl(_float fTimeDelta)
+{
+	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
+
+	Effect_Rage_NonControl();
+}
+
+void CState_WR_Identity::Effect_Rage_Control()
+{
+	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iIdentity);
 
 	if (!m_bEffect && 9 <= iAnimFrame)
 	{

@@ -86,9 +86,9 @@ void CState_WR_FuriousClaw_Loop::Exit_State()
 
 void CState_WR_FuriousClaw_Loop::Tick_State_Control(_float fTimeDelta)
 {
-	_int iCurrFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iFuriousClaw_Loop);
-
 	Effect_FuriousClaw_Loop();
+
+	_int iCurrFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iFuriousClaw_Loop);
 
 	if (-1 != m_SoundFrames[m_iSoundCnt].iFrame && m_SoundFrames[m_iSoundCnt].iFrame <= iCurrFrame)
 	{
@@ -102,12 +102,6 @@ void CState_WR_FuriousClaw_Loop::Tick_State_Control(_float fTimeDelta)
 		}
 
 		m_iSoundCnt++;
-	}
-
-	if (false == m_EffectStart[m_iEffectCnt] && -1 != m_SkillFrames[m_iEffectCnt] && m_SkillFrames[m_iEffectCnt] - 1 <= iCurrFrame)
-	{
-		CEffect_Manager::EFFECTPIVOTDESC desc;
-		desc.pPivotMatrix = &m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
 	}
 
 	if (-1 != m_SkillFrames[m_iSkillCnt] && m_SkillFrames[m_iSkillCnt] <= iCurrFrame)

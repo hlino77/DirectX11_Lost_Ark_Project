@@ -78,9 +78,6 @@ void CState_WR_WildStomp::Tick_State_Control(_float fTimeDelta)
 		m_pController->Get_SkillAttackMessage(m_eSkillSelectKey);
 	}
 
-<<<<<<< HEAD
-	Effect_WildStomp_Controll();
-=======
 	if (-1 != m_SoundFrames[m_iSoundCnt].iFrame && m_SoundFrames[m_iSoundCnt].iFrame <= (_int)iAnimFrame)
 	{
 		if (false == m_SoundFrames[m_iSoundCnt].bAddChannel)
@@ -95,18 +92,7 @@ void CState_WR_WildStomp::Tick_State_Control(_float fTimeDelta)
 		m_iSoundCnt++;
 	}
 
-	if (false == m_bEffectStart && 14 <= iAnimFrame)
-	{
-		CEffect_Manager::EFFECTPIVOTDESC desc;
-		Matrix& matPivot = m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
-		desc.pPivotMatrix = &matPivot;
-		EFFECT_START(TEXT("Slayer_WildStomp"), &desc)
-
-		m_pPlayer->Get_Camera()->Set_RadialBlur(0.1f, matPivot.Translation(), 0.25f, 0.04f);
-
-		m_bEffectStart = true;
-	}
->>>>>>> origin/feature/Jongmin
+	Effect_WildStomp_Controll();
 
 	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iWildStomp))
 		m_pPlayer->Set_State(TEXT("Idle"));
