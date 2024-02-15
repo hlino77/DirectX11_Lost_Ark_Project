@@ -42,6 +42,7 @@ public:
 	virtual void	Get_GrabMessage(CGameObject* pGrabber);
 	virtual void	Get_GrabEndMessage();
 	virtual void	Get_DeadMessage();
+	virtual void	Get_EshterGageUseMessage() override;
 
 	void			Get_WDR_IdentityMessage();
 	void			Get_WDR_IdenSkillMessage(_float fCoolTime) { m_fCoolTime[SKILL_KEY::Z] = m_fIdenSkillCool; m_fIdentityGage -= 5.f; }

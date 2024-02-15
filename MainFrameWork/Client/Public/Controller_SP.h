@@ -29,6 +29,7 @@ public:
 	virtual void	Get_GrabEndMessage();
 	virtual void	Get_DeadMessage();
 	virtual void	Get_AttackMessage(Vec3 vPos = Vec3()) { Attack(vPos); }
+	virtual void	Get_EshterGageUseMessage() override;
 
 	void			Get_SP_IdentityMessage();
 

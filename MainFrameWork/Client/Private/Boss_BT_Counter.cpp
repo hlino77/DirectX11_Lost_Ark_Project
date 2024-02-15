@@ -31,22 +31,14 @@ void CBoss_BT_Counter::OnStart()
 			fEstherGauge *= 1.5f;
 		if (pPlayer->Is_PartyLeader())
 		{
-			if (TEXT("Gunslinger") == pPlayer->Get_ObjectTag())
+			_uint iGauge = pPlayer->Get_EstherGage();
+			_uint iMaxGauge = pPlayer->Get_EstherMaxGage();
+			iGauge += fEstherGauge;
+			if (iGauge >= iMaxGauge)
 			{
-				static_cast<CPlayer_Gunslinger*>(pPlayer)->Get_GN_Controller()->Get_EstherGageAddMessage(fEstherGauge);
+				iGauge = iMaxGauge;
 			}
-			else if (TEXT("WR") == pPlayer->Get_ObjectTag())
-			{
-				static_cast<CPlayer_Slayer*>(pPlayer)->Get_WR_Controller()->Get_EstherGageAddMessage(fEstherGauge);
-			}
-			else if (TEXT("WDR") == pPlayer->Get_ObjectTag())
-			{
-				static_cast<CPlayer_Destroyer*>(pPlayer)->Get_WDR_Controller()->Get_EstherGageAddMessage(fEstherGauge);
-			}
-			else if (TEXT("SP") == pPlayer->Get_ObjectTag())
-			{
-				static_cast<CPlayer_Doaga*>(pPlayer)->Get_SP_Controller()->Get_EstherGageAddMessage(fEstherGauge);
-			}
+			pPlayer->Set_EstherGage(iGauge);
 		}
 	}
 }

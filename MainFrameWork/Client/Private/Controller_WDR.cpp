@@ -112,24 +112,21 @@ _bool CController_WDR::Is_EstherSkill()
 	if (false == static_cast<CPlayer*>(m_pOwner)->Is_PartyLeader())
 		return false;
 
-	if (m_iCurEstherGage < m_iMaxEstherGage)
+	if (static_cast<CPlayer*>(m_pOwner)->Get_EstherGage() < static_cast<CPlayer*>(m_pOwner)->Get_EstherMaxGage())
 		return false;
 
 	if (KEY_HOLD(KEY::CTRL) && KEY_TAP(KEY::Z))
 	{
-		m_iCurEstherGage = 0;
 		m_iEstherType = 0;
 		return true;
 	}
 	else if (KEY_HOLD(KEY::CTRL) && KEY_TAP(KEY::X))
 	{
-		m_iCurEstherGage = 0;
 		m_iEstherType = 1;
 		return true;
 	}
 	else if (KEY_HOLD(KEY::CTRL) && KEY_TAP(KEY::C))
 	{
-		m_iCurEstherGage = 0;
 		m_iEstherType = 2;
 		return true;
 	}
@@ -247,11 +244,15 @@ void CController_WDR::Esther_Refill(_float fTimeDelta)
 	{
 		m_fEstherAcc = 0.0f;
 
-		m_iCurEstherGage += m_iEstherFill;
-		if (m_iCurEstherGage >= m_iMaxEstherGage)
+		_uint iCurGage = static_cast<CPlayer*>(m_pOwner)->Get_EstherGage();
+		_uint iMaxGage = static_cast<CPlayer*>(m_pOwner)->Get_EstherMaxGage();
+
+		iCurGage += m_iEstherFill;
+		if (iCurGage >= iMaxGage)
 		{
-			m_iCurEstherGage = m_iMaxEstherGage;
+			iCurGage = iMaxGage;
 		}
+		static_cast<CPlayer*>(m_pOwner)->Set_EstherGage(iCurGage);
 	}
 }
 
@@ -364,6 +365,11 @@ void CController_WDR::Get_DeadMessage()
 	m_fIdentityGage = 0.0f;
 	m_iMarbleCnt = 0;
 	m_IsIdentity = false;
+}
+
+void CController_WDR::Get_EshterGageUseMessage()
+{
+	static_cast<CPlayer*>(m_pOwner)->Set_EstherGage(0);
 }
 
 void CController_WDR::Get_WDR_IdentityMessage()

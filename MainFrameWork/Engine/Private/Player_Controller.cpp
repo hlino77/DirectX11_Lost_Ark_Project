@@ -1102,15 +1102,6 @@ void CPlayer_Controller::Refill_Mana(_float fTimeDelta)
 	}
 }
 
-void CPlayer_Controller::Get_EstherGageAddMessage(_uint iGage)
-{
-	m_iCurEstherGage += iGage;
-	if (m_iCurEstherGage >= m_iMaxEstherGage)
-	{
-		m_iCurEstherGage = m_iMaxEstherGage;
-	}
-}
-
 void CPlayer_Controller::Free()
 {
 	__super::Free();

@@ -206,23 +206,7 @@ void CUI_EstherSkill::Update_EstherGauge(_float fTimeDelta)
 	if (nullptr == m_pPartyLeader)
 		return;
 
-
-	if (TEXT("Gunslinger") == m_pPartyLeader->Get_ObjectTag())
-	{
-		m_fCurrGauge = static_cast<CPlayer_Gunslinger*>(m_pPartyLeader)->Get_GN_Controller()->Get_CurrEstherGauge();
-	}
-	else if (TEXT("WR") == m_pPartyLeader->Get_ObjectTag())
-	{
-		m_fCurrGauge = static_cast<CPlayer_Slayer*>(m_pPartyLeader)->Get_WR_Controller()->Get_CurrEstherGauge();
-	}
-	else if (TEXT("WDR") == m_pPartyLeader->Get_ObjectTag())
-	{
-		m_fCurrGauge = static_cast<CPlayer_Destroyer*>(m_pPartyLeader)->Get_WDR_Controller()->Get_CurrEstherGauge();
-	}
-	else if (TEXT("SP") == m_pPartyLeader->Get_ObjectTag())
-	{
-		m_fCurrGauge = static_cast<CPlayer_Doaga*>(m_pPartyLeader)->Get_SP_Controller()->Get_CurrEstherGauge();
-	}
+	m_fCurrGauge = m_pPartyLeader->Get_EstherGage();
 
 	m_fGaugeRatio = m_fCurrGauge / m_fMaxGauge;
 }

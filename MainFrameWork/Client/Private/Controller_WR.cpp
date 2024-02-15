@@ -128,24 +128,21 @@ _bool CController_WR::Is_EstherSkill()
 	if (false == static_cast<CPlayer*>(m_pOwner)->Is_PartyLeader())
 		return false;
 
-	if (m_iCurEstherGage < m_iMaxEstherGage)
+	if (static_cast<CPlayer*>(m_pOwner)->Get_EstherGage() < static_cast<CPlayer*>(m_pOwner)->Get_EstherMaxGage())
 		return false;
 
 	if (KEY_HOLD(KEY::CTRL) && KEY_TAP(KEY::Z))
 	{
-		m_iCurEstherGage = 0;
 		m_iEstherType = 0;
 		return true;
 	}
 	else if (KEY_HOLD(KEY::CTRL) && KEY_TAP(KEY::X))
 	{
-		m_iCurEstherGage = 0;
 		m_iEstherType = 1;
 		return true;
 	}
 	else if (KEY_HOLD(KEY::CTRL) && KEY_TAP(KEY::C))
 	{
-		m_iCurEstherGage = 0;
 		m_iEstherType = 2;
 		return true;
 	}
@@ -155,6 +152,12 @@ _bool CController_WR::Is_EstherSkill()
 
 void CController_WR::Check_Iden_State(_float fTimeDelta)
 {
+	if (-10 == m_pOwner->Get_WeaponIndex())
+	{
+		m_IsIdentity = false;
+		m_fIdentityGage = -1.f;
+	}
+
 	if (true == m_IsIdentity)
 	{
 		m_fTimeAcc += fTimeDelta;
@@ -169,6 +172,8 @@ void CController_WR::Check_Iden_State(_float fTimeDelta)
 			m_fTimeAcc = 0.f;
 			m_IsIdentity = false;
 			m_fIdentityGage = -1.f;
+
+			m_pOwner->Set_WeaponIndex(-10);
 
 			CB_UpdateIdentityAuraPivot.clear();
 			static_cast<CPlayer*>(m_pOwner)->Delete_Effect(L"Slayer_Rage_Aura");
@@ -306,11 +311,15 @@ void CController_WR::Esther_Refill(_float fTimeDelta)
 	{
 		m_fEstherAcc = 0.0f;
 
-		m_iCurEstherGage += m_iEstherFill;
-		if (m_iCurEstherGage >= m_iMaxEstherGage)
+		_uint iCurGage = static_cast<CPlayer*>(m_pOwner)->Get_EstherGage();
+		_uint iMaxGage = static_cast<CPlayer*>(m_pOwner)->Get_EstherMaxGage();
+
+		iCurGage += m_iEstherFill;
+		if (iCurGage >= iMaxGage)
 		{
-			m_iCurEstherGage = m_iMaxEstherGage;
+			iCurGage = iMaxGage;
 		}
+		static_cast<CPlayer*>(m_pOwner)->Set_EstherGage(iCurGage);
 	}
 }
 
@@ -421,10 +430,16 @@ void CController_WR::Get_DeadMessage()
 	m_fIdentityGage = 0.0f;
 }
 
+void CController_WR::Get_EshterGageUseMessage()
+{
+	static_cast<CPlayer*>(m_pOwner)->Set_EstherGage(0);
+}
+
 void CController_WR::Get_WR_IdentityMessage()
 {
 	m_IsIdentity = true;
 	m_fIdentityGage = m_fMaxGage;
+	m_pOwner->Set_WeaponIndex(10);
 }
 
 void CController_WR::Increase_IdenGage(_float iGage)
