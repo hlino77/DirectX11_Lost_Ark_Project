@@ -85,11 +85,8 @@ void CUI_ChaosDungeon_GaugeCut::Update_GaugeCut()
 {
 	if (nullptr != m_pGaugeUI)
 	{
-		m_fCurrGauge = static_cast<CUI_ChaosDungeon_Gauge*>(m_pGaugeUI)->Get_CurrGauge();
-		m_fGaugeRatio = m_fCurrGauge / m_fMaxGauge;
-
+		m_fGaugeRatio = static_cast<CUI_ChaosDungeon_Gauge*>(m_pGaugeUI)->Get_GaugeRatio();
 		m_fY = m_fGaugeY - ((m_fGaugeSizeY * m_fGaugeRatio));
-
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION,
 			Vec3(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f));
 	}

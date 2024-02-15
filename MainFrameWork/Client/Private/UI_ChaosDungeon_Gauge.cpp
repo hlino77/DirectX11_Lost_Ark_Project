@@ -120,7 +120,7 @@ HRESULT CUI_ChaosDungeon_Gauge::Bind_ShaderResources()
 
 void CUI_ChaosDungeon_Gauge::Update_Gauge()
 {
-	m_fRatio = m_fCurrGauge / m_fMaxGauge;
+	//m_fRatio = m_fCurrGauge / m_fMaxGauge;
 }
 
 void CUI_ChaosDungeon_Gauge::Start_Stage_Name()
@@ -148,7 +148,7 @@ void CUI_ChaosDungeon_Gauge::Print_Stage_Percent()
 	m_pPercentWnd->Get_TransformCom()->Set_Scale(Vec3(100.f, 40.f, 0.f));
 	m_pPercentWnd->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vResultPos);
 
-	m_strPercent = to_wstring((_uint)m_fCurrGauge) + TEXT("%");
+	m_strPercent = to_wstring((_uint)(m_fRatio * 100.f)) + TEXT("%");
 	Vec2 vMeasure = CGameInstance::GetInstance()->MeasureString(L"ºûÀÇ°è½ÂÀÚ", m_strPercent);
 	Vec2 vOrigin = vMeasure * 0.5f;
 	m_pPercentWnd->Set_Text(L"ChaosPercentWnd", m_szFont, m_strPercent, Vec2(100.f, 40.f), Vec2(1.0f, 1.0f), vOrigin, 0.f, m_vColor);

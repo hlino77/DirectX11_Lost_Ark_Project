@@ -31,7 +31,7 @@ public:
 
     void    Get_MaxGauge(_float fMaxGauge) { m_fMaxGauge = fMaxGauge; }
     void    Get_CurrGauge(_float fCurrGauge) { m_fCurrGauge = fCurrGauge; }
-
+    void    Set_Ratio(_float fRatio) { m_fRatio = fRatio; }
 
 private:
     virtual HRESULT Ready_Components();

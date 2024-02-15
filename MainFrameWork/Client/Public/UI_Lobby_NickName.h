@@ -65,6 +65,7 @@ private:
     CTextBox* m_pClassNameWnd = { nullptr };
     wstring m_strClassName;
     wstring m_strClassFont;
+    CTextBox* m_pLevelWnd = { nullptr };
 
     CGameObject* m_pLobbyCharacter = { nullptr };
     _bool   m_bSound = { false };

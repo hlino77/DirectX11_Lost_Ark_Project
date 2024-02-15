@@ -55,6 +55,7 @@ HRESULT CUI_Lobby_NickName::Initialize_Textbox()
 	Ready_TextBox();
 	m_pNickNameWnd->Set_Active(true);
 	m_pClassNameWnd->Set_Active(true);
+	m_pLevelWnd->Set_Active(true);
 	return S_OK;
 }
 
@@ -96,7 +97,7 @@ HRESULT CUI_Lobby_NickName::Render()
 
 	m_pNickNameWnd->Render();
 	m_pClassNameWnd->Render();
-
+	m_pLevelWnd->Render();
 	return S_OK;
 }
 
@@ -303,6 +304,20 @@ void CUI_Lobby_NickName::Print_NickName()
 		m_pNickNameWnd->Set_Text(TEXT("NickNameWnd") + to_wstring(m_iClassIndex), m_strFont, m_strNickName, Vec2(10.f, 26.5f), Vec2(0.4f, 0.4f), Vec2(0.f, 0.f), 0.f, Vec4(1.0f, 1.0f, 1.0f, 1.0f));
 	}
 
+	if (nullptr != m_pLevelWnd)
+	{
+		m_pLevelWnd->Clear_Text();
+		m_pLevelWnd->Set_Alpha(1.f);
+
+		Vec3 vResultPos = Vec3((m_fX - 35.f) - g_iWinSizeX * 0.5f, -(m_fY) + g_iWinSizeY * 0.5f, 0.f);
+		m_pLevelWnd->Get_TransformCom()->Set_Scale(Vec3(205.f, 53.0f, 0.f));// Vec2(205.f, 53.0f);
+		m_pLevelWnd->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vResultPos);
+
+		Vec2 vMeasure = CGameInstance::GetInstance()->MeasureString(L"³Ø½¼Lv1°íµñBold", TEXT("Lv.1"));
+		Vec2 vOrigin = vMeasure * 0.5f;
+		m_pLevelWnd->Set_Text(TEXT("NickNameWnd_Level") + to_wstring(m_iClassIndex), L"³Ø½¼Lv1°íµñBold", TEXT("Lv.1"), Vec2(m_fSizeX * 0.27f, m_fSizeY * 0.75f), Vec2(0.3f, 0.3f), vOrigin, 0.f, Vec4(1.0f, 0.78, 0.0f, 1.0f));
+	}
+
 	if (nullptr != m_pClassNameWnd)
 	{
 		m_pClassNameWnd->Clear_Text();
@@ -363,8 +378,26 @@ HRESULT CUI_Lobby_NickName::Ready_TextBox()
 		m_pClassNameWnd->Set_ScaleUV(Vec2(1.0f, 1.0f));
 		m_pClassNameWnd->Set_Pos(g_iWinSizeX * 0.5f, g_iWinSizeY * 0.5f);
 	}
+	if (nullptr == m_pLevelWnd)
+	{
+		CTextBox::TEXTBOXDESC tTextDesc;
+		tTextDesc.szTextBoxTag = TEXT("ClassLevelWnd") + to_wstring(m_iClassIndex);
+		tTextDesc.vSize = Vec2(205.f, 53.0f);
+		m_pLevelWnd = static_cast<CTextBox*>(pGameInstance->
+			Add_GameObject(LEVELID::LEVEL_STATIC, _uint(LAYER_TYPE::LAYER_UI), TEXT("Prototype_GameObject_TextBox"), &tTextDesc));
+
+		if (nullptr == m_pLevelWnd)
+		{
+			Safe_Release(pGameInstance);
+			return E_FAIL;
+		}
+
+		m_pLevelWnd->Set_ScaleUV(Vec2(1.0f, 1.0f));
+		m_pLevelWnd->Set_Pos(g_iWinSizeX * 0.5f, g_iWinSizeY * 0.5f);
+	}
 	m_pNickNameWnd->Set_Render(false);
 	m_pClassNameWnd->Set_Render(false);
+	m_pLevelWnd->Set_Render(false);
 	Safe_Release(pGameInstance);
 	return S_OK;
 }
@@ -473,6 +506,7 @@ void CUI_Lobby_NickName::Free()
 
 	m_pNickNameWnd->Set_Dead(true);
 	m_pClassNameWnd->Set_Dead(true);
+	m_pLevelWnd->Set_Dead(true);
 	Safe_Release(m_pTextureCom_NickNameShine);
 	Safe_Release(m_pTextureCom_Emblem);
 	Safe_Release(m_pTextureCom_Equipment);

@@ -414,11 +414,11 @@ HRESULT CLevel_ChaosLevel2::Ready_Layer_UI(const LAYER_TYPE eLayerType)
 	else
 		CUI_Manager::GetInstance()->Add_UI(eLevel, static_cast<CUI*>(pUI));
 
-	/*pUI = pGameInstance->Add_GameObject(eLevel, _uint(eLayerType), TEXT("Prototype_GameObject_ChaosDungeonUI"));
+	pUI = pGameInstance->Add_GameObject(eLevel, _uint(eLayerType), TEXT("Prototype_GameObject_ChaosDungeonUI"));
 	if (nullptr == pUI)
 		return E_FAIL;
 	else
-		CUI_Manager::GetInstance()->Add_UI(eLevel, static_cast<CUI*>(pUI));*/
+		CUI_Manager::GetInstance()->Add_UI(eLevel, static_cast<CUI*>(pUI));
 
 	pUI = pGameInstance->Add_GameObject(eLevel, _uint(eLayerType), TEXT("Prototype_GameObject_PartyUI"));
 	if (nullptr == pUI)

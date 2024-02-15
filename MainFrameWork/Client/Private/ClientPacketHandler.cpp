@@ -866,6 +866,9 @@ bool Handel_S_CHANGEEQUIP_Client(PacketSessionRef& session, Protocol::S_CHANGEEQ
 bool Handel_S_DUNGEANRATIO_Client(PacketSessionRef& session, Protocol::S_DUNGEANRATIO& pkt)
 {
 
+	CUI_Manager::GetInstance()->Set_ChaosGauge(pkt.fratio());
+
+
 	return true;
 }
 

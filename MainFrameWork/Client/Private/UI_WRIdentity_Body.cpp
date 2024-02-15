@@ -154,7 +154,7 @@ void CUI_WRIdentity_Body::Get_Identity_State(class CPlayer* pPlayer)
         else if ((!m_bTransfrom) && (m_iIdentity_CurrState == WRIDENTITY_TRANSFORM_OFF))
             m_iIdentity_CurrState = (_uint)WRIDENTITY_COOL;
 
-        else if ((m_fIdentity_CurrCool >= m_fIdentity_MaxCool - 1.f) && (m_iIdentity_CurrState == WRIDENTITY_COOL))
+        else if ((m_fIdentity_CurrCool <= 0.f) && (m_iIdentity_CurrState == WRIDENTITY_COOL))
             m_iIdentity_CurrState = WRIDENTITY_NORMAL;
     }
 }

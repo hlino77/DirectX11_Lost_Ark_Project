@@ -20,6 +20,8 @@ public:
 
 public:
     virtual void UI_Tick(_float fTimeDelta) override {}
+    void    Update_Gauge(_float fGauge);
+    _float    Get_Gauge();
 
 private:
     HRESULT	UI_Set();
@@ -27,6 +29,9 @@ private:
 private:
     virtual HRESULT Ready_Components();
     virtual HRESULT Bind_ShaderResources();
+
+private:
+    class CUI_ChaosDungeon_Gauge* m_pGaugeUI = { nullptr };
 
 public:
     static  CUI_ChaosDungeon* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

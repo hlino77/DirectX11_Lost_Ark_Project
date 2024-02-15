@@ -24,9 +24,14 @@ public:
 private:
     virtual HRESULT Ready_Components();
     virtual HRESULT Bind_ShaderResources();
+    HRESULT Bind_ShaderResources_Orange();
 
 private:
+    CTexture* m_pTexture_OrangeShine = { nullptr };
+    CTransform* m_pTransform_OrangeShine = { nullptr };
+
     _float  m_fFrame = { 0.f };
+    _bool   m_bInitPos = { false };
 
 public:
     static  CUI_ChaosDungeon_GaugeSpinShine* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

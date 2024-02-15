@@ -76,6 +76,10 @@ public://Option
     _float  Get_ChannelVolume(_uint iChannelID);
     void Set_LevelCustomOption();
 
+public://ChaosDungeon
+    void    Set_ChaosGauge(_float fGauge);
+    _float    Get_Ratio();
+
 private:
     list<class CUI*>*    m_pUIList;
     _uint   m_iCurrentLevel = { 0 };

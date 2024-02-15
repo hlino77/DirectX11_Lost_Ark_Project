@@ -5372,7 +5372,6 @@ HRESULT CLoader::Loading_ChaosDungeon_UI()
 			CUI_ChaosDungeon_Clear::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
 		pUIManager->Add_CurrFile();
-
 	}
 
 	Safe_Release(pUIManager);
