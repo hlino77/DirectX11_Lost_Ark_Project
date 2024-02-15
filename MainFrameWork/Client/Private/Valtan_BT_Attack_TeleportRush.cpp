@@ -64,8 +64,8 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_TeleportRush::OnUpdate(const _float& fTime
 		m_vDirection = Vec3::TransformNormal(m_vDirection, Matrix::CreateRotationY(XMConvertToRadians(205.f)));
 		m_vDirection.Normalize();
 
-		Add_Sound(L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#136 (171932518)");
-		Add_Sound(L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#253 (118885664)");
+		Add_Sound(L"Effect", L"Valtan#136 (171932518)");
+		Add_Sound(L"Effect", L"Valtan#253 (118885664)");
 	}
 
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[1].iAnimIndex && m_iStack < 9)
@@ -131,16 +131,17 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_TeleportRush::OnUpdate(const _float& fTime
 		static_cast<CMonster*>(m_pGameObject)->Set_SetuponCell(true);
 		m_pGameObject->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, static_cast<CBoss*>(m_pGameObject)->Get_SpawnPosition() + m_vDirection * 1.4f);
 		static_cast<CMonster*>(m_pGameObject)->Get_TransformCom()->LookAt(static_cast<CBoss*>(m_pGameObject)->Get_SpawnPosition());
-		
+
 		m_iStack++;
 	
 		Open_End_Door();
 		m_pGameObject->Set_Render(false);
 
-		Add_Sound(L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#136 (171932518)");
-		Add_Sound(L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#253 (118885664)");		
-		Add_Sound(L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#458 (622254368)");
-		Add_Sound(L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#161 (23475606)");		
+
+		Add_Sound(L"Effect", L"Valtan#136 (171932518)");
+		Add_Sound(L"Effect", L"Valtan#253 (118885664)");		
+		Add_Sound(L"Effect", L"Valtan#458 (622254368)");
+		Add_Sound(L"Effect", L"Valtan#161 (23475606)");		
 	}
 
 	if (m_iStack == 10)
@@ -157,8 +158,8 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_TeleportRush::OnUpdate(const _float& fTime
 
 	//sound
 	{
-	Add_Sound(0, 0, L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#465 (1004371698)");
-	Add_Sound(0, 1, L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#252 (770162512)", 26);
+	Add_Sound(0, 0, L"Effect", L"Valtan#465 (1004371698)");
+	Add_Sound(0, 1, L"Effect", L"Valtan#252 (770162512)", 26);
 	}
 
 	return __super::OnUpdate(fTimeDelta);

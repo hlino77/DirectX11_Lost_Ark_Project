@@ -47,6 +47,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_DoubleJumpWave::OnUpdate(const _float& fTi
 
 	if (m_bShoot[0] && m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[0].iAnimIndex) >= 95)
 	{
+		Add_Sound(L"Effect", L"Valtan#64 (963708198)");
 		m_bShoot[0] = false;
 		CServerSessionManager::GetInstance()->Get_Player()->Get_Camera()->Cam_Shake(0.05f, 50.0f, 0.1f, 10.0f);
 		CSkill::ModelDesc ModelDesc = {};
@@ -54,7 +55,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_DoubleJumpWave::OnUpdate(const _float& fTi
 		ModelDesc.iObjectID = -1;
 		ModelDesc.pOwner = m_pGameObject;
 
-		CGameObject* pSkill = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_Skill_Valtan_AxeWave", &ModelDesc);
+		CGameObject* pSkill = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_Skill_Valtan_PizzaInstant", &ModelDesc);
 		if (pSkill != nullptr)
 		{
 			Vec3 vPos = m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
@@ -63,6 +64,8 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_DoubleJumpWave::OnUpdate(const _float& fTi
 			vPos += vLook * 0.5f;
 			pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
 			pSkill->Get_TransformCom()->LookAt_Dir(vLook);
+			static_cast<CSkill*>(pSkill)->Set_PizzaSlope(30.f, -30.f);
+			static_cast<CSkill*>(pSkill)->Set_PizzaRadii(0.f, 30.f);
 		}
 		if (static_cast<CBoss*>(m_pGameObject)->Is_Dummy())
 		{
@@ -76,6 +79,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_DoubleJumpWave::OnUpdate(const _float& fTi
 	}
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[1].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[1].iAnimIndex) >= 24 && m_bShoot[1])
 	{
+		Add_Sound(L"Effect", L"Valtan#64 (963708198)");
 		m_bShoot[1] = false;
 		CSkill::ModelDesc ModelDesc = {};
 		ModelDesc.iLayer = (_uint)LAYER_TYPE::LAYER_SKILL;
@@ -83,7 +87,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_DoubleJumpWave::OnUpdate(const _float& fTi
 		ModelDesc.pOwner = m_pGameObject;		
 		CServerSessionManager::GetInstance()->Get_Player()->Get_Camera()->Cam_Shake(0.05f, 50.0f, 0.1f, 10.0f);
 
-		CGameObject* pSkill = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_Skill_Valtan_AxeWave", &ModelDesc);
+		CGameObject* pSkill = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_Skill_Valtan_PizzaInstant", &ModelDesc);
 		if (pSkill != nullptr)
 		{
 			Vec3 vPos = m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
@@ -92,6 +96,8 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_DoubleJumpWave::OnUpdate(const _float& fTi
 			vPos += vLook * 0.5f;
 			pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
 			pSkill->Get_TransformCom()->LookAt_Dir(vLook);
+			static_cast<CSkill*>(pSkill)->Set_PizzaSlope(30.f, -30.f);
+			static_cast<CSkill*>(pSkill)->Set_PizzaRadii(0.f, 30.f);
 		}
 
 		CEffect_Manager::EFFECTPIVOTDESC tDesc;
@@ -116,6 +122,10 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_DoubleJumpWave::OnUpdate(const _float& fTi
 
 		if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[0].iAnimIndex) >= 95 && static_cast<CBoss*>(m_pGameObject)->Is_CounterSkill())
 			static_cast<CBoss*>(m_pGameObject)->Set_CounterSkill(false);
+	}
+	{
+		Add_Sound(0, 0, L"Effect", L"Valtan#17 (437813884)");
+		Add_Sound(1, 1, L"Effect", L"Valtan#110 (618835666)");
 	}
 	return __super::OnUpdate(fTimeDelta);
 }

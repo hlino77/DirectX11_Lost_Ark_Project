@@ -5,6 +5,9 @@
 #include "ColliderSphere.h"
 #include "CollisionManager.h"
 #include <ColliderDoughnut.h>
+#include "ServerSessionManager.h"
+#include "Player.h"
+#include "Camera_Player.h"
 
 CSkill_Valtan_DoughnutFirstHit::CSkill_Valtan_DoughnutFirstHit(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CSkill(pDevice,pContext)
@@ -43,6 +46,7 @@ void CSkill_Valtan_DoughnutFirstHit::Tick(_float fTimeDelta)
 	{
 		if (m_strSoundTag.empty() == false && !m_bSoundOn)
 		{
+			CServerSessionManager::GetInstance()->Get_Player()->Get_Camera()->Cam_Shake(0.15f, 90.0f, 0.1f, 11.0f);
 			CSound_Manager::GetInstance()->PlaySoundFile(L"Effect", m_strSoundTag, 1.f);
 			m_bSoundOn = true;
 		}

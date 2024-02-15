@@ -189,7 +189,7 @@ protected:
 	_bool							m_bDbgCout = false;
 	_float							m_fTimeCount = 0.f;
 	_bool							m_bTest = false;
-	Vec2							m_vDoughnutRadii = {5.f,10.f};
+	Vec2							m_vDoughnutRadii = {3.5f, 7.f};
 	
 	//HPUI
 	CUI_Boss_Hp*	m_pBossHpUI = { nullptr };

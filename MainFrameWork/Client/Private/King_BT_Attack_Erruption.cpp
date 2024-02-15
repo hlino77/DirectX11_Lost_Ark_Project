@@ -140,6 +140,14 @@ CBT_Node::BT_RETURN CKing_BT_Attack_Erruption::OnUpdate(const _float& fTimeDelta
 
 		m_Shoot[1] = false;
 	}
+	if(CGameInstance::GetInstance()->Random_Coin(0.5f))
+		Add_Sound(0, 0, L"Effect", L"KING_69", 0, 0.5f);
+	else
+		Add_Sound(0, 0, L"Effect", L"KING_71", 0, 0.5f);
+	Add_Sound(2, 1, L"Effect", L"KING_28", 0, 0.5f);
+	Add_Sound(2, 2, L"Effect", L"KING_38", 42, 0.5f);
+	Add_Sound(4, 3, L"Effect", L"KING_29");
+
 	return __super::OnUpdate(fTimeDelta);
 }
 

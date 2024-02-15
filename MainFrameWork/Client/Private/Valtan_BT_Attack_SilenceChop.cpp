@@ -89,7 +89,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_SilenceChop::OnUpdate(const _float& fTimeD
 		ModelDesc.iLayer = (_uint)LAYER_TYPE::LAYER_SKILL;
 		ModelDesc.iObjectID = -1;
 		ModelDesc.pOwner = m_pGameObject;
-		Add_Sound(L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#365 (21085455)");
+		Add_Sound(L"Effect", L"Valtan#365 (21085455)");
 		if (m_bOutSide)
 		{
 			CGameObject* pSkill = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_Skill_Valtan_DoughnutInstant", &ModelDesc);
@@ -148,11 +148,12 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_SilenceChop::OnUpdate(const _float& fTimeD
 					static_cast<CSkill*>(pSkill)->Set_Force(32.f);
 					static_cast<CSkill*>(pSkill)->Set_BlinkTime(1.0f);
 					static_cast<CSkill*>(pSkill)->Set_LastTime(1.2f);
-					static_cast<CSkill*>(pSkill)->Set_SoundTag(L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#249 (953298922).wav");
 
 					CEffect_Manager::EFFECTPIVOTDESC tDesc;
 					tDesc.pPivotMatrix = &Object->Get_TransformCom()->Get_WorldMatrix();
 					EFFECT_START(L"VT_SilencePlayer", &tDesc);
+
+					static_cast<CSkill*>(pSkill)->Set_SoundTag(L"Valtan#249 (953298922).wav");
 				}
 			}
 		vecTargets = CGameInstance::GetInstance()->Find_GameObjects(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_PLAYER);
@@ -178,20 +179,22 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_SilenceChop::OnUpdate(const _float& fTimeD
 					static_cast<CSkill*>(pSkill)->Set_Force(32.f);
 					static_cast<CSkill*>(pSkill)->Set_BlinkTime(1.0f);
 					static_cast<CSkill*>(pSkill)->Set_LastTime(1.2f);
-					static_cast<CSkill*>(pSkill)->Set_SoundTag(L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#249 (953298922).wav");
 
 					CEffect_Manager::EFFECTPIVOTDESC tDesc;
 					tDesc.pPivotMatrix = &Object->Get_TransformCom()->Get_WorldMatrix();
 					EFFECT_START(L"VT_SilencePlayer", &tDesc);
+
+					static_cast<CSkill*>(pSkill)->Set_SoundTag(L"Valtan#249 (953298922).wav");
+
 				}
 			}
 	}
 
 	//sound
 	{
-		Add_Sound(0, 0, L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#78 (647906992)",18);
-		Add_Sound(0, 1, L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#135 (936435461)", 18);
-		Add_Sound(1, 2, L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#302 (748487226)");
+		Add_Sound(0, 0, L"Effect", L"Valtan#78 (647906992)",18);
+		Add_Sound(0, 1, L"Effect", L"Valtan#135 (936435461)", 18);
+		Add_Sound(1, 2, L"Effect", L"Valtan#302 (748487226)");
 	}
 	return __super::OnUpdate(fTimeDelta);
 }

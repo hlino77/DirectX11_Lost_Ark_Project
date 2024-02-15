@@ -29,7 +29,7 @@ HRESULT CSkill_Golem_Jump::Initialize(void* pArg)
 	m_SkillDesc.iAtk = 10;
 	m_SkillDesc.fForce = 30.f;
 	m_fMoveSpeed = 7.5f;
-	m_fLastTime = 2.f;
+	m_fLastTime = 0.4f;
     return S_OK;
 }
 
@@ -38,12 +38,12 @@ void CSkill_Golem_Jump::Tick(_float fTimeDelta)
     __super::Tick(fTimeDelta);
 	CSphereCollider* pCollider = m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS];
 	_float fRadius = pCollider->Get_Radius();
-	fRadius += 3.f * fTimeDelta;
+	fRadius += 30.f * fTimeDelta;
 	pCollider->Set_Radius(fRadius);
 
 	COBBCollider* pChildCollider = dynamic_cast<COBBCollider*>(pCollider->Get_Child());
 	Vec3 vScale = pChildCollider->Get_Scale();
-	vScale.z += 3.f * fTimeDelta;
+	vScale.z += 30.f * fTimeDelta;
 	pChildCollider->Set_Scale(vScale);
 
 

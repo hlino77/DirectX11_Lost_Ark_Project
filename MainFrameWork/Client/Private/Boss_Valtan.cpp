@@ -144,16 +144,6 @@ void CBoss_Valtan::Tick(_float fTimeDelta)
 			}
 		}
 	}
-	if (KEY_TAP(KEY::P))
-		cout << Get_Target_Distance() << endl << m_vDoughnutRadii.x << ": " << m_vDoughnutRadii.y << endl;
-	if (KEY_HOLD(KEY::UP_ARROW))
-		m_vDoughnutRadii.x += fTimeDelta;
-	if (KEY_HOLD(KEY::DOWN_ARROW))
-		m_vDoughnutRadii.x -= fTimeDelta;
-	if (KEY_HOLD(KEY::LEFT_ARROW))
-		m_vDoughnutRadii.y -= fTimeDelta;
-	if (KEY_HOLD(KEY::RIGHT_ARROW))
-		m_vDoughnutRadii.y += fTimeDelta;
 }
 
 void CBoss_Valtan::LateTick(_float fTimeDelta)

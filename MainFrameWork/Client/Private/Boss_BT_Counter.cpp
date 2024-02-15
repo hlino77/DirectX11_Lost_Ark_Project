@@ -53,6 +53,18 @@ void CBoss_BT_Counter::OnStart()
 
 CBT_Node::BT_RETURN CBoss_BT_Counter::OnUpdate(const _float& fTimeDelta)
 {
+	if (static_cast<CBoss*>(m_pGameObject)->Get_BossType() == CBoss::BOSS_TYPE::VAlTAN)
+	{
+		Add_Sound(0, 0, L"Effect", L"Valtan#421 (644163935)");
+		Add_Sound(0, 1, L"Effect", L"Boss_Down");
+		Add_Sound(2, 2, L"Effect", L"Valtan#17 (437813884)");
+	}
+	else if (static_cast<CBoss*>(m_pGameObject)->Get_BossType() == CBoss::BOSS_TYPE::KING)
+	{
+		Add_Sound(0, 0, L"Effect", L"KING_61");
+		Add_Sound(0, 1, L"Effect", L"KING_58");
+		Add_Sound(2, 2, L"Effect", L"KING_64");
+	}
 	return __super::OnUpdate(fTimeDelta);
 }
 

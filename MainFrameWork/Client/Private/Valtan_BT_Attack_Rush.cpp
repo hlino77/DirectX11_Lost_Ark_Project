@@ -58,7 +58,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Rush::OnUpdate(const _float& fTimeDelta)
 			m_pEffectWarning = Effect.front();
 		}
 	}
-	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex && m_iLoop == 2 && static_cast<CBoss*>(m_pGameObject)->Get_Armor() < 1)
+	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex && m_iLoop == 2 && static_cast<CBoss*>(m_pGameObject)->Get_Armor() < 1|| static_cast<CBoss*>(m_pGameObject)->Get_Phase() > 1)
 		static_cast<CBoss*>(m_pGameObject)->Set_CounterSkill(true);
 
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[0].iAnimIndex) > 48 && m_iLoop < 3)
@@ -79,8 +79,8 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Rush::OnUpdate(const _float& fTimeDelta)
 
 		m_pEffectWarning->EffectEnd();
 		m_pEffectWarning = nullptr;
-		Add_Sound(L"Effect", L"Voice2"); 
-		Add_Sound(L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#288 (673586812)");
+		Add_Sound(L"Effect", L"Boss_Voice2"); 
+		Add_Sound(L"Effect", L"Valtan#288 (673586812)");
 		CEffect_Manager::EFFECTPIVOTDESC tDesc;
 		tDesc.pPivotMatrix = &m_pGameObject->Get_TransformCom()->Get_WorldMatrix();
 		EFFECT_START_OUTLIST(L"ValtanRush", &tDesc, m_EffectRush);
@@ -127,11 +127,11 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Rush::OnUpdate(const _float& fTimeDelta)
 	}
 
 	{
-		Add_Sound(0, 0, L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#128 (662482722)", 12);
+		Add_Sound(0, 0, L"Effect", L"Valtan#128 (662482722)", 12);
 		if(m_bSoundOn[0]&&m_iLoop== 1)
-			Add_Sound(0, 1, L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#128 (662482722)", 12);
+			Add_Sound(0, 1, L"Effect", L"Valtan#128 (662482722)", 12);
 		if (m_bSoundOn[1] && m_iLoop == 2)
-			Add_Sound(0, 2, L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#128 (662482722)", 12);
+			Add_Sound(0, 2, L"Effect", L"Valtan#128 (662482722)", 12);
 
 	}
 	return __super::OnUpdate(fTimeDelta);

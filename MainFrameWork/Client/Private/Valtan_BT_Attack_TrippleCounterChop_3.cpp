@@ -33,7 +33,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_TrippleCounterChop_3::OnUpdate(const _floa
 	if (m_iCurrAnimation == 2 && m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[2].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[2].iAnimIndex) >= 31 && m_bShoot)
 	{
 		m_bShoot = false;	
-		Add_Sound(L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#396 (63667459)");
+		Add_Sound(L"Effect", L"Valtan#396 (63667459)");
 		CServerSessionManager::GetInstance()->Get_Player()->Get_Camera()->Cam_Shake(1.f, 110.0f, 1.8f, 11.0f);
 		CSkill::ModelDesc ModelDesc = {};
 		ModelDesc.iLayer = (_uint)LAYER_TYPE::LAYER_SKILL;
@@ -56,10 +56,10 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_TrippleCounterChop_3::OnUpdate(const _floa
 
 	}
 
-	Add_Sound(0, 0, L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#43 (1015057785)");
-	Add_Sound(1, 1, L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#14 (1063317697)");
-	Add_Sound(1, 2, L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#16 (800951587)");
-	Add_Sound(2, 3, L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#459 (119952812)");
+	Add_Sound(0, 0, L"Effect", L"Valtan#43 (1015057785)");
+	Add_Sound(1, 1, L"Effect", L"Valtan#14 (1063317697)");
+	Add_Sound(1, 2, L"Effect", L"Valtan#16 (800951587)");
+	Add_Sound(2, 3, L"Effect", L"Valtan#459 (119952812)");
 
 	Update_Effect();
 

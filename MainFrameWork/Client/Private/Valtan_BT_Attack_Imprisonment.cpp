@@ -78,14 +78,14 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Imprisonment::OnUpdate(const _float& fTime
 					static_cast<CSkill*>(pSkill)->Set_BlinkTime(1.5f);
 					static_cast<CSkill*>(pSkill)->Set_Atk(300);
 					static_cast<CSkill*>(pSkill)->Set_Force(32.f);
-					static_cast<CSkill*>(pSkill)->Set_SoundTag(L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#174 (382422605).wav");
+					static_cast<CSkill*>(pSkill)->Set_SoundTag(L"Valtan#174 (382422605).wav");
 				}
 				pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER)->SetActive(false);
 
 			}
 		}
 	}
-	Add_Sound_Channel(0, 0, L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#168 (479550205)");
+	Add_Sound_Channel(0, 0, L"Effect", L"Valtan#168 (479550205)");
 
 	return __super::OnUpdate(fTimeDelta);
 }

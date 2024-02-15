@@ -65,7 +65,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_WipeAssult::OnUpdate(const _float& fTimeDe
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[2].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[2].iAnimIndex) >= 7 && m_bShoot[0])
 	{
 		m_bShoot[0] = false;	
-		Add_Sound(L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#262 (50890152)");
+		Add_Sound(L"Effect", L"Valtan#262 (50890152)");
 		CServerSessionManager::GetInstance()->Get_Player()->Get_Camera()->Cam_Shake(0.5f, 50.0f, 0.1f, 10.0f);
 		CSkill::ModelDesc ModelDesc = {};
 		ModelDesc.iLayer = (_uint)LAYER_TYPE::LAYER_SKILL;
@@ -135,7 +135,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_WipeAssult::OnUpdate(const _float& fTimeDe
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[5].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[5].iAnimIndex) >= 8&&	m_bShoot[1])
 	{
 		m_bShoot[1] = false;		
-		Add_Sound(L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#242 (493658097)");
+		Add_Sound(L"Effect", L"Valtan#242 (493658097)");
 		CServerSessionManager::GetInstance()->Get_Player()->Get_Camera()->Cam_Shake(1.5f, 120.0f, 1.8f, 12.0f);
 		CSkill::ModelDesc ModelDesc = {};
 		ModelDesc.iLayer = (_uint)LAYER_TYPE::LAYER_SKILL;
@@ -172,10 +172,10 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_WipeAssult::OnUpdate(const _float& fTimeDe
 	}
 	//sound
 	{
-		Add_Sound(0, 0, L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#360 (396911040)");
-		Add_Sound(1, 1, L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2 [146]");
-		Add_Sound(4, 2, L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#14 (1063317697)");
-		Add_Sound(5, 3, L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#196 (744205178)");
+		Add_Sound(0, 0, L"Effect", L"Valtan#486 (578323060)");
+		Add_Sound(1, 1, L"Effect", L"Valtan [146]");
+		Add_Sound(4, 2, L"Effect", L"Valtan#14 (1063317697)");
+		Add_Sound(5, 3, L"Effect", L"Valtan#196 (744205178)");
 	}
 
 	return __super::OnUpdate(fTimeDelta);

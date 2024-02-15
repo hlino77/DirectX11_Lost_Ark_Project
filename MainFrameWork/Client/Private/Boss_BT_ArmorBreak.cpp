@@ -14,13 +14,18 @@ void CBoss_BT_ArmorBreak::OnStart()
 
 CBT_Node::BT_RETURN CBoss_BT_ArmorBreak::OnUpdate(const _float& fTimeDelta)
 {
+	if (static_cast<CBoss*>(m_pGameObject)->Get_BossType() == CBoss::BOSS_TYPE::VAlTAN)
+	{
+		Add_Sound(0, 0, L"Effect", L"Valtan#422 (793019468)");
+		Add_Sound(0, 1, L"Effect", L"Valtan#3 (97351323)");
+		Add_Sound(2, 2, L"Effect", L"Valtan#433 (156533662)");
+	}
 	return __super::OnUpdate(fTimeDelta);
 }
 
 void CBoss_BT_ArmorBreak::OnEnd()
 {
 	__super::OnEnd();
-
 }
 
 

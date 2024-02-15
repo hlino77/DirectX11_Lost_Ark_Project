@@ -35,7 +35,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_RushGrab::OnUpdate(const _float& fTimeDelt
 	{
 		m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_GRAB_BOSS)->SetActive(false);
 		m_pGameObject->Get_TransformCom()->Turn_Speed(m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_UP), XMConvertToRadians(280.f), fTimeDelta);
-		Add_Sound(3, 2, L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#299 (954830834)");
+		Add_Sound(3, 2, L"Effect", L"Valtan#299 (954830834)");
 	}
 
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[6].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[6].iAnimIndex) >= 20 && m_bShoot)
@@ -45,9 +45,9 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_RushGrab::OnUpdate(const _float& fTimeDelt
 		ModelDesc.iLayer = (_uint)LAYER_TYPE::LAYER_SKILL;
 		ModelDesc.iObjectID = -1;
 		ModelDesc.pOwner = m_pGameObject;
-		CSound_Manager::GetInstance()->Stop_Channel_Sound(L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#217 (1053313532)");
-		Add_Sound(L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#196 (744205178)");
-		Add_Sound(L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#50 (428724023)");
+		CSound_Manager::GetInstance()->Stop_Channel_Sound(L"Valtan#217 (1053313532)");
+		Add_Sound(L"Effect", L"Valtan#196 (744205178)");
+		Add_Sound(L"Effect", L"Valtan#50 (428724023)");
 
 		CGameObject* pSkill = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_Skill_Valtan_Breath", &ModelDesc);
 		if (pSkill != nullptr)
@@ -61,9 +61,9 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_RushGrab::OnUpdate(const _float& fTimeDelt
 	}
 	//sound
 	{
-		Add_Sound(1, 0, L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#292 (957066089)");
-		Add_Sound(3, 1, L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#288 (673586812)");
-		Add_Sound_Channel(5, 3, L"Effect", L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#217 (1053313532)");
+		Add_Sound(1, 0, L"Effect", L"Valtan#292 (957066089)");
+		Add_Sound(3, 1, L"Effect", L"Valtan#288 (673586812)");
+		Add_Sound_Channel(5, 3, L"Effect", L"Valtan#217 (1053313532)");
 	}
 	return __super::OnUpdate(fTimeDelta);
 }
