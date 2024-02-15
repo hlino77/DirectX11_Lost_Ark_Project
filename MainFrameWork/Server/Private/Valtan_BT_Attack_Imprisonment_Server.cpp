@@ -22,7 +22,10 @@ void CValtan_BT_Attack_Imprisonment_Server::OnStart()
 	auto iter = vecTargets.begin();
 	for (auto& pPlayer : vecTargets)
 	{
-		if (TEXT("Dead_End") == static_cast<CPlayer_Server*>(pPlayer)->Get_ServerState())
+		if (TEXT("Dead_End") == static_cast<CPlayer_Server*>(pPlayer)->Get_ServerState()
+			|| TEXT("Dead_Start") == static_cast<CPlayer_Server*>(pPlayer)->Get_ServerState()
+			|| TEXT("Fall") == static_cast<CPlayer_Server*>(pPlayer)->Get_ServerState()
+			|| TEXT("Resurrect") == static_cast<CPlayer_Server*>(pPlayer)->Get_ServerState())
 		{
 			iter = vecTargets.erase(iter);
 		}

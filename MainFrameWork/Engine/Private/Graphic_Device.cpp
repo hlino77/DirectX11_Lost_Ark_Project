@@ -60,6 +60,16 @@ HRESULT CGraphic_Device::Ready_Graphic_Device(HWND hWnd, GRAPHIC_DESC::WINMODE e
 
 	m_pDeviceContext->RSSetViewports(1, &ViewPortDesc);
 
+	//
+	//GFSDK_SSAO_CustomHeap CustomHeap;
+	//CustomHeap.new_ = ::operator new;
+	//CustomHeap.delete_ = ::operator delete;
+
+	//GFSDK_SSAO_Status status;
+	//status = GFSDK_SSAO_CreateContext_D3D11(m_pDevice, &m_pAOContext, &CustomHeap);
+	//assert(status == GFSDK_SSAO_OK); // HBAO+ requires feature level 11_0 or above
+	//
+
 	*ppDeviceOut = m_pDevice;
 	*ppDeviceContextOut = m_pDeviceContext;
 
@@ -236,6 +246,15 @@ HRESULT CGraphic_Device::Ready_DepthStencilRenderTargetView(_uint iWinCX, _uint 
 	if (FAILED(m_pDevice->CreateDepthStencilView(pDepthStencilTexture, nullptr, &m_pDepthStencilView)))
 		return E_FAIL;	
 
+	/*D3D11_SHADER_RESOURCE_VIEW_DESC shaderResourceViewDesc;
+	ZeroMemory(&shaderResourceViewDesc, sizeof(D3D11_SHADER_RESOURCE_VIEW_DESC));
+	shaderResourceViewDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+	shaderResourceViewDesc.Format = DXGI_FORMAT_R24_UNORM_X8_TYPELESS;
+	shaderResourceViewDesc.Texture2D.MipLevels = 1;
+
+	if (FAILED(m_pDevice->CreateShaderResourceView(pDepthStencilTexture, &shaderResourceViewDesc, &m_pDepthStencilSRV)))
+		return E_FAIL;*/
+
 	Safe_Release(pDepthStencilTexture);
 
 	return S_OK;
@@ -247,6 +266,7 @@ void CGraphic_Device::Free()
 	Safe_Release(m_pDepthStencilView);
 	Safe_Release(m_pBackBufferRTV);
 	Safe_Release(m_pDeviceContext);
+	Safe_Release(m_pDepthStencilSRV);
 //
 //#if defined(DEBUG) || defined(_DEBUG)
 //	ID3D11Debug* d3dDebug;

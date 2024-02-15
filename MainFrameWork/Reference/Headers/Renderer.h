@@ -98,6 +98,7 @@ private:
 
 	HRESULT Render_SSR();
 
+	HRESULT Render_HBAOPLUS();
 	HRESULT Render_SSAO();
 	HRESULT Render_Deferred();
 

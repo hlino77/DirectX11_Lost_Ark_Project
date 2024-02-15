@@ -7,8 +7,10 @@
 #include "Light_Manager.h"
 #include "PipeLine.h"
 #include "Texture.h"
+#include "Graphic_Device.h"
 #include "Input_Device.h"
 #include "Utils.h"
+#include "RenderTarget.h"
 #include <string>
 
 
@@ -118,6 +120,10 @@ HRESULT CRenderer::Initialize_Prototype()
 
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_NormalDepth"),
 		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R32G32B32A32_FLOAT, Vec4(0.0f, 0.0f, -1.0f, 1e5f))))
+		return E_FAIL;
+	
+	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_HBAO+"),
+		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_B8G8R8A8_UNORM, Vec4(1.f, 1.f, 1.f, 1.f))))
 		return E_FAIL;
 	
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_SSAO"),
@@ -320,6 +326,8 @@ HRESULT CRenderer::Initialize_Prototype()
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_Decals"), TEXT("Target_DecalEmissive"))))
 		return E_FAIL;
 
+	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_HBAO+"), TEXT("Target_HBAO+"))))
+		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_SSAO"), TEXT("Target_SSAO"))))
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_SSAO_Blur_H"), TEXT("Target_SSAO_Blur_H"))))
@@ -567,6 +575,8 @@ HRESULT CRenderer::Draw()
 		return E_FAIL;
 	if (FAILED(Render_Lights()))
 		return E_FAIL; 
+	/*if (FAILED(Render_HBAOPLUS()))
+		return E_FAIL;*/
 	if (FAILED(Render_SSAO()))
 		return E_FAIL;
 
@@ -1054,6 +1064,43 @@ HRESULT CRenderer::Render_SSR()
 		return E_FAIL;*/
 
 	RELEASE_INSTANCE(CPipeLine);
+
+	return S_OK;
+}
+
+HRESULT CRenderer::Render_HBAOPLUS()
+{
+	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_HBAO+"))))
+		return E_FAIL;
+
+	GFSDK_SSAO_InputData_D3D11 Input;
+	Input.DepthData.DepthTextureType = GFSDK_SSAO_HARDWARE_DEPTHS;
+	Input.DepthData.pFullResDepthTextureSRV = CGraphic_Device::GetInstance()->Get_DepthStencilSRV();
+
+	const Matrix* ProjMatrix = &CPipeLine::GetInstance()->Get_TransformMatrix(CPipeLine::D3DTS_PROJ);
+
+	Input.DepthData.ProjectionMatrix.Data = GFSDK_SSAO_Float4x4((const GFSDK_SSAO_FLOAT*)ProjMatrix);
+	Input.DepthData.ProjectionMatrix.Layout = GFSDK_SSAO_ROW_MAJOR_ORDER;
+	Input.DepthData.MetersToViewSpaceUnits = 1.f;
+
+	GFSDK_SSAO_Parameters Params;
+	Params.Radius = 2.f;
+	Params.Bias = 0.1f;
+	Params.PowerExponent = 2.f;
+	Params.Blur.Enable = true;
+	Params.Blur.Radius = GFSDK_SSAO_BLUR_RADIUS_4;
+	Params.Blur.Sharpness = 16.f;
+
+	GFSDK_SSAO_Output_D3D11 Output;
+	Output.pRenderTargetView = m_pTarget_Manager->Find_RenderTarget(TEXT("Target_HBAO+"))->Get_RTV();
+	Output.Blend.Mode = GFSDK_SSAO_OVERWRITE_RGB;
+
+	GFSDK_SSAO_Status status;
+	status = CGraphic_Device::GetInstance()->Get_AOContext()->RenderAO(m_pContext, Input, Params, Output);
+	assert(status == GFSDK_SSAO_OK);
+
+	if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
+		return E_FAIL;
 
 	return S_OK;
 }

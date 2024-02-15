@@ -611,6 +611,9 @@
     <ClInclude Include="..\Public\VIBuffer_Trail.h">
       <Filter>01.Utiltiy\04.Component\02. Buffer\VIBuffer\Trail</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\GFSDK_SSAO.h">
+      <Filter>01.Utiltiy\98. Utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\private\Base.cpp">

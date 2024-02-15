@@ -83,6 +83,12 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Imprisonment::OnUpdate(const _float& fTime
 					static_cast<CSkill*>(pSkill)->Set_Atk(300);
 					static_cast<CSkill*>(pSkill)->Set_Force(32.f);
 					static_cast<CSkill*>(pSkill)->Set_SoundTag(L"WWISEDEFAULTBANK_S_MOB_G_VOLTAN2#174 (382422605).wav");
+
+					CEffect_Manager::EFFECTPIVOTDESC tDesc;
+					Matrix matPivot = Matrix::Identity;
+					matPivot.Translation(pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_POSITION));
+					tDesc.pPivotMatrix = &matPivot;
+					EFFECT_START(L"VT_Imprisonment_PlayerPrisonExplosion", &tDesc);
 				}
 				pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER)->SetActive(false);
 
@@ -125,11 +131,11 @@ void CValtan_BT_Attack_Imprisonment::Update_Effect()
 		m_bEffectStart[0] = true;
 	}
 	
-	if (false == m_bEffectStart[1] && m_vecAnimDesc[2].iAnimIndex == m_pGameObject->Get_ModelCom()->Get_CurrAnim())
+	if (false == m_bEffectStart[1] && 24 <= iAnimFrame1 && m_vecAnimDesc[2].iAnimIndex == m_pGameObject->Get_ModelCom()->Get_CurrAnim())
 	{
 		CEffect_Manager::EFFECTPIVOTDESC tDesc;
 		tDesc.pPivotMatrix = &m_pGameObject->Get_TransformCom()->Get_WorldMatrix();
-		EFFECT_START(L"VT_Imprisonment_Explode", &tDesc);
+		EFFECT_START(L"VT_Imprisonment_Explosion", &tDesc);
 
 		CServerSessionManager::GetInstance()->Get_Player()->Get_Camera()->Set_RadialBlur(0.08f, tDesc.pPivotMatrix->Translation(), 0.1f, 0.08f);
 

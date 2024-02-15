@@ -35,7 +35,7 @@
 #include <DirectXCollision.h>
 
 #include <DirectXTex/DirectXTex.h>
-
+#include <GFSDK_SSAO.h>
 
 #define DIRECTINPUT_VERSION 0x0800
 #include <dinput.h>
