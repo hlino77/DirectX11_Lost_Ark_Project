@@ -31,7 +31,7 @@ HRESULT CState_SP_Onestroke::Initialize()
 
 
 	// Sound
-	m_SoundFrames.push_back(SOUNDDESC(0, TEXT("Effect"), TEXT("SP_253.wav"))); // Player
+	m_SoundFrames.push_back(SOUNDDESC(0, TEXT("Effect"), TEXT("SP_253.wav"), 0.3f)); // Player
 	m_SoundFrames.push_back(SOUNDDESC(0, TEXT("Effect"), TEXT("SP_143.wav"))); // Skill
 	m_SoundFrames.push_back(SOUNDDESC(0, TEXT("Effect"), TEXT("SP_144.wav"))); // Skill
 	m_SoundFrames.push_back(SOUNDDESC());

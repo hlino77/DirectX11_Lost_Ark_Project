@@ -23,7 +23,7 @@ HRESULT CState_SP_Dash::Initialize()
 
 	// Sound
 	m_SoundFrames.push_back(SOUNDDESC(0, TEXT("Effect"), TEXT("SP_142.wav"))); // Skill Sound
-	m_SoundFrames.push_back(SOUNDDESC(0, TEXT("Effect"), TEXT("SP_224.wav"))); // Player Sound 
+	m_SoundFrames.push_back(SOUNDDESC(0, TEXT("Effect"), TEXT("SP_224.wav"), 0.3f)); // Player Sound 
 	m_SoundFrames.push_back(SOUNDDESC());
 
 	return S_OK;

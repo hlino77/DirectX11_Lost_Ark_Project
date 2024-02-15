@@ -270,14 +270,28 @@ HRESULT CMainApp::Ready_Prototype_Component()
 			}
 		}
 
-		XMStoreFloat4x4(&matPivot, XMMatrixScaling(100.f, 100.f, 100.f) * XMMatrixRotationX(XMConvertToRadians(90.0f)));
-		wstring strComponentName = L"Prototype_Component_Model_SkyFloor";
-
-		if (SUCCEEDED(m_pGameInstance->Check_Prototype(LEVEL_STATIC, strComponentName)))
 		{
-			if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
-				CModel::Create(m_pDevice, m_pContext, strFilePath, L"SkyFloor", true, false, matPivot))))
-				return E_FAIL;
+			XMStoreFloat4x4(&matPivot, XMMatrixScaling(100.f, 100.f, 100.f) * XMMatrixRotationX(XMConvertToRadians(90.0f)));
+			wstring strComponentName = L"Prototype_Component_Model_SkyFloor";
+
+			if (SUCCEEDED(m_pGameInstance->Check_Prototype(LEVEL_STATIC, strComponentName)))
+			{
+				if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+					CModel::Create(m_pDevice, m_pContext, strFilePath, L"SkyFloor", true, false, matPivot))))
+					return E_FAIL;
+			}
+		}
+
+		{
+			XMStoreFloat4x4(&matPivot, XMMatrixScaling(100.f, 100.f, 100.f) * XMMatrixRotationX(XMConvertToRadians(90.0f)));
+			wstring strComponentName = L"Prototype_Component_Model_SkyFloor_Blue";
+
+			if (SUCCEEDED(m_pGameInstance->Check_Prototype(LEVEL_STATIC, strComponentName)))
+			{
+				if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, strComponentName,
+					CModel::Create(m_pDevice, m_pContext, strFilePath, L"SkyFloor_Blue", true, false, matPivot))))
+					return E_FAIL;
+			}
 		}
 	}
 

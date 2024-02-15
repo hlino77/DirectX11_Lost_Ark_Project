@@ -29,7 +29,7 @@ HRESULT CState_SP_Inkpaddle::Initialize()
 	m_SkillFrames.push_back(-1);
 
 
-	m_SoundFrames.push_back(SOUNDDESC(0, TEXT("Effect"), TEXT("SP_219.wav"))); // Player
+	m_SoundFrames.push_back(SOUNDDESC(0, TEXT("Effect"), TEXT("SP_219.wav"), 0.3f)); // Player
 	m_SoundFrames.push_back(SOUNDDESC(100, TEXT("Effect"), TEXT("SP_116.wav"))); // Skill
 	m_SoundFrames.push_back(SOUNDDESC());
 

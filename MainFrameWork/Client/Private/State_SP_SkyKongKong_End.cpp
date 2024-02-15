@@ -23,7 +23,7 @@ HRESULT CState_SP_SkyKongKong_End::Initialize()
 		m_TickFunc = &CState_SP_SkyKongKong_End::Tick_State_NoneControl;
 
 	// Sound
-	m_SoundFrames.push_back(SOUNDDESC(0, TEXT("Effect"), TEXT("SP_272.wav"))); // Player
+	m_SoundFrames.push_back(SOUNDDESC(0, TEXT("Effect"), TEXT("SP_272.wav"), 0.3f)); // Player
 	m_SoundFrames.push_back(SOUNDDESC(0, TEXT("Effect"), TEXT("SP_184.wav"))); // Skill
 	m_SoundFrames.push_back(SOUNDDESC());
 

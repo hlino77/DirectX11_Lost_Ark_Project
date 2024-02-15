@@ -29,7 +29,7 @@ HRESULT CState_SP_SkyKongKong_Start::Initialize()
 	m_SkillFrames.push_back(-1);
 
 	// Sound
-	m_SoundFrames.push_back(SOUNDDESC(0, TEXT("Effect"), TEXT("SP_270.wav"))); // Player
+	m_SoundFrames.push_back(SOUNDDESC(0, TEXT("Effect"), TEXT("SP_270.wav", 0.3f))); // Player
 	m_SoundFrames.push_back(SOUNDDESC(0, TEXT("Effect"), TEXT("SP_181.wav"))); // Skill
 	m_SoundFrames.push_back(SOUNDDESC(0, TEXT("Effect"), TEXT("SP_182.wav"))); // Skill
 	m_SoundFrames.push_back(SOUNDDESC());

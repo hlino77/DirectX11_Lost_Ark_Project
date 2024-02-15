@@ -23,7 +23,7 @@ HRESULT CState_SP_StandDash::Initialize()
 
 
 	m_SoundFrames.push_back(SOUNDDESC(0, TEXT("Effect"), TEXT("SP_142.wav"))); // Skill
-	m_SoundFrames.push_back(SOUNDDESC(0, TEXT("Effect"), TEXT("SP_312.wav"))); // Player
+	m_SoundFrames.push_back(SOUNDDESC(0, TEXT("Effect"), TEXT("SP_312.wav"), 0.3f)); // Player
 	m_SoundFrames.push_back(SOUNDDESC());
 
 	return S_OK;
