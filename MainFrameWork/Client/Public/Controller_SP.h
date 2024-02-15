@@ -57,10 +57,10 @@ private:
 private:
 	PROJECTILE_DESC	m_Attack_Desces[10];
 
-	_float	m_fIdentityGage = { 100.f };
+	_float	m_fIdentityGage = { 0.f };
 	_float	m_fMaxGage = { 100.f };
 
-	_uint	m_iMarbleCnt = { 3 };
+	_uint	m_iMarbleCnt = { 0 };
 	_uint	m_iMaxMarbleCnt = { 3 };
 
 	_int	m_iIdenSkill = { IDEN_END };

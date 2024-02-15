@@ -12,6 +12,11 @@ void CCommon_BT_Attack1::OnStart()
 {
 	__super::OnStart(0);
 
+	m_iMaxSound = 20;
+	for (size_t i = 0; i < m_iMaxSound; i++)
+	{
+		m_bSoundOn[i] = false;
+	}
 }
 
 CBT_Node::BT_RETURN CCommon_BT_Attack1::OnUpdate(const _float& fTimeDelta)
@@ -37,6 +42,15 @@ CBT_Node::BT_RETURN CCommon_BT_Attack1::OnUpdate(const _float& fTimeDelta)
 	}
 	if (m_pGameObject->Get_ModelCom()->IsNext())
 		static_cast<CMonster*>(m_pGameObject)->LookAt_Target_Direction_Lerp(fTimeDelta * 5.f);
+	if (m_pGameObject->Get_ObjectType() == OBJ_TYPE::BOSS)
+	{
+		if (m_pGameObject->Get_ObjectTag() == L"Boss_Golem")
+		{
+			Add_Sound(0, 0, TEXT("Effect"), TEXT("Rook_1"), 10, 0.5f);
+			Add_Sound(0, 1, TEXT("Effect"), TEXT("Rook_40"), 12, 0.9f);
+		}
+		
+	}
 	return __super::OnUpdate(fTimeDelta);
 }
 

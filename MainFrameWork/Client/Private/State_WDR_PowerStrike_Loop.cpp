@@ -56,26 +56,25 @@ void CState_WDR_PowerStrike_Loop::Exit_State()
 	if (true == m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor())
 		m_pPlayer->Set_SuperArmorState(false);
 
-	CSound_Manager::GetInstance()->Stop_Channel_Sound(L"WDR_35.wav");
-
+	if (true == m_pPlayer->Is_CancelState())
+	{
+		StopStateSound();
+	}
 }
 
 void CState_WDR_PowerStrike_Loop::Tick_State_Control(_float fTimeDelta)
 {
 	_int iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iPowerStrike_Loop);
 
-
-
 	if (-1 != m_SoundFrames[m_iSoundCnt].iFrame && m_SoundFrames[m_iSoundCnt].iFrame <= (_int)iAnimFrame)
 	{
 		if (false == m_EffectSound)
 		{
-			CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume);
+			CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume, true);
 			m_EffectSound = true;
 		}
 
 	}
-
 
 	if (-1 != m_SkillFrames[m_iSkillCnt] && m_SkillFrames[m_iSkillCnt] <= iAnimFrame)
 	{

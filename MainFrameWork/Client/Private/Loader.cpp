@@ -699,6 +699,10 @@ HRESULT CLoader::Loading_For_Level_Tool_Npc()
 		CGuide_Chaos_Npc::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Guide_Valtan_Npc"),
+		CGuide_Valtan_Npc::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Upgrade_Npc"),
 		CUpgrade_Npc::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
@@ -4197,6 +4201,13 @@ HRESULT CLoader::Start_Load_Npc(const wstring& strPath)
 		{
 			CGameObject* pInstance = pGameInstance->Add_GameObject(NpcCreateDesc.iCurLevel, (_uint)LAYER_TYPE::LAYER_NPC,
 				TEXT("Prototype_GameObject_Guide_Chaos_Npc"), &NpcCreateDesc);
+			if (nullptr == pInstance)
+				return E_FAIL;
+		}
+		else if (TEXT("Guide_Valtan_Npc") == NpcCreateDesc.strNpcTag)
+		{
+			CGameObject* pInstance = pGameInstance->Add_GameObject(NpcCreateDesc.iCurLevel, (_uint)LAYER_TYPE::LAYER_NPC,
+				TEXT("Prototype_GameObject_Guide_Valtan_Npc"), &NpcCreateDesc);
 			if (nullptr == pInstance)
 				return E_FAIL;
 		}

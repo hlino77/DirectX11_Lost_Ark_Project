@@ -423,6 +423,13 @@ HRESULT CNpcTool::Start_Load_Npc(const wstring& strPath)
 			if (nullptr == pInstance)
 				return E_FAIL;
 		}
+		else if (TEXT("Guide_Valtan_Npc") == NpcCreateDesc.strNpcTag)
+		{
+			CGameObject* pInstance = m_pGameInstance->Add_GameObject((_uint)LEVELID::LEVEL_TOOL_NPC, (_uint)LAYER_TYPE::LAYER_NPC,
+				TEXT("Prototype_GameObject_Guide_Valtan_Npc"), &NpcCreateDesc);
+			if (nullptr == pInstance)
+				return E_FAIL;
+		}
 		else if (TEXT("Upgrade_Npc") == NpcCreateDesc.strNpcTag)
 		{
 			CGameObject* pInstance = m_pGameInstance->Add_GameObject((_uint)LEVELID::LEVEL_TOOL_NPC, (_uint)LAYER_TYPE::LAYER_NPC,
@@ -1508,6 +1515,24 @@ void CNpcTool::Create_Npc(const _float& fTimeDelta)
 
 			CGameObject* pInstance = m_pGameInstance->Add_GameObject((_uint)LEVELID::LEVEL_TOOL_NPC, (_uint)LAYER_TYPE::LAYER_NPC,
 				TEXT("Prototype_GameObject_Guide_Chaos_Npc"), &m_NpcCreateDesc);
+			if (nullptr == pInstance)
+				return;
+		}
+		else if (TEXT("Guide_Valtan_Npc") == m_NpcCreateDesc.strNpcTag)
+		{
+			m_pMannequin->Get_TransformCom()->Set_WorldMatrix(XMMatrixIdentity());
+			m_pMannequin->Get_TransformCom()->Set_Scale(m_vNpcScale);
+			m_pMannequin->Get_TransformCom()->My_Rotation(m_vNpcRot);
+			m_pMannequin->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, m_vNpcPos);
+			m_NpcCreateDesc.matStart = m_pMannequin->Get_TransformCom()->Get_WorldMatrix();
+
+			if (TEXT("") == m_NpcCreateDesc.strNpcName)
+			{
+				m_NpcCreateDesc.strNpcName = TEXT("None");
+			}
+
+			CGameObject* pInstance = m_pGameInstance->Add_GameObject((_uint)LEVELID::LEVEL_TOOL_NPC, (_uint)LAYER_TYPE::LAYER_NPC,
+				TEXT("Prototype_GameObject_Guide_Valtan_Npc"), &m_NpcCreateDesc);
 			if (nullptr == pInstance)
 				return;
 		}

@@ -84,7 +84,7 @@ void CGuide_Valtan_Npc::OnCollisionEnter(const _uint iColLayer, CCollider* pOthe
 	if (iColLayer == (_uint)LAYER_COLLIDER::LAYER_BODY_NPC && (_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER == pOther->Get_ColLayer()
 		&& true == static_cast<CPlayer*>(pOther->Get_Owner())->Is_ClickNpc())
 	{
-		m_pChaosUI->Set_Active(true);
+		m_pEntranceUI->Set_Active(true);
 		static_cast<CPlayer*>(pOther->Get_Owner())->Set_ClickNpcState(false);
 	}
 }
@@ -113,10 +113,10 @@ HRESULT CGuide_Valtan_Npc::Ready_ChaosEntranceUI()
 
 	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 
-	m_pChaosUI = static_cast<CUI_NPC_ValtanEntrance_Wnd*> (pGameInstance->Add_GameObject(m_iCurrLevel,
+	m_pEntranceUI = static_cast<CUI_NPC_ValtanEntrance_Wnd*> (pGameInstance->Add_GameObject(m_iCurrLevel,
 		(_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_Npc_ValtanEntrance"), this));
 
-	if (m_pChaosUI == nullptr)
+	if (m_pEntranceUI == nullptr)
 		return E_FAIL;
 
 	RELEASE_INSTANCE(CGameInstance);
@@ -126,11 +126,10 @@ HRESULT CGuide_Valtan_Npc::Ready_ChaosEntranceUI()
 
 void CGuide_Valtan_Npc::Activate_GuideUI()
 {
-	if (true == m_pChaosUI->Is_Entered() && false == m_pChaosUI->Is_Active())
+	if (true == m_pEntranceUI->Is_Entered() && false == m_pEntranceUI->Is_Active())
 	{
 		Send_UI_State();
 	}
-		
 }
 
 void CGuide_Valtan_Npc::Send_UI_State()
@@ -175,8 +174,8 @@ void CGuide_Valtan_Npc::Free()
 {
 	__super::Free();
 
-	if (nullptr != m_pChaosUI)
+	if (nullptr != m_pEntranceUI)
 	{
-		m_pChaosUI->Set_Dead(true);
+		m_pEntranceUI->Set_Dead(true);
 	}
 }

@@ -3,12 +3,12 @@
 
 BEGIN(Server)
 
-class CGuide_Chaos_Npc_Server final : public CNpc_Server
+class CGuide_Valtan_Npc_Server final : public CNpc_Server
 {
 private:
-	CGuide_Chaos_Npc_Server(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CGuide_Chaos_Npc_Server(const CGuide_Chaos_Npc_Server& rhs);
-	virtual ~CGuide_Chaos_Npc_Server() = default;
+	CGuide_Valtan_Npc_Server(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	CGuide_Valtan_Npc_Server(const CGuide_Valtan_Npc_Server& rhs);
+	virtual ~CGuide_Valtan_Npc_Server() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype();
@@ -30,7 +30,7 @@ private:
 
 
 public:
-	static CGuide_Chaos_Npc_Server* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	static CGuide_Valtan_Npc_Server* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg);
 	virtual void Free();
 };

@@ -570,6 +570,9 @@
     <ClCompile Include="..\Private\Valtan_BT_Spawn_Server.cpp">
       <Filter>02. GameObject\04. Boss\Valtan\Behavior\Spawn</Filter>
     </ClCompile>
+    <ClCompile Include="..\Private\Guide_Valtan_Npc_Server.cpp">
+      <Filter>02. GameObject\07. Npc\Guide_Npc</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -1000,6 +1003,9 @@
     </ClInclude>
     <ClInclude Include="Valtan_BT_Spawn_Server.h">
       <Filter>02. GameObject\04. Boss\Valtan\Behavior\Spawn</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Guide_Valtan_Npc_Server.h">
+      <Filter>02. GameObject\07. Npc\Guide_Npc</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -16,10 +16,21 @@ void CGolem_BT_Attack_Swipe::OnStart()
 {
 	__super::OnStart(0);
 	m_Shoot = true;
+
+	m_iMaxSound = 4;
+	for (size_t i = 0; i < m_iMaxSound; i++)
+	{
+		m_bSoundOn[i] = false;
+	}
 }
 
 CBT_Node::BT_RETURN CGolem_BT_Attack_Swipe::OnUpdate(const _float& fTimeDelta)
 {
+	Add_Sound(0, 0, TEXT("Effect"), TEXT("Rook_9"), 15, 0.5f);
+	Add_Sound(0, 1, TEXT("Effect"), TEXT("Rook_42"), 18, 0.5f);
+	Add_Sound(0, 2, TEXT("Effect"), TEXT("Rook_10"), 42, 0.5f);
+	Add_Sound(0, 3, TEXT("Effect"), TEXT("Rook_43"), 48, 0.5f);
+
 	if (18 <= m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[m_iCurrAnimation].iAnimIndex))
 	{
 		dynamic_cast<CMonster*>(m_pGameObject)->Set_Collider_Active((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS, true);

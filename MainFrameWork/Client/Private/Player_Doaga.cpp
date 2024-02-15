@@ -334,7 +334,7 @@ void CPlayer_Doaga::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 					Add_CollisionStay((_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER, pOther);
 				}
 			}
-			else if ((_uint)LAYER_COLLIDER::LAYER_BODY_BOSS == pOther->Get_ColLayer())
+			else if ((_uint)LAYER_COLLIDER::LAYER_BODY_BOSS == pOther->Get_ColLayer() && TEXT("Dead_End") != Get_State())
 			{
 				if (false == static_cast<CBoss*>(pOther->Get_Owner())->Is_Dummy())
 				{
@@ -349,6 +349,8 @@ void CPlayer_Doaga::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 		}
 		else if (iColLayer == (_uint)LAYER_COLLIDER::LAYER_ATTACK_PLAYER)
 		{
+			//CSound_Manager::GetInstance()->PlaySoundFile(TEXT("Effect"), TEXT("SP_Hitted_1.wav"), 0.1f);
+
 			if ((_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER == pOther->Get_ColLayer())
 			{
 				m_pController->Increase_IdenGage(0.1f);
@@ -356,11 +358,12 @@ void CPlayer_Doaga::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 			else if ((_uint)LAYER_COLLIDER::LAYER_BODY_BOSS == pOther->Get_ColLayer())
 			{
 				m_pController->Increase_IdenGage(1.f);
-			}
-			
+			}	
 		}
 		else if (iColLayer == (_uint)LAYER_COLLIDER::LAYER_SKILL_PLAYER)
 		{
+			//CSound_Manager::GetInstance()->PlaySoundFile(TEXT("Effect"), TEXT("SP_Hitted_1.wav"), 0.1f);
+
 			if (TEXT("Identity_Moon_End") != Get_State())
 			{
 				if ((_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER == pOther->Get_ColLayer())
@@ -383,7 +386,7 @@ void CPlayer_Doaga::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 				Add_CollisionStay((_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER, pOther);
 			}
 		}
-		else if (iColLayer == (_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER && (_uint)LAYER_COLLIDER::LAYER_BODY_BOSS == pOther->Get_ColLayer())
+		else if (iColLayer == (_uint)LAYER_COLLIDER::LAYER_BODY_PLAYER && (_uint)LAYER_COLLIDER::LAYER_BODY_BOSS == pOther->Get_ColLayer() && TEXT("Dead_End") != Get_State())
 		{
 			if (false == static_cast<CBoss*>(pOther->Get_Owner())->Is_Dummy())
 			{

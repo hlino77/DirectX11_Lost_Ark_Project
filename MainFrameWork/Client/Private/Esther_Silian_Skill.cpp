@@ -31,7 +31,6 @@ HRESULT CEsther_Silian_Skill::Initialize_Prototype()
 
 HRESULT CEsther_Silian_Skill::Initialize(void* pArg)
 {
-	m_iNumSound = 4;
 	__super::Initialize(pArg);
 
 	m_strObjectTag = TEXT("Esther_Silian_Skill");
@@ -52,6 +51,8 @@ HRESULT CEsther_Silian_Skill::Initialize(void* pArg)
 	m_pModelCom->Set_CurrAnim(m_iAnimIndex);
 	m_pModelCom->Play_Animation(0.0f);
 
+	m_iNumSound = 5;
+
 	return S_OK;
 }
 
@@ -64,7 +65,11 @@ void CEsther_Silian_Skill::Tick(_float fTimeDelta)
 
 	Cut_Start(fTimeDelta);
 
-	Add_Sound(m_iAnimIndex,0 , L"Effect", L"WWISEDEFAULTBANK_PC_COMMON_ESTHER#174 (521660491)", 10);
+	Add_Sound(m_iAnimIndex, 0, L"Effect", L"ES_SA_3", 5);
+	Add_Sound(m_iAnimIndex, 1, L"Effect", L"WWISEDEFAULTBANK_PC_COMMON_ESTHER#174 (521660491)", 10);
+	Add_Sound(m_iAnimIndex, 2, L"Effect", L"ES_SA_8", 80);
+	Add_Sound(m_iAnimIndex, 3, L"Effect", L"ES_SA_6", 95);
+	Add_Sound(m_iAnimIndex, 4, L"Effect", L"ES_SA_7", 105);
 
 	Act1(fTimeDelta);
 	Effect(fTimeDelta);
@@ -88,10 +93,12 @@ void CEsther_Silian_Skill::Reset()
 void CEsther_Silian_Skill::Ready()
 {
 	Reserve_Animation(m_iAnimIndex, 0.1f, 0, 0);
-	for (size_t i = 0; i < m_iNumSound; i++)
-		m_bSoundOn[i] = false;
+
 	m_bCutStart = false;
 	m_bProjShot = false;
+
+	for (size_t i = 0; i < m_iNumSound; i++)
+		m_bSoundOn[i] = false;
 
 	for (_int i = 0; i < 3; ++i)
 		m_bEffectStart[i] = false;
@@ -110,7 +117,7 @@ void CEsther_Silian_Skill::Cut_Start(_float fTimeDelta)
 
 void CEsther_Silian_Skill::Act1(_float fTimeDelta)
 {
-	if (95 <= m_pModelCom->Get_Anim_Frame(m_iAnimIndex)
+	if (110 <= m_pModelCom->Get_Anim_Frame(m_iAnimIndex)
 		&& true == m_pLeaderPlayer->Is_Control()
 		&& false == m_bProjShot)
 	{

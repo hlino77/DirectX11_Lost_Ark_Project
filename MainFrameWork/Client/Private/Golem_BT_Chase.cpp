@@ -11,10 +11,20 @@ CGolem_BT_Chase::CGolem_BT_Chase()
 void CGolem_BT_Chase::OnStart()
 {
 	__super::OnStart(0);
+
+	m_iMaxSound = 4;
+	for (size_t i = 0; i < m_iMaxSound; i++)
+	{
+		m_bSoundOn[i] = false;
+	}
 }
 
 CBT_Node::BT_RETURN CGolem_BT_Chase::OnUpdate(const _float& fTimeDelta)
 {
+	Add_Sound(0, 0, TEXT("Effect"), TEXT("Rook_103"), 22, 0.5f);
+	Add_Sound(0, 1, TEXT("Effect"), TEXT("Rook_104"), 52, 0.5f);
+	Add_Sound(0, 2, TEXT("Effect"), TEXT("Rook_103"), 82, 0.5f);
+	Add_Sound(0, 3, TEXT("Effect"), TEXT("Rook_104"), 112, 0.5f);
 
 	if( m_pGameObject->Get_ModelCom()->Is_AnimationEnd(m_vecAnimDesc[0].iAnimIndex))
 		return BT_FAIL;
@@ -50,6 +60,12 @@ CBT_Node::BT_RETURN CGolem_BT_Chase::OnUpdate(const _float& fTimeDelta)
 void CGolem_BT_Chase::OnEnd()
 {
 	__super::OnEnd();
+
+	m_iMaxSound = 4;
+	for (size_t i = 0; i < m_iMaxSound; i++)
+	{
+		m_bSoundOn[i] = false;
+	}
 }
 
 

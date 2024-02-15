@@ -14,10 +14,19 @@ void CGolem_BT_Attack_Dash::OnStart()
 	__super::OnStart(0);
 	static_cast<CMonster*>(m_pGameObject)->Set_RootTargetDistance(0.f);
 
+	m_iMaxSound = 3;
+	for (size_t i = 0; i < m_iMaxSound; i++)
+	{
+		m_bSoundOn[i] = false;
+	}
 }
 
 CBT_Node::BT_RETURN CGolem_BT_Attack_Dash::OnUpdate(const _float& fTimeDelta)
 {
+	Add_Sound(0, 0, TEXT("Effect"), TEXT("Rook_37"), 0, 0.5f);
+	Add_Sound(0, 1, TEXT("Effect"), TEXT("Rook_8"), 15, 1.f);
+	Add_Sound(0, 2, TEXT("Effect"), TEXT("Rook_40"), 15, 1.f);
+
 	if (m_pGameObject->Get_ModelCom()->Is_AnimationEnd(m_vecAnimDesc[0].iAnimIndex))
 		return BT_SUCCESS;
 	if (m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[0].iAnimIndex)<10)

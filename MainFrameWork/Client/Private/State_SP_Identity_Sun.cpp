@@ -69,7 +69,7 @@ void CState_SP_Identity_Sun::Enter_State()
 		m_vColliPos = m_pPlayer->Get_TargetPos();
 	}
 
-	//m_pPlayer->Get_SP_Controller()->Get_SP_IdentityMessage();
+	m_pPlayer->Get_SP_Controller()->Get_SP_IdentityMessage();
 	m_pPlayer->Set_SuperArmorState(true);
 
 	m_bTrail = false;

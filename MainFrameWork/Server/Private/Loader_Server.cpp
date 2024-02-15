@@ -15,6 +15,7 @@
 #include "ChaosDungean_Server.h"
 #include "NavigationMgr.h"
 #include "Guide_Chaos_Npc_Server.h"
+#include "Guide_Valtan_Npc_Server.h"
 #include "ValtanMain_Server.h"
 #include "BreakAbleObject_Server.h"
 #include "Boss_Valtan_CounterGhost_Server.h"
@@ -145,6 +146,10 @@ HRESULT CLoader_Server::Loading_For_Level_Bern()
 	/* ±â´É NPC */
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Guide_Chaos_Npc"),
 		CGuide_Chaos_Npc_Server::Create(nullptr, nullptr))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Guide_Valtan_Npc"),
+		CGuide_Valtan_Npc_Server::Create(nullptr, nullptr))))
 		return E_FAIL;
 
 

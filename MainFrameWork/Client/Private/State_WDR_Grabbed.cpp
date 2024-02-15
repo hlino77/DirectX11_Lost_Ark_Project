@@ -110,8 +110,10 @@ void CState_WDR_Grabbed::ToNone_GrabPos(_float fTimeDelta)
 	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 
 	if (nullptr == m_pValtan)
+	{
 		m_pValtan = pGameInstance->Find_GameObject(LEVELID::LEVEL_VALTANMAIN, (_uint)LAYER_TYPE::LAYER_BOSS, TEXT("Boss_Valtan"));
-
+	}
+	
 	RELEASE_INSTANCE(CGameInstance);
 
 	Matrix Pivot = m_pValtan->Get_ModelCom()->Get_PivotMatrix();
@@ -126,7 +128,7 @@ void CState_WDR_Grabbed::ToNone_GrabPos(_float fTimeDelta)
 	WorldMatrix._42 *= 0.01f;
 	WorldMatrix._43 *= 0.01f;
 	WorldMatrix *= GrabMatrix;
-	Matrix ComputeMatrix = WorldMatrix * m_pController->Get_Grabber()->Get_TransformCom()->Get_WorldMatrix();
+	Matrix ComputeMatrix = WorldMatrix * m_pValtan->Get_TransformCom()->Get_WorldMatrix();
 
 	if (false == static_cast<CBoss_Valtan*>(m_pValtan)->Get_BehaviorTree()->Get_CurrentAction()->Get_CurrentAnimDesc().bIsLoop)
 	{
@@ -136,7 +138,7 @@ void CState_WDR_Grabbed::ToNone_GrabPos(_float fTimeDelta)
 	else
 	{
 		m_fGrabTimeAcc += fTimeDelta;
-		if (0.2f >= m_fGrabTimeAcc)
+		if (0.25f >= m_fGrabTimeAcc)
 		{
 			m_pPlayer->Get_TransformCom()->Set_WorldMatrix(ComputeMatrix);
 			m_pPlayer->Get_TransformCom()->Set_Scale(Vec3(1.f, 1.f, 1.f));

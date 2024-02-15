@@ -33,7 +33,7 @@ private:
 	void					Send_UI_State();
 
 private:
-	class CUI_NPC_ValtanEntrance_Wnd* m_pChaosUI = { nullptr };
+	class CUI_NPC_ValtanEntrance_Wnd* m_pEntranceUI = { nullptr };
 	class CPlayer* m_pPlayer = { nullptr };
 
 public:

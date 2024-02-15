@@ -27,9 +27,9 @@ HRESULT CState_WR_Run::Initialize()
 		m_TickFunc = &CState_WR_Run::Tick_State_NoneControl;
 
 	m_SoundFrames.push_back(SOUNDDESC(1, TEXT("Effect"), TEXT("PC_Step_2.wav"), 0.3f, false));
-	m_SoundFrames.push_back(SOUNDDESC(1, TEXT("Effect"), TEXT("PC_Step_245.wav"), 0.3f, false));
+	m_SoundFrames.push_back(SOUNDDESC(1, TEXT("Effect"), TEXT("PC_Step_253.wav"), 0.3f, false));
 	m_SoundFrames.push_back(SOUNDDESC(11, TEXT("Effect"), TEXT("PC_Step_2.wav"), 0.3f, false));
-	m_SoundFrames.push_back(SOUNDDESC(11, TEXT("Effect"), TEXT("PC_Step_245.wav"), 0.3f, false));
+	m_SoundFrames.push_back(SOUNDDESC(11, TEXT("Effect"), TEXT("PC_Step_253.wav"), 0.3f, false));
 	m_SoundFrames.push_back(SOUNDDESC());
 
 	return S_OK;

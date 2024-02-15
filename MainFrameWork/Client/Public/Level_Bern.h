@@ -72,7 +72,7 @@ private:
 	CRenderer* m_pRendererCom = nullptr;
 	//_bool m_bStaticShadow = false;
 private:
-	class CUI_Tool* m_pImGuiManager;
+	class CUI_Tool* m_pImGuiManager = { nullptr };
 
 public:
 	static class CLevel_Bern* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
