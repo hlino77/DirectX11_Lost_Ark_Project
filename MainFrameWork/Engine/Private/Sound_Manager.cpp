@@ -96,11 +96,18 @@ HRESULT CSound_Manager::PlayBGM(const wstring& szChannelGroup, const wstring& st
 
 	return S_OK;
 }
-HRESULT CSound_Manager::PlaySoundFile_AddChannel(const wstring& szChannelTag, const wstring& szChannelGroup, const wstring& strSoundKey, _float fVolume)
+HRESULT CSound_Manager::PlaySoundFile_AddChannel(const wstring& szChannelTag, const wstring& szChannelGroup, const wstring& strSoundKey, _float fVolume, _bool bStop)
 {
 	FMOD_CHANNEL* pChannel = nullptr;
 	PlaySoundFile(szChannelGroup, strSoundKey, fVolume, &pChannel);
-	Add_Channel(szChannelTag, pChannel);
+	if (false == bStop)
+	{
+		Add_Channel(szChannelTag, pChannel);
+	}
+	else
+	{
+		NoneStop_Add_Channel(szChannelTag, pChannel);
+	}
 	return S_OK;
 }
 HRESULT CSound_Manager::PlayBGM_AddChannel(const wstring& szChannelTag, const wstring& szChannelGroup, const wstring& strSoundKey, _float fVolume)
@@ -234,6 +241,11 @@ void CSound_Manager::Add_Channel(const wstring& szChannelTag, FMOD_CHANNEL* pCha
 		Stop_Channel_Sound(iter->second);
 	}
 
+	m_Channels[szChannelTag] = pChannel;
+}
+
+void CSound_Manager::NoneStop_Add_Channel(const wstring& szChannelTag, FMOD_CHANNEL* pChannel)
+{
 	m_Channels[szChannelTag] = pChannel;
 }
 

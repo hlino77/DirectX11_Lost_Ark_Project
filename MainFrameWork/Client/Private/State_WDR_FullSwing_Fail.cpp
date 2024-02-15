@@ -32,11 +32,28 @@ HRESULT CState_WDR_FullSwing_Fail::Initialize()
 	m_SkillFrames.push_back(35);
 	m_SkillFrames.push_back(-1);
 
+	// Sound
+	m_SoundFrames.push_back(SOUNDDESC(0, TEXT("Effect"), TEXT("WDR_68.wav"))); // Skill
+
+	m_SoundFrames.push_back(SOUNDDESC(0, TEXT("Effect"), TEXT("WDR_69.wav"))); // Skill  1
+	m_SoundFrames.push_back(SOUNDDESC(0, TEXT("Effect"), TEXT("WDR_63.wav"))); // Skill  2
+	m_SoundFrames.push_back(SOUNDDESC(0, TEXT("Effect"), TEXT("WDR_64.wav"))); // Skill  3
+	m_SoundFrames.push_back(SOUNDDESC());
+
 	return S_OK;
 }
 
 void CState_WDR_FullSwing_Fail::Enter_State()
 {
+	m_EffectSound = false;
+	m_EffectSound1 = false;
+	m_EffectSound2 = false;
+
+	if (m_pPlayer->Is_Control())
+	{
+		CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume);
+	}
+
 	m_iSkillCnt = 0;
 
 	m_pPlayer->Reserve_Animation(m_iFullSwing_Fail, 0.1f, 0, 0);
@@ -59,6 +76,11 @@ void CState_WDR_FullSwing_Fail::Exit_State()
 		m_pPlayer->Set_SuperArmorState(false);
 
 	m_pController->Set_SkillSuccess(m_eSkillSelectKey, false);
+
+	if (true == m_pPlayer->Is_CancelState())
+	{
+		StopStateSound();
+	}
 }
 
 void CState_WDR_FullSwing_Fail::Tick_State_Control(_float fTimeDelta)
@@ -78,18 +100,37 @@ void CState_WDR_FullSwing_Fail::Tick_State_Control(_float fTimeDelta)
 	{
 		Effect_TrailStart();
 		m_eEffectState = EFFECTSTATE::TRAIL2;
+
+		if (false == m_EffectSound)
+		{
+			CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt + 1].strName, m_SoundFrames[m_iSoundCnt + 1].strGroup, m_SoundFrames[m_iSoundCnt + 1].strName, m_SoundFrames[m_iSoundCnt + 1].fVolume);
+			m_EffectSound = true;
+		}
 	}
 
 	if (m_eEffectState == EFFECTSTATE::TRAIL2 && iAnimFrame >= 30)
 	{
 		Effect_TrailStart2();
 		m_eEffectState = EFFECTSTATE::TRAILEND1;
+
+		if (false == m_EffectSound1)
+		{
+			CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt + 2].strName, m_SoundFrames[m_iSoundCnt + 2].strGroup, m_SoundFrames[m_iSoundCnt + 2].strName, m_SoundFrames[m_iSoundCnt + 2].fVolume);
+			m_EffectSound1 = true;
+		}
+
 	}
 
 	if (m_eEffectState == EFFECTSTATE::TRAILEND1 && iAnimFrame >= 34)
 	{
 		Effect_TrailEnd1();
 		m_eEffectState = EFFECTSTATE::EFFECTEND;
+
+		if (false == m_EffectSound2)
+		{
+			CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt + 3].strName, m_SoundFrames[m_iSoundCnt + 3].strGroup, m_SoundFrames[m_iSoundCnt + 3].strName, m_SoundFrames[m_iSoundCnt + 3].fVolume);
+			m_EffectSound2 = true;
+		}
 	}
 
 	if (m_eEffectState == EFFECTSTATE::EFFECTEND && iAnimFrame >= 39)

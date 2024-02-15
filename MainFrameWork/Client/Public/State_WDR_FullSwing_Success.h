@@ -45,6 +45,17 @@ private:
 	_int m_iFullSwing_Success = 0;
 
 	EFFECTSTATE m_eEffectState;
+
+	// Sound
+	_bool   m_EffectSound = false;
+	_bool   m_EffectSound1 = false;
+	_bool   m_EffectSound2 = false;
+
+	_bool   m_PlayerSound = false;
+	_float  m_EffectSoundAccTime = 0.f;
+	_float	m_PlayerSoundAccTime = 0.f;
+
+
 public:
 	static CState_WDR_FullSwing_Success* Create(wstring strStateName, class CStateMachine* pMachine, class CPlayer_Controller* pController, class CPlayer_Destroyer* pOwner);
 	virtual void Free() override;

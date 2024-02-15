@@ -21,11 +21,25 @@ HRESULT CState_WDR_StandDash::Initialize()
 	else
 		m_TickFunc = &CState_WDR_StandDash::Tick_State_NoneControl;
 
+	m_SoundFrames.push_back(SOUNDDESC(0, TEXT("Effect"), TEXT("WDR_185.wav"))); // Skill
+	m_SoundFrames.push_back(SOUNDDESC(0, TEXT("Effect"), TEXT("WDR_8.wav"))); // Player
+	m_SoundFrames.push_back(SOUNDDESC());
+
+
 	return S_OK;
 }
 
 void CState_WDR_StandDash::Enter_State()
 {
+
+	if (m_pPlayer->Is_Control())
+	{
+		CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume);
+		CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt + 1].strName, m_SoundFrames[m_iSoundCnt + 1].strGroup, m_SoundFrames[m_iSoundCnt + 1].strName, m_SoundFrames[m_iSoundCnt + 1].fVolume);
+
+	}
+
+
 	m_pPlayer->Reserve_Animation(m_iStandDash, 0.1f, 0, 0, 1.2f);
 
 	m_pController->Get_StopMessage();

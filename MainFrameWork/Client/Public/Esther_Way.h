@@ -20,8 +20,12 @@ public:
 public:
 	void							Leader_Active_Esther();
 
+
 private:
 	virtual HRESULT					Ready_Components();
+
+
+
 
 public:
 	static CEsther_Way* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

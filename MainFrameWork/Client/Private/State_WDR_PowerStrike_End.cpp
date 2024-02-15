@@ -27,11 +27,19 @@ HRESULT CState_WDR_PowerStrike_End::Initialize()
 	m_SkillFrames.push_back(19);
 	m_SkillFrames.push_back(-1);
 
+	// Sound
+	m_SoundFrames.push_back(SOUNDDESC(10, TEXT("Effect"), TEXT("WDR_37.wav"))); // Player
+	m_SoundFrames.push_back(SOUNDDESC());
+
 	return S_OK;
 }
 
 void CState_WDR_PowerStrike_End::Enter_State()
 {
+	m_EffectSound = false;
+	m_PlayerSound = false;
+
+
 	m_iSkillCnt = 0;
 
 	m_pPlayer->Reserve_Animation(m_iPowerStrike_End, 0.1f, 0, 0, 1.f);
@@ -48,13 +56,30 @@ void CState_WDR_PowerStrike_End::Exit_State()
 	if (true == m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor())
 		m_pPlayer->Set_SuperArmorState(false);
 
+	if (true == m_pPlayer->Is_CancelState())
+	{
+		StopStateSound();
+	}
+
 }
 
 void CState_WDR_PowerStrike_End::Tick_State_Control(_float fTimeDelta)
 {
-	_int iAnimIndex = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iPowerStrike_End);
+	_int iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iPowerStrike_End);
 
-	if (-1 != m_SkillFrames[m_iSkillCnt] && m_SkillFrames[m_iSkillCnt] <= iAnimIndex)
+	if (-1 != m_SoundFrames[m_iSoundCnt].iFrame && m_SoundFrames[m_iSoundCnt].iFrame <= (_int)iAnimFrame)
+	{
+		if (false == m_EffectSound)
+		{
+			CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume);
+			m_EffectSound = true;
+		}
+
+	}
+
+
+
+	if (-1 != m_SkillFrames[m_iSkillCnt] && m_SkillFrames[m_iSkillCnt] <= iAnimFrame)
 	{
 		m_iSkillCnt++;
 		m_pController->Get_SkillAttackMessage(m_eSkillSelectKey);
@@ -75,7 +100,7 @@ void CState_WDR_PowerStrike_End::Tick_State_Control(_float fTimeDelta)
 
 		m_pPlayer->Set_State(TEXT("Dash"));
 	}
-	if (30 <= iAnimIndex)
+	if (30 <= iAnimFrame)
 	{
 
 		if (true == m_pController->Is_Skill())

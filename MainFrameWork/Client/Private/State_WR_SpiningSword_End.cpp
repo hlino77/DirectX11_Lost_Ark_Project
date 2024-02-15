@@ -28,12 +28,17 @@ HRESULT CState_WR_SpiningSword_End::Initialize()
 	m_SkillFrames.push_back(11);
 	m_SkillFrames.push_back(-1);
 
+	m_SoundFrames.push_back(SOUNDDESC(3, TEXT("Effect"), TEXT("WR_Spin_100.wav")));
+	m_SoundFrames.push_back(SOUNDDESC());
+
+
 	return S_OK;
 }
 
 void CState_WR_SpiningSword_End::Enter_State()
 {
 	m_iSkillCnt = 0;
+	m_iSoundCnt = 0;
 
 	for (_int i = 0; i < 2; ++i)
 	{
@@ -56,6 +61,11 @@ void CState_WR_SpiningSword_End::Tick_State(_float fTimeDelta)
 
 void CState_WR_SpiningSword_End::Exit_State()
 {
+	if (true == m_pPlayer->Is_CancelState())
+	{
+		StopStateSound();
+	}
+
 	if (true == m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor())
 		m_pPlayer->Set_SuperArmorState(false);
 }
@@ -63,6 +73,20 @@ void CState_WR_SpiningSword_End::Exit_State()
 void CState_WR_SpiningSword_End::Tick_State_Control(_float fTimeDelta)
 {
 	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iSpiningSword_End);
+
+	if (-1 != m_SoundFrames[m_iSoundCnt].iFrame && m_SoundFrames[m_iSoundCnt].iFrame <= (_int)iAnimFrame)
+	{
+		if (false == m_SoundFrames[m_iSoundCnt].bAddChannel)
+		{
+			CSound_Manager::GetInstance()->PlaySoundFile(m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume);
+		}
+		else
+		{
+			CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume, true);
+		}
+
+		m_iSoundCnt++;
+	}
 
 	if (-1 != m_SkillFrames[m_iSkillCnt] && m_SkillFrames[m_iSkillCnt] <= iAnimFrame)
 	{

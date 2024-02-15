@@ -78,8 +78,12 @@ void CEsther_Way_Skill::Tick(_float fTimeDelta)
 
 	Effect(fTimeDelta);
 
+
 	__super::Tick(fTimeDelta);
 	m_pSkillMesh->Tick(fTimeDelta);
+	
+	m_pSkillMesh->Set_Sound_Init(false);
+
 }
 
 void CEsther_Way_Skill::LateTick(_float fTimeDelta)
@@ -105,6 +109,10 @@ void CEsther_Way_Skill::Ready()
 	{
 		m_bActActive[i] = false;
 	}
+
+	
+	CSound_Manager::GetInstance()->PlaySoundFile(TEXT("Effect"), TEXT("WWISEDEFAULTBANK_PC_COMMON_ESTHER#105 (498590111).wav"), 0.7f);
+	
 
 	m_bCutStart = false;
 
@@ -333,8 +341,10 @@ void CEsther_Way_Skill::Check_Finish()
 {
 	if (true == m_pModelCom->Is_AnimationEnd(m_iAnimIndex))
 	{
+
 		m_IsFinished = true;
 	}
+
 }
 
 HRESULT CEsther_Way_Skill::Render()

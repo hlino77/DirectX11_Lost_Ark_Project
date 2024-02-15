@@ -26,11 +26,19 @@ HRESULT CState_WR_Run::Initialize()
 	else
 		m_TickFunc = &CState_WR_Run::Tick_State_NoneControl;
 
+	m_SoundFrames.push_back(SOUNDDESC(1, TEXT("Effect"), TEXT("PC_Step_2.wav"), 0.3f, false));
+	m_SoundFrames.push_back(SOUNDDESC(1, TEXT("Effect"), TEXT("PC_Step_245.wav"), 0.3f, false));
+	m_SoundFrames.push_back(SOUNDDESC(11, TEXT("Effect"), TEXT("PC_Step_2.wav"), 0.3f, false));
+	m_SoundFrames.push_back(SOUNDDESC(11, TEXT("Effect"), TEXT("PC_Step_245.wav"), 0.3f, false));
+	m_SoundFrames.push_back(SOUNDDESC());
+
 	return S_OK;
 }
 
 void CState_WR_Run::Enter_State()
 {
+	m_iSoundCnt = 0;
+
 	m_pController->Get_MoveSpeedMessage(3.f);
 	if (true == static_cast<CController_WR*>(m_pController)->Is_In_Identity())
 	{
@@ -56,10 +64,35 @@ void CState_WR_Run::Tick_State(_float fTimeDelta)
 
 void CState_WR_Run::Exit_State()
 {
+	if (true == m_pPlayer->Is_CancelState())
+	{
+		StopStateSound();
+	}
 }
 
 void CState_WR_Run::Tick_State_Control(_float fTimeDelta)
 {
+	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iRun);
+
+	if (0 >= iAnimFrame)
+	{
+		m_iSoundCnt = 0;
+	}
+
+	if (-1 != m_SoundFrames[m_iSoundCnt].iFrame && m_SoundFrames[m_iSoundCnt].iFrame <= (_int)iAnimFrame)
+	{
+		if (false == m_SoundFrames[m_iSoundCnt].bAddChannel)
+		{
+			CSound_Manager::GetInstance()->PlaySoundFile(m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume);
+		}
+		else
+		{
+			CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume, true);
+		}
+
+		m_iSoundCnt++;
+	}
+
 	if (true == m_pController->Is_Dash())
 	{
 		Vec3 vClickPos;

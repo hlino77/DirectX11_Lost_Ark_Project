@@ -40,6 +40,14 @@ private:
 	_float m_fChageEffectAcc = 0.0;
 
 	vector<CEffect*> m_Effects;
+
+	// Sound
+	_bool   m_EffectSound = false;
+	_bool   m_PlayerSound = false;
+	_float  m_EffectSoundAccTime = 0.f;
+	_float	m_PlayerSoundAccTime = 0.f;
+
+
 public:
 	static CState_WDR_HeavyCrush* Create(wstring strStateName, class CStateMachine* pMachine, class CPlayer_Controller* pController, class CPlayer_Destroyer* pOwner);
 	virtual void Free() override;

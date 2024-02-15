@@ -27,8 +27,17 @@ HRESULT CState_WR_FuriousClaw_Loop::Initialize()
 	m_SkillFrames.push_back(3);
 	m_SkillFrames.push_back(10);
 	m_SkillFrames.push_back(17);
-	m_SkillFrames.push_back(3);
 	m_SkillFrames.push_back(-1);
+	
+
+	
+	m_SoundFrames.push_back(SOUNDDESC(1, TEXT("Effect"), TEXT("WR_Furi_126.wav"), 0.4f));
+	m_SoundFrames.push_back(SOUNDDESC(1, TEXT("Effect"), TEXT("WR_Furi_127.wav"), 0.4f));
+	m_SoundFrames.push_back(SOUNDDESC(8, TEXT("Effect"), TEXT("WR_Furi_126.wav"), 0.4f));
+	m_SoundFrames.push_back(SOUNDDESC(8, TEXT("Effect"), TEXT("WR_Furi_127.wav"), 0.4f));
+	m_SoundFrames.push_back(SOUNDDESC(15, TEXT("Effect"), TEXT("WR_Furi_126.wav"), 0.4f));
+	m_SoundFrames.push_back(SOUNDDESC(15, TEXT("Effect"), TEXT("WR_Furi_127.wav"), 0.4f));
+	m_SoundFrames.push_back(SOUNDDESC());
 
 	return S_OK;
 }
@@ -43,6 +52,7 @@ void CState_WR_FuriousClaw_Loop::Enter_State()
 
 	m_iSkillCnt = 0;
 	m_iEffectCnt = 0;
+	m_iSoundCnt = 0;
 
 	m_bTrail = false;
 	m_Trails.clear();
@@ -60,6 +70,11 @@ void CState_WR_FuriousClaw_Loop::Tick_State(_float fTimeDelta)
 
 void CState_WR_FuriousClaw_Loop::Exit_State()
 {
+	if (true == m_pPlayer->Is_CancelState())
+	{
+		StopStateSound();
+	}
+
 	if (true == m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor())
 		m_pPlayer->Set_SuperArmorState(false);
 
@@ -71,11 +86,31 @@ void CState_WR_FuriousClaw_Loop::Exit_State()
 
 void CState_WR_FuriousClaw_Loop::Tick_State_Control(_float fTimeDelta)
 {
-	_int iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iFuriousClaw_Loop);
+	_int iCurrFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iFuriousClaw_Loop);
 
 	Effect_FuriousClaw_Loop();
 
-	if (-1 != m_SkillFrames[m_iSkillCnt] && m_SkillFrames[m_iSkillCnt] <= iAnimFrame)
+	if (-1 != m_SoundFrames[m_iSoundCnt].iFrame && m_SoundFrames[m_iSoundCnt].iFrame <= iCurrFrame)
+	{
+		if (false == m_SoundFrames[m_iSoundCnt].bAddChannel)
+		{
+			CSound_Manager::GetInstance()->PlaySoundFile(m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume);
+		}
+		else
+		{
+			CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume, true);
+		}
+
+		m_iSoundCnt++;
+	}
+
+	if (false == m_EffectStart[m_iEffectCnt] && -1 != m_SkillFrames[m_iEffectCnt] && m_SkillFrames[m_iEffectCnt] - 1 <= iCurrFrame)
+	{
+		CEffect_Manager::EFFECTPIVOTDESC desc;
+		desc.pPivotMatrix = &m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
+	}
+
+	if (-1 != m_SkillFrames[m_iSkillCnt] && m_SkillFrames[m_iSkillCnt] <= iCurrFrame)
 	{
 		m_iSkillCnt++;
 		m_pController->Get_SkillAttackMessage(m_eSkillSelectKey);

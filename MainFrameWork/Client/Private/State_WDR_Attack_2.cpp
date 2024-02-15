@@ -32,11 +32,18 @@ HRESULT CState_WDR_Attack_2::Initialize()
 	m_AttackFrames.push_back(29);
 	m_AttackFrames.push_back(-1);
 
+
+	m_SoundFrames.push_back(SOUNDDESC(26, TEXT("Effect"), TEXT("WDR_10.wav"))); //  Skill
+	m_SoundFrames.push_back(SOUNDDESC());
+
 	return S_OK;
 }
 
 void CState_WDR_Attack_2::Enter_State()
 {
+	m_EffectSound = false;
+
+
 	m_iAttackCnt = 0;
 
 	m_pPlayer->Reserve_Animation(m_Attack_2, 0.1f, 0, 0, 1.f);
@@ -58,12 +65,29 @@ void CState_WDR_Attack_2::Tick_State_Control(_float fTimeDelta)
 {
 	_uint iAnimIndex = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_2);
 
+
+	if (-1 != m_SoundFrames[m_iSoundCnt].iFrame && m_SoundFrames[m_iSoundCnt].iFrame <= _int(iAnimIndex))
+	{
+		if (m_pPlayer->Is_Control())
+		{
+			if (m_EffectSound == false)
+			{
+				CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume);
+				m_EffectSound = true;
+			}
+
+		}
+	}
+
+
+
 	if (-1 != m_AttackFrames[m_iAttackCnt] && m_AttackFrames[m_iAttackCnt] <= iAnimIndex)
 	{
 		m_iAttackCnt++;
 		static_cast<CController_WDR*>(m_pController)->Get_AttackMessage();
 
 		Effect_Attack();
+
 	}
 
 	if (true == m_pController->Is_Attack() &&

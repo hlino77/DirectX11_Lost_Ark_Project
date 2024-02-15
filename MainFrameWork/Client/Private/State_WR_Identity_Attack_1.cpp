@@ -31,6 +31,11 @@ HRESULT CState_WR_Identity_Attack_1::Initialize()
 	m_AttackFrames.push_back(21);
 	m_AttackFrames.push_back(-1);
 
+	m_SoundFrames.push_back(SOUNDDESC(4, TEXT("Effect"), TEXT("GN_Huut_355.wav")));
+	m_SoundFrames.push_back(SOUNDDESC(7, TEXT("Effect"), TEXT("WR_Iden_16.wav")));
+	m_SoundFrames.push_back(SOUNDDESC());
+
+
 	for (size_t i = 0; i < 2; i++)
 	{
 		m_bEffectOn[i] = false;
@@ -42,6 +47,7 @@ HRESULT CState_WR_Identity_Attack_1::Initialize()
 void CState_WR_Identity_Attack_1::Enter_State()
 {
 	m_iAttackCnt = 0;
+	m_iSoundCnt = 0;
 
 	m_pPlayer->Reserve_Animation(m_Attack_1, 0.1f, 0, 0, 1.f);
 	m_pController->Get_LerpDirLookMessage(m_pPlayer->Get_TargetPos());
@@ -61,14 +67,49 @@ void CState_WR_Identity_Attack_1::Tick_State(_float fTimeDelta)
 
 void CState_WR_Identity_Attack_1::Exit_State()
 {
+	if (true == m_pPlayer->Is_CancelState())
+	{
+		StopStateSound();
+	}
+
 	m_IsAttackContinue = false;
 }
 
 void CState_WR_Identity_Attack_1::Tick_State_Control(_float fTimeDelta)
 {
+	Effect_Identity_Attack_1();
+
 	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_1);
 
-	Effect_Identity_Attack_1();
+	if (-1 != m_SoundFrames[m_iSoundCnt].iFrame && m_SoundFrames[m_iSoundCnt].iFrame <= (_int)iAnimFrame)
+	{
+		if (false == m_SoundFrames[m_iSoundCnt].bAddChannel)
+		{
+			CSound_Manager::GetInstance()->PlaySoundFile(m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume);
+		}
+		else
+		{
+			CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume, true);
+		}
+
+		m_iSoundCnt++;
+	}
+
+	if (4 <= iAnimFrame && false == m_bEffectOn[0])
+	{
+		auto func = bind(&CPartObject::Load_Part_WorldMatrix, static_cast<CPartObject*>(m_pPlayer->Get_Parts(CPartObject::PARTS::WEAPON_1)), placeholders::_1);
+		TRAIL_START(TEXT("Slayer_Rage_Attack_1"), func)
+
+		m_bEffectOn[0] = true;
+	}
+
+	if (17 <= iAnimFrame && false == m_bEffectOn[1])
+	{
+		auto func = bind(&CPartObject::Load_Part_WorldMatrix, static_cast<CPartObject*>(m_pPlayer->Get_Parts(CPartObject::PARTS::WEAPON_1)), placeholders::_1);
+		TRAIL_START(TEXT("Slayer_Rage_Attack_1"), func)
+
+		m_bEffectOn[1] = true;
+	}
 
 	if (-1 != m_AttackFrames[m_iAttackCnt] && m_AttackFrames[m_iAttackCnt] <= (_int)iAnimFrame)
 	{

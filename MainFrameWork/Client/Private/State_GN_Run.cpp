@@ -30,12 +30,10 @@ HRESULT CState_GN_Run::Initialize()
 	else
 		m_TickFunc = &CState_GN_Run::Tick_State_NoneControl;
 
-	m_SoundFrames.push_back(SOUNDDESC(0, TEXT("Effect"), TEXT("PC_Step_2.wav"), 0.5f, false));
-	m_SoundFrames.push_back(SOUNDDESC(0, TEXT("Effect"), TEXT("PC_Step_248.wav"), 0.5f, false));
-	m_SoundFrames.push_back(SOUNDDESC(11, TEXT("Effect"), TEXT("PC_Step_2.wav"), 0.5f, false));
-	m_SoundFrames.push_back(SOUNDDESC(11, TEXT("Effect"), TEXT("PC_Step_248.wav"), 0.5f, false));
-	m_SoundFrames.push_back(SOUNDDESC(22, TEXT("Effect"), TEXT("PC_Step_2.wav"), 0.5f, false));
-	m_SoundFrames.push_back(SOUNDDESC(22, TEXT("Effect"), TEXT("PC_Step_248.wav"), 0.5f, false));
+	m_SoundFrames.push_back(SOUNDDESC(1, TEXT("Effect"), TEXT("PC_Step_2.wav"), 0.3f, false));
+	m_SoundFrames.push_back(SOUNDDESC(1, TEXT("Effect"), TEXT("PC_Step_248.wav"), 0.3f, false));
+	m_SoundFrames.push_back(SOUNDDESC(11, TEXT("Effect"), TEXT("PC_Step_2.wav"), 0.3f, false));
+	m_SoundFrames.push_back(SOUNDDESC(11, TEXT("Effect"), TEXT("PC_Step_248.wav"), 0.3f, false));
 	m_SoundFrames.push_back(SOUNDDESC());
 
 	return S_OK;
@@ -93,16 +91,16 @@ void CState_GN_Run::Tick_State_Control(_float fTimeDelta)
 		}
 		else
 		{
-			CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume);
+			CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume, true);
 		}
 
 		m_iSoundCnt++;
 	}
 
-	/*if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_Run))
+	if (0 >= iAnimFrame)
 	{
-		m_iSoundCnt = 1;
-	}*/
+		m_iSoundCnt = 0;
+	}
 
 	_uint iIdentity = static_cast<CPlayer_Controller_GN*>(m_pController)->Is_GN_Identity();
 

@@ -29,6 +29,12 @@ private:
 	_int	m_iEsther = 0;
 	_bool	m_bEstherActive = false;
 
+
+	_bool	m_EffectSound = false;
+	_bool   m_EffectSound1 = false;
+	_bool   m_EffectSound2 = false;
+
+
 public:
 	static CState_WDR_Esther_Way* Create(wstring strStateName, class CStateMachine* pMachine, class CPlayer_Controller* pController, class CPlayer_Destroyer* pOwner);
 	virtual void Free() override;

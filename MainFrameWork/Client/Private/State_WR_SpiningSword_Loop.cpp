@@ -28,12 +28,16 @@ HRESULT CState_WR_SpiningSword_Loop::Initialize()
 	m_SkillFrames.push_back(11);
 	m_SkillFrames.push_back(-1);
 
+	m_SoundFrames.push_back(SOUNDDESC(3, TEXT("Effect"), TEXT("WR_Spin_100.wav")));
+	m_SoundFrames.push_back(SOUNDDESC());
+
 	return S_OK;
 }
 
 void CState_WR_SpiningSword_Loop::Enter_State()
 {
 	m_iSkillCnt = 0;
+	m_iSoundCnt = 0;
 
 	for (_int i = 0; i < 2; ++i)
 	{
@@ -56,6 +60,11 @@ void CState_WR_SpiningSword_Loop::Tick_State(_float fTimeDelta)
 
 void CState_WR_SpiningSword_Loop::Exit_State()
 {
+	if (true == m_pPlayer->Is_CancelState())
+	{
+		StopStateSound();
+	}
+
 	if (true == m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor())
 		m_pPlayer->Set_SuperArmorState(false);
 }
@@ -70,7 +79,57 @@ void CState_WR_SpiningSword_Loop::Tick_State_Control(_float fTimeDelta)
 		m_pController->Get_SkillAttackMessage(m_eSkillSelectKey);
 	}
 
+<<<<<<< HEAD
 	Effect_SpinningSword_Loop();
+=======
+	if (-1 != m_SoundFrames[m_iSoundCnt].iFrame && m_SoundFrames[m_iSoundCnt].iFrame <= (_int)iAnimFrame)
+	{
+		if (false == m_SoundFrames[m_iSoundCnt].bAddChannel)
+		{
+			CSound_Manager::GetInstance()->PlaySoundFile(m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume);
+		}
+		else
+		{
+			CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume, true);
+		}
+
+		m_iSoundCnt++;
+	}
+
+	if (false == m_bEffectStart[0])
+	{
+		CEffect_Manager::EFFECTPIVOTDESC tDesc;
+		Matrix& matPivot = m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
+		tDesc.pPivotMatrix = &matPivot;
+
+		vector<CEffect*> Effects;
+
+		EFFECT_START_OUTLIST(L"Slayer_SpinningSword_Trail", &tDesc, Effects);
+
+		CEffect* pEffect[2] = { Effects[0], Effects[1] };
+
+		m_pPlayer->Add_Effect(L"SpinningSword_Trail_Slash", pEffect[0]);
+		m_pPlayer->Add_Effect(L"SpinningSword_Trail_Wind", pEffect[1]);
+
+		pEffect[0]->CB_UpdatePivot += bind(&CPlayer::Load_WorldMatrix, m_pPlayer, placeholders::_1);
+		pEffect[0]->Set_Trace(true);
+		
+		pEffect[1]->CB_UpdatePivot += bind(&CPlayer::Load_WorldMatrix, m_pPlayer, placeholders::_1);
+		pEffect[1]->Set_Trace(true);
+
+		m_bEffectStart[0] = true;
+	}
+
+	if (false == m_bEffectStart[1] && 11 <= iAnimFrame)
+	{
+		CEffect_Manager::EFFECTPIVOTDESC tDesc;
+		Matrix& matPivot = m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
+		tDesc.pPivotMatrix = &matPivot;
+		EFFECT_START(TEXT("Slayer_SpinningSword_Smoke"), &tDesc)
+
+		m_bEffectStart[1] = true;
+	}
+>>>>>>> origin/feature/Jongmin
 
 	if (25 <= iAnimFrame)
 		m_pPlayer->Set_State(TEXT("Skill_WR_SpiningSword_End"));

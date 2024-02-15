@@ -118,6 +118,14 @@ void CEsther_Way_Dochul::Act1(_float fTimeDelta)
 	m_fRimLightTime = 10.f;
 
 	m_bActive = true;
+
+	if (false == m_bSound1)
+	{
+		CSound_Manager::GetInstance()->PlaySoundFile(TEXT("Effect"), TEXT("WWISEDEFAULTBANK_PC_COMMON_ESTHER#106 (789673941).wav"), 0.7f);
+		CSound_Manager::GetInstance()->PlaySoundFile(TEXT("Effect"), TEXT("WWISEDEFAULTBANK_PC_COMMON_ESTHER#111 (102595246).wav"), 0.7f);
+		m_bSound1 = true;
+	}
+
 }
 
 void CEsther_Way_Dochul::Act2(_float fTimeDelta)
@@ -131,6 +139,13 @@ void CEsther_Way_Dochul::Act2(_float fTimeDelta)
 	m_fRimLightTime = 10.f;
 
 	m_bActive = true;
+
+	if (false == m_bSound2)
+	{
+		CSound_Manager::GetInstance()->PlaySoundFile(TEXT("Effect"), TEXT("WWISEDEFAULTBANK_PC_COMMON_ESTHER#107 (711806667).wav"), 0.7f);
+		CSound_Manager::GetInstance()->PlaySoundFile(TEXT("Effect"), TEXT("WWISEDEFAULTBANK_PC_COMMON_ESTHER#110 (135330951).wav"), 0.7f);
+		m_bSound2 = true;
+	}
 }
 
 void CEsther_Way_Dochul::Act3(_float fTimeDelta)
@@ -144,6 +159,13 @@ void CEsther_Way_Dochul::Act3(_float fTimeDelta)
 	m_fRimLightTime = 10.f;
 
 	m_bActive = true;
+
+	if (false == m_bSound3)
+	{
+		CSound_Manager::GetInstance()->PlaySoundFile(TEXT("Effect"), TEXT("WWISEDEFAULTBANK_PC_COMMON_ESTHER#108 (369784180).wav"), 0.7f);
+		CSound_Manager::GetInstance()->PlaySoundFile(TEXT("Effect"), TEXT("WWISEDEFAULTBANK_PC_COMMON_ESTHER#112 (459067200).wav"), 0.7f);
+		m_bSound3 = true;
+	}
 }
 
 void CEsther_Way_Dochul::Check_Finish()

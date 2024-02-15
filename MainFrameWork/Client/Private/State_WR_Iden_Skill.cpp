@@ -31,6 +31,14 @@ HRESULT CState_WR_Iden_Skill::Initialize()
 	m_AttackFrames.push_back(66);
 	m_AttackFrames.push_back(-1);
 
+	m_SoundFrames.push_back(SOUNDDESC(5, TEXT("Effect"), TEXT("WR_Blood_22.wav")));
+	m_SoundFrames.push_back(SOUNDDESC(18, TEXT("Effect"), TEXT("WR_Maa_402.wav")));
+	m_SoundFrames.push_back(SOUNDDESC(20, TEXT("Effect"), TEXT("WR_Blood_24.wav")));
+	m_SoundFrames.push_back(SOUNDDESC(44, TEXT("Effect"), TEXT("WR_Blood_25.wav")));
+	m_SoundFrames.push_back(SOUNDDESC(64, TEXT("Effect"), TEXT("WR_Cha_406.wav")));
+	m_SoundFrames.push_back(SOUNDDESC(90, TEXT("Effect"), TEXT("WR_Blood_27.wav")));
+	m_SoundFrames.push_back(SOUNDDESC());
+
 	return S_OK;
 }
 
@@ -38,11 +46,14 @@ void CState_WR_Iden_Skill::Enter_State()
 {
 	m_bTrail = false;
 	m_iAttackCnt = 0;
+	m_iSoundCnt = 0;
 
 	m_pPlayer->Reserve_Animation(m_iIdentity_Skill, 0.2f, 0, 0, 1.f);
 
 	m_pController->Get_StopMessage();
 	m_pController->Get_LerpDirLookMessage(m_pPlayer->Get_TargetPos());
+
+	m_pPlayer->Set_SuperArmorState(true);
 
 	static_cast<CController_WR*>(m_pController)->Get_WR_IdenSkillMessage(10.f);
 
@@ -59,6 +70,11 @@ void CState_WR_Iden_Skill::Tick_State(_float fTimeDelta)
 
 void CState_WR_Iden_Skill::Exit_State()
 {
+	if (true == m_pPlayer->Is_CancelState())
+	{
+		StopStateSound();
+	}
+	m_pPlayer->Set_SuperArmorState(false);
 }
 
 void CState_WR_Iden_Skill::Tick_State_Control(_float fTimeDelta)
@@ -97,7 +113,21 @@ void CState_WR_Iden_Skill::Effect_BloodyRust_Slash()
 		TRAIL_START(TEXT("Slayer_BloodyRust_Trail"), func)
 	}
 
-	if (false == m_EffectStart[m_iAttackCnt] && m_AttackFrames[m_iAttackCnt] - 2 <= iAnimFrame)
+	if (-1 != m_SoundFrames[m_iSoundCnt].iFrame && m_SoundFrames[m_iSoundCnt].iFrame <= (_int)iCurrFrame)
+	{
+		if (false == m_SoundFrames[m_iSoundCnt].bAddChannel)
+		{
+			CSound_Manager::GetInstance()->PlaySoundFile(m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume);
+		}
+		else
+		{
+			CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume, true);
+		}
+
+		m_iSoundCnt++;
+	}
+
+	if (false == m_EffectStart[m_iAttackCnt] && m_AttackFrames[m_iAttackCnt] - 2 <= iCurrFrame)
 	{
 		CEffect_Manager::EFFECTPIVOTDESC desc;
 		desc.pPivotMatrix = &m_pPlayer->Get_TransformCom()->Get_WorldMatrix();

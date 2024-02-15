@@ -27,12 +27,18 @@ HRESULT CState_WR_FuriousClaw_End::Initialize()
 	m_SkillFrames.push_back(3);
 	m_SkillFrames.push_back(-1);
 
+	m_SoundFrames.push_back(SOUNDDESC(0, TEXT("Effect"), TEXT("WR_Ta_358.wav")));
+	m_SoundFrames.push_back(SOUNDDESC(1, TEXT("Effect"), TEXT("WR_Furi_126.wav"), 0.4f));
+	m_SoundFrames.push_back(SOUNDDESC(1, TEXT("Effect"), TEXT("WR_Furi_129.wav")));
+	m_SoundFrames.push_back(SOUNDDESC());
+
 	return S_OK;
 }
 
 void CState_WR_FuriousClaw_End::Enter_State()
 {
 	m_iSkillCnt = 0;
+	m_iSoundCnt = 0;
 
 	m_pPlayer->Reserve_Animation(m_iFuriousClaw_End, 0.1f, 0, 0);
 	if (true == static_cast<CController_WR*>(m_pController)->Is_In_Identity())
@@ -59,11 +65,63 @@ void CState_WR_FuriousClaw_End::Exit_State()
 
 	for (auto& pTrail : m_Trails)
 		static_cast<CEffect_Trail*>(pTrail)->TrailEnd(1.f);
+
+	if (true == m_pPlayer->Is_CancelState())
+	{
+		StopStateSound();
+	}
 }
 
 void CState_WR_FuriousClaw_End::Tick_State_Control(_float fTimeDelta)
 {
+
 	Effect_FuriousClaw_End();
+
+	_int iCurrFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iFuriousClaw_End);
+
+	if (-1 != m_SoundFrames[m_iSoundCnt].iFrame && m_SoundFrames[m_iSoundCnt].iFrame <= iCurrFrame)
+	{
+		if (false == m_SoundFrames[m_iSoundCnt].bAddChannel)
+		{
+			CSound_Manager::GetInstance()->PlaySoundFile(m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume);
+		}
+		else
+		{
+			CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume, true);
+		}
+
+		m_iSoundCnt++;
+	}
+
+	if (!m_bEffectStart && -1 != m_SkillFrames[m_iSkillCnt] && m_SkillFrames[m_iSkillCnt] <= iCurrFrame)
+	{
+		CEffect_Manager::EFFECTPIVOTDESC desc;
+		desc.pPivotMatrix = &m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
+
+		if (static_cast<CController_WR*>(m_pController)->Is_In_Identity())
+		{
+			if (!m_bTrail)
+			{
+				m_bTrail = true;
+
+				auto func = bind(&CPartObject::Load_Part_WorldMatrix, static_cast<CPartObject*>(m_pPlayer->Get_Parts(CPartObject::PARTS::WEAPON_1)), placeholders::_1);
+				TRAIL_START_OUTLIST(TEXT("Slayer_Rage_FuriousClaw_Trail"), func, m_Trail)
+			}
+
+			EFFECT_START(TEXT("Slayer_Rage_FuriousClaw3"), &desc)
+			EFFECT_START(TEXT("Slayer_Rage_FuriousClaw4"), &desc)
+		}
+		else
+		{
+			EFFECT_START(TEXT("Slayer_FuriousClaw3"), &desc)
+			EFFECT_START(TEXT("Slayer_FuriousClaw4"), &desc)
+		}
+
+		m_bEffectStart = true;
+
+		m_iSkillCnt++;
+		m_pController->Get_SkillAttackMessage(m_eSkillSelectKey);
+	}
 
 	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iFuriousClaw_End))
 		m_pPlayer->Set_State(TEXT("Idle"));

@@ -53,6 +53,7 @@ void CState_SP_Esther_Way::Exit_State()
 	m_pPlayer->Set_SuperiorArmorState(false);
 
 	m_pPlayer->Set_Several_Weapon_RenderState(CPartObject::PARTS::WEAPON_1, true);
+
 }
 
 void CState_SP_Esther_Way::Tick_State_Control(_float fTimeDelta)

@@ -739,15 +739,6 @@
     <Filter Include="02.GameObjects\Boss\Valtan\Skill">
       <UniqueIdentifier>{92545b1e-cf03-4e1d-9d88-887eb4ad7790}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Skill">
-      <UniqueIdentifier>{8d10cc98-e544-40a6-8131-c2be45aec2d1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Skill\Skill_RisingSun">
-      <UniqueIdentifier>{1591f76a-4ba6-4f84-884e-6b533c5da3e3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Skill\Skill_TeleportDoor">
-      <UniqueIdentifier>{2d2cab2b-bc34-459b-9531-6d91e1952e2c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\Effect">
       <UniqueIdentifier>{3ca42504-5a75-4395-9d26-b9b3c54b6523}</UniqueIdentifier>
     </Filter>
@@ -1941,6 +1932,15 @@
     </Filter>
     <Filter Include="02.GameObjects\UI\20.Esther_Gauge">
       <UniqueIdentifier>{2e51cbc3-7eaf-41fc-a5c7-b743285bb551}</UniqueIdentifier>
+	</Filter>
+    <Filter Include="02.GameObjects\Skill">
+      <UniqueIdentifier>{8d10cc98-e544-40a6-8131-c2be45aec2d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Skill\Skill_RisingSun">
+      <UniqueIdentifier>{1591f76a-4ba6-4f84-884e-6b533c5da3e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Skill\Skill_TeleportDoor">
+      <UniqueIdentifier>{2d2cab2b-bc34-459b-9531-6d91e1952e2c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

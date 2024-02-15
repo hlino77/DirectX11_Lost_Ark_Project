@@ -40,14 +40,6 @@ void CState_SP_Identity_Moon_End::Enter_State()
 	m_EffectSound = false;
 	m_PlayerSound = false;
 
-
-	if (m_pPlayer->Is_Control())
-	{
-		CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume);
-
-	}
-
-
 	m_iAttackCnt = 0;
 
 	m_pPlayer->Reserve_Animation(m_iIdentity_Moon_End, 0.1f, 0, 0);
@@ -75,6 +67,17 @@ void CState_SP_Identity_Moon_End::Exit_State()
 void CState_SP_Identity_Moon_End::Tick_State_Control(_float fTimeDelta)
 {
 	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iIdentity_Moon_End);
+
+
+	if (-1 != m_SoundFrames[m_iSoundCnt].iFrame && m_SoundFrames[m_iSoundCnt].iFrame <= (_int)iAnimFrame)
+	{
+		if (false == m_EffectSound)
+		{
+			CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume);
+			m_EffectSound = true;
+		}
+	}
+
 
 	if (m_AttackFrames[m_iAttackCnt] != -1 && m_AttackFrames[m_iAttackCnt] <= iAnimFrame)
 	{

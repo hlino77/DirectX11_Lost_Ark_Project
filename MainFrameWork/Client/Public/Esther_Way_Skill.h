@@ -53,6 +53,8 @@ private:
 
 	_bool					m_bEffectStart[6] = { false, false, false, false, false, false };
 
+	_bool					m_bSound = false;
+
 public:
 	static CEsther_Way_Skill* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg);

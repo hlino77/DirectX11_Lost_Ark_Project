@@ -138,6 +138,7 @@ void CEsther_Bahuntur_Skill::Ready()
 	m_fAnimationSpeed = 0.f;
 	Reserve_Animation(m_iAnimIndex, 0.1f, 10, 0);
 
+
 	for (_int i = 0; i < 3; ++i)
 		m_bEffectStart[i] = false;
 
@@ -145,16 +146,34 @@ void CEsther_Bahuntur_Skill::Ready()
 	m_bCutStart = false;
 	m_bProjStart = false;
 	m_IsFinished = false;
+
+	m_bSound = false;
+	m_bSound1 = false;
+	m_bSound2 = false;
+	m_bSound3 = false;
 }
 
 void CEsther_Bahuntur_Skill::Cut_Start(_float fTimeDelta)
 {
+	if (false == m_bSound)
+	{
+		CSound_Manager::GetInstance()->PlaySoundFile(TEXT("Effect"), TEXT("WWISEDEFAULTBANK_PC_COMMON_ESTHER#75 (247165555).wav"), 0.7f);
+		m_bSound = true;
+	}
+
 	if (25 <= m_pModelCom->Get_Anim_Frame(m_iAnimIndex) && false == m_bCutStart)
 	{
 		Add_Sound(L"Effect", L"WWISEDEFAULTBANK_PC_COMMON_ESTHER [133]");
 		m_pOwnerEsther->Get_Esther_Scene()->Play_Frame();
 		m_bCutStart = true;
+
+		if (false == m_bSound1)
+		{
+			CSound_Manager::GetInstance()->PlaySoundFile(TEXT("Effect"), TEXT("WWISEDEFAULTBANK_PC_COMMON_ESTHER#74 (977445373).wav"), 0.7f);
+			m_bSound1 = true;
+		}
 	}
+
 }
 
 
@@ -166,22 +185,46 @@ void CEsther_Bahuntur_Skill::Act1(_float fTimeDelta)
 		if (false == m_bAnim)
 			m_fAnimationSpeed = 1.f;
 
+	
+
 		m_bAnim = true;
 	}
 }
 
 void CEsther_Bahuntur_Skill::Act2(_float fTimeDelta)
 {
+
 	if (30 <= m_pModelCom->Get_Anim_Frame(m_iAnimIndex)
 		&& 35 > m_pModelCom->Get_Anim_Frame(m_iAnimIndex))
 	{
 		m_pSkillCeiling->Call_Act1(fTimeDelta);
+
 	}
+
+	if (50 <= m_pModelCom->Get_Anim_Frame(m_iAnimIndex))
+	{
+		if (false == m_bSound2)
+		{
+			CSound_Manager::GetInstance()->PlaySoundFile(TEXT("Effect"), TEXT("WWISEDEFAULTBANK_PC_COMMON_ESTHER#11 (307790669).wav"), 0.7f);
+			m_bSound2 = true;
+		}
+	}
+
+	if (70 <= m_pModelCom->Get_Anim_Frame(m_iAnimIndex))
+	{
+		if (false == m_bSound3)
+		{
+			CSound_Manager::GetInstance()->PlaySoundFile(TEXT("Effect"), TEXT("WWISEDEFAULTBANK_PC_COMMON_ESTHER#12 (364428403).wav"), 0.7f);
+				m_bSound3 = true;
+		}
+	}
+
 	if (73 <= m_pModelCom->Get_Anim_Frame(m_iAnimIndex) 
 		&& 78 > m_pModelCom->Get_Anim_Frame(m_iAnimIndex))
 	{
 		m_pSkillCeiling->Call_Act2(fTimeDelta);
 	}
+
 }
 
 void CEsther_Bahuntur_Skill::Act3(_float fTimeDelta)
@@ -202,6 +245,7 @@ void CEsther_Bahuntur_Skill::Act3(_float fTimeDelta)
 			pSkill->InitProjectile(&m_vecSkillProjDesces[1]);
 		}
 
+
 		m_bProjStart = true;
 	}
 }
@@ -212,6 +256,7 @@ void CEsther_Bahuntur_Skill::Act4(_float fTimeDelta)
 	{
 		m_pSkillCeiling->Call_Act3(fTimeDelta);
 		m_pSkillFloor->Call_Act1(fTimeDelta);
+
 
 		m_bEndStart = true;
 	}

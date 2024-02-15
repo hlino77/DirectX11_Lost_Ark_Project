@@ -23,7 +23,7 @@ public:
 	HRESULT PlaySoundFile(const wstring& szChannelGroup, const wstring& strSoundKey, _float fVolume, FMOD_CHANNEL** pChannel = nullptr);
 	HRESULT PlayBGM(const wstring& szChannelGroup, const wstring& strSoundKey, _float fVolume, FMOD_CHANNEL** pChannel = nullptr);
 
-	HRESULT PlaySoundFile_AddChannel(const wstring & szChannelTag, const wstring & szChannelGroup, const wstring & strSoundKey, _float fVolume);
+	HRESULT PlaySoundFile_AddChannel(const wstring & szChannelTag, const wstring & szChannelGroup, const wstring & strSoundKey, _float fVolume, _bool bStop = false);
 	HRESULT PlayBGM_AddChannel(const wstring & szChannelTag, const wstring & szChannelGroup, const wstring & strSoundKey, _float fVolume);
 
 	void	Set_ChannelGroupVolume(const wstring& szChannelGroup, _float fVolume);
@@ -42,6 +42,7 @@ public:
 	_bool	Is_Channel_Playing(FMOD_CHANNEL* pChannel);
 
 	void	Add_Channel(const wstring & szChannelTag, FMOD_CHANNEL* pChannel);
+	void	NoneStop_Add_Channel(const wstring & szChannelTag, FMOD_CHANNEL * pChannel);
 
 	void	Pause_Channel(const wstring & szChannelTag);
 	void	Pause_Channel(FMOD_CHANNEL * pChannel);

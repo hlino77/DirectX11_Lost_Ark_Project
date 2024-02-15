@@ -28,11 +28,16 @@ HRESULT CState_WR_Hit_Common::Initialize()
 	else
 		m_TickFunc = &CState_WR_Hit_Common::Tick_State_NoneControl;
 
+	m_SoundFrames.push_back(SOUNDDESC(0, TEXT("Effect"), TEXT("WR_Hit_400.wav")));
+	m_SoundFrames.push_back(SOUNDDESC());
+
 	return S_OK;
 }
 
 void CState_WR_Hit_Common::Enter_State()
 {
+	m_iSoundCnt = 0;
+
 	m_fForceDist = m_pPlayer->Get_TargetPos().y * 1.5f;
 	Vec3 vHitCenter = m_pPlayer->Get_TargetPos();
 	vHitCenter.y = 0.0f;
@@ -79,6 +84,22 @@ void CState_WR_Hit_Common::Exit_State()
 
 void CState_WR_Hit_Common::Tick_State_Control(_float fTimeDelta)
 {
+	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iHit_Dmg);
+
+	if (-1 != m_SoundFrames[m_iSoundCnt].iFrame && m_SoundFrames[m_iSoundCnt].iFrame <= (_int)iAnimFrame)
+	{
+		if (false == m_SoundFrames[m_iSoundCnt].bAddChannel)
+		{
+			CSound_Manager::GetInstance()->PlaySoundFile(m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume);
+		}
+		else
+		{
+			CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume, true);
+		}
+
+		m_iSoundCnt++;
+	}
+
 	if (false == CNavigationMgr::GetInstance()->Is_NeighborActive(m_pPlayer->Get_CurrLevel(), m_pPlayer) &&
 		2 <= m_pPlayer->Get_ValtanPhase())
 	{

@@ -36,6 +36,9 @@ private:
 	_bool m_IsAttackContinue = false;
 	_bool m_IsSkillContinue = false;
 
+	_bool m_EffectSound = false;
+	_bool m_PlayerSound = false;
+
 public:
 	static CState_WDR_Iden_Attack_1* Create(wstring strStateName, class CStateMachine* pMachine, class CPlayer_Controller* pController, class CPlayer_Destroyer* pOwner);
 	virtual void Free() override;

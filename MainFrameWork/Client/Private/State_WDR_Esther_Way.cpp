@@ -25,11 +25,13 @@ HRESULT CState_WDR_Esther_Way::Initialize()
 	else
 		m_TickFunc = &CState_WDR_Esther_Way::Tick_State_NoneControl;
 
+
 	return S_OK;
 }
 
 void CState_WDR_Esther_Way::Enter_State()
 {
+
 	m_bEstherActive = false;
 
 	m_pPlayer->Reserve_Animation(m_iEsther, 0.1f, 0, 0);
@@ -53,6 +55,8 @@ void CState_WDR_Esther_Way::Exit_State()
 	m_pPlayer->Set_SuperiorArmorState(false);
 
 	m_pPlayer->Set_Several_Weapon_RenderState(CPartObject::PARTS::WEAPON_1, true);
+
+
 }
 
 void CState_WDR_Esther_Way::Tick_State_Control(_float fTimeDelta)

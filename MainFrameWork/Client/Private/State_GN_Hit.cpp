@@ -36,11 +36,26 @@ HRESULT CState_GN_Hit::Initialize()
 	else
 		m_TickFunc = &CState_GN_Hit::Tick_State_NoneControl;
 
+	m_SoundFrames.push_back(SOUNDDESC(0, TEXT("Effect"), TEXT("GN_Hit_696.wav")));
+	m_SoundFrames.push_back(SOUNDDESC());
+
 	return S_OK;
 }
 
 void CState_GN_Hit::Enter_State()
 {
+	m_iSoundCnt = 0;
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+	if (true == pGameInstance->Random_Coin(0.5f))
+	{
+		m_SoundFrames.front().strName = TEXT("GN_Hit_696.wav");
+	}
+	else
+	{
+		m_SoundFrames.front().strName = TEXT("GN_Hit_697.wav");
+	}
+	RELEASE_INSTANCE(CGameInstance);
+
 	m_pController->Get_StopMessage();
 
 	m_vHitCenter = m_pPlayer->Get_TargetPos();
@@ -119,6 +134,22 @@ void CState_GN_Hit::Exit_State()
 
 void CState_GN_Hit::Tick_State_Control(_float fTimeDelta)
 {
+	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iHit);
+
+	if (-1 != m_SoundFrames[m_iSoundCnt].iFrame && m_SoundFrames[m_iSoundCnt].iFrame <= (_int)iAnimFrame)
+	{
+		if (false == m_SoundFrames[m_iSoundCnt].bAddChannel)
+		{
+			CSound_Manager::GetInstance()->PlaySoundFile(m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume);
+		}
+		else
+		{
+			CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume, true);
+		}
+
+		m_iSoundCnt++;
+	}
+
 	if (false == CNavigationMgr::GetInstance()->Is_NeighborActive(m_pPlayer->Get_CurrLevel(), m_pPlayer) &&
 		2 <= m_pPlayer->Get_ValtanPhase())
 	{

@@ -27,12 +27,17 @@ HRESULT CState_WR_FlashBalde::Initialize()
 	m_SkillFrames.push_back(8);
 	m_SkillFrames.push_back(-1);
 
+	m_SoundFrames.push_back(SOUNDDESC(5, TEXT("Effect"), TEXT("WR_Flash_20.wav")));
+	m_SoundFrames.push_back(SOUNDDESC());
+
 	return S_OK;
 }
 
 void CState_WR_FlashBalde::Enter_State()
 {
 	m_iSkillCnt = 0;
+	m_iSoundCnt = 0;
+
 	m_bTrailStart = false;
 	m_bEffectStart = false;
 
@@ -62,11 +67,30 @@ void CState_WR_FlashBalde::Exit_State()
 		static_cast<CEffect_Trail*>(m_Trail[i])->TrailEnd(1.f);
 
 	m_Trail.clear();
+
+	if (true == m_pPlayer->Is_CancelState())
+	{
+		StopStateSound();
+	}
 }
 
 void CState_WR_FlashBalde::Tick_State_Control(_float fTimeDelta)
 {
 	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iFlashBlade);
+
+	if (-1 != m_SoundFrames[m_iSoundCnt].iFrame && m_SoundFrames[m_iSoundCnt].iFrame <= (_int)iAnimFrame)
+	{
+		if (false == m_SoundFrames[m_iSoundCnt].bAddChannel)
+		{
+			CSound_Manager::GetInstance()->PlaySoundFile(m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume);
+		}
+		else
+		{
+			CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume, true);
+		}
+
+		m_iSoundCnt++;
+	}
 
 	if (-1 != m_SkillFrames[m_iSkillCnt] && m_SkillFrames[m_iSkillCnt] <= iAnimFrame)
 	{
