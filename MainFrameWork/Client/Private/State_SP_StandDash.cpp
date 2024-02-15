@@ -22,11 +22,24 @@ HRESULT CState_SP_StandDash::Initialize()
 		m_TickFunc = &CState_SP_StandDash::Tick_State_NoneControl;
 
 
+	m_SoundFrames.push_back(SOUNDDESC(0, TEXT("Effect"), TEXT("SP_142.wav"))); // Skill
+	m_SoundFrames.push_back(SOUNDDESC(0, TEXT("Effect"), TEXT("SP_312.wav"))); // Player
+	m_SoundFrames.push_back(SOUNDDESC());
+
 	return S_OK;
 }
 
 void CState_SP_StandDash::Enter_State()
 {
+
+	if (m_pPlayer->Is_Control())
+	{
+		CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume);
+		CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt + 1].strName, m_SoundFrames[m_iSoundCnt + 1].strGroup, m_SoundFrames[m_iSoundCnt + 1].strName, m_SoundFrames[m_iSoundCnt + 1].fVolume);
+
+	}
+
+
 	m_pPlayer->Reserve_Animation(m_iStandDash, 0.1f, 0, 0, 1.2f);
 
 	m_pController->Get_StopMessage();

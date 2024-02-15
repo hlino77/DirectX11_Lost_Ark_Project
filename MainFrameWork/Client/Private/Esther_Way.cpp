@@ -53,6 +53,8 @@ HRESULT CEsther_Way::Initialize(void* pArg)
 void CEsther_Way::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
+
+
 }
 
 void CEsther_Way::LateTick(_float fTimeDelta)

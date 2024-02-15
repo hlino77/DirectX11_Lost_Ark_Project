@@ -56,6 +56,11 @@ private:
 	_float					m_fAnimTime = { 1.5f };
 	_bool					m_bEffectStart[3] = { false, false, false };
 
+	_bool					m_bSound = false;
+	_bool					m_bSound1 = false;
+	_bool					m_bSound2 = false;
+	_bool					m_bSound3 = false;
+
 public:
 	static CEsther_Bahuntur_Skill* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg);

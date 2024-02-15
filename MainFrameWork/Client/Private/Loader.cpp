@@ -2445,6 +2445,22 @@ HRESULT CLoader::Loading_For_Level_ValtanMain()
 
 #pragma region Itr_02308_Cell	
 
+
+	//{
+	//	wstring strFileName = L"Itr_02308_Cell_008";
+	//	wstring strFilePath = L"../Bin/Resources/Meshes/";
+	//	wstring strComponentName = L"Prototype_Component_Model_" + strFileName;
+
+	//	if (SUCCEEDED(pGameInstance->Check_Prototype(LEVEL_VALTANMAIN, strComponentName)))
+	//	{
+	//		if (FAILED(pGameInstance->Add_Prototype(LEVEL_VALTANMAIN, strComponentName,
+	//			CModel::Create(m_pDevice, m_pContext, strFilePath, strFileName, true, true, BreakObjectPivotMatrix))))
+	//			return E_FAIL;
+	//		pUIManager->Add_CurrFile();
+	//	}
+	//}
+
+
 	{
 		wstring strFileName = L"Itr_02308_Cell_009";
 		wstring strFilePath = L"../Bin/Resources/Meshes/";
