@@ -6,6 +6,10 @@
 #include "GameInstance.h"
 #include <Skill.h>
 #include "ColliderSphere.h"
+#include "Effect_Manager.h"
+#include "Player.h"
+#include "Camera_Player.h"
+#include "ServerSessionManager.h"
 #include <Player.h>
 
 CValtan_BT_Attack_Imprisonment::CValtan_BT_Attack_Imprisonment()
@@ -78,14 +82,26 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Imprisonment::OnUpdate(const _float& fTime
 					static_cast<CSkill*>(pSkill)->Set_BlinkTime(1.5f);
 					static_cast<CSkill*>(pSkill)->Set_Atk(300);
 					static_cast<CSkill*>(pSkill)->Set_Force(32.f);
+
 					static_cast<CSkill*>(pSkill)->Set_SoundTag(L"Valtan#174 (382422605).wav");
+
+					CEffect_Manager::EFFECTPIVOTDESC tDesc;
+					Matrix matPivot = Matrix::Identity;
+					matPivot.Translation(pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_POSITION));
+					tDesc.pPivotMatrix = &matPivot;
+					EFFECT_START(L"VT_Imprisonment_PlayerPrisonExplosion", &tDesc);
+
 				}
 				pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_BODY_MONSTER)->SetActive(false);
 
 			}
 		}
 	}
+
 	Add_Sound_Channel(0, 0, L"Effect", L"Valtan#168 (479550205)");
+
+	Update_Effect();
+
 
 	return __super::OnUpdate(fTimeDelta);
 }
@@ -96,7 +112,39 @@ void CValtan_BT_Attack_Imprisonment::OnEnd()
 	static_cast<CBoss_Valtan*>(m_pGameObject)->Reserve_WeaponAnimation(L"att_battle_8_01_loop", 0.2f, 0, 0, 1.15f);
 }
 
+void CValtan_BT_Attack_Imprisonment::On_FirstAnimStart()
+{
+	__super::On_FirstAnimStart();
 
+	for(_int i = 0; i < 2; ++i)
+		m_bEffectStart[i] = false;
+}
+
+void CValtan_BT_Attack_Imprisonment::Update_Effect()
+{
+	_uint iAnimFrame0 = m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[1].iAnimIndex);
+	_uint iAnimFrame1 = m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[2].iAnimIndex);
+
+	if (false == m_bEffectStart[0] && m_vecAnimDesc[1].iAnimIndex == m_pGameObject->Get_ModelCom()->Get_CurrAnim())
+	{
+		CEffect_Manager::EFFECTPIVOTDESC tDesc;
+		tDesc.pPivotMatrix = &m_pGameObject->Get_TransformCom()->Get_WorldMatrix();
+		EFFECT_START(L"VT_Imprisonment_Charge", &tDesc);
+
+		m_bEffectStart[0] = true;
+	}
+	
+	if (false == m_bEffectStart[1] && 24 <= iAnimFrame1 && m_vecAnimDesc[2].iAnimIndex == m_pGameObject->Get_ModelCom()->Get_CurrAnim())
+	{
+		CEffect_Manager::EFFECTPIVOTDESC tDesc;
+		tDesc.pPivotMatrix = &m_pGameObject->Get_TransformCom()->Get_WorldMatrix();
+		EFFECT_START(L"VT_Imprisonment_Explosion", &tDesc);
+
+		CServerSessionManager::GetInstance()->Get_Player()->Get_Camera()->Set_RadialBlur(0.08f, tDesc.pPivotMatrix->Translation(), 0.1f, 0.08f);
+
+		m_bEffectStart[1] = true;
+	}
+}
 
 CValtan_BT_Attack_Imprisonment* CValtan_BT_Attack_Imprisonment::Create(void* pArg)
 {

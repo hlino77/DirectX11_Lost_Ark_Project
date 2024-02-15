@@ -24,6 +24,8 @@ public:
 	HRESULT	Copy_SRV(const wstring& strTargetTag, ID3D11ShaderResourceView** pSRV);
 	HRESULT Clear_RenderTarget(const wstring& strTargetTag);
 
+	class CRenderTarget* Find_RenderTarget(const wstring& strTargetTag);
+
 	//Release
 	HRESULT Delete_RenderTarget(const wstring & strTargetTag);
 	HRESULT Delete_MRT(const wstring & strMRTTag);
@@ -52,7 +54,6 @@ private:
 	ID3D11DepthStencilView*					m_pDSV = { nullptr };
 
 private:
-	class CRenderTarget* Find_RenderTarget(const wstring& strTargetTag);
 	vector<CRenderTarget*>* Find_MRT(const wstring & strMRTTag);
 
 public:

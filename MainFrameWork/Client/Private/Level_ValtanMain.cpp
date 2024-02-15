@@ -36,6 +36,7 @@
 #include <filesystem>
 #include "Party.h"
 #include "Sound_Manager.h"
+#include "Effect_Manager.h"
 #include "SkyFloor.h"
 
 
@@ -224,6 +225,13 @@ HRESULT CLevel_ValtanMain::Ready_Layer_SkyBox(const LAYER_TYPE eLayerType)
 		return E_FAIL;
 
 	pSkyDome->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, Vec3(100.f, 0.f, 100.f));
+
+
+	CEffect_Manager::EFFECTPIVOTDESC tDesc;
+	Matrix matPivot = Matrix::Identity;
+	matPivot.Translation(Vec3(100.f, 0.f, 100.f));
+	tDesc.pPivotMatrix = &matPivot;
+	EFFECT_START(L"VT_PhotoZone", &tDesc);
 
 	CSkyFloor::SkyFloorDescription desc;
 
@@ -428,9 +436,7 @@ HRESULT CLevel_ValtanMain::Ready_Layer_Effect(const LAYER_TYPE eLayerType)
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
 
-
 	Safe_Release(pGameInstance);
-
 
 	return S_OK;
 }
@@ -451,7 +457,7 @@ HRESULT CLevel_ValtanMain::Ready_Player_Camera(const LAYER_TYPE eLayerType)
 	CameraDesc.tCameraDesc.vEye = Vec4(0.f, 10.0f, -10.f, 1.f);
 	CameraDesc.tCameraDesc.vAt = Vec4(0.f, 0.f, 0.f, 1.f);
 	CameraDesc.tCameraDesc.fFovy = XMConvertToRadians(60.0f);
-	CameraDesc.tCameraDesc.fAspect = (_float)g_iWinSizeX / g_iWinSizeY;
+	CameraDesc.tCameraDesc.fAspect = (_float)g_iWinSizeX / (_float)g_iWinSizeY;
 	CameraDesc.tCameraDesc.fNear = 0.2f;
 	CameraDesc.tCameraDesc.fFar = 1200.0f;
 

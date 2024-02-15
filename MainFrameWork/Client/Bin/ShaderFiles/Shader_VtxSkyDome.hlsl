@@ -35,6 +35,8 @@ float4 PS_MAIN(VS_OUT_SKY In) : SV_TARGET0
     return pow(g_DiffuseTexture.Sample(LinearSampler, In.vTexcoord), 2.2f);
 }
 
+float3 g_vColorMul = float3(1.f, 1.f, 1.f);
+
 float4 PS_MAIN_FLOOR(VS_OUT_SKY In) : SV_TARGET0
 {
     float2 vTexcoord = In.vTexcoord * vTileCount + vFloorUVoffset;
@@ -47,7 +49,12 @@ float4 PS_MAIN_FLOOR(VS_OUT_SKY In) : SV_TARGET0
     //float3 vColor = pow(vSample.rgb, 2.2f);
     float3 vColor = vSample.rgb;
 	
-    float alpha = clamp(fAlpha * (vSample.a + EPSILON), 0.f, 1.f);
+	vColor *= g_vColorMul;
+    
+	float alpha = clamp(fAlpha * (vSample.a + EPSILON), 0.f, 1.f);
+
+	clip(alpha - 0.05f);
+
     return float4(vColor, alpha);
 }
 
@@ -55,7 +62,7 @@ technique11 DefaultTechnique
 {
 	pass SkyDome
 	{
-        SetRasterizerState(RS_Default);
+        SetRasterizerState(RS_Effect);
 		SetDepthStencilState(DSS_Default, 0);
 		SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 1.f), 0xffffffff);
 

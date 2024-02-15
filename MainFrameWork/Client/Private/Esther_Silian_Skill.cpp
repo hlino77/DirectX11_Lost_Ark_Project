@@ -143,7 +143,7 @@ void CEsther_Silian_Skill::Effect(_float fTimeDelta)
 
 		CCamera_Player* pCamera = CServerSessionManager::GetInstance()->Get_Player()->Get_Camera();
 
-		pCamera->Cam_Shake(0.05f, 80.0f, 0.1f, 5.0f);
+		pCamera->Cam_Shake(0.05f, 100.0f, 0.1f, 5.0f);
 
 		m_bEffectStart[1] = true;
 	}
@@ -152,7 +152,7 @@ void CEsther_Silian_Skill::Effect(_float fTimeDelta)
 	{
 		CCamera_Player* pCamera = CServerSessionManager::GetInstance()->Get_Player()->Get_Camera();
 
-		pCamera->Cam_Shake(0.3f, 100.0f, 0.8f, 5.5f);
+		pCamera->Cam_Shake(0.3f, 110.0f, 0.8f, 5.5f);
 		pCamera->Set_Chromatic(0.2f, Get_TransformCom()->Get_WorldMatrix().Translation(), 0.15f, 0.1f);
 
 		m_bEffectStart[2] = true;

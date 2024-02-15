@@ -57,6 +57,10 @@ HRESULT CSkyDome::Render()
 			return E_FAIL;
 	}
 
+	Vec3 vColorMul = Vec3(1.f, 1.f, 1.f);
+	if (FAILED(m_pShaderCom->Bind_RawValue("g_vColorMul", &vColorMul, sizeof(Vec3))))
+		return E_FAIL;
+
 	if (FAILED(m_pModelCom->Render(m_pShaderCom, 0, "SkyDome")))
 		return E_FAIL;
 

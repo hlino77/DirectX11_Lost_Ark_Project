@@ -275,7 +275,7 @@ void CEsther_Way_Skill::Effect(_float fTimeDelta)
 
 		Vec3 vDochulCenter = m_pSkillMesh->Get_TransformCom()->Get_WorldMatrix().Translation();
 
-		pCamera->Cam_Shake(0.1f, 80.f, 0.2f, 5.0f);
+		pCamera->Cam_Shake(0.1f, 100.f, 0.2f, 5.0f);
 		pCamera->Set_RadialBlur(0.04f, vDochulCenter, 0.15f, 0.08f);
 		pCamera->Set_Chromatic(0.04f, vDochulCenter, 0.15f, 0.08f);
 
