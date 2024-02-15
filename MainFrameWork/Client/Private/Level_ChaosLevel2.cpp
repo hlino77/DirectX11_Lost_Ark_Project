@@ -175,10 +175,10 @@ HRESULT CLevel_ChaosLevel2::Ready_Lights()
 	LightDesc.vSpecular = Vec4(1.f, 1.f, 1.f, 1.f);
 
 
-	CTexture* pStaticShadowMap = CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/LightMap/Light_Chaos2.dds");
+	/*CTexture* pStaticShadowMap = CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/LightMap/Light_Chaos2.dds");
 
 	if (FAILED(pGameInstance->Set_LightShadowTexture(pStaticShadowMap)))
-		return E_FAIL;
+		return E_FAIL;*/
 	if (FAILED(pGameInstance->Add_Light(m_pDevice, m_pContext, LightDesc)))
 		return E_FAIL;
 

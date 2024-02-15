@@ -1371,8 +1371,8 @@ HRESULT CRenderer::Render_Deferred()
 
 	if (FAILED(m_pLight_Manager->Bind_LightDescription(m_pMRTShader)))
 		return E_FAIL;
-	if (FAILED(m_pLight_Manager->Bind_LightShadowTexture(m_pMRTShader)))
-		return E_FAIL;
+	//if (FAILED(m_pLight_Manager->Bind_LightShadowTexture(m_pMRTShader)))
+	//	return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pMRTShader, TEXT("Target_ShadowDepth"), "g_ShadowDepthTarget")))
 		return E_FAIL;
 

@@ -134,30 +134,6 @@ void CGameInstance::Tick(_float fTimeDelta)
 	m_pPhysXMgr->LateTick(fTimeDelta);
 	m_pLevel_Manager->LateTick(fTimeDelta);
 
-	if (KEY_HOLD(KEY::ALT) && KEY_TAP(KEY::UP_ARROW))
-	{
-		if (2 > m_iIBL_Index / 10) m_iIBL_Index += 10;
-		CRenderer::Set_IBLTexture(m_iIBL_Index);
-		cout << "IBL Index : " << m_iIBL_Index << '\n';
-	}
-	else if (KEY_HOLD(KEY::ALT) && KEY_TAP(KEY::DOWN_ARROW))
-	{
-		if (0 < m_iIBL_Index / 10) m_iIBL_Index -= 10;
-		CRenderer::Set_IBLTexture(m_iIBL_Index);
-		cout << "IBL Index : " << m_iIBL_Index << '\n';
-	}
-	if (KEY_HOLD(KEY::ALT) && KEY_TAP(KEY::RIGHT_ARROW))
-	{
-		22 > m_iIBL_Index ? ++m_iIBL_Index : m_iIBL_Index = 22;
-		CRenderer::Set_IBLTexture(m_iIBL_Index);
-		cout << "IBL Index : " << m_iIBL_Index << '\n';
-	}
-	else if (KEY_HOLD(KEY::ALT) && KEY_TAP(KEY::LEFT_ARROW))
-	{
-		0 < m_iIBL_Index ? --m_iIBL_Index : m_iIBL_Index = 0;
-		CRenderer::Set_IBLTexture(m_iIBL_Index);
-		cout << "IBL Index : " << m_iIBL_Index << '\n';
-	}
 }
 
 void CGameInstance::FinalTick(_float fTimeDelta)

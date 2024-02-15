@@ -86,7 +86,7 @@ void CBoss::Tick(_float fTimeDelta)
 	if (m_pWeapon != nullptr)
 		m_pWeapon->Tick(fTimeDelta);
 	{
-		if (KEY_HOLD(KEY::CTRL) && KEY_HOLD(KEY::SHIFT) && KEY_TAP(KEY::Q))
+		/*if (KEY_HOLD(KEY::CTRL) && KEY_HOLD(KEY::SHIFT) && KEY_TAP(KEY::Q))
 			m_bTest = !m_bTest;
 		if (KEY_TAP(KEY::P))
 			cout << Get_Target_Distance() << endl << m_vDoughnutRadii.x << ": " << m_vDoughnutRadii.y << endl;
@@ -97,7 +97,7 @@ void CBoss::Tick(_float fTimeDelta)
 		if (KEY_HOLD(KEY::LEFT_ARROW))
 			m_vDoughnutRadii.y -= fTimeDelta;
 		if (KEY_HOLD(KEY::RIGHT_ARROW))
-			m_vDoughnutRadii.y += fTimeDelta;
+			m_vDoughnutRadii.y += fTimeDelta;*/
 	}
 }
 
