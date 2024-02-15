@@ -233,6 +233,7 @@ void CController_SP::Get_DeadMessage()
 void CController_SP::Get_EshterGageUseMessage()
 {
 	static_cast<CPlayer*>(m_pOwner)->Set_EstherGage(0);
+	static_cast<CPlayer*>(m_pOwner)->Send_EstherGauge();
 }
 
 _uint CController_SP::Is_SP_Identity()
@@ -342,6 +343,7 @@ void CController_SP::Esther_Refill(_float fTimeDelta)
 			iCurGage = iMaxGage;
 		}
 		static_cast<CPlayer*>(m_pOwner)->Set_EstherGage(iCurGage);
+		static_cast<CPlayer*>(m_pOwner)->Send_EstherGauge();
 	}
 }
 

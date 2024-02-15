@@ -253,6 +253,7 @@ void CController_WDR::Esther_Refill(_float fTimeDelta)
 			iCurGage = iMaxGage;
 		}
 		static_cast<CPlayer*>(m_pOwner)->Set_EstherGage(iCurGage);
+		static_cast<CPlayer*>(m_pOwner)->Send_EstherGauge();
 	}
 }
 
@@ -370,6 +371,7 @@ void CController_WDR::Get_DeadMessage()
 void CController_WDR::Get_EshterGageUseMessage()
 {
 	static_cast<CPlayer*>(m_pOwner)->Set_EstherGage(0);
+	static_cast<CPlayer*>(m_pOwner)->Send_EstherGauge();
 }
 
 void CController_WDR::Get_WDR_IdentityMessage()

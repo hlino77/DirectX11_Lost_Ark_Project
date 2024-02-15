@@ -179,6 +179,7 @@ void CValtan_BT_Attack_Rush::OnEnd()
 					iCurGauage = iMaxGaugae;
 				}
 				pPlayer->Set_EstherGage(iCurGauage);
+				pPlayer->Send_EstherGauge();
 			}
 		}
 	}

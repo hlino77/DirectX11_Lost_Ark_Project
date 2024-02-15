@@ -871,6 +871,19 @@ bool Handel_S_DUNGEANRATIO_Client(PacketSessionRef& session, Protocol::S_DUNGEAN
 
 bool Handel_S_ESTHERGAGE_Client(PacketSessionRef& session, Protocol::S_ESTHER& pkt)
 {
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+
+	_uint iPlayerID = pkt.iplayerid();
+	CPlayer* pPlayer = nullptr;
+
+	pPlayer = CServerSessionManager::GetInstance()->Get_Player();
+	if (nullptr == pPlayer)
+		return false;
+
+	if (pPlayer->Get_ObjectID() == iPlayerID)
+	{
+		pPlayer->Set_EstherGage(pkt.iesthergage());
+	}
 
 	return true;
 }

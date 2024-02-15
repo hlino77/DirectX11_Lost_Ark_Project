@@ -103,6 +103,7 @@ public:
 	void					Send_ColliderState(const _uint& iLayer);
 	void					Send_SlowMotion(_bool bSlow);
 	void					Send_Hp();
+	void					Send_EstherGauge();
 
 
 	void					Set_State(const wstring& szName);
