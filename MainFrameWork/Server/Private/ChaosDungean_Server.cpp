@@ -38,7 +38,11 @@ HRESULT CChaosDungean_Server::Initialize(void* pArg)
 
 	m_bEnd = false;
 	m_bStart = false;
-	m_fEndDelay = 30.0f;
+
+	if (m_eDungeanLevel == CHAOSDUNGEANLEVEL::LEVEL3)
+		m_fEndDelay = 30.0f;
+	else
+		m_fEndDelay = 1.0f;
 
     return S_OK;
 }
