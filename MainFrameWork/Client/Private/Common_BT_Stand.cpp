@@ -15,7 +15,7 @@ CBT_Node::BT_RETURN Common_BT_Stand::OnUpdate(const _float& fTimeDelta)
 {
 	if (static_cast<CMonster*>(m_pGameObject)->Get_MonsterType() == CMonster::PAWN)
 	{
-		Add_Sound(0, 0, L"Effect", L"Pawn_50");
+		Add_Sound(0, 0, L"Effect", L"Pawn_50", 0, 0.2f);
 	}
 	return __super::OnUpdate(fTimeDelta);
 }

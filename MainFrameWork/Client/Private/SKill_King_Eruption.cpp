@@ -46,7 +46,7 @@ void CSkill_King_Eruption::Tick(_float fTimeDelta)
 	{
 		if (!m_bSoundOn)
 		{
-			CSound_Manager::GetInstance()->PlaySoundFile(L"Effect", L"KING_5.wav",0.7f);
+			CSound_Manager::GetInstance()->PlaySoundFile(L"Effect", L"KING_5.wav",0.4f);
 			m_bSoundOn = true;
 		}
 		m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->SetActive(true);

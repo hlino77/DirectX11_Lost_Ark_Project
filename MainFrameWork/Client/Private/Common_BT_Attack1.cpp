@@ -47,27 +47,21 @@ CBT_Node::BT_RETURN CCommon_BT_Attack1::OnUpdate(const _float& fTimeDelta)
 	{
 		if (static_cast<CBoss*>(m_pGameObject)->Get_BossType() == CBoss::GOLEM)
 		{
-		}
-	}	
-	if (m_pGameObject->Get_ObjectType() == OBJ_TYPE::MONSTER)
-	{
-		if (static_cast<CMonster*>(m_pGameObject)->Get_MonsterType() == CMonster::PAWN)
-		{
-			Add_Sound(0, 0, L"Effect", L"Pawn_32", 15);
-			Add_Sound(0, 1, L"Effect", L"Pawn_77", 15);
-			Add_Sound(0, 2, L"Effect", L"Pawn_25", 25);
-			Add_Sound(0, 3, L"Effect", L"Pawn_80", 25);
-		}
-	}
-	if (m_pGameObject->Get_ObjectType() == OBJ_TYPE::BOSS)
-	{
-		if (m_pGameObject->Get_ObjectTag() == L"Boss_Golem")
-		{
 			Add_Sound(0, 0, TEXT("Effect"), TEXT("Rook_1"), 10, 0.5f);
 			Add_Sound(0, 1, TEXT("Effect"), TEXT("Rook_40"), 12, 0.9f);
 		}
-		
+	}	
+	else if (m_pGameObject->Get_ObjectType() == OBJ_TYPE::MONSTER)
+	{
+		if (static_cast<CMonster*>(m_pGameObject)->Get_MonsterType() == CMonster::PAWN)
+		{
+			Add_Sound(0, 0, L"Effect", L"Pawn_32", 15, 0.2f);
+			Add_Sound(0, 1, L"Effect", L"Pawn_77", 15, 0.2f);
+			Add_Sound(0, 2, L"Effect", L"Pawn_25", 25, 0.2f);
+			Add_Sound(0, 3, L"Effect", L"Pawn_80", 25, 0.2f);
+		}
 	}
+
 	return __super::OnUpdate(fTimeDelta);
 }
 

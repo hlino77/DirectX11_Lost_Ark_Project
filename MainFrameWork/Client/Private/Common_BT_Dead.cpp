@@ -33,12 +33,22 @@ CBT_Node::BT_RETURN CCommon_BT_Dead::OnUpdate(const _float& fTimeDelta)
 	{
 		if (static_cast<CMonster*>(m_pGameObject)->Get_MonsterType() == CMonster::PAWN)
 		{
-			Add_Sound(0, 0, L"Effect", L"Pawn_3",27);
-			Add_Sound(0, 1, L"Effect", L"Pawn_63");
+			if (CSound_Manager::GetInstance()->Is_Channel_Playing(L"Pawn_3"))
+			{
+				Add_Sound(0, 0, L"Effect", L"Pawn_3", 27, 0.2f);
+			}			
+			if (CSound_Manager::GetInstance()->Is_Channel_Playing(L"Pawn_63"))
+			{
+				Add_Sound(0, 1, L"Effect", L"Pawn_63", 0, 0.2f);
+			}
 		}
+
 		if (static_cast<CMonster*>(m_pGameObject)->Get_MonsterType() == CMonster::GHOUL)
 		{
-			Add_Sound(0, 1, L"Effect", L"Ghoul_Dying");
+			if (CSound_Manager::GetInstance()->Is_Channel_Playing(L"Ghoul_Dying"))
+			{
+				Add_Sound(0, 1, L"Effect", L"Ghoul_Dying", 0, 0.2f);
+			}
 		}
 	}
 	return __super::OnUpdate(fTimeDelta);

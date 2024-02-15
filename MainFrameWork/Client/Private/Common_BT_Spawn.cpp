@@ -31,12 +31,18 @@ CBT_Node::BT_RETURN CCommon_BT_Spawn::OnUpdate(const _float& fTimeDelta)
 	{
 		if (static_cast<CMonster*>(m_pGameObject)->Get_MonsterType() == CMonster::PAWN)
 		{
-			Add_Sound(0, 0, L"Effect", L"Pawn_51");	
-			Add_Sound(0, 1, L"Effect", L"Pawn_2");
+			if (CSound_Manager::GetInstance()->Is_Channel_Playing(L"Pawn_51"))
+			{
+				Add_Sound_Channel(0, 0, L"Effect", L"Pawn_51", 0, 0.2f);
+				Add_Sound_Channel(0, 1, L"Effect", L"Pawn_2", 0, 0.2f);
+			}
 		}
 		if (static_cast<CMonster*>(m_pGameObject)->Get_MonsterType() == CMonster::GHOUL)
 		{
-			Add_Sound(0, 0, L"Effect", L"Ghoul_Spawn");
+			if (CSound_Manager::GetInstance()->Is_Channel_Playing(L"Ghoul_Spawn"))
+			{
+				Add_Sound(0, 0, L"Effect", L"Ghoul_Spawn", 0, 0.2f);
+			}
 		}
 	}
 	return __super::OnUpdate(fTimeDelta);
