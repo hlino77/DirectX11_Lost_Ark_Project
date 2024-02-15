@@ -45,7 +45,7 @@ HRESULT CUI_Option_Video::Initialize(void* pArg)
 		m_fY = g_iWinSizeY * 0.5f;
 	}
 
-	for (size_t i = 0; i < 3; i++)
+	for (size_t i = 0; i < 4; i++)
 	{
 		m_pTransform_OptionCheckBox[i]->Set_Scale(Vec3(21.f, 23.f, 1.f));
 	}
@@ -55,6 +55,8 @@ HRESULT CUI_Option_Video::Initialize(void* pArg)
 		Vec3((m_fX + 184.f) - g_iWinSizeX * 0.5f, -(m_fY - 105.f) + g_iWinSizeY * 0.5f, 0.f));
 	m_pTransform_OptionCheckBox[2]->Set_State(CTransform::STATE_POSITION,
 		Vec3((m_fX -  78.f) - g_iWinSizeX * 0.5f, -(m_fY - 64.f) + g_iWinSizeY * 0.5f, 0.f));
+	m_pTransform_OptionCheckBox[3]->Set_State(CTransform::STATE_POSITION,
+		Vec3((m_fX + 184.f) - g_iWinSizeX * 0.5f, -(m_fY - 64.f) + g_iWinSizeY * 0.5f, 0.f));
 
 	for (size_t i = 0; i < 2; i++)
 	{
@@ -161,6 +163,11 @@ HRESULT CUI_Option_Video::Render()
 	m_pShaderCom->Begin(0);
 	m_pVIBufferCom->Render();
 
+	if (FAILED(Bind_ShaderResources_HBAO()))
+		return S_OK;
+	m_pShaderCom->Begin(0);
+	m_pVIBufferCom->Render();
+
 	if (FAILED(Bind_ShaderResourcess_LineT()))
 		return S_OK;
 	m_pShaderCom->Begin(0);
@@ -248,6 +255,10 @@ void CUI_Option_Video::Print_OptionText()
 	vOrigin = vMeasure * 0.5f;
 	m_pOptionTextWnd->Set_Text(m_strWndTag + TEXT("Fxaa"), m_strFont, TEXT("Fxaa"), Vec2(((m_fSizeX * 0.5f) - 140.f), ((m_fSizeY * 0.5f) - 64.f)), Vec2(0.3f, 0.3f), vOrigin, 0.f, Vec4(0.85f, 0.85f, 0.82f, 1.0f));
 
+	vMeasure = CGameInstance::GetInstance()->MeasureString(L"³Ø½¼Lv1°íµñBold", TEXT("HBAO+"));
+	vOrigin = vMeasure * 0.5f;
+	m_pOptionTextWnd->Set_Text(m_strWndTag + TEXT("HBAO"), m_strFont, TEXT("HBAO+"), Vec2(((m_fSizeX * 0.5f) + 144.f), ((m_fSizeY * 0.5f) - 64.f)), Vec2(0.3f, 0.3f), vOrigin, 0.f, Vec4(0.85f, 0.85f, 0.82f, 1.0f));
+
 	vMeasure = CGameInstance::GetInstance()->MeasureString(L"³Ø½¼Lv1°íµñBold", TEXT("IBL"));
 	vOrigin = vMeasure * 0.5f;
 	m_pOptionTextWnd->Set_Text(m_strWndTag + TEXT("IBL"), m_strFont, TEXT("IBL"), Vec2(((m_fSizeX * 0.5f) - 140.f), ((m_fSizeY * 0.5f) - 14.f)), Vec2(0.3f, 0.3f), vOrigin, 0.f, Vec4(0.85f, 0.85f, 0.82f, 1.0f));
@@ -330,6 +341,7 @@ void CUI_Option_Video::Set_Active_Option(_bool bOption)
 	m_bPre_PBR = m_bOption_PBR;
 	m_bPre_SSAO = m_bOption_SSAO;
 	m_bPre_Fxaa3_11 = m_bOption_Fxaa3_11;
+	m_bPre_HBAO = m_bOption_HBAO;
 	m_fPreX_IBL = m_fDragBarX_IBL;
 	m_fPreX_SSR = m_fDragBarX_SSR;
 	m_fPreX_ScreenTone_Grayscale = m_fDragBarX_ScreenTone_Grayscale;
@@ -347,6 +359,7 @@ void CUI_Option_Video::Set_Active_Option(_bool bOption)
 	CRenderer::Set_PBR_Switch(m_bOption_PBR);
 	CRenderer::Set_SSAO_Switch(m_bOption_SSAO);
 	CRenderer::Set_Fxaa_Switch(m_bOption_Fxaa3_11);
+	//CRenderer::Render_HBAOPLUS(m_bOption_HBAO);
 	CRenderer::Set_GrayScale(m_fRatioX[2]);
 	CRenderer::Set_Contrast(m_fRatioX[3]);
 	CRenderer::Set_Saturation(m_fRatioX[4]);
@@ -357,6 +370,7 @@ void CUI_Option_Video::Apply_Option()
 	m_bPre_PBR = m_bOption_PBR;
 	m_bPre_SSAO = m_bOption_SSAO;
 	m_bPre_Fxaa3_11 = m_bOption_Fxaa3_11;
+	m_bPre_HBAO	 =	m_bOption_HBAO;
 	m_fPreX_IBL = m_fDragBarX_IBL;
 	m_fPreX_SSR = m_fDragBarX_SSR;
 	m_fPreX_ScreenTone_Grayscale = m_fDragBarX_ScreenTone_Grayscale;
@@ -374,6 +388,7 @@ void CUI_Option_Video::Apply_Option()
 	CRenderer::Set_PBR_Switch(m_bOption_PBR);
 	CRenderer::Set_SSAO_Switch(m_bOption_SSAO);
 	CRenderer::Set_Fxaa_Switch(m_bOption_Fxaa3_11);
+	//CRenderer::Render_HBAOPLUS(m_bOption_HBAO);
 	CRenderer::Set_GrayScale(m_fRatioX[2]);
 	CRenderer::Set_Contrast(m_fRatioX[3]);
 	CRenderer::Set_Saturation(m_fRatioX[4]);
@@ -384,6 +399,7 @@ void CUI_Option_Video::Cancle_Option()
 	m_bOption_PBR = m_bPre_PBR;
 	m_bOption_SSAO = m_bPre_SSAO;
 	m_bOption_Fxaa3_11 = m_bPre_Fxaa3_11;
+	m_bOption_HBAO = m_bPre_HBAO;
 	m_fDragBarX_IBL = m_fPreX_IBL;
 	m_fDragBarX_SSR = m_fPreX_SSR;
 	m_fDragBarX_ScreenTone_Grayscale = m_fPreX_ScreenTone_Grayscale;
@@ -401,6 +417,7 @@ void CUI_Option_Video::Cancle_Option()
 	CRenderer::Set_PBR_Switch(m_bOption_PBR);
 	CRenderer::Set_SSAO_Switch(m_bOption_SSAO);
 	CRenderer::Set_Fxaa_Switch(m_bOption_Fxaa3_11);
+	//CRenderer::Render_HBAOPLUS(m_bOption_HBAO);
 	CRenderer::Set_GrayScale(m_fRatioX[2]);
 	CRenderer::Set_Contrast(m_fRatioX[3]);
 	CRenderer::Set_Saturation(m_fRatioX[4]);
@@ -664,6 +681,8 @@ void CUI_Option_Video::MovingWnd(CUI* pUI, _float fMoveX)
 		Vec3((m_fX + 184.f) - g_iWinSizeX * 0.5f, -(m_fY - 105.f) + g_iWinSizeY * 0.5f, 0.f));
 	m_pTransform_OptionCheckBox[2]->Set_State(CTransform::STATE_POSITION,
 		Vec3((m_fX - 78.f) - g_iWinSizeX * 0.5f, -(m_fY - 64.f) + g_iWinSizeY * 0.5f, 0.f));
+	m_pTransform_OptionCheckBox[3]->Set_State(CTransform::STATE_POSITION,
+		Vec3((m_fX + 184.f) - g_iWinSizeX * 0.5f, -(m_fY - 64.f) + g_iWinSizeY * 0.5f, 0.f));
 
 	m_fDragLineMinX = (m_fX + 62.f) - 138.f;
 	m_fDragLineMaxX = (m_fX + 62.f) + 138.f;
@@ -716,6 +735,7 @@ void CUI_Option_Video::Set_LevelCustomOption()
 	m_bOption_PBR = m_pRendererCom->Get_PBR_Switch();
 	m_bOption_SSAO = m_pRendererCom->Get_SSAO_Switch();
 	m_bOption_Fxaa3_11 = m_pRendererCom->Get_Fxaa_Switch();
+	//m_bOption_HBAO = !m_bOption_SSAO;
 	
 	m_iIndex_IBL = m_pRendererCom->Get_IBLTexture();
 	m_fRatioX[0] = m_iIndex_IBL / 22.f;
@@ -747,6 +767,11 @@ void CUI_Option_Video::Create_CheckButton()
 	m_rcCheckButton[2].top = LONG((m_fY - 64.f) - (23.f / 2));
 	m_rcCheckButton[2].right = LONG((m_fX - 78.f) + (21.f / 2));
 	m_rcCheckButton[2].bottom = LONG((m_fY - 64.f) + (23.f / 2));
+
+	m_rcCheckButton[3].left = LONG((m_fX + 184.f) - (21.f / 2));
+	m_rcCheckButton[3].top = LONG((m_fY - 64.f) - (23.f / 2));
+	m_rcCheckButton[3].right = LONG((m_fX + 184.f) + (21.f / 2));
+	m_rcCheckButton[3].bottom = LONG((m_fY - 64.f) + (23.f / 2));
 }
 
 void CUI_Option_Video::Is_Picking_CheckButton(POINT pt)
@@ -754,6 +779,7 @@ void CUI_Option_Video::Is_Picking_CheckButton(POINT pt)
 	Is_Picking_CheckButton_PBR(pt);
 	Is_Picking_CheckButton_SSAO(pt);
 	Is_Picking_CheckButton_Fxaa3_11(pt);
+	Is_Picking_CheckButton_HBAO(pt);
 }
 
 void CUI_Option_Video::Is_Picking_CheckButton_PBR(POINT pt)
@@ -805,7 +831,9 @@ void CUI_Option_Video::Is_Picking_CheckButton_SSAO(POINT pt)
 		if (KEY_TAP(KEY::LBTN))
 		{
 			m_bOption_SSAO = !m_bOption_SSAO;
+			m_bOption_HBAO = !m_bOption_SSAO;
 			CRenderer::Set_SSAO_Switch(m_bOption_SSAO);
+			//CRenderer::Render_HBAOPLUS(m_bOption_HBAO);
 			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"ClickedSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
 		}
 	}
@@ -848,6 +876,39 @@ void CUI_Option_Video::Is_Picking_CheckButton_Fxaa3_11(POINT pt)
 	}
 }
 
+void CUI_Option_Video::Is_Picking_CheckButton_HBAO(POINT pt)
+{
+	if (m_bOption_HBAO)
+		m_iTextureIndex_HBAO = 2;
+	else
+		m_iTextureIndex_HBAO = 0;
+
+	if (PtInRect(&m_rcCheckButton[3], pt))
+	{
+		if (!m_bSound[8])
+		{
+			m_bSound[8] = true;
+			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"Is_PickingSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
+		}
+		if (2 != m_iTextureIndex_HBAO)
+			m_iTextureIndex_HBAO = 1;
+		if (KEY_TAP(KEY::LBTN))
+		{
+			m_bOption_HBAO = !m_bOption_HBAO;
+			m_bOption_SSAO = !m_bOption_HBAO;
+			//CRenderer::Render_HBAOPLUS(m_bOption_HBAO);
+			CRenderer::Set_SSAO_Switch(m_bOption_SSAO);
+			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"ClickedSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
+		}
+	}
+	else
+	{
+		if (2 != m_iTextureIndex_HBAO)
+			m_iTextureIndex_HBAO = 0;
+		m_bSound[8] = false;
+	}
+}
+
 HRESULT CUI_Option_Video::Ready_Components()
 {
 	if (FAILED(__super::Ready_Components()))
@@ -878,7 +939,7 @@ HRESULT CUI_Option_Video::Ready_Components()
 		return E_FAIL;
 
 	//m_pTransform_OptionCheckBox
-	for (size_t i = 0; i < 3; i++)
+	for (size_t i = 0; i < 4; i++)
 	{
 		if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_LockFree_Transform"),
 			TEXT("Com_Transform_OptionCheckBox") + to_wstring(i), (CComponent**)&m_pTransform_OptionCheckBox[i])))
@@ -997,6 +1058,24 @@ HRESULT CUI_Option_Video::Bind_ShaderResources_Fxaa3_11()
 		return E_FAIL;
 
 	m_pTexture_OptionCheckBox->Set_SRV(m_pShaderCom, "g_DiffuseTexture", (_uint)m_iTextureIndex_Fxaa3_11);
+
+	return S_OK;
+}
+
+HRESULT CUI_Option_Video::Bind_ShaderResources_HBAO()
+{
+	if (FAILED(m_pShaderCom->Bind_Matrix("g_WorldMatrix", &m_pTransform_OptionCheckBox[3]->Get_WorldMatrix())))
+		return E_FAIL;
+	if (FAILED(m_pShaderCom->Bind_Matrix("g_ViewMatrix", &m_ViewMatrix)))
+		return E_FAIL;
+	if (FAILED(m_pShaderCom->Bind_Matrix("g_ProjMatrix", &m_ProjMatrix)))
+		return E_FAIL;
+	if (FAILED(m_pShaderCom->Bind_RawValue("g_Alpha", &m_fAlpha, sizeof(_float))))
+		return E_FAIL;
+	if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
+		return E_FAIL;
+
+	m_pTexture_OptionCheckBox->Set_SRV(m_pShaderCom, "g_DiffuseTexture", (_uint)m_iTextureIndex_HBAO);
 
 	return S_OK;
 }
@@ -1244,7 +1323,7 @@ void CUI_Option_Video::Free()
 	Safe_Release(m_pTexture_ValueTextWnd);
 	Safe_Release(m_pTexture_DragBar);
 
-	for (size_t i = 0; i < 3; i++)
+	for (size_t i = 0; i < 4; i++)
 	{
 		Safe_Release(m_pTransform_OptionCheckBox[i]);
 	}
