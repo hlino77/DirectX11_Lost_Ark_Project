@@ -112,6 +112,13 @@ void CState_WR_Iden_Skill::Tick_State_NoneControl(_float fTimeDelta)
 {
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
 
+	_int iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iIdentity_Skill);
+
+	if (-1 != m_AttackFrames[m_iAttackCnt] && m_AttackFrames[m_iAttackCnt] <= iAnimFrame && true == m_EffectStart[m_iAttackCnt])
+	{
+		m_iAttackCnt++;
+	}
+
 	Effect_BloodyRust_Slash();
 }
 

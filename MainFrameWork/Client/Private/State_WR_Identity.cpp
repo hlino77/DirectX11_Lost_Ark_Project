@@ -115,8 +115,8 @@ void CState_WR_Identity::Effect_Rage_Control()
 		desc.pPivotMatrix = &matPivot;
 		EFFECT_START_OUTLIST(L"Slayer_Rage_Aura", &desc, m_Effects);
 
-		auto func = bind(&CTransform::Load_WorldMatrix, m_pPlayer->Get_TransformCom(), placeholders::_1);
-		m_pPlayer->Get_WR_Controller()->CB_UpdateIdentityAuraPivot += func;
+		/*auto func = bind(&CTransform::Load_WorldMatrix, m_pPlayer->Get_TransformCom(), placeholders::_1);
+		m_pPlayer->Get_WR_Controller()->CB_UpdateIdentityAuraPivot += func;*/
 
 		m_pPlayer->Add_Effect(L"Slayer_Rage_Aura", m_Effects[0]);
 	}

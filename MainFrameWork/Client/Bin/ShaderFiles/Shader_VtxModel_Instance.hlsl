@@ -110,23 +110,9 @@ PS_OUT_PBR PS_PBR(VS_OUT In)
     if (1.f == SpecMaskEmisExtr.x)
     {
         float4 vSpecular = g_SpecularTexture.Sample(PointSampler, In.vTexUV);
-        //if (1.f == SpecMaskEmisExtr.y)
-        //{
-        //    //float4 vMRMask = g_MRMaskTexture.Sample(LinearSampler, In.vTexUV);
-        //    //Out.vProperties.r = smoothstep(0.0f, 1.0f, vSpecular.r * vMRMask.r * (1.f - vSpecular.a));
-        //    //Out.vProperties.g = vSpecular.r * vMRMask.g * vSpecular.a;
-            
-        //    Out.vProperties.r = smoothstep(0.0f, 1.0f, vSpecular.b); // Metalic
-        //    Out.vProperties.g = vSpecular.g; // Roughness
-        //}
-        //else
-        //{
+
         Out.vProperties.r = clamp(0.0f, 1.0f, 1.f - pow(1.f - vSpecular.b, 1.3f)); // Metalic
         Out.vProperties.g = pow(vSpecular.g, 1.5f); // Roughness
-        //}
-        
-        //Out.vProperties.r = smoothstep(0.0f, 0.95f, 1.f - pow(1.f - vSpecular.b, 2.f)); // Metalic
-        //Out.vProperties.g = pow(vSpecular.g, 2.f); // Roughness
     }
     else
     {
@@ -139,7 +125,6 @@ PS_OUT_PBR PS_PBR(VS_OUT In)
         Out.vEmissive = g_EmissiveTexture.Sample(PointSampler, In.vTexUV);
         Out.vEmissive *= g_vBloomColor;
     }
-
 
     Out.vProperties.z = MT_STATIC;
     Out.vProperties.w = In.fRimLight;
