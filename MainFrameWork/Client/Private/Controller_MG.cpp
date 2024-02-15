@@ -191,24 +191,21 @@ _bool CController_MG::Is_EstherSkill()
 	if (false == static_cast<CPlayer*>(m_pOwner)->Is_PartyLeader())
 		return false;
 
-	if (m_iCurEstherGage < m_iMaxEstherGage)
+	if (static_cast<CPlayer*>(m_pOwner)->Get_EstherGage() < static_cast<CPlayer*>(m_pOwner)->Get_EstherMaxGage())
 		return false;
 
 	if (KEY_HOLD(KEY::CTRL) && KEY_TAP(KEY::Z))
 	{
-		//m_iCurEstherGage = 0;
 		m_iEstherType = 0;
 		return true;
 	}
 	else if (KEY_HOLD(KEY::CTRL) && KEY_TAP(KEY::X))
 	{
-		//m_iCurEstherGage = 0;
 		m_iEstherType = 1;
 		return true;
 	}
 	else if (KEY_HOLD(KEY::CTRL) && KEY_TAP(KEY::C))
 	{
-		//m_iCurEstherGage = 0;
 		m_iEstherType = 2;
 		return true;
 	}

@@ -270,7 +270,6 @@ void CState_GN_DeadHard_Loop::Tick_State_NoneControl(_float fTimeDelta)
 		}
 	}
 
-
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
 
 	if (-1 != m_EffectFrames[m_iEffectCnt].iFrame && m_EffectFrames[m_iEffectCnt].iFrame <= iAnimFrame)

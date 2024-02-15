@@ -221,6 +221,11 @@ public:
 
 	_bool					Is_CancelState();
 	void					Show_Damage(_uint iDamage, _bool IsCritical);
+
+	_uint					Get_EstherMaxGage() { return m_iMaxEstherGage; }
+	_uint					Get_EstherGage() { return m_iCurEstherGage; }
+	void					Set_EstherGage(_uint iGauge) { m_iCurEstherGage = iGauge; }
+
 protected:
 	virtual HRESULT			Ready_Components();
 	virtual HRESULT			Ready_Parts() { return S_OK; }
@@ -287,6 +292,10 @@ protected:
 
 	/* 페이즈 변수 */
 	_uint	m_iValtanPhase = { 0 };
+
+	/* 에스더 게이지 */
+	_uint					m_iMaxEstherGage = { 100 };
+	_uint					m_iCurEstherGage = { 0 };
 
 	/* 플레이어 아이템 변수 */
 	vector<ITEM_SLOTDESC> m_vecItemSlots;

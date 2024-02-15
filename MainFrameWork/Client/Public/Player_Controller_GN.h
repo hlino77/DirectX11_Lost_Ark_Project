@@ -34,6 +34,7 @@ public:
 	virtual void	Get_HitMessage(_uint iDamge, _float fForce, Vec3 vPos = Vec3());
 	virtual void	Get_GrabMessage(CGameObject* pGrabber);
 	virtual void	Get_GrabEndMessage();
+	virtual void	Get_EshterGageUseMessage() override;
 
 public:
 	GN_IDENTITY		Get_GN_Identity() { return m_eIdentity; }
@@ -60,6 +61,7 @@ private:
 
 	virtual void	EstherSkill(_uint iIndex) override;
 	virtual void	Esther_Refill(_float fTimeDelta) override;
+
 
 private:
 	GN_IDENTITY				m_eIdentity = { GN_IDENTITY::HAND };

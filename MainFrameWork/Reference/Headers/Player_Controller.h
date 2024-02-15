@@ -89,11 +89,8 @@ public:
 
 	virtual void		Get_CheckLengthMessage(_float fCheckLength, CGameObject* pOther);
 
-	virtual void		Get_EstherGageAddMessage(_uint iGage);
-	virtual void		Get_EshterGageUseMessage() { m_iCurEstherGage = 0; }
+	virtual void		Get_EshterGageUseMessage() {}
 	virtual void		Get_EstherMessage(_uint iIndex) { EstherSkill(iIndex); }
-	virtual _uint		Get_MaxEstherGauge() { return	m_iMaxEstherGage; }
-	virtual _uint		Get_CurrEstherGauge() { return	m_iCurEstherGage; }
 
 	virtual void		Get_BuffMessage(_uint iBuffStatus, _float fAmount, _float fDurtaion);
 
@@ -254,6 +251,7 @@ protected:
 
 	_uint					m_iMaxEstherGage = { 100 };
 	_uint					m_iCurEstherGage = { 95 };
+
 	vector<CGameObject*>	m_vecEsther;
 
 	/* Äð Å¸ÀÓ */

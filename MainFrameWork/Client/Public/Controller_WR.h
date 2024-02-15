@@ -48,6 +48,8 @@ public:
 	virtual void	Get_GrabEndMessage();
 	virtual void	Get_DeadMessage();
 
+	virtual void	Get_EshterGageUseMessage() override;
+
 	void			Get_WR_IdentityMessage();
 	void			Get_WR_IdenSkillMessage(_float fCoolTime) { m_fCoolTime[SKILL_KEY::Z] = m_fIdenSkillCool; m_fIdentityGage -= 5.f; }
 

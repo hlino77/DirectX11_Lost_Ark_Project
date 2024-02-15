@@ -170,22 +170,15 @@ void CValtan_BT_Attack_Rush::OnEnd()
 			_float fEstherGauge = 20.f;
 			if (pPlayer->Is_PartyLeader())
 			{
-				if (TEXT("Gunslinger") == pPlayer->Get_ObjectTag())
+				_uint iCurGauage = pPlayer->Get_EstherGage();
+				_uint iMaxGaugae = pPlayer->Get_EstherMaxGage();
+
+				iCurGauage += fEstherGauge;
+				if (iCurGauage >= iMaxGaugae)
 				{
-					static_cast<CPlayer_Gunslinger*>(pPlayer)->Get_GN_Controller()->Get_EstherGageAddMessage(fEstherGauge);
+					iCurGauage = iMaxGaugae;
 				}
-				else if (TEXT("WR") == pPlayer->Get_ObjectTag())
-				{
-					static_cast<CPlayer_Slayer*>(pPlayer)->Get_WR_Controller()->Get_EstherGageAddMessage(fEstherGauge);
-				}
-				else if (TEXT("WDR") == pPlayer->Get_ObjectTag())
-				{
-					static_cast<CPlayer_Destroyer*>(pPlayer)->Get_WDR_Controller()->Get_EstherGageAddMessage(fEstherGauge);
-				}
-				else if (TEXT("SP") == pPlayer->Get_ObjectTag())
-				{
-					static_cast<CPlayer_Doaga*>(pPlayer)->Get_SP_Controller()->Get_EstherGageAddMessage(fEstherGauge);
-				}
+				pPlayer->Set_EstherGage(iCurGauage);
 			}
 		}
 	}
