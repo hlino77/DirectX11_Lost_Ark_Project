@@ -122,7 +122,7 @@ void CBT_Action::On_LastAnimEnd()
 
 void CBT_Action::Add_Sound(_int iAnimIndex, _int iSoundOnIndex, const wstring& szChannelGroup, const wstring& strSoundKey, _int iAnimFrame, _float fVolume, FMOD_CHANNEL** pChannel)
 {
-	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[iAnimIndex].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[iAnimIndex].iAnimIndex) >= iAnimFrame && !m_bSoundOn[iSoundOnIndex])
+	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[iAnimIndex].iAnimIndex&& iAnimIndex == m_iCurrAnimation && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[iAnimIndex].iAnimIndex) >= iAnimFrame && !m_bSoundOn[iSoundOnIndex])
 	{
 		m_bSoundOn[iSoundOnIndex] = true;
 		CSound_Manager::GetInstance()->PlaySoundFile(szChannelGroup, strSoundKey + L".wav", fVolume, pChannel);

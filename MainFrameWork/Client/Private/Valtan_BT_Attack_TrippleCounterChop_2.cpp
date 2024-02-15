@@ -73,7 +73,6 @@ void CValtan_BT_Attack_TrippleCounterChop_2::OnEnd()
 	if (static_cast<CBoss*>(m_pGameObject)->Get_Action() == L"Action_Counter")
 	{
 		CSkill::ModelDesc ModelDesc = {};
-		CServerSessionManager::GetInstance()->Get_Player()->Get_Camera()->Cam_Shake(0.5f, 50.0f, 0.1f, 10.0f);
 		ModelDesc.iLayer = (_uint)LAYER_TYPE::LAYER_SKILL;
 		ModelDesc.iObjectID = -1;
 		ModelDesc.pOwner = m_pGameObject;
@@ -87,6 +86,7 @@ void CValtan_BT_Attack_TrippleCounterChop_2::OnEnd()
 			pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
 			pSkill->Get_TransformCom()->LookAt_Dir(vLook);
 			pSkill->Get_Colider(_uint(LAYER_COLLIDER::LAYER_SKILL_BOSS))->Set_Radius(6.f);
+			static_cast<CSkill*>(pSkill)->Set_StatusEffectDuration(20.f);
 		}
 	}
 }
@@ -100,8 +100,6 @@ void CValtan_BT_Attack_TrippleCounterChop_2::Update_Effect()
 		CEffect_Manager::EFFECTPIVOTDESC tDesc;
 		tDesc.pPivotMatrix = &m_pGameObject->Get_TransformCom()->Get_WorldMatrix();
 		EFFECT_START(L"VT_TrippleCounterChop_Fail", &tDesc);
-
-		CServerSessionManager::GetInstance()->Get_Player()->Get_Camera()->Cam_Shake(0.05f, 90.0f, 0.05f, 10.0f);
 	}
 }
 

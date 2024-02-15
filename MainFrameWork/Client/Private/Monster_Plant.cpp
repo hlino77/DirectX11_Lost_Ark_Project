@@ -53,6 +53,7 @@ HRESULT CMonster_Plant::Initialize_Prototype()
 
 HRESULT CMonster_Plant::Initialize(void* pArg)
 {
+	m_eMonsterType = PLANT;
 	m_iMaxHp = 80000000;
 	m_iHp = m_iMaxHp;
 	if (FAILED(__super::Initialize(pArg)))

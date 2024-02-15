@@ -46,6 +46,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_SilenceChop::OnUpdate(const _float& fTimeD
 			vLook.Normalize();
 			pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
 			pSkill->Get_TransformCom()->LookAt_Dir(vLook);
+			static_cast<CSkill*>(pSkill)->Set_StatusEffectDuration(7.f);
 		}
 
 		CEffect_Manager::EFFECTPIVOTDESC tDesc;
@@ -101,7 +102,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_SilenceChop::OnUpdate(const _float& fTimeD
 				vPos += vLook * 3.f;
 				pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
 				pSkill->Get_TransformCom()->LookAt_Dir(vLook);
-
+				static_cast<CSkill*>(pSkill)->Set_DoughnutRadii(30.f, 5.0f);
 				CEffect_Manager::EFFECTPIVOTDESC tDesc;
 				tDesc.pPivotMatrix = &m_pGameObject->Get_TransformCom()->Get_WorldMatrix();
 				EFFECT_START(L"VT_SilenceOut", &tDesc);
@@ -118,8 +119,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_SilenceChop::OnUpdate(const _float& fTimeD
 				vPos += vLook * 3.f;
 				pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
 				pSkill->Get_TransformCom()->LookAt_Dir(vLook);
-				pSkill->Get_Colider(_uint(LAYER_COLLIDER::LAYER_SKILL_BOSS))->Set_Radius(5.f);
-
+				static_cast<CSkill*>(pSkill)->Set_SphereRadius(5.8f);
 				CEffect_Manager::EFFECTPIVOTDESC tDesc;
 				tDesc.pPivotMatrix = &m_pGameObject->Get_TransformCom()->Get_WorldMatrix();
 				EFFECT_START(L"VT_SilenceIn", &tDesc);

@@ -162,7 +162,7 @@ void CValtan_BT_Attack_Rush::OnEnd()
 		tDesc.pPivotMatrix = &m_pGameObject->Get_TransformCom()->Get_WorldMatrix();
 		EFFECT_START(L"ValtanRushCrash", &tDesc);
 
-		if (static_cast<CBoss*>(m_pGameObject)->Get_BossType() == CBoss::BOSS_TYPE::VAlTAN)
+		if (static_cast<CBoss*>(m_pGameObject)->Get_BossType() == CBoss::VALTAN)
 		{
 			CPlayer* pPlayer = CServerSessionManager::GetInstance()->Get_Player();
 			if (nullptr == pPlayer)

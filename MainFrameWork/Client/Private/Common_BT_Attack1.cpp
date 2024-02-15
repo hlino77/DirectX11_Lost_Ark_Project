@@ -40,10 +40,18 @@ CBT_Node::BT_RETURN CCommon_BT_Attack1::OnUpdate(const _float& fTimeDelta)
 
 	if (m_pGameObject->Get_ObjectType() == OBJ_TYPE::BOSS)
 	{
-		if (static_cast<CBoss*>(m_pGameObject)->Get_BossType() == CBoss::BOSS_TYPE::GOLEM)
+		if (static_cast<CBoss*>(m_pGameObject)->Get_BossType() == CBoss::GOLEM)
 		{
-			Add_Sound(0, 0, L"Effect", L"KING_74");
-			Add_Sound(0, 1, L"Effect", L"KING_58");
+		}
+	}	
+	if (m_pGameObject->Get_ObjectType() == OBJ_TYPE::MONSTER)
+	{
+		if (static_cast<CMonster*>(m_pGameObject)->Get_MonsterType() == CMonster::PAWN)
+		{
+			Add_Sound(0, 0, L"Effect", L"Pawn_32", 15);
+			Add_Sound(0, 1, L"Effect", L"Pawn_77", 15);
+			Add_Sound(0, 2, L"Effect", L"Pawn_25", 25);
+			Add_Sound(0, 3, L"Effect", L"Pawn_80", 25);
 		}
 	}
 	return __super::OnUpdate(fTimeDelta);

@@ -55,6 +55,7 @@ HRESULT CMonster_Zombie::Initialize_Prototype()
 
 HRESULT CMonster_Zombie::Initialize(void* pArg)
 {
+	m_eMonsterType = ZOMBIE;
 	m_iMaxHp = 40000000;
 	m_iHp = m_iMaxHp;
 	if (FAILED(__super::Initialize(pArg)))

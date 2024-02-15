@@ -16,7 +16,14 @@ CBT_Node::BT_RETURN CCommon_BT_Damage1::OnUpdate(const _float& fTimeDelta)
 	
 	if( m_pGameObject->Get_ModelCom()->Is_AnimationEnd(m_vecAnimDesc[0].iAnimIndex))
 		return BT_FAIL;
+	if (m_pGameObject->Get_ObjectType() == OBJ_TYPE::MONSTER)
+	{
+		if (static_cast<CMonster*>(m_pGameObject)->Get_MonsterType() == CMonster::PAWN)
+		{
+			Add_Sound(0, 0, L"Effect", L"Pawn_67",0,0.2f);
+		}
 
+	}
 	return BT_RUNNING;
 }
 

@@ -13,6 +13,14 @@ void CCommon_BT_Earthquake::OnStart()
 
 CBT_Node::BT_RETURN CCommon_BT_Earthquake::OnUpdate(const _float& fTimeDelta)
 {
+	if (m_pGameObject->Get_ObjectType() == OBJ_TYPE::MONSTER)
+	{
+		if (static_cast<CMonster*>(m_pGameObject)->Get_MonsterType() == CMonster::PAWN)
+		{
+			Add_Sound(0, 0, L"Effect", L"Pawn_53");
+		}
+
+	}
 	return BT_RUNNING;
 }
 

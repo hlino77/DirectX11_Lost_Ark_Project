@@ -86,6 +86,7 @@ void CValtan_BT_Attack_TrippleCounterChop_1::OnEnd()
 			pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
 			pSkill->Get_TransformCom()->LookAt_Dir(vLook);
 			pSkill->Get_Colider(_uint(LAYER_COLLIDER::LAYER_SKILL_BOSS))->Set_Radius(6.f);
+			static_cast<CSkill*>(pSkill)->Set_StatusEffectDuration(30.f);
 		}
 	}
 }
@@ -99,8 +100,6 @@ void CValtan_BT_Attack_TrippleCounterChop_1::Update_Effect()
 		CEffect_Manager::EFFECTPIVOTDESC tDesc;
 		tDesc.pPivotMatrix = &m_pGameObject->Get_TransformCom()->Get_WorldMatrix();
 		EFFECT_START(L"VT_TrippleCounterChop_Fail", &tDesc);
-
-		CServerSessionManager::GetInstance()->Get_Player()->Get_Camera()->Cam_Shake(0.05f, 90.0f, 0.05f, 10.0f);
 	}
 }
 

@@ -34,11 +34,11 @@ public:
 		Vec3	vPos;
 	}MODELDESC;
 
-	enum class BOSS_TYPE
+	enum BOSS_TYPE
 	{
 		GOLEM,
 		KING,
-		VAlTAN,
+		VALTAN,
 		BOSS_END
 	};
 
@@ -193,7 +193,7 @@ protected:
 	
 	//HPUI
 	CUI_Boss_Hp*	m_pBossHpUI = { nullptr };
-	BOSS_TYPE m_eBossType = { BOSS_TYPE::BOSS_END };
+	BOSS_TYPE m_eBossType = { BOSS_END };
 public:
 	virtual CGameObject* Clone(void* pArg);
 	virtual void Free();

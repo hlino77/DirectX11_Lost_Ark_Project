@@ -45,8 +45,9 @@ CBT_Node::BT_RETURN CValtan_BT_Dead::OnUpdate(const _float& fTimeDelta)
 
 	Update_Camera(fTimeDelta);
 
-	Add_Sound(0, 0, L"Effect", L"Boss_Down");
-	Add_Sound(0, 1, L"Effect", L"Valtan#2 (613355816)");
+	Add_Sound(0, 0, L"Effect", L"Boss_Down",35);
+	Add_Sound(0, 1, L"Effect", L"Valtan#2 (613355816)", 35,0.8f);
+	Add_Sound(2, 2, L"Effect", L"NoNoKamain",0,1.f);
 	return __super::OnUpdate(fTimeDelta);
 }
 
