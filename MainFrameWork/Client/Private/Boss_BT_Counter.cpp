@@ -39,6 +39,7 @@ void CBoss_BT_Counter::OnStart()
 				iGauge = iMaxGauge;
 			}
 			pPlayer->Set_EstherGage(iGauge);
+			pPlayer->Send_EstherGauge();
 		}
 	}
 }

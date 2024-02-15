@@ -1166,6 +1166,18 @@ void CPlayer::Send_Hp()
 	CServerSessionManager::GetInstance()->Send(pSendBuffer);
 }
 
+void CPlayer::Send_EstherGauge()
+{
+	Protocol::S_ESTHER pkt;
+
+	pkt.set_ilevel(m_iCurrLevel);
+	pkt.set_iplayerid(m_iObjectID);
+	pkt.set_iesthergage(m_iCurEstherGage);
+
+	SendBufferRef pSendBuffer = CClientPacketHandler::MakeSendBuffer(pkt);
+	CServerSessionManager::GetInstance()->Send(pSendBuffer);
+}
+
 void CPlayer::Set_State(const wstring& szName)
 {
 	m_szState = szName;

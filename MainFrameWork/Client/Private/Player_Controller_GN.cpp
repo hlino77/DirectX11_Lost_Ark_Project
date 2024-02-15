@@ -265,6 +265,7 @@ void CPlayer_Controller_GN::Get_GrabEndMessage()
 void CPlayer_Controller_GN::Get_EshterGageUseMessage()
 {
 	static_cast<CPlayer*>(m_pOwner)->Set_EstherGage(0);
+	static_cast<CPlayer*>(m_pOwner)->Send_EstherGauge();
 }
 
 void CPlayer_Controller_GN::Skill(GN_IDENTITY eIndex, SKILL_KEY eKey)
@@ -441,6 +442,7 @@ void CPlayer_Controller_GN::Esther_Refill(_float fTimeDelta)
 			iCurGage = iMaxGage;
 		}
 		static_cast<CPlayer*>(m_pOwner)->Set_EstherGage(iCurGage);
+		static_cast<CPlayer*>(m_pOwner)->Send_EstherGauge();
 	}
 }
 
