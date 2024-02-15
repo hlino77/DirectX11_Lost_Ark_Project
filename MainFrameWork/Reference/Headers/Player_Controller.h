@@ -246,8 +246,8 @@ protected:
 	_uint					m_iEstherType;
 
 	_float					m_fEstherAcc = { 0.0f };
-	_float					m_fEstherFillTime = { 15.f };
-	_uint					m_iEstherFill = { 5 };
+	_float					m_fEstherFillTime = { 10.f };
+	_uint					m_iEstherFill = { 10 };
 
 	_uint					m_iMaxEstherGage = { 100 };
 	_uint					m_iCurEstherGage = { 95 };
