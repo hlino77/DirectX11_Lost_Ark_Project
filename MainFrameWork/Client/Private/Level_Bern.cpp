@@ -111,7 +111,7 @@ HRESULT CLevel_Bern::Initialize()
 
 	if (m_bFirstEnter)
 	{
-		//CEventMgr::GetInstance()->Start_Event((_uint)EVENT::BERNSTART);
+		CEventMgr::GetInstance()->Start_Event((_uint)EVENT::BERNSTART);
 	}
 	else
 		CSound_Manager::GetInstance()->PlayBGM_AddChannel(L"CastleBern", L"BGM", L"CastleBern.wav", 0.5f);

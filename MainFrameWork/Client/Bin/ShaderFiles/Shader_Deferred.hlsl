@@ -355,29 +355,27 @@ float4 PS_MAIN_PBR_DEFERRED(VS_OUT_TARGET In) : SV_TARGET
 
 	float fNormalOffset = g_fBias;
 
+	//shadow
 	float fBias = max((fNormalOffset * 5.0f) * (1.0f - (fDot * -1.0f)), fNormalOffset);
 
 	float fResultShadow = 1.0f;
 
-	if (g_bShadow > EPSILON)
+	vector vStaticPosition = mul(vWorldPos, g_StaticLightViewMatrix);
+	vStaticPosition = mul(vStaticPosition, g_LightProjMatrix);
+
+	//float fStaticShadow = PCF_StaticShadowCalculation(vStaticPosition, fBias);
+	float fStaticShadow = PCF_StaticShadowCalculation_Cascade(vWorldPos, fBias, fViewZ);
+	if (fStaticShadow > 0.51f)
 	{
-		vector vStaticPosition = mul(vWorldPos, g_StaticLightViewMatrix);
-		vStaticPosition = mul(vStaticPosition, g_LightProjMatrix);
+		vector vDynamicPosition = mul(vWorldPos, g_LightViewMatrix);
+		vDynamicPosition = mul(vDynamicPosition, g_LightProjMatrix);
 
-		//float fStaticShadow = PCF_StaticShadowCalculation(vStaticPosition, fBias);
-		float fStaticShadow = PCF_StaticShadowCalculation_Cascade(vWorldPos, fBias, fViewZ);
-		if (fStaticShadow > 0.51f)
-		{
-			vector vDynamicPosition = mul(vWorldPos, g_LightViewMatrix);
-			vDynamicPosition = mul(vDynamicPosition, g_LightProjMatrix);
+		float fShadow = PCF_ShadowCalculation(vDynamicPosition, fBias);
 
-			float fShadow = PCF_ShadowCalculation(vDynamicPosition, fBias);
-
-			fResultShadow = min(fStaticShadow, fShadow);
-		}
-		else
-			fResultShadow = fStaticShadow;
+		fResultShadow = min(fStaticShadow, fShadow);
 	}
+	else
+		fResultShadow = fStaticShadow;
 
 	float3 V = normalize(g_vCamPosition.xyz - vWorldPos.xyz);
 
