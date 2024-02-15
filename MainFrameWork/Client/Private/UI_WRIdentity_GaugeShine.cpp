@@ -61,8 +61,7 @@ void CUI_WRIdentity_GaugeShine::Tick(_float fTimeDelta)
 
     if ((!m_bShineOn)&&(nullptr != m_pBodyUI))
     {
-        if ((CUI_WRIdentity_Body::WRIDENTITY_MAX == static_cast<CUI_WRIdentity_Body*>(m_pBodyUI)->Get_Current_IdentityState())
-            || (CUI_WRIdentity_Body::WRIDENTITY_ON == static_cast<CUI_WRIdentity_Body*>(m_pBodyUI)->Get_Current_IdentityState()))
+        if(30.f <= static_cast<CPlayer_Slayer*>(CServerSessionManager::GetInstance()->Get_Player())->Get_WR_Controller()->Get_IdenGage())
         {
             m_fAlpha = 1.f;
             m_bShineOn = true;
