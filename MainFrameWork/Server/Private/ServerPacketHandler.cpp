@@ -153,7 +153,6 @@ bool Handel_S_STATE_Server(PacketSessionRef& session, Protocol::S_STATE& pkt)
 
 	auto tObject = pkt.tobject();
 	
-	
 
 	CGameObject* pObject = pGameInstance->Find_GameObject(tObject.ilevel(), tObject.ilayer(), tObject.iobjectid());
 	if (pObject == nullptr)

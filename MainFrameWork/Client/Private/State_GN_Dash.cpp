@@ -21,11 +21,16 @@ HRESULT CState_GN_Dash::Initialize()
 	else
 		m_TickFunc = &CState_GN_Dash::Tick_State_NoneControl;
 
+	m_SoundFrames.push_back(SOUNDDESC(0, TEXT("Effect"), TEXT("GN_Dash_183.wav")));
+	m_SoundFrames.push_back(SOUNDDESC());
+
 	return S_OK;
 }
 
 void CState_GN_Dash::Enter_State()
 {
+	m_iSoundCnt = 0;
+
 	m_pPlayer->Reserve_Animation(m_iDash, 0.1f, 0, 0, 1.8f);
 
 	m_pController->Get_StopMessage();
@@ -41,13 +46,34 @@ void CState_GN_Dash::Tick_State(_float fTimeDelta)
 void CState_GN_Dash::Exit_State()
 {
 	m_bDashContinue = false;
+
+	if (true == m_pPlayer->Is_CancelState())
+	{
+		StopStateSound();
+	}
 }
 
 void CState_GN_Dash::Tick_State_Control(_float fTimeDelta)
 {
-	if (4 <= m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iDash) && true == m_pController->Is_Dash())
+	_uint iAnimFrame = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_iDash);
+
+	if (4 <= iAnimFrame && true == m_pController->Is_Dash())
 	{
 		m_bDashContinue = true;
+	}
+
+	if (-1 != m_SoundFrames[m_iSoundCnt].iFrame && m_SoundFrames[m_iSoundCnt].iFrame <= (_int)iAnimFrame)
+	{
+		if (false == m_SoundFrames[m_iSoundCnt].bAddChannel)
+		{
+			CSound_Manager::GetInstance()->PlaySoundFile(m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume);
+		}
+		else
+		{
+			CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume);
+		}
+
+		m_iSoundCnt++;
 	}
 
 	if (true == m_bDashContinue && true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iDash))

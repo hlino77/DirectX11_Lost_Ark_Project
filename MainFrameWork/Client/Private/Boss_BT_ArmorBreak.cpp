@@ -2,6 +2,8 @@
 #include "Boss_BT_ArmorBreak.h"
 #include "Boss.h"
 #include "Model.h"
+#include "Damage_Manager.h"
+
 CBoss_BT_ArmorBreak::CBoss_BT_ArmorBreak()
 {
 }
@@ -9,6 +11,7 @@ CBoss_BT_ArmorBreak::CBoss_BT_ArmorBreak()
 void CBoss_BT_ArmorBreak::OnStart()
 {
 	__super::OnStart(0);
+	CDamage_Manager::GetInstance()->Print_DamageFont(m_pGameObject, 0.8f, 0.f, 2.0f, true, 1);
 	static_cast<CBoss*>(m_pGameObject)->Set_Armor(static_cast<CBoss*>(m_pGameObject)->Get_Armor() - 1);
 }
 

@@ -8,6 +8,7 @@
 #include "ServerSessionManager.h"
 #include "UI_Manager.h"
 #include "Party.h"
+#include "Sound_Manager.h"
 
 CUI_PartyUI::CUI_PartyUI(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CUI(pDevice, pContext)
@@ -120,6 +121,7 @@ void CUI_PartyUI::Print_Text()
 
 void CUI_PartyUI::Set_Active_EntranceParty(CPlayer* pPartyLeader, CPlayer* pPlayer)
 {
+	CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"Party_Alarm.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
 	m_pUI_PartyEntrance->Set_Active_EntranceParty(pPartyLeader, pPlayer);
 }
 

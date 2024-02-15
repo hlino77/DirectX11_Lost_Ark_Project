@@ -13,6 +13,7 @@
 #include "UI_Inventory_ItemSlot.h"
 #include "Item_TestItem.h"
 #include "TextBox.h"
+#include "Sound_Manager.h"
 
 CUI_InventoryWnd::CUI_InventoryWnd(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CUI(pDevice, pContext)
@@ -119,7 +120,10 @@ void CUI_InventoryWnd::Move_InventoryWnd(POINT pt)
 			Vec3(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f));
 
 		if (KEY_AWAY(KEY::LBTN))
+		{
 			m_bHolding = false;
+			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"ClickedSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
+		}
 	}
 
 }

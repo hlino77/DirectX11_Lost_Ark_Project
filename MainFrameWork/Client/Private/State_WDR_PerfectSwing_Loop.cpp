@@ -46,7 +46,7 @@ HRESULT CState_WDR_PerfectSwing_Loop::Initialize()
 	if (m_pPlayer->Is_Control())
 	{
 		CUI_HoldingFrame::HOLDING_SKILL_DESC HoldingDesc;
-		HoldingDesc.strSkillName = TEXT("∆€∆Â∆Æ º¶");
+		HoldingDesc.strSkillName = TEXT("∆€∆Â∆Æ Ω∫¿Æ");
 		HoldingDesc.fSkillTimeAcc = m_fSkillTimeAcc;
 		HoldingDesc.fSkillEndTime = m_fSkillEndTime * 0.5f;
 		HoldingDesc.fSkillSuccessTime_Min = 0.f;

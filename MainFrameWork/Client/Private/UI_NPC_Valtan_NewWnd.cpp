@@ -13,6 +13,8 @@
 #include "Controller_WR.h"
 #include "Controller_SP.h"
 #include "ServerSessionManager.h"
+#include "Sound_Manager.h"
+#include "Camera_Player.h"
 
 CUI_NPC_ValtanEntrance_Wnd::CUI_NPC_ValtanEntrance_Wnd(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     :CUI(pDevice, pContext)
@@ -39,7 +41,7 @@ HRESULT CUI_NPC_ValtanEntrance_Wnd::Initialize(void* pArg)
     if (FAILED(Ready_Components()))
         return E_FAIL;
 
-    m_strUITag = TEXT("NPC_UI_ChaosDungeon_NewWnd");
+    m_strUITag = TEXT("NPC_UI_ValtanEntrance_NewWnd");
 
     m_fX = g_iWinSizeX * 0.5f;
     m_fY = 400.f;
@@ -105,6 +107,11 @@ void CUI_NPC_ValtanEntrance_Wnd::Tick(_float fTimeDelta)
 
     if (true == m_bActive && false == m_bDeActive)
     {
+        if (!m_bUIActiveSound)
+        {
+            m_bUIActiveSound = true;
+            CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"Chaos_Entrance0.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
+        }
         __super::Tick(fTimeDelta);
 
         if (0 < m_fCurrTimer)
@@ -134,7 +141,15 @@ void CUI_NPC_ValtanEntrance_Wnd::LateTick(_float fTimeDelta)
             m_fDeActiveAcc = 0.0f;
             m_pTextBoxWnd->Set_Active(false);
             m_pTimeCountWnd->Set_Active(false);
-   
+            if (m_bClicked_Entrance)
+            {
+                if (nullptr != CServerSessionManager::GetInstance()->Get_Player())
+                    CServerSessionManager::GetInstance()->Get_Player()->Get_Camera()->Set_FadeInOut(2.f, true);
+                CUI_Manager::GetInstance()->Set_RenderUIs(false, LEVEL_BERN);
+                CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"Chaos_Entrance1.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
+                CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"Valtan_Luagh.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
+
+            }
             return;
         }
         Update_Button();
@@ -391,30 +406,48 @@ void CUI_NPC_ValtanEntrance_Wnd::Update_AcceptButton(POINT pt)
 {
     if (true == Is_Picking_AcceptButton(pt))
     {
+        if (!m_bSound[0])
+        {
+            m_bSound[0] = true;
+            CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"Is_PickingSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
+        }
         if (KEY_TAP(KEY::LBTN))
         {
+            CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"ClickedSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
             m_bClicked_Entrance = true;
             m_IsClicked = true;
         }
         m_iTextureIndex_AcceptButton = 1;
     }
     else
+    {
         m_iTextureIndex_AcceptButton = 0;
+        m_bSound[0] = false;
+    }
 }
 
 void CUI_NPC_ValtanEntrance_Wnd::Update_RefuseButton(POINT pt)
 {
     if (true == Is_Picking_RefuseButton(pt))
     {
+        if (!m_bSound[1])
+        {
+            m_bSound[1] = true;
+            CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"Is_PickingSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
+        }
         if (KEY_TAP(KEY::LBTN))
         {
+            CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"ClickedSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
             m_bClicked_Entrance = false;
             m_IsClicked = true;
         }
         m_iTextureIndex_RefuseButton = 1;
     }
     else
+    {
         m_iTextureIndex_RefuseButton = 0;
+        m_bSound[1] = false;
+    }
 }
 
 void CUI_NPC_ValtanEntrance_Wnd::Create_Rect_AcceptButton()

@@ -6,6 +6,7 @@
 #include "UI_Inventory.h"
 #include "UI_Manager.h"
 #include "UI_Mouse_Cursor.h"
+#include "Sound_Manager.h"
 
 CUI_Inventory_ItemSlot::CUI_Inventory_ItemSlot(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CUI(pDevice, pContext)
@@ -105,12 +106,20 @@ void CUI_Inventory_ItemSlot::LateTick(_float fTimeDelta)
 	__super::LateTick(fTimeDelta);
 	if (m_bPick)
 	{
+		if (!m_bSound)
+		{
+			m_bSound = true;
+			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"Is_PickingSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
+		}
 		if (KEY_HOLD(KEY::LBTN))
 		{
 			if (!CUI_Manager::GetInstance()->Is_PickedIcon())
 			{
-				if(1 <= m_vecItems.size())
+				if (1 <= m_vecItems.size())
+				{
 					CUI_Manager::GetInstance()->Picked_ItemIcon(m_vecItems.front()->Get_ObjectTag(), m_pTexture_ItemIcon, m_vecItems.front()->Get_ItemGrade());
+					CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"ClickedSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
+				}
 			}
 		}
 		else if (KEY_AWAY(KEY::LBTN))
@@ -121,22 +130,29 @@ void CUI_Inventory_ItemSlot::LateTick(_float fTimeDelta)
 				{
 					m_pOwner->Swap_Items_In_Inventory(CUI_Manager::GetInstance()->Get_PickedTag(), m_vecItems.front()->Get_ObjectTag());
 					CUI_Manager::GetInstance()->Set_PickedTag(TEXT(""));
+					CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"PickDown_Item.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
+
 				}
 				else
 				{
 					m_pOwner->Swap_Items_In_Inventory(CUI_Manager::
 						GetInstance()->Get_PickedTag(), m_iSlotIndex);
 					CUI_Manager::GetInstance()->Set_PickedTag(TEXT(""));
+					CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"PickDown_Item.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
+
 				}
 			}
 		}
 
 		else if (KEY_TAP(KEY::RBTN))
 		{
-			if(1 <= m_vecItems.size())
+			if (1 <= m_vecItems.size())
 				m_pOwner->Use_Item(m_vecItems.front()->Get_ObjectTag());
 		}
 	}
+	else
+		m_bSound = false;
+
 	Picking_Effect(fTimeDelta);
 }
 

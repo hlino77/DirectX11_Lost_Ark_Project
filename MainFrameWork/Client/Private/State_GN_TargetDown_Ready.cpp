@@ -136,7 +136,7 @@ CState_GN_TargetDown_Ready* CState_GN_TargetDown_Ready::Create(wstring strStateN
 
 	if (FAILED(pInstance->Initialize()))
 	{
-		MSG_BOX("Failed To Cloned : CState_GN_TargetDown_Loop");
+		MSG_BOX("Failed To Cloned : CState_GN_TargetDown_Ready");
 		Safe_Release(pInstance);
 	}
 

@@ -29,12 +29,16 @@ HRESULT CState_GN_Attack_Shot1::Initialize()
 	m_AttackFrames.push_back(8);
 	m_AttackFrames.push_back(-1);
 
+	m_SoundFrames.push_back(SOUNDDESC(6, TEXT("Effect"), TEXT("GN_ShotDefault_46.wav")));
+	m_SoundFrames.push_back(SOUNDDESC());
+
 	return S_OK;
 }
 
 void CState_GN_Attack_Shot1::Enter_State()
 {
 	m_iAttackCnt = 0;
+	m_iSoundCnt = 0;
 
 	m_pPlayer->Reserve_Animation(m_Attack_Shot1, 0.1f, 0, 0);
 	m_pController->Get_LerpDirLookMessage(m_pPlayer->Get_TargetPos());
@@ -49,6 +53,10 @@ void CState_GN_Attack_Shot1::Tick_State(_float fTimeDelta)
 
 void CState_GN_Attack_Shot1::Exit_State()
 {
+	if (true == m_pPlayer->Is_CancelState())
+	{
+		StopStateSound();
+	}
 }
 
 void CState_GN_Attack_Shot1::Tick_State_Control(_float fTimeDelta)
@@ -63,9 +71,23 @@ void CState_GN_Attack_Shot1::Tick_State_Control(_float fTimeDelta)
 		Effect_Shot();
 	}
 
+	if (-1 != m_SoundFrames[m_iSoundCnt].iFrame && m_SoundFrames[m_iSoundCnt].iFrame <= (_int)iAnimFrame)
+	{
+		if (false == m_SoundFrames[m_iSoundCnt].bAddChannel)
+		{
+			CSound_Manager::GetInstance()->PlaySoundFile(m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume);
+		}
+		else
+		{
+			CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume);
+		}
+
+		m_iSoundCnt++;
+	}
+
 	if (true == m_pController->Is_Attack() &&
-		30 > iAnimFrame &&
-		20 <= iAnimFrame)
+		15 > iAnimFrame &&
+		5 <= iAnimFrame)
 	{
 		m_IsAttackContinue = true;
 	}

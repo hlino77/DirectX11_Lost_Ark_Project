@@ -5,6 +5,7 @@
 #include "UI_Option_Video.h"
 #include "UI_Option_Sound.h"
 #include "UI_OptionWnd.h"
+#include "Sound_Manager.h"
 
 CUI_Option::CUI_Option(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CUI(pDevice, pContext)
@@ -184,6 +185,7 @@ void CUI_Option::Option_OnOff()
 		{
 			m_pOptionWnd->Set_Active(true);
 			m_pOptionVideo->Set_Active_Option(true);
+			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"Option_On.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
 		}
 		if (!m_bOption)
 		{
@@ -195,6 +197,7 @@ void CUI_Option::Option_OnOff()
 			}
 			m_pOptionWnd->Set_QuitButton(false);
 			m_pOptionWnd->Set_CancleButton(false);
+			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"Option_Off.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
 		}
 	}
 }

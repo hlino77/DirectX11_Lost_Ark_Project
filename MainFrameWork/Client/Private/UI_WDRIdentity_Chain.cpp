@@ -61,17 +61,19 @@ HRESULT CUI_WDRIdentity_Chain::Initialize(void* pArg)
 void CUI_WDRIdentity_Chain::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
-
-	Update_Chain_State(fTimeDelta);
 }
 
 void CUI_WDRIdentity_Chain::LateTick(_float fTimeDelta)
 {
 	__super::LateTick(fTimeDelta);
+	Update_Chain_State(fTimeDelta);
 }
 
 HRESULT CUI_WDRIdentity_Chain::Render()
 {
+	if (!m_bChainRender)
+		return S_OK;
+
 	if (FAILED(Bind_ShaderResources()))
 		return E_FAIL;
 
@@ -105,7 +107,7 @@ HRESULT CUI_WDRIdentity_Chain::Ready_Components()
 HRESULT CUI_WDRIdentity_Chain::Bind_ShaderResources()
 {
 	if (FAILED(m_pShaderCom->Bind_Matrix("g_WorldMatrix", &m_pTransformCom->Get_WorldMatrix())))
-		return S_OK;
+		return E_FAIL;
 	if (FAILED(m_pShaderCom->Bind_Matrix("g_ViewMatrix", &m_ViewMatrix)))
 		return E_FAIL;
 	if (FAILED(m_pShaderCom->Bind_Matrix("g_ProjMatrix", &m_ProjMatrix)))
@@ -131,12 +133,12 @@ void CUI_WDRIdentity_Chain::Update_Chain_State(_float fTimeDelta)
 			{
 				if (0.3f > m_fCurrRatio)
 				{
-					m_bRender = true;
+					m_bChainRender = true;
 					m_iCurrChaniState = CHAIN_THREE;
 				}
 				if ((0.3f <= m_fCurrRatio) && (0.6f > m_fCurrRatio)&&((_uint)CHAIN_TWO > m_iCurrChaniState))
 				{
-					m_bRender = true;
+					m_bChainRender = true;
 					m_bCutting = true;
 					m_fFrame = 0.f;
 					m_iCurrChaniState = CHAIN_CUT1;
@@ -144,7 +146,7 @@ void CUI_WDRIdentity_Chain::Update_Chain_State(_float fTimeDelta)
 
 				if ((0.6f <= m_fCurrRatio) && (0.88f > m_fCurrRatio)&& ((_uint)CHAIN_ONE > m_iCurrChaniState))
 				{
-					m_bRender = true;
+					m_bChainRender = true;
 					m_bCutting = true;
 					m_fFrame = 16.f;
 					m_iCurrChaniState = CHAIN_CUT2;
@@ -152,7 +154,7 @@ void CUI_WDRIdentity_Chain::Update_Chain_State(_float fTimeDelta)
 
 				if ((1.f <= m_fCurrRatio)&&(((_uint)CHAIN_NONE > m_iCurrChaniState)))
 				{
-					m_bRender = true;
+					m_bChainRender = true;
 					m_bCutting = true;
 					m_fFrame = 33.f;
 					m_iCurrChaniState = CHAIN_CUT3;
@@ -164,12 +166,12 @@ void CUI_WDRIdentity_Chain::Update_Chain_State(_float fTimeDelta)
 		}
 		else
 		{
-			m_bRender = false;
+			m_bChainRender = false;
 			m_fFrame = 0.f;
 
 			if (CUI_WDRIdentity_Hammer::HAMMER_TRANSFORM_OFF == static_cast<CUI_WDRIdentity_Hammer*>(m_pHammerUI)->Get_CurrHammerState())
 			{
-				m_bRender = true;
+				m_bChainRender = true;
 				m_iCurrChaniState = CHAIN_THREE;
 			}
 		}
@@ -218,7 +220,7 @@ void CUI_WDRIdentity_Chain::Update_Chain_Idle(_float fTimeDelta)
 		}
 		if(CHAIN_NONE == m_iCurrChaniState)
 		{
-			m_bRender = false;
+			m_bChainRender = false;
 		}
 	}
 }
@@ -259,7 +261,7 @@ void CUI_WDRIdentity_Chain::Update_Chain_Cutting(_float fTimeDelta)
 			m_fFrame = 0.f;
 			m_iCurrChaniState = CHAIN_NONE;
 			m_bCutting = false;
-			m_bRender = false;
+			m_bChainRender = false;
 		}
 	}
 

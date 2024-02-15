@@ -118,7 +118,7 @@ HRESULT CLevel_ValtanMain::Initialize()
 	Start_Damage();
 	Start_QuadTree();
 
-	CChat_Manager::GetInstance()->Set_Active(true);
+	CChat_Manager::GetInstance()->Set_Active(false);
 
 	CServerSessionManager::GetInstance()->Get_Player()->Get_Camera()->Set_FadeInOut(1.0f, true);
 	CServerSessionManager::GetInstance()->Get_Player()->Get_Camera()->Set_FadeIntensity(1.0f);
@@ -169,7 +169,6 @@ HRESULT CLevel_ValtanMain::Exit()
 	CUI_Manager::GetInstance()->Clear(LEVELID::LEVEL_VALTANMAIN);
 	CGameInstance::GetInstance()->Reset_Lights();
 	CSound_Manager::GetInstance()->Stop_SoundAll();
-	CChat_Manager::GetInstance()->Set_Active(false);
 	//CUI_Tool::GetInstance()->Set_ToolMode(false);
 
 	Safe_Release(pGameInstance);

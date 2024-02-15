@@ -2,6 +2,7 @@
 #include "UI_ValtanClearWnd.h"
 #include "GameInstance.h"
 #include "Engine_Defines.h"
+#include "Sound_Manager.h"
 
 CUI_ValtanClearWnd::CUI_ValtanClearWnd(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CUI(pDevice, pContext)
@@ -85,13 +86,6 @@ HRESULT CUI_ValtanClearWnd::Initialize(void* pArg)
 void CUI_ValtanClearWnd::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
-	//if (KEY_TAP(KEY::H))
-	//{
-	//	m_bValtanClear = !m_bValtanClear;
-	//}
-
-	//if ((m_bTextOn)&&(KEY_TAP(KEY::LBTN)))
-	//	m_bActive = false;
 }
 
 void CUI_ValtanClearWnd::LateTick(_float fTimeDelta)
@@ -172,6 +166,7 @@ void CUI_ValtanClearWnd::Update_BackGroundAlpha(_float fTimeDelta)
 		{
 			m_fBackGroundAlpha = 1.f;
 			m_bClearAnim = true;
+			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"Clear.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
 		}
 
 	}
@@ -286,6 +281,8 @@ void CUI_ValtanClearWnd::Update_Text(_float fTimeDelta)
 		m_pTransform_ClearText->Set_Scale(Vec3(m_fSizeX_Text, m_fSizeY_Text, 1.f));
 		m_bTextOn = true;
 	}
+	if (KEY_TAP(KEY::LBTN))
+		m_bActive = false;
 }
 
 HRESULT CUI_ValtanClearWnd::Ready_Components()

@@ -68,7 +68,7 @@ void CUI_DamageFont::LateTick(_float fTimeDelta)
                 m_vHostPos.x += 50.f;
             else if (0.f > m_pOwner->Get_TransformCom()->Get_State(CTransform::STATE_LOOK).x)//¿ÞÂÊ
                 m_vHostPos.x -= 50.f;
-            m_vHostPos.y -= 350.f;
+            m_vHostPos.y -= 200.f;
             m_vHostPos += m_vOffset;
         }
         m_pDamageFontWnd->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, Vec3(m_vHostPos.x, m_vHostPos.y, m_fRandomZ));
@@ -140,14 +140,68 @@ void CUI_DamageFont::Print_DamageFont(CGameObject* pMonster, _float TextBoxScale
     m_vHostPos += vOffSet;
     m_vOffset = vOffSet;
 
-
-    if ((_uint)LAYER_TYPE::LAYER_PLAYER != m_pOwner->Get_Layer())
+    if (1 != iDamage)
     {
-        if (0 < iDamage)
+        if ((_uint)LAYER_TYPE::LAYER_PLAYER != m_pOwner->Get_Layer())
         {
-            if (!IsCritical)
+            if (0 < iDamage)
             {
-                wstring szDamage;
+                if (!IsCritical)
+                {
+                    wstring szDamage;
+                    szDamage = to_wstring(iDamage);
+
+                    _uint iIndex = 1;
+                    for (_uint i = (_uint)szDamage.length() - 1; i > 0; --i)
+                    {
+                        if ((iIndex % 3) == 0)
+                        {
+                            szDamage.insert(i, L",");
+                        }
+
+                        ++iIndex;
+                    }
+
+                    m_vTextBoxScale *= 0.8f;
+
+                    Vec2 vMeasure = CGameInstance::GetInstance()->MeasureString(L"ºûÀÇ°è½ÂÀÚ", szDamage);
+                    Vec2 vOrigin = vMeasure * 0.5f;
+
+                    m_pDamageFontWnd->Set_Text(L"DamageFontWnd1", m_szFont, szDamage, Vec2(vTextPos.x - 2, vTextPos.y), Vec2(1.0f, 1.0f), vOrigin, 0.f, Vec4(0.0f, 0.0f, 0.0f, 0.5f));
+                    m_pDamageFontWnd->Set_Text(L"DamageFontWnd2", m_szFont, szDamage, Vec2(vTextPos.x + 2, vTextPos.y), Vec2(1.0f, 1.0f), vOrigin, 0.f, Vec4(0.0f, 0.0f, 0.0f, 0.5f));
+                    m_pDamageFontWnd->Set_Text(L"DamageFontWnd", m_szFont, szDamage, vTextPos, Vec2(1.0f, 1.0f), vOrigin, 0.f, m_vColorNormal);
+                }
+                else
+                {
+                    wstring szDamage;
+                    szDamage = to_wstring(iDamage);
+
+                    _uint iIndex = 1;
+                    for (_uint i = (_uint)szDamage.length() - 1; i > 0; --i)
+                    {
+                        if ((iIndex % 3) == 0)
+                        {
+                            szDamage.insert(i, L",");
+                        }
+
+                        ++iIndex;
+                    }
+
+                    Vec2 vMeasure = CGameInstance::GetInstance()->MeasureString(L"ºûÀÇ°è½ÂÀÚ", szDamage);
+                    Vec2 vOrigin = vMeasure * 0.5f;
+
+                    m_pDamageFontWnd->Set_Text(L"DamageFontWnd1", m_szFont, szDamage, Vec2(vTextPos.x - 2, vTextPos.y), Vec2(1.0f, 1.0f), vOrigin, 0.f, Vec4(0.0f, 0.0f, 0.0f, 0.5f));
+                    m_pDamageFontWnd->Set_Text(L"DamageFontWnd2", m_szFont, szDamage, Vec2(vTextPos.x + 2, vTextPos.y), Vec2(1.0f, 1.0f), vOrigin, 0.f, Vec4(0.0f, 0.0f, 0.0f, 0.5f));
+                    m_pDamageFontWnd->Set_Text(L"DamageFontWnd", m_szFont, szDamage, vTextPos, Vec2(1.0f, 1.0f), vOrigin, 0.f, m_vColorCrit);
+                }
+                m_vTextBoxMaxScale = m_vTextBoxScale * 1.4f;
+            }
+        }
+        else if ((_uint)LAYER_TYPE::LAYER_PLAYER == m_pOwner->Get_Layer())
+        {
+            wstring szDamage;
+            if (0 != iDamage)
+            {
                 szDamage = to_wstring(iDamage);
 
                 _uint iIndex = 1;
@@ -160,69 +214,30 @@ void CUI_DamageFont::Print_DamageFont(CGameObject* pMonster, _float TextBoxScale
 
                     ++iIndex;
                 }
-
-                m_vTextBoxScale *= 0.8f;
-
-                Vec2 vMeasure = CGameInstance::GetInstance()->MeasureString(L"ºûÀÇ°è½ÂÀÚ", szDamage);
-                Vec2 vOrigin = vMeasure * 0.5f;
-
-                m_pDamageFontWnd->Set_Text(L"DamageFontWnd1", m_szFont, szDamage, Vec2(vTextPos.x - 2, vTextPos.y), Vec2(1.0f, 1.0f), vOrigin, 0.f, Vec4(0.0f, 0.0f, 0.0f, 0.5f));
-                m_pDamageFontWnd->Set_Text(L"DamageFontWnd2", m_szFont, szDamage, Vec2(vTextPos.x + 2, vTextPos.y), Vec2(1.0f, 1.0f), vOrigin, 0.f, Vec4(0.0f, 0.0f, 0.0f, 0.5f));
-                m_pDamageFontWnd->Set_Text(L"DamageFontWnd", m_szFont, szDamage, vTextPos, Vec2(1.0f, 1.0f), vOrigin, 0.f, m_vColorNormal);
             }
             else
-            {
-                wstring szDamage;
-                szDamage = to_wstring(iDamage);
+                szDamage = TEXT("");
 
-                _uint iIndex = 1;
-                for (_uint i = (_uint)szDamage.length() - 1; i > 0; --i)
-                {
-                    if ((iIndex % 3) == 0)
-                    {
-                        szDamage.insert(i, L",");
-                    }
+            Vec2 vMeasure = CGameInstance::GetInstance()->MeasureString(L"ºûÀÇ°è½ÂÀÚ", szDamage);
+            Vec2 vOrigin = vMeasure * 0.5f;
 
-                    ++iIndex;
-                }
-
-                Vec2 vMeasure = CGameInstance::GetInstance()->MeasureString(L"ºûÀÇ°è½ÂÀÚ", szDamage);
-                Vec2 vOrigin = vMeasure * 0.5f;
-
-                m_pDamageFontWnd->Set_Text(L"DamageFontWnd1", m_szFont, szDamage, Vec2(vTextPos.x - 2, vTextPos.y), Vec2(1.0f, 1.0f), vOrigin, 0.f, Vec4(0.0f, 0.0f, 0.0f, 0.5f));
-                m_pDamageFontWnd->Set_Text(L"DamageFontWnd2", m_szFont, szDamage, Vec2(vTextPos.x + 2, vTextPos.y), Vec2(1.0f, 1.0f), vOrigin, 0.f, Vec4(0.0f, 0.0f, 0.0f, 0.5f));
-                m_pDamageFontWnd->Set_Text(L"DamageFontWnd", m_szFont, szDamage, vTextPos, Vec2(1.0f, 1.0f), vOrigin, 0.f, m_vColorCrit);
-            }
-            m_vTextBoxMaxScale = m_vTextBoxScale * 1.4f;
+            m_pDamageFontWnd->Set_Text(L"DamageFontWnd1", m_szFont, szDamage, Vec2(vTextPos.x - 2, vTextPos.y), Vec2(1.0f, 1.0f), vOrigin, 0.f, Vec4(0.0f, 0.0f, 0.0f, 0.5f));
+            m_pDamageFontWnd->Set_Text(L"DamageFontWnd2", m_szFont, szDamage, Vec2(vTextPos.x + 2, vTextPos.y), Vec2(1.0f, 1.0f), vOrigin, 0.f, Vec4(0.0f, 0.0f, 0.0f, 0.5f));
+            m_pDamageFontWnd->Set_Text(L"DamageFontWnd", m_szFont, szDamage, vTextPos, Vec2(1.0f, 1.0f), vOrigin, 0.f, Vec4(1.f, 0.f, 0.f, 1.f));
         }
     }
-    else if ((_uint)LAYER_TYPE::LAYER_PLAYER == m_pOwner->Get_Layer())
+    else if (1 == iDamage)
     {
-        wstring szDamage;
-        if (0 != iDamage)
-        {
-            szDamage = to_wstring(iDamage);
+        wstring szDamage = TEXT("ÆÄ±«");
 
-            _uint iIndex = 1;
-            for (_uint i = (_uint)szDamage.length() - 1; i > 0; --i)
-            {
-                if ((iIndex % 3) == 0)
-                {
-                    szDamage.insert(i, L",");
-                }
-
-                ++iIndex;
-            }
-        }
-        else
-            szDamage = TEXT("");
-
-        Vec2 vMeasure = CGameInstance::GetInstance()->MeasureString(L"ºûÀÇ°è½ÂÀÚ", szDamage);
+        Vec2 vMeasure = CGameInstance::GetInstance()->MeasureString(L"´øÆÄ¿¬¸¶µÈÄ®³¯", szDamage);
         Vec2 vOrigin = vMeasure * 0.5f;
-    
-        m_pDamageFontWnd->Set_Text(L"DamageFontWnd1", m_szFont, szDamage, Vec2(vTextPos.x - 2, vTextPos.y), Vec2(1.0f, 1.0f), vOrigin, 0.f, Vec4(0.0f, 0.0f, 0.0f, 0.5f));
-        m_pDamageFontWnd->Set_Text(L"DamageFontWnd2", m_szFont, szDamage, Vec2(vTextPos.x + 2, vTextPos.y), Vec2(1.0f, 1.0f), vOrigin, 0.f, Vec4(0.0f, 0.0f, 0.0f, 0.5f));
-        m_pDamageFontWnd->Set_Text(L"DamageFontWnd", m_szFont, szDamage, vTextPos, Vec2(1.0f, 1.0f), vOrigin, 0.f, Vec4(1.f, 0.f, 0.f, 1.f));
+
+        m_pDamageFontWnd->Set_Text(L"DamageFontWnd1", L"´øÆÄ¿¬¸¶µÈÄ®³¯", szDamage, Vec2(vTextPos.x - 1, vTextPos.y), Vec2(1.0f, 1.0f), vOrigin, 0.f, Vec4(0.0f, 0.0f, 0.0f, 0.5f));
+        m_pDamageFontWnd->Set_Text(L"DamageFontWnd2", L"´øÆÄ¿¬¸¶µÈÄ®³¯", szDamage, Vec2(vTextPos.x + 1, vTextPos.y), Vec2(1.0f, 1.0f), vOrigin, 0.f, Vec4(0.0f, 0.0f, 0.0f, 0.5f));
+        m_pDamageFontWnd->Set_Text(L"DamageFontWnd3", L"´øÆÄ¿¬¸¶µÈÄ®³¯", szDamage, Vec2(vTextPos.x, vTextPos.y - 1), Vec2(1.0f, 1.0f), vOrigin, 0.f, Vec4(0.0f, 0.0f, 0.0f, 0.5f));
+        m_pDamageFontWnd->Set_Text(L"DamageFontWnd4", L"´øÆÄ¿¬¸¶µÈÄ®³¯", szDamage, Vec2(vTextPos.x, vTextPos.y + 1), Vec2(1.0f, 1.0f), vOrigin, 0.f, Vec4(0.0f, 0.0f, 0.0f, 0.5f));
+        m_pDamageFontWnd->Set_Text(L"DamageFontWnd", L"´øÆÄ¿¬¸¶µÈÄ®³¯", szDamage, vTextPos, Vec2(1.0f, 1.0f), vOrigin, 0.f, Vec4(1.f, 1.f, 1.f, 1.f));
     }
     m_vTextBoxMaxScale = m_vTextBoxScale * 1.4f;
     

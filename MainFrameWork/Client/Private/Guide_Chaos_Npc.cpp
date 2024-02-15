@@ -129,8 +129,7 @@ void CGuide_Chaos_Npc::Activate_GuideUI()
 	if (true == m_pChaosUI->Is_Entered() && false == m_pChaosUI->Is_Active())
 	{
 		Send_UI_State();
-	}
-		
+	}		
 }
 
 void CGuide_Chaos_Npc::Send_UI_State()

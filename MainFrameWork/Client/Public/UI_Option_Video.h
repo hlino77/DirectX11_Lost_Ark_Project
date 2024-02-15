@@ -42,6 +42,7 @@ private:
     void    Is_Picking_CheckButton_PBR(POINT pt);
     void    Is_Picking_CheckButton_SSAO(POINT pt);
     void    Is_Picking_CheckButton_Fxaa3_11(POINT pt);
+    void    Is_Picking_CheckButton_HBAO(POINT pt);
 
     void    Update_DragBar();
     void    Create_DragBar();
@@ -60,6 +61,7 @@ private:
    HRESULT Bind_ShaderResources_PBR();
    HRESULT Bind_ShaderResources_SSAO();
    HRESULT Bind_ShaderResources_Fxaa3_11();
+   HRESULT Bind_ShaderResources_HBAO();
    HRESULT Bind_ShaderResourcess_LineT();
    HRESULT Bind_ShaderResources_IBL();
    HRESULT Bind_ShaderResources_IBLDrag();
@@ -83,11 +85,11 @@ private:
     CTexture* m_pTexture_DragBar = { nullptr };
 
     CTransform* m_pTransform_OptionLine[2] = { nullptr, nullptr };
-    CTransform* m_pTransform_OptionCheckBox[3] = { nullptr, nullptr ,nullptr};
+    CTransform* m_pTransform_OptionCheckBox[4] = { nullptr, nullptr ,nullptr, nullptr};
     CTransform* m_pTransform_OptionDragLine[5] = { nullptr, nullptr, nullptr, nullptr ,nullptr };
     CTransform* m_pTransform_OptionDragBar[5] = { nullptr, nullptr, nullptr, nullptr ,nullptr };
 
-    RECT    m_rcCheckButton[3] = {};
+    RECT    m_rcCheckButton[4] = {};
     RECT    m_rcDragBar[5] = { };
 
     CTextBox* m_pOptionTextWnd = { nullptr };
@@ -97,10 +99,12 @@ private:
     _bool   m_bOption_PBR = { true };
     _bool   m_bOption_SSAO = { true };
     _bool   m_bOption_Fxaa3_11 = { true };
+    _bool   m_bOption_HBAO = { false };
 
     _uint   m_iTextureIndex_PBR = { 0 };
     _uint   m_iTextureIndex_SSAO = { 0 };
     _uint   m_iTextureIndex_Fxaa3_11 = { 0 };
+    _uint   m_iTextureIndex_HBAO = { 0 };
 
     //DragOption
     _float  m_fDragLineSizeX = { 0.f };
@@ -125,6 +129,7 @@ private:
     _bool   m_bPre_PBR = { true };
     _bool   m_bPre_SSAO = { true };
     _bool   m_bPre_Fxaa3_11 = { true };
+    _bool   m_bPre_HBAO = { false };
     _float  m_fPreX_IBL = { 0.f };
     _float  m_fPreX_SSR = { 0.f };
     _float  m_fPreX_ScreenTone_Grayscale = { 0.f };
@@ -133,7 +138,8 @@ private:
     _float  m_fPreRatioX[5] = { 0.f, 0.f, 0.f, 0.f, 0.f };
 
     _bool   m_bHolding[5] = { false, false, false, false, false };
-
+    _bool   m_bSound[9] = { false,false,false,false,false,false,false,false,false };
+    _bool   m_bDragSound[5] = { false,false,false,false,false };
 public:
     static  CUI_Option_Video* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
     virtual CGameObject* Clone(void* pArg) override;

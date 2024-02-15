@@ -7,6 +7,7 @@
 #include "Model.h"
 #include "NavigationMgr.h"
 #include "Cell.h"
+#include "UI_Manager.h"
 
 CState_WR_Dead_End::CState_WR_Dead_End(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Slayer* pOwner)
 	: CState(strStateName, pMachine, pController), m_pPlayer(pOwner)
@@ -43,7 +44,10 @@ void CState_WR_Dead_End::Enter_State()
 	m_pPlayer->Reserve_Animation(m_iDead_End, 0.1f, 0, 0);
 
 	if (true == m_pPlayer->Is_Control())
+	{
 		m_pPlayer->Get_RendererCom()->Set_DeadScene(true);
+		CUI_Manager::GetInstance()->Player_DeadScene(true, (LEVELID)CGameInstance::GetInstance()->Get_CurrLevelIndex());
+	}
 }
 
 void CState_WR_Dead_End::Tick_State(_float fTimeDelta)

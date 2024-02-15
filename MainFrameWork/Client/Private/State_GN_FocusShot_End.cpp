@@ -36,12 +36,17 @@ HRESULT CState_GN_FocusShot_End::Initialize()
 	m_ParticleName.push_back(L"FocusShotParticle4");
 	m_ParticleName.push_back(L"FocusShotParticle5");
 
+	m_SoundFrames.push_back(SOUNDDESC(2, TEXT("Effect"), TEXT("GN_Focus_114.wav")));
+	m_SoundFrames.push_back(SOUNDDESC(8, TEXT("Effect"), TEXT("GN_Focus_115.wav")));
+	m_SoundFrames.push_back(SOUNDDESC());
+
 	return S_OK;
 }
 
 void CState_GN_FocusShot_End::Enter_State()
 {
 	m_iSkillCnt = 0;
+	m_iSoundCnt = 0;
 
 	m_pPlayer->Reserve_Animation(m_iFocuseShot_End, 0.1f, 0, 0);
 
@@ -61,9 +66,10 @@ void CState_GN_FocusShot_End::Exit_State()
 	if (true == m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor())
 		m_pPlayer->Set_SuperArmorState(false);
 
-	if (true == m_pController->Is_HitState())
+	if (true == m_pPlayer->Is_CancelState())
 	{
 		Effect_Glow(false);
+		StopStateSound();
 	}
 }
 
@@ -83,6 +89,20 @@ void CState_GN_FocusShot_End::Tick_State_Control(_float fTimeDelta)
 
 		m_iSkillCnt++;
 		static_cast<CPlayer_Controller_GN*>(m_pController)->Get_SkillAttackMessage(m_eSkillSelectKey);
+	}
+
+	if (-1 != m_SoundFrames[m_iSoundCnt].iFrame && m_SoundFrames[m_iSoundCnt].iFrame <= (_int)iAnimFrame)
+	{
+		if (false == m_SoundFrames[m_iSoundCnt].bAddChannel)
+		{
+			CSound_Manager::GetInstance()->PlaySoundFile(m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume);
+		}
+		else
+		{
+			CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume);
+		}
+
+		m_iSoundCnt++;
 	}
 
 	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iFocuseShot_End))

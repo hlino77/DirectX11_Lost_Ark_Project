@@ -128,19 +128,19 @@ _bool CPlayer_Controller_GN::Is_EstherSkill()
 
 	if (KEY_HOLD(KEY::CTRL) && KEY_TAP(KEY::Z))
 	{
-		//m_iCurEstherGage = 0;
+		m_iCurEstherGage = 0;
 		m_iEstherType = 0;
 		return true;
 	}
 	else if (KEY_HOLD(KEY::CTRL) && KEY_TAP(KEY::X))
 	{
-		//m_iCurEstherGage = 0;
+		m_iCurEstherGage = 0;
 		m_iEstherType = 1;
 		return true;
 	}
 	else if (KEY_HOLD(KEY::CTRL) && KEY_TAP(KEY::C))
 	{
-		//m_iCurEstherGage = 0;
+		m_iCurEstherGage = 0;
 		m_iEstherType = 2;
 		return true;
 	}

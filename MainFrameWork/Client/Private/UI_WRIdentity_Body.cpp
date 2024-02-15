@@ -5,6 +5,7 @@
 #include "ServerSessionManager.h"
 #include "Controller_WR.h"
 #include "Player_Slayer.h"
+#include "Sound_Manager.h"
 
 CUI_WRIdentity_Body::CUI_WRIdentity_Body(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     :CUI(pDevice, pContext)
@@ -138,6 +139,7 @@ void CUI_WRIdentity_Body::Get_Identity_State(class CPlayer* pPlayer)
         {
             m_bTransfrom = true;
             m_iIdentity_CurrState = (_uint)WRIDENTITY_TRANSFORM_ON;
+            CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"Identity_Slayer_On.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
         }
         else if ((!m_bTransfrom) && (m_bIdentity) && (m_iIdentity_CurrState == WRIDENTITY_TRANSFORM_ON))
             m_iIdentity_CurrState = (_uint)WRIDENTITY_ON;
@@ -146,6 +148,7 @@ void CUI_WRIdentity_Body::Get_Identity_State(class CPlayer* pPlayer)
         {
             m_bTransfrom = true;
             m_iIdentity_CurrState = (_uint)WRIDENTITY_TRANSFORM_OFF;
+            CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"Identity_Slayer_Off.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
         }
 
         else if ((!m_bTransfrom) && (m_iIdentity_CurrState == WRIDENTITY_TRANSFORM_OFF))

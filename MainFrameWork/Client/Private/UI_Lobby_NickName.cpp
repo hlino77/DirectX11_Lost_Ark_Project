@@ -5,6 +5,7 @@
 #include "Player_Select.h"
 #include "UI_Lobby_NickNameChange.h"
 #include "UI_Manager.h"
+#include "Sound_Manager.h"
 
 CUI_Lobby_NickName::CUI_Lobby_NickName(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CUI(pDevice, pContext)
@@ -190,9 +191,19 @@ void CUI_Lobby_NickName::LateUpdate_NickNameFrame()
 		m_iButtonState = BUTTON_STATE::BUTTON_NORMAL;
 
 	if (BUTTON_STATE::BUTTON_PICKED == m_iButtonState)
+	{
+		if (!m_bSound)
+		{
+			m_bSound = true;
+			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"ClickedSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
+		}
 		m_iTextureIndex = 1;
+	}
 	else
+	{
 		m_iTextureIndex = 0;
+		m_bSound = false;
+	}
 }
 
 void CUI_Lobby_NickName::InitialIze_EmblemPos()

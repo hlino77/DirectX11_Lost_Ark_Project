@@ -41,7 +41,7 @@ HRESULT CState_GN_Gunkata_3::Initialize()
 	m_EffectFrames.push_back(EFFECTFRAMEDESC(24, (_uint)CPartObject::PARTS::WEAPON_1));
 	m_EffectFrames.push_back(EFFECTFRAMEDESC());
 
-	m_SoundFrames.push_back(SOUNDDESC(3, TEXT("Effect"), TEXT("GN_Gunkata_149.wav"), 0.7f));
+	m_SoundFrames.push_back(SOUNDDESC(3, TEXT("Effect"), TEXT("GN_Gunkata_149.wav")));
 	m_SoundFrames.push_back(SOUNDDESC(10, TEXT("Effect"), TEXT("GN_Gunkata_150.wav")));
 	m_SoundFrames.push_back(SOUNDDESC(22, TEXT("Effect"), TEXT("GN_Laugh_630.wav")));
 	m_SoundFrames.push_back(SOUNDDESC());

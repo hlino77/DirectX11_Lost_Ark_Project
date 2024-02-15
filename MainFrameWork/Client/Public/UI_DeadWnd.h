@@ -83,7 +83,7 @@ private:
     RECT    m_rcWatching = {};
 
     _uint   m_iTextureIndex_Button[2] = { 0, 0 };
-
+    _bool   m_bSound[2] = { false, false };
 public:
     static  CUI_DeadWnd* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
     virtual CGameObject* Clone(void* pArg) override;

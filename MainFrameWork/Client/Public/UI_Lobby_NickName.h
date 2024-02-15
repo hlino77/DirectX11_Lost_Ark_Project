@@ -67,7 +67,7 @@ private:
     wstring m_strClassFont;
 
     CGameObject* m_pLobbyCharacter = { nullptr };
-
+    _bool   m_bSound = { false };
 public:
     static  CUI_Lobby_NickName* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
     virtual CGameObject* Clone(void* pArg) override;

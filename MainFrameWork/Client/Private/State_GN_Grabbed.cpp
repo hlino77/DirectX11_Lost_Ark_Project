@@ -6,6 +6,8 @@
 #include "Player_Controller_GN.h"
 #include "Model.h"
 #include "Boss_Valtan.h"
+#include "BehaviorTree.h"
+#include "BT_Action.h"
 
 CState_GN_Grabbed::CState_GN_Grabbed(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Gunslinger* pOwner)
 	: CState(strStateName, pMachine, pController), m_pPlayer(pOwner)
@@ -39,6 +41,7 @@ void CState_GN_Grabbed::Enter_State()
 	m_SaveMatrix = m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
 
 	m_pPlayer->Set_Navi(false);
+	m_fGrabTimeAcc = 0.0f;
 }
 
 void CState_GN_Grabbed::Tick_State(_float fTimeDelta)
@@ -84,11 +87,20 @@ void CState_GN_Grabbed::To_GrabPos(_float fTimeDelta)
 	WorldMatrix *= GrabMatrix;
 	Matrix ComputeMatrix = WorldMatrix * m_pController->Get_Grabber()->Get_TransformCom()->Get_WorldMatrix();
 
-
-
-
-	m_pPlayer->Get_TransformCom()->Set_WorldMatrix(ComputeMatrix);
-	m_pPlayer->Get_TransformCom()->Set_Scale(Vec3(1.f, 1.f, 1.f));
+	if (false == static_cast<CBoss_Valtan*>(m_pController->Get_Grabber())->Get_BehaviorTree()->Get_CurrentAction()->Get_CurrentAnimDesc().bIsLoop)
+	{
+		m_pPlayer->Get_TransformCom()->Set_WorldMatrix(ComputeMatrix);
+		m_pPlayer->Get_TransformCom()->Set_Scale(Vec3(1.f, 1.f, 1.f));
+	}
+	else
+	{
+		m_fGrabTimeAcc += fTimeDelta;
+		if (0.2f >= m_fGrabTimeAcc)
+		{
+			m_pPlayer->Get_TransformCom()->Set_WorldMatrix(ComputeMatrix);
+			m_pPlayer->Get_TransformCom()->Set_Scale(Vec3(1.f, 1.f, 1.f));
+		}
+	}
 }
 
 void CState_GN_Grabbed::ToNone_GrabPos(_float fTimeDelta)
@@ -114,8 +126,20 @@ void CState_GN_Grabbed::ToNone_GrabPos(_float fTimeDelta)
 	WorldMatrix *= GrabMatrix;
 	Matrix ComputeMatrix = WorldMatrix * m_pValtan->Get_ModelCom()->Get_TransformCom()->Get_WorldMatrix();
 
-	m_pPlayer->Get_TransformCom()->Set_WorldMatrix(ComputeMatrix);
-	m_pPlayer->Get_TransformCom()->Set_Scale(Vec3(1.f, 1.f, 1.f));
+	if (false == static_cast<CBoss_Valtan*>(m_pValtan)->Get_BehaviorTree()->Get_CurrentAction()->Get_CurrentAnimDesc().bIsLoop)
+	{
+		m_pPlayer->Get_TransformCom()->Set_WorldMatrix(ComputeMatrix);
+		m_pPlayer->Get_TransformCom()->Set_Scale(Vec3(1.f, 1.f, 1.f));
+	}
+	else
+	{
+		m_fGrabTimeAcc += fTimeDelta;
+		if (0.2f >= m_fGrabTimeAcc)
+		{
+			m_pPlayer->Get_TransformCom()->Set_WorldMatrix(ComputeMatrix);
+			m_pPlayer->Get_TransformCom()->Set_Scale(Vec3(1.f, 1.f, 1.f));
+		}
+	}
 }
 
 CState_GN_Grabbed* CState_GN_Grabbed::Create(wstring strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Gunslinger* pOwner)

@@ -3,6 +3,7 @@
 #include "GameInstance.h"
 #include "PipeLine.h"
 #include "TextBox.h"
+#include "Sound_Manager.h"
 
 CUI_ChaosDungeon_Clear::CUI_ChaosDungeon_Clear(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CUI(pDevice, pContext)
@@ -91,12 +92,11 @@ void CUI_ChaosDungeon_Clear::Tick(_float fTimeDelta)
 		if (22.f > m_fFrame)
 			m_fFrame += 22.f * fTimeDelta;
 		else if (22.f < m_fFrame)
+		{
 			m_fFrame = 22.f;
+			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"Clear.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
+		}
 	}
-
-	if (KEY_TAP(KEY::B))
-		m_bStart = !m_bStart;
-
 }
 
 void CUI_ChaosDungeon_Clear::LateTick(_float fTimeDelta)
@@ -500,6 +500,7 @@ void CUI_ChaosDungeon_Clear::Update_ClearCheckButton()
 
 	if ((true == m_bPickedCheckButton) && (KEY_TAP(KEY::LBTN)))
 	{
+		CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"ClickedSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
 		m_bStart = false;
 		//m_bActive = false;
 	}
@@ -509,6 +510,11 @@ void CUI_ChaosDungeon_Clear::Is_Picking_ClearButton(POINT pt)
 {
 	if (PtInRect(&m_rcClearCheckButton, pt))
 	{
+		if (!m_bSound)
+		{
+			m_bSound = true;
+			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"Is_PickingSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
+		}
 		m_iTextureIndex = 1;
 		m_bPickedCheckButton = true;
 	}
@@ -516,6 +522,7 @@ void CUI_ChaosDungeon_Clear::Is_Picking_ClearButton(POINT pt)
 	{
 		m_iTextureIndex = 0;
 		m_bPickedCheckButton = false;
+		m_bSound = false;
 	}
 }
 

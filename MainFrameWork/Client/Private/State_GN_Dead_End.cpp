@@ -7,6 +7,7 @@
 #include "Model.h"
 #include "NavigationMgr.h"
 #include "Cell.h"
+#include "UI_Manager.h"
 
 CState_GN_Dead_End::CState_GN_Dead_End(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Gunslinger* pOwner)
 	: CState(strStateName, pMachine, pController), m_pPlayer(pOwner)
@@ -30,8 +31,10 @@ HRESULT CState_GN_Dead_End::Initialize()
 void CState_GN_Dead_End::Enter_State()
 {
 	if (true == m_pPlayer->Is_Control())
+	{
 		m_pPlayer->Get_RendererCom()->Set_DeadScene(true);
-
+		CUI_Manager::GetInstance()->Player_DeadScene(true, (LEVELID)CGameInstance::GetInstance()->Get_CurrLevelIndex());
+	}
 	m_pController->Get_HitEndMessage();
 
 	

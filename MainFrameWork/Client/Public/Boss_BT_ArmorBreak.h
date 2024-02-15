@@ -3,6 +3,10 @@
 #include "Client_Defines.h"
 #include "BT_Action.h"
 
+BEGIN(Engine)
+class CTextBox;
+END
+
 BEGIN(Client)
 
 class CBoss_BT_ArmorBreak :
@@ -16,8 +20,6 @@ private:
     virtual void		OnStart()							override;
     virtual BT_RETURN	OnUpdate(const _float& fTimeDelta)	override;
     virtual void		OnEnd()								override;
-
-
 
 public:
     static	CBoss_BT_ArmorBreak* Create(void* pArg);

@@ -2,6 +2,7 @@
 #include "UI_Lobby_EntranceServer_Button.h"
 #include "GameInstance.h"
 #include "TextBox.h"
+#include "Sound_Manager.h"
 
 CUILobby_Entrance_to_ServrerButton::CUILobby_Entrance_to_ServrerButton(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CUI(pDevice, pContext)
@@ -117,11 +118,17 @@ void CUILobby_Entrance_to_ServrerButton::Update_Buttton()
 	{
 		m_bEntrance = false;
 		m_iButtonState = (_uint)BUTTON_STATE::BUTTON_PICKING;
+		if (!m_bSound)
+		{
+			m_bSound = true;
+			CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"Is_PickingSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
+		}
 	}
 	else if ((BUTTON_STATE::BUTTON_PICKING == m_iButtonState) && ((KEY_TAP(KEY::LBTN)) || (KEY_HOLD(KEY::LBTN))))
 	{
 		m_bEntrance = false;
 		m_iButtonState = (_uint)BUTTON_STATE::BUTTON_PICKED;
+		CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"ClickedSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
 	}
 	else if ((m_iButtonState == (_uint)BUTTON_STATE::BUTTON_PICKED) && (KEY_AWAY(KEY::LBTN) && (m_bPick)))
 	{
@@ -133,6 +140,7 @@ void CUILobby_Entrance_to_ServrerButton::Update_Buttton()
 	{
 		m_bEntrance = false;
 		m_iButtonState = BUTTON_STATE::BUTTON_NORMAL;
+		m_bSound = false;
 	}
 	Update_Button_Texture();
 }

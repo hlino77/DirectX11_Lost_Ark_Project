@@ -50,6 +50,7 @@ private:
     wstring   m_strGold;
     wstring   m_strFont;
 
+    _bool   m_bSound = { false };
 public:
     static  CUI_InventoryWnd* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
     virtual CGameObject* Clone(void* pArg) override;

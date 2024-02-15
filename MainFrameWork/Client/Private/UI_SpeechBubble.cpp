@@ -5,6 +5,7 @@
 #include "Chat_Manager.h"
 #include "TextBox.h"
 #include "Pool.h"
+#include "Sound_Manager.h"
 
 CUI_SpeechBubble::CUI_SpeechBubble(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     :CUI(pDevice, pContext)
@@ -154,7 +155,6 @@ HRESULT CUI_SpeechBubble::Active_SpeechBuble(wstring szChat)
     if (szLine.empty() == false)
         szText += szLine;
 
-    
     Vec2 vMeasure = CGameInstance::GetInstance()->MeasureString(m_szFont, szText);
     m_pTransformCom->Set_Scale(Vec3(m_fSizeX, vMeasure.y * m_vTextScale.y, 1.0f));
 

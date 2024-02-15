@@ -3,12 +3,16 @@
 #include "Monster.h"
 #include "Model.h"
 #include "GameInstance.h"
+
 #include "Effect.h"
 #include "Effect_Manager.h"
 #include "Camera_Player.h"
 #include "ServerSessionManager.h"
 #include "Player.h"
 #include "Boss_Valtan.h"
+
+#include "UI_Manager.h"
+
 
 CValtan_BT_Dead::CValtan_BT_Dead()
 {
@@ -58,6 +62,7 @@ void CValtan_BT_Dead::OnEnd()
 	static_cast<CMonster*>(m_pGameObject)->Set_Left(false);
 	static_cast<CMonster*>(m_pGameObject)->Set_AnimationSpeed(0.f);
 	static_cast<CMonster*>(m_pGameObject)->Set_Die(4.f);
+	CUI_Manager::GetInstance()->Clear_Valtan();
 }
 
 void CValtan_BT_Dead::Update_Camera(_float fTimeDelta)

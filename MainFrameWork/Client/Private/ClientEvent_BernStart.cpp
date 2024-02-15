@@ -19,6 +19,7 @@
 #include "AsUtils.h"
 #include "AsFileUtils.h"
 #include <filesystem>
+#include "Chat_Manager.h"
 
 CClientEvent_BernStart::CClientEvent_BernStart(_uint iID, ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CClientEvent(iID, pDevice, pContext)
@@ -38,7 +39,11 @@ void CClientEvent_BernStart::Enter_Event()
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
-	
+
+	CSound_Manager::GetInstance()->PlayBGM_AddChannel(L"CastleBern", L"BGM", L"CastleBern.wav", 0.5f);
+	//앞에 2초 자른 버전
+	//CSound_Manager::GetInstance()->PlayBGM_AddChannel(L"CastleBern", L"BGM", L"CastleBern_Edit.wav", 0.5f);
+
 	CPlayer* pPlayer = CServerSessionManager::GetInstance()->Get_Player();
 
 	CCamera_Player* pCamera = pPlayer->Get_Camera();
@@ -80,7 +85,7 @@ void CClientEvent_BernStart::Enter_Event()
 	CUI_Manager::GetInstance()->Set_UIs_Active(false, LEVELID::LEVEL_BERN);
 	CUI_Manager::GetInstance()->Set_RenderNickName(false, LEVELID::LEVEL_BERN);
 	CUI_Manager::GetInstance()->Set_RenderNickName(false, LEVELID::LEVEL_STATIC);
-
+	CChat_Manager::GetInstance()->Set_Active(false);
 	Safe_Release(pGameInstance);
 }
 
@@ -116,7 +121,7 @@ void CClientEvent_BernStart::Exit_Event()
 	CUI_Manager::GetInstance()->Set_UIs_Active(true, LEVELID::LEVEL_BERN);
 	CUI_Manager::GetInstance()->Set_RenderNickName(true, LEVELID::LEVEL_BERN);
 	CUI_Manager::GetInstance()->Set_RenderNickName(true, LEVELID::LEVEL_STATIC);
-
+	CChat_Manager::GetInstance()->Set_Active(true);
 	Safe_Release(pGameInstance);
 }
 
