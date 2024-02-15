@@ -63,7 +63,7 @@ public:
 	virtual HRESULT				Render_ShadowDepth_Instance(_uint iSize) { return S_OK; }
 	virtual HRESULT				Render_MakeSRV() { return S_OK; }
 	virtual HRESULT				Render_Debug() { return S_OK; }
-
+	virtual HRESULT				Render_CascadeShadowDepth_Instance(_uint iIndex) { return S_OK; };
 
 
 	virtual	void				OnCollisionEnter(const _uint iColLayer, class CCollider* pOther) {};
@@ -77,6 +77,7 @@ public:
 
 	//ID3D11Buffer*				Get_InstanceBuffer() { return m_pInstaceData->pInstanceBuffer; }
 	virtual void				Add_InstanceData(_uint iSize, _uint& iIndex) {};
+	virtual void				Add_Cascade_InstanceData(_uint iSize, _uint& iIndex) {};
 public:
 	class CComponent*			Get_Component(const wstring & strComponentTag);
 
@@ -211,9 +212,9 @@ protected:
 	HRESULT Compute_CamZ(Vec4 vWorldPos);
 
 
-	
 	virtual HRESULT				Ready_Proto_InstanceBuffer() { return S_OK; }
 	virtual HRESULT				Ready_Instance_For_Render(_uint iSize) { return S_OK; }
+
 
 	virtual void				Set_EffectPos();
 protected:

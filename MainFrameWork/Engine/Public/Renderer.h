@@ -38,6 +38,7 @@ public:
 	HRESULT	Add_InstanceRenderGroup(RENDERGROUP eRenderGroup, class CGameObject* pGameObject);
 	HRESULT Add_MakeSRV(CGameObject* pObject, ID3D11ShaderResourceView** pSRV);
 	HRESULT Add_DebugObject(CGameObject* pObject);
+	HRESULT Add_CascadeInstanceGroup(class CGameObject* pGameObject);
 
 	HRESULT Add_CascadeObject(_uint iIndex, CGameObject* pObject);
 
@@ -128,6 +129,7 @@ private:
 	vector<class CGameObject*> m_DebugRenderObjects;
 	vector<class CGameObject*> m_RenderObjects[RENDER_END];
 	unordered_map<wstring, vector<class CGameObject*>, djb2Hasher> m_InstanceRenderObjects[RENDER_END];
+	unordered_map<wstring, vector<class CGameObject*>, djb2Hasher> m_InstanceCascadeObjects;
 
 
 	vector<class CGameObject*> m_CascadeObjects[3];
@@ -179,6 +181,7 @@ private:
 	vector<_float> m_BlurWeights;
 
 	_float	m_fBias = 0.0000022f;
+	_float	m_fStaticBias = 0.0012f;
 
 	_bool	m_bRenderStaticShadow = false;
 

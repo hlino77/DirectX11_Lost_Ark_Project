@@ -44,7 +44,7 @@ public:
 	virtual HRESULT	Render_Instance(_uint iSize);
 
 	virtual void	Add_InstanceData(_uint iSize, _uint& iIndex) override;
-
+	virtual HRESULT	Render_CascadeShadowDepth(_uint iIndex);
 
 public:
 	CShader* Get_ShaderCom() { return m_pShaderCom; }

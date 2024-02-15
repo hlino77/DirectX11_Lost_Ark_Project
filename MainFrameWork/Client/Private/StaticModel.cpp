@@ -19,12 +19,16 @@ CStaticModel::CStaticModel(ID3D11Device* pDevice, ID3D11DeviceContext* pContext,
 
 CStaticModel::CStaticModel(const CStaticModel& rhs)
 	: CGameObject(rhs)
+	, m_CascadeInstance(rhs.m_CascadeInstance)
 {
 }
 
 HRESULT CStaticModel::Initialize_Prototype()
 {
 	__super::Initialize_Prototype();
+
+	m_CascadeInstance = make_shared<unordered_map<wstring, CascadeInstance>>();
+
     return S_OK;
 }
 
@@ -133,6 +137,17 @@ HRESULT CStaticModel::Initialize(void* pArg)
 		{
 			if (FAILED(Ready_Proto_InstanceBuffer()))
 				return E_FAIL;
+		}
+
+		if (m_IsGrass == false)
+		{
+			if (m_CascadeInstance->find(m_szModelName) == m_CascadeInstance->end())
+			{
+				if (FAILED(Ready_Cascade_Instance()))
+					return E_FAIL;
+
+
+			}
 		}
 
 		if (true == m_IsGrass)
@@ -944,26 +959,36 @@ void CStaticModel::LateTick(_float fTimeDelta)
 				m_pRendererCom->Add_RenderGroup(m_eRenderGroup, this);
 			}
 		}
-		
-		/*if (m_bBreakableObject == true)
-		{
-			m_pRendererCom->Add_InstanceRenderGroup(CRenderer::RENDERGROUP::RENDER_SHADOW, this);
-		}*/
-
 		// Draw Collider
 		m_pRendererCom->Add_DebugObject(this);
 	}
 
 	if (m_IsGrass == false)
 	{
-		for (_uint i = 0; i < 3; ++i)
+		if (m_bInstance == true)
 		{
-			if (m_bCascadeRender[i] == true)
+			if (m_bCascadeRender[0] == true ||
+				m_bCascadeRender[1] == true ||
+				m_bCascadeRender[2] == true)
 			{
-				m_pRendererCom->Add_CascadeObject(i, this);
+				m_pRendererCom->Add_CascadeInstanceGroup(this);
 			}
 		}
+		else
+		{
+			for (_uint i = 0; i < 3; ++i)
+			{
+				if (m_bCascadeRender[i] == true)
+				{
+					m_pRendererCom->Add_CascadeObject(i, this);
+				}
+			}
+			
+		}
+
 	}
+
+
 }
 
 HRESULT CStaticModel::Render()
@@ -1352,8 +1377,7 @@ void CStaticModel::Add_InstanceData(_uint iSize, _uint& iIndex)
 {
 	vector<Matrix>* pInstanceValue = static_cast<vector<Matrix>*>(((*m_pInstaceData)[m_szModelName].pInstanceValue)->GetValue());
 
-
-	Matrix matWorld = m_pTransformCom->Get_WorldMatrix();
+	Matrix& matWorld = m_pTransformCom->Get_WorldMatrix();
 
 	if (m_bRimLight)
 	{
@@ -1380,6 +1404,70 @@ void CStaticModel::Add_InstanceData(_uint iSize, _uint& iIndex)
 		
 }
 
+HRESULT CStaticModel::Render_CascadeShadowDepth_Instance(_uint iIndex)
+{
+	{
+		if ((*m_CascadeInstance)[m_szModelName].Future_Instance.valid())
+		{
+			(*m_CascadeInstance)[m_szModelName].Future_Instance.wait();
+			if (FAILED((*m_CascadeInstance)[m_szModelName].Future_Instance.get()))
+				return E_FAIL;
+		}
+
+		if ((*m_CascadeInstance)[m_szModelName].pCascadeContext != nullptr)
+		{
+			CGameInstance::GetInstance()->Execute_BeforeRenderCommandList((*m_CascadeInstance)[m_szModelName].pCascadeContext);
+			(*m_CascadeInstance)[m_szModelName].pCascadeContext = nullptr;
+		}
+	}
+
+	if (FAILED((*m_pInstaceData)[m_szModelName].pInstanceShader->Bind_Matrix("WorldMatrix", &m_pTransformCom->Get_WorldMatrix())))
+		return E_FAIL;
+
+	(*m_pInstaceData)[m_szModelName].pInstanceShader->Bind_Matrix("g_CascadeProj", &CGameInstance::GetInstance()->Get_ShadowProj()[iIndex]);
+
+	_uint		iNumMeshes = m_pModelCom->Get_NumMeshes();
+
+	for (_uint i = 0; i < iNumMeshes; ++i)
+	{
+		if (FAILED(m_pModelCom->SetUp_OnShader((*m_pInstaceData)[m_szModelName].pInstanceShader, m_pModelCom->Get_MaterialIndex(i), aiTextureType_DIFFUSE, "g_DiffuseTexture")))
+			return S_OK;
+
+		/*if (FAILED(m_pModelCom->SetUp_OnShader(m_pShaderCom, m_pModelCom->Get_MaterialIndex(i), aiTextureType_NORMALS, "g_NormalTexture")))
+			return E_FAIL;*/
+
+		if (FAILED(m_pModelCom->Render_Instance((*m_CascadeInstance)[m_szModelName].pCascadeInstanceBuffer[iIndex], (*m_CascadeInstance)[m_szModelName].CascadeMatrix[iIndex].size(), (*m_pInstaceData)[m_szModelName].pInstanceShader, i, sizeof(Matrix), "CascadeShadowInstance")))
+			return S_OK;
+	}
+
+	(*m_CascadeInstance)[m_szModelName].CascadeMatrix[iIndex].clear();
+
+
+	return S_OK;
+}
+
+void CStaticModel::Add_Cascade_InstanceData(_uint iSize, _uint& iIndex)
+{
+	Matrix& matWorld = m_pTransformCom->Get_WorldMatrix();
+
+	for (_uint i = 0; i < 3; ++i)
+	{
+		if (m_bCascadeRender[i] == true)
+		{
+			(*m_CascadeInstance)[m_szModelName].CascadeMatrix[i].push_back(matWorld);
+		}
+	}
+
+	if (iSize - 1 == iIndex)
+	{
+		(*m_CascadeInstance)[m_szModelName].Future_Instance = std::async(&CStaticModel::Ready_Cascade_Instance_For_Render, this);
+	}
+	else
+	{
+		++iIndex;
+	}
+}
+
 HRESULT CStaticModel::Render_Debug()
 {
 	for (auto& Collider : m_StaticColliders)
@@ -1398,22 +1486,9 @@ HRESULT CStaticModel::Render_ShadowDepth_Instance(_uint iSize)
 	if (nullptr == m_pModelCom || nullptr == m_pShaderCom)
 		return E_FAIL;
 
-	if (FAILED((*m_pInstaceData)[m_szModelName].pInstanceShader->Push_ShadowWVP()))
-		return E_FAIL;
+	
 
-	_uint		iNumMeshes = m_pModelCom->Get_NumMeshes();
-
-	for (_uint i = 0; i < iNumMeshes; ++i)
-	{
-		if (FAILED(m_pModelCom->SetUp_OnShader(m_pShaderCom, m_pModelCom->Get_MaterialIndex(i), aiTextureType_DIFFUSE, "g_DiffuseTexture")))
-			return S_OK;
-
-		/*if (FAILED(m_pModelCom->SetUp_OnShader(m_pShaderCom, m_pModelCom->Get_MaterialIndex(i), aiTextureType_NORMALS, "g_NormalTexture")))
-			return E_FAIL;*/
-
-		if (FAILED(m_pModelCom->Render_Instance((*m_pInstaceData)[m_szModelName].pInstanceBuffer, iSize, (*m_pInstaceData)[m_szModelName].pInstanceShader, i, sizeof(Matrix), "ShadowInstance")))
-			return S_OK;
-	}
+	
 
 	return S_OK;
 }
@@ -1484,6 +1559,40 @@ HRESULT CStaticModel::Ready_Proto_InstanceBuffer()
 	return S_OK;
 }
 
+HRESULT CStaticModel::Ready_Cascade_Instance()
+{
+	/* For.Com_Shader */
+
+	for(_uint i = 0; i < 3; ++i)
+	{
+		D3D11_BUFFER_DESC			BufferDesc;
+
+		ZeroMemory(&BufferDesc, sizeof(D3D11_BUFFER_DESC));
+
+		// m_BufferDesc.ByteWidth = 정점하나의 크기(Byte) * 정점의 갯수;
+		BufferDesc.ByteWidth = sizeof(Matrix) * 300;
+		BufferDesc.Usage = D3D11_USAGE_DYNAMIC; /* 정적버퍼로 할당한다. (Lock, unLock 호출 불가)*/
+		BufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+		BufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+		BufferDesc.MiscFlags = 0;
+		BufferDesc.StructureByteStride = sizeof(Matrix);
+
+		(*m_CascadeInstance)[m_szModelName].CascadeMatrix[i].reserve(300);
+
+		vector<Matrix> WorldMatrix;
+		WorldMatrix.resize(300);
+
+		D3D11_SUBRESOURCE_DATA		InitialData;
+
+		InitialData.pSysMem = WorldMatrix.data();
+
+		if (FAILED(m_pDevice->CreateBuffer(&BufferDesc, &InitialData, &(*m_CascadeInstance)[m_szModelName].pCascadeInstanceBuffer[i])))
+			return E_FAIL;
+	}
+
+	return S_OK;
+}
+
 HRESULT CStaticModel::Ready_Instance_For_Render(_uint iSize)
 {
 	vector<Matrix>* pInstanceValue = static_cast<vector<Matrix>*>(((*m_pInstaceData)[m_szModelName].pInstanceValue)->GetValue());
@@ -1504,6 +1613,32 @@ HRESULT CStaticModel::Ready_Instance_For_Render(_uint iSize)
 
 	return S_OK;
 }
+
+HRESULT CStaticModel::Ready_Cascade_Instance_For_Render()
+{
+	(*m_CascadeInstance)[m_szModelName].pCascadeContext = CGameInstance::GetInstance()->Get_BeforeRenderContext();
+
+	if ((*m_CascadeInstance)[m_szModelName].pCascadeContext == nullptr)
+		return E_FAIL;
+
+	for (_uint i = 0; i < 3; ++i)
+	{
+		D3D11_MAPPED_SUBRESOURCE		SubResource = {};
+
+		if (FAILED((*m_CascadeInstance)[m_szModelName].pCascadeContext->Map(((*m_CascadeInstance)[m_szModelName].pCascadeInstanceBuffer[i]), 0, D3D11_MAP_WRITE_DISCARD, 0, &SubResource)))
+			return E_FAIL;
+
+		vector<Matrix>& Data = (*m_CascadeInstance)[m_szModelName].CascadeMatrix[i];
+
+		memcpy(SubResource.pData, Data.data(), sizeof(Matrix) * Data.size());
+
+		(*m_CascadeInstance)[m_szModelName].pCascadeContext->Unmap((*m_CascadeInstance)[m_szModelName].pCascadeInstanceBuffer[i], 0);
+	}
+
+	return S_OK;
+}
+
+
 
 void CStaticModel::Send_Collision(_uint iLevel, _bool bActive)
 {

@@ -34,6 +34,7 @@ float   g_CenterWeight;
 float	g_WeightAtt;
 
 float	g_fBias;
+float	g_fStaticBias;
 
 float	g_fShadowSizeRatio;
 float	g_fStaticShadowSizeRatio;
@@ -192,9 +193,9 @@ float PCF_StaticShadowCalculation_Cascade(float4 vWorldPos, float fBias, float f
 
 	float fShadow = 1.0f;
 
-	fBias = 0.001f;
+	fBias = g_fStaticBias;
 
-	if (fViewZ <= 15.0f)
+	if (fViewZ <= 10.0f)
 	{
 		vProjCoords = mul(vWorldPos, g_CascadeProj[0]);
 
@@ -212,7 +213,7 @@ float PCF_StaticShadowCalculation_Cascade(float4 vWorldPos, float fBias, float f
 
 		currentDepth -= fBias;
 
-		float2 texelSize = float2(1.f / 1600.0f, 1.f / 1600.0f);
+		float2 texelSize = float2(1.f / 1600.0f, 1.f / 900.0f);
 
 		for (int x = -1; x <= 1; ++x)
 		{
@@ -225,7 +226,7 @@ float PCF_StaticShadowCalculation_Cascade(float4 vWorldPos, float fBias, float f
 		fShadow /= 9.0f;
 
 	}
-	else if (fViewZ > 15.0f && fViewZ <= 30.0f)
+	else if (fViewZ > 10.0f && fViewZ <= 20.0f)
 	{
 		vProjCoords = mul(vWorldPos, g_CascadeProj[1]);
 
@@ -243,7 +244,7 @@ float PCF_StaticShadowCalculation_Cascade(float4 vWorldPos, float fBias, float f
 
 		currentDepth -= fBias;
 
-		float2 texelSize = float2(1.f / 1600.0f, 1.f / 1600.0f);
+		float2 texelSize = float2(1.f / 1600.0f, 1.f / 900.0f);
 
 		for (int x = -1; x <= 1; ++x)
 		{
@@ -255,7 +256,7 @@ float PCF_StaticShadowCalculation_Cascade(float4 vWorldPos, float fBias, float f
 		}
 		fShadow /= 9.0f;
 	}
-	else if (fViewZ > 30.0f)
+	else if (fViewZ > 20.0f)
 	{
 		vProjCoords = mul(vWorldPos, g_CascadeProj[2]);
 
@@ -273,7 +274,7 @@ float PCF_StaticShadowCalculation_Cascade(float4 vWorldPos, float fBias, float f
 
 		currentDepth -= fBias;
 
-		float2 texelSize = float2(1.f / 1600.0f, 1.f / 1600.0f);
+		float2 texelSize = float2(1.f / 1600.0f, 1.f / 900.0f);
 
 		for (int x = -1; x <= 1; ++x)
 		{

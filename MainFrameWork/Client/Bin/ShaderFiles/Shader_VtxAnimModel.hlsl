@@ -6,6 +6,8 @@ float4	g_vHairColor_2;
 bool    g_bDissolve = false;
 matrix  g_BoneMatrices[800];
 
+matrix      g_CascadeProj;
+
 VS_OUT VS_MAIN_NO_NORMAL(SKELETAL_IN In)
 {
 	VS_OUT		Out = (VS_OUT)0;
@@ -99,6 +101,34 @@ VS_OUT_SHADOW VS_SHADOW(SKELETAL_IN In)
     Out.vPosition = mul(vPosition, matWVP);
     Out.vProjPos = Out.vPosition;
 	
+    return Out;
+}
+
+VS_OUT_SHADOW VS_CASCADE_SHADOW(SKELETAL_IN In)
+{
+    VS_OUT_SHADOW Out = (VS_OUT_SHADOW)0;
+
+    matrix matWVP;
+
+    matWVP = mul(WorldMatrix, g_CascadeProj);
+
+    float fWeightW = 1.f - (In.vBlendWeight.x + In.vBlendWeight.y + In.vBlendWeight.z);
+
+    float4x4 vMatX = g_BoneMatrices[In.vBlendIndex.x];
+    float4x4 vMatY = g_BoneMatrices[In.vBlendIndex.y];
+    float4x4 vMatZ = g_BoneMatrices[In.vBlendIndex.z];
+    float4x4 vMatW = g_BoneMatrices[In.vBlendIndex.w];
+
+    float4x4 BoneMatrix = vMatX * In.vBlendWeight.x +
+        vMatY * In.vBlendWeight.y +
+        vMatZ * In.vBlendWeight.z +
+        vMatW * fWeightW;
+
+    vector vPosition = mul(vector(In.vPosition, 1.f), BoneMatrix);
+    vector vNormal = mul(vector(In.vNormal, 0.f), BoneMatrix);
+
+    Out.vPosition = mul(vPosition, matWVP);
+
     return Out;
 }
 
@@ -466,6 +496,11 @@ float4 PS_SHADOW(VS_OUT_SHADOW In) : SV_TARGET0
     return float4(In.vProjPos.z / In.vProjPos.w, 0.0f, 0.0f, 0.0f);
 }
 
+float4 PS_CASCADE_SHADOW(VS_OUT_SHADOW In) : SV_TARGET0
+{
+    return float4(In.vPosition.z, 0.0f, 0.0f, 0.0f);
+}
+
 PS_OUT_PHONG PS_DIFFUSE(VS_OUT In)
 {
     PS_OUT_PHONG Out = (PS_OUT_PHONG) 0;
@@ -688,5 +723,16 @@ technique11 DefaultTechnique
         VertexShader = compile vs_5_0 VS_MAIN();
         GeometryShader = NULL;
         PixelShader = compile ps_5_0 PS_PBR();
+    }
+
+    pass CascadeShadowPass // 7
+    {
+        SetRasterizerState(RS_Default);
+        SetDepthStencilState(DSS_Default, 0);
+        SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+        VertexShader = compile vs_5_0 VS_CASCADE_SHADOW();
+        GeometryShader = NULL;
+        PixelShader = compile ps_5_0 PS_CASCADE_SHADOW();
     }
 }

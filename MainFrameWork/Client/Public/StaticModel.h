@@ -30,6 +30,13 @@ public:
 		_bool	bInstance = false;
 	}MODELDESC;
 
+	struct CascadeInstance
+	{
+		vector<Matrix>					CascadeMatrix[3];
+		ID3D11Buffer*					pCascadeInstanceBuffer[3];
+		ID3D11DeviceContext*			pCascadeContext;
+		future<HRESULT>					Future_Instance;
+	};
 public:
 	enum STATE { STATE_IDLE, STATE_WALK, STATE_RUN, STATE_JUMP, STATE_END };
 	enum PARTTYPE { PART_WEAPON, PART_END };
@@ -50,8 +57,11 @@ public:
 	virtual HRESULT	Render_Debug();
 	virtual HRESULT Render_ShadowDepth_Instance(_uint iSize) override;
 	virtual HRESULT	Render_CascadeShadowDepth(_uint iIndex) override;
+	
+	virtual HRESULT	Render_CascadeShadowDepth_Instance(_uint iIndex) override;
 
 	virtual void	Add_InstanceData(_uint iSize, _uint& iIndex) override;
+	virtual void	Add_Cascade_InstanceData(_uint iSize, _uint& iIndex) override;
 public:
 	CShader* Get_ShaderCom() { return m_pShaderCom; }
 	CTransform* Get_TransformCom() { return m_pTransformCom; }
@@ -85,10 +95,14 @@ public:
 	_bool					Is_Grass() { return m_IsGrass; }
 protected:
 
+
+	HRESULT	Ready_Cascade_Instance_For_Render();
 	virtual HRESULT Ready_Components() override;
 	virtual HRESULT	Ready_Proto_InstanceBuffer() override;
-	virtual HRESULT	Ready_Instance_For_Render(_uint iSize) override;
 
+	HRESULT Ready_Cascade_Instance();
+	
+	virtual HRESULT	Ready_Instance_For_Render(_uint iSize) override;
 
 private:
 
@@ -130,7 +144,7 @@ private:
 	_float							m_fRimLightColor = 1.f;
 	_float							m_fRimLightTime = 0.1f;
 
-
+	shared_ptr<unordered_map<wstring, CascadeInstance>> m_CascadeInstance;
 public:
 
 	static CStaticModel* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, OBJ_TYPE eObjType);

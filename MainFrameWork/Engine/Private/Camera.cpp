@@ -82,9 +82,9 @@ void CCamera::Update_Cascade()
 
 	// 절두체를 나누기위한 각 부분 절두체의 끝 지점 선언
 	m_fCascadeEnd[0] = m_CameraDesc.fNear;
-	m_fCascadeEnd[1] = 15.f;
-	m_fCascadeEnd[2] = 30.f;
-	m_fCascadeEnd[3] = 60.f;
+	m_fCascadeEnd[1] = 10.f;
+	m_fCascadeEnd[2] = 20.f;
+	m_fCascadeEnd[3] = 40.f;
 
 	// 3개의 절두체로 나누기위해 3번 반복함
 	for (uint32_t i = 0; i < 3; ++i)
@@ -133,7 +133,7 @@ void CCamera::Update_Cascade()
 		radius = ceil(radius * 16.0f) / 16.0f;
 
 		// using radius ,  we made aabb box
-		Vec3 maxExtents(radius, radius, radius);
+		Vec3 maxExtents(radius, radius, radius + 60.0f);
 		Vec3 minExtents = -maxExtents;
 
 		Vec3 vLightDir = CLight_Manager::GetInstance()->Get_LightDir();

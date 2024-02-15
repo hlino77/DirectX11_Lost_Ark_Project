@@ -91,6 +91,11 @@ HRESULT CAnimModel::Initialize(void* pArg)
 		Creat_NaviCellIndex_ExceptObject();
 	}
 
+	if (m_szModelName != L"Chain")
+	{
+		m_bCascadeRender[0] = true;
+	}
+
     return S_OK;
 }
 
@@ -168,6 +173,13 @@ void CAnimModel::LateTick(_float fTimeDelta)
 		//	m_pRendererCom->Add_InstanceRenderGroup(m_eRenderGroup, this);
 		//else
 			m_pRendererCom->Add_RenderGroup(m_eRenderGroup, this);
+	}
+
+
+	if (m_bCascadeRender[0] == true)
+	{
+		m_pRendererCom->Add_CascadeObject(0, this);
+		m_pRendererCom->Add_CascadeObject(1, this);
 	}
 
 }
@@ -389,6 +401,33 @@ void CAnimModel::Add_InstanceData(_uint iSize, _uint& iIndex)
 	}
 	else
 		++iIndex;
+}
+
+HRESULT CAnimModel::Render_CascadeShadowDepth(_uint iIndex)
+{
+
+	if (nullptr == m_pModelCom || nullptr == m_pShaderCom)
+		return S_OK;
+
+	m_pShaderCom->Push_GlobalWVP();
+
+	m_pModelCom->SetUpAnimation_OnShader(m_pShaderCom);
+
+	m_pShaderCom->Bind_Matrix("g_CascadeProj", &CGameInstance::GetInstance()->Get_ShadowProj()[iIndex]);
+
+	_uint		iNumMeshes = m_pModelCom->Get_NumMeshes();
+
+	for (_uint i = 0; i < iNumMeshes; ++i)
+	{
+		if (FAILED(m_pModelCom->SetUp_OnShader(m_pShaderCom, m_pModelCom->Get_MaterialIndex(i), aiTextureType_DIFFUSE, "g_DiffuseTexture")))
+			return S_OK;
+
+		if (FAILED(m_pModelCom->Render(m_pShaderCom, i, "CascadeShadowPass")))
+			return S_OK;
+	}
+
+
+	return S_OK;
 }
 
 

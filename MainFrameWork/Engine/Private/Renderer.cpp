@@ -138,9 +138,9 @@ HRESULT CRenderer::Initialize_Prototype()
 		ViewportDesc.Width * m_fShadowTargetSizeRatio, ViewportDesc.Height * m_fShadowTargetSizeRatio, DXGI_FORMAT_R32G32B32A32_FLOAT, Vec4(1.0f, 1.0f, 1.0f, 1.0f))))
 		return E_FAIL;
 
-	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_StaticShadowDepth"),
-		ViewportDesc.Width * m_fStaticShadowTargetSizeRatio, ViewportDesc.Height * m_fStaticShadowTargetSizeRatio, DXGI_FORMAT_R32G32B32A32_FLOAT, Vec4(1.0f, 1.0f, 1.0f, 1.0f))))
-		return E_FAIL;
+	//if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_StaticShadowDepth"),
+	//	ViewportDesc.Width * m_fStaticShadowTargetSizeRatio, ViewportDesc.Height * m_fStaticShadowTargetSizeRatio, DXGI_FORMAT_R32G32B32A32_FLOAT, Vec4(1.0f, 1.0f, 1.0f, 1.0f))))
+	//	return E_FAIL;
 
 	//Cascade
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_Cascade1"),
@@ -403,8 +403,8 @@ HRESULT CRenderer::Initialize_Prototype()
 
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_ShadowDepth"), TEXT("Target_ShadowDepth"))))
 		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_StaticShadowDepth"), TEXT("Target_StaticShadowDepth"))))
-		return E_FAIL;
+	/*if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_StaticShadowDepth"), TEXT("Target_StaticShadowDepth"))))
+		return E_FAIL;*/
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_MakeSRV"), TEXT("Target_MakeSRV"))))
 		return E_FAIL;
 
@@ -550,6 +550,13 @@ HRESULT CRenderer::Add_DebugObject(CGameObject* pObject)
 	return S_OK;
 }
 
+HRESULT CRenderer::Add_CascadeInstanceGroup(CGameObject* pGameObject)
+{
+	m_InstanceCascadeObjects[pGameObject->Get_ModelName()].push_back(pGameObject);
+	Safe_AddRef(pGameObject);
+	return S_OK;
+}
+
 HRESULT CRenderer::Add_CascadeObject(_uint iIndex, CGameObject* pObject)
 {
 	m_CascadeObjects[iIndex].push_back(pObject);
@@ -581,15 +588,28 @@ HRESULT CRenderer::Ready_InstanceRender()
 		
 	}
 
+	
+	for (auto& List : m_InstanceCascadeObjects)
+	{
+		if (List.second.empty() == false)
+		{
+			_uint iIndex = 0;
+			for (auto& Object : List.second)
+			{
+				Object->Add_Cascade_InstanceData(List.second.size(), iIndex);
+			}
+		}
+	}
+
 	return S_OK;
 }
 
 HRESULT CRenderer::Draw()
 {
 	//CGameInstance::GetInstance()->Execute_BeforeRenderCommandList();
-	if (m_bRenderStaticShadow)
+	/*if (m_bRenderStaticShadow)
 		if (FAILED(Render_StaticShadow()))
-			return E_FAIL;
+			return E_FAIL;*/
 
 	if (FAILED(Update_TextBox()))
 		return E_FAIL;
@@ -1253,7 +1273,11 @@ HRESULT CRenderer::Render_Deferred()
 	if (FAILED(m_pMRTShader->Bind_Matrix("g_StaticLightViewMatrix", &CLight_Manager::GetInstance()->Get_StaticLightMatrix())))
 		return E_FAIL;
 
+
 	if (FAILED(m_pMRTShader->Bind_RawValue("g_fBias", &m_fBias, sizeof(_float))))
+		return E_FAIL;
+
+	if (FAILED(m_pMRTShader->Bind_RawValue("g_fStaticBias", &m_fStaticBias, sizeof(_float))))
 		return E_FAIL;
 
 	if (FAILED(m_pMRTShader->Bind_RawValue("g_fShadowSizeRatio", &m_fShadowTargetSizeRatio, sizeof(_float))))
@@ -1874,9 +1898,30 @@ HRESULT CRenderer::Render_Cascade()
 		m_CascadeObjects[i].clear();
 
 
+		for (auto& List : m_InstanceCascadeObjects)
+		{
+			if (List.second.empty() == false)
+			{
+				if (FAILED(List.second.front()->Render_CascadeShadowDepth_Instance(i)))
+					return E_FAIL;
+			}
+		}
+
 		if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
 			return E_FAIL;
 
+	}
+
+	for (auto& List : m_InstanceCascadeObjects)
+	{
+		if (List.second.empty() == false)
+		{
+			for (auto& iter : List.second)
+			{
+				Safe_Release(iter);
+			}
+			List.second.clear();
+		}
 	}
 
 	return S_OK;
@@ -2025,33 +2070,33 @@ HRESULT CRenderer::Ready_ShadowDSV()
 			return E_FAIL;
 	}
 
-	//StaticShadowDepth
-	{
-		ID3D11Texture2D* pDepthStencilTexture = nullptr;
+	////StaticShadowDepth
+	//{
+	//	ID3D11Texture2D* pDepthStencilTexture = nullptr;
 
-		D3D11_TEXTURE2D_DESC	TextureDesc;
-		ZeroMemory(&TextureDesc, sizeof(D3D11_TEXTURE2D_DESC));
+	//	D3D11_TEXTURE2D_DESC	TextureDesc;
+	//	ZeroMemory(&TextureDesc, sizeof(D3D11_TEXTURE2D_DESC));
 
-		TextureDesc.Width = (_uint)(m_fStaticShadowTargetSizeRatio * ViewportDesc.Width);
-		TextureDesc.Height = (_uint)(m_fStaticShadowTargetSizeRatio * ViewportDesc.Height);
-		TextureDesc.MipLevels = 1;
-		TextureDesc.ArraySize = 1;
-		TextureDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+	//	TextureDesc.Width = (_uint)(m_fStaticShadowTargetSizeRatio * ViewportDesc.Width);
+	//	TextureDesc.Height = (_uint)(m_fStaticShadowTargetSizeRatio * ViewportDesc.Height);
+	//	TextureDesc.MipLevels = 1;
+	//	TextureDesc.ArraySize = 1;
+	//	TextureDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
 
-		TextureDesc.SampleDesc.Quality = 0;
-		TextureDesc.SampleDesc.Count = 1;
+	//	TextureDesc.SampleDesc.Quality = 0;
+	//	TextureDesc.SampleDesc.Count = 1;
 
-		TextureDesc.Usage = D3D11_USAGE_DEFAULT;
-		TextureDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL/*| D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE*/;
-		TextureDesc.CPUAccessFlags = 0;
-		TextureDesc.MiscFlags = 0;
+	//	TextureDesc.Usage = D3D11_USAGE_DEFAULT;
+	//	TextureDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL/*| D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE*/;
+	//	TextureDesc.CPUAccessFlags = 0;
+	//	TextureDesc.MiscFlags = 0;
 
-		if (FAILED(m_pDevice->CreateTexture2D(&TextureDesc, nullptr, &pDepthStencilTexture)))
-			return E_FAIL;
+	//	if (FAILED(m_pDevice->CreateTexture2D(&TextureDesc, nullptr, &pDepthStencilTexture)))
+	//		return E_FAIL;
 
-		if (FAILED(m_pDevice->CreateDepthStencilView(pDepthStencilTexture, nullptr, &m_pStaticShadowDSV)))
-			return E_FAIL;
-	}
+	//	if (FAILED(m_pDevice->CreateDepthStencilView(pDepthStencilTexture, nullptr, &m_pStaticShadowDSV)))
+	//		return E_FAIL;
+	//}
 
 	return S_OK;
 }
