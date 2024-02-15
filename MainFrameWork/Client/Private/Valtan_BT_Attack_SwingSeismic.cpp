@@ -9,6 +9,8 @@
 #include "ServerSessionManager.h"
 #include "Player.h"
 #include "Camera_Player.h"
+#include "Effect_Manager.h"
+#include "Effect.h"
 
 CValtan_BT_Attack_SwingSeismic::CValtan_BT_Attack_SwingSeismic()
 {
@@ -20,7 +22,8 @@ void CValtan_BT_Attack_SwingSeismic::OnStart()
 		__super::OnStart(1);
 	else
 		__super::OnStart();
-	m_bShoot = true;		
+	m_bShoot = true;
+	m_bSwing = false;
 }
 
 CBT_Node::BT_RETURN CValtan_BT_Attack_SwingSeismic::OnUpdate(const _float& fTimeDelta)
@@ -35,6 +38,16 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_SwingSeismic::OnUpdate(const _float& fTime
 		static_cast<CBoss*>(m_pGameObject)->Set_Force(15.f);
 		if(!static_cast<CBoss*>(m_pGameObject)->Is_Dummy())
 			static_cast<CBoss_Valtan*>(m_pGameObject)->Set_Weapon_RimLight(0.1f, 0.7f);
+	}
+
+
+	if (m_bSwing == false && m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[0].iAnimIndex) >= 48)
+	{
+		CEffect_Manager::EFFECTPIVOTDESC tDesc;
+		tDesc.pPivotMatrix = &m_pGameObject->Get_TransformCom()->Get_WorldMatrix();
+		EFFECT_START(L"VT_SeismicSwing", &tDesc);
+
+		m_bSwing = true;
 	}
 
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[0].iAnimIndex) >= 50)
@@ -68,6 +81,20 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_SwingSeismic::OnUpdate(const _float& fTime
 		{
 			static_cast<CMonster*>(m_pGameObject)->Set_Die();
 			static_cast<CMonster*>(m_pGameObject)->Set_AnimationSpeed(0.5f);
+		}
+
+		Matrix matWorld = m_pGameObject->Get_TransformCom()->Get_WorldMatrix();
+		Vec3 vPos = matWorld.Translation() + matWorld.Backward() * 3.5f;
+		matWorld.Translation(vPos);
+		
+		for (_uint i = 0; i < 4; ++i)
+		{
+			CEffect_Manager::EFFECTPIVOTDESC tDesc;
+			tDesc.pPivotMatrix = &matWorld;
+			EFFECT_START(L"VTSeismic", &tDesc);
+
+			matWorld *= Matrix::CreateFromAxisAngle(Vec3(0.0f, 1.0f, 0.0f), XMConvertToRadians(90.0f));
+			matWorld.Translation(vPos);
 		}
 	}
 

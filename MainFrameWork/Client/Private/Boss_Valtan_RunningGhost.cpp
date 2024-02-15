@@ -99,6 +99,7 @@ void CBoss_Valtan_RunningGhost::Tick(_float fTimeDelta)
 		{
 			dynamic_cast<CEffect_Particle*>(Particle)->ParticleEnd();
 		}
+
 		m_Particles.clear();
 		m_pRushEffect->EffectEnd();
 		Set_Die();
@@ -150,6 +151,7 @@ void CBoss_Valtan_RunningGhost::Tick(_float fTimeDelta)
 			CEffect_Manager::EFFECTPIVOTDESC tDesc;
 			tDesc.pPivotMatrix = &m_pTransformCom->Get_WorldMatrix();
 			EFFECT_START_OUTLIST(L"ValtanRush", &tDesc, Effects);
+			m_pRushEffect = Effects.front();
 		}
 
 	}

@@ -21,6 +21,7 @@ private:
 private:
     _bool m_bShoot = {};
 
+    _bool m_bSwing = false;
 public:
     static	CValtan_BT_Attack_SwingSeismic* Create(void* pArg);
     virtual void Free() override;
