@@ -38,9 +38,9 @@ CBT_Node::BT_RETURN CCommon_BT_Chase::OnUpdate(const _float& fTimeDelta)
 	{
 		if (static_cast<CMonster*>(m_pGameObject)->Get_MonsterType() == CMonster::PAWN)
 		{
-			Add_Sound(0, 0, L"Effect", L"Pawn_29");
+			Add_Sound(0, 0, L"Effect", L"Pawn_29", 0 , 0.2f);
 			if (CSound_Manager::GetInstance()->Is_Channel_Playing(L"Pawn_3"))
-				Add_Sound_Channel(L"Effect", L"Pawn_3", 0.2f);
+				Add_Sound_Channel(L"Effect", L"Pawn_3",0.2f);
 		}
 	}
 	return BT_RUNNING;

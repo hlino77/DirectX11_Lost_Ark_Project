@@ -37,8 +37,8 @@ CBT_Node::BT_RETURN CGhoul_BT_Attack_1::OnUpdate(const _float& fTimeDelta)
 		pCollider->Get_Child()->SetActive(false);
 	}	
 
-	Add_Sound(0, 0, L"Effect", L"Attack1_Start",15);
-	Add_Sound(2, 1, L"Effect", L"Attack1_End");
+	Add_Sound(0, 0, L"Effect", L"Attack1_Start",15, 0.2f);
+	Add_Sound(2, 1, L"Effect", L"Attack1_End",0, 0.2f);
 	return  __super::OnUpdate(fTimeDelta);
 }
 
