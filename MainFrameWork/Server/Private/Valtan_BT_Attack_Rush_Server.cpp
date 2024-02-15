@@ -23,6 +23,12 @@ void CValtan_BT_Attack_Rush_Server::OnStart()
 
 CBT_Node::BT_RETURN CValtan_BT_Attack_Rush_Server::OnUpdate(const _float& fTimeDelta)
 {
+	if (static_cast<CBoss_Server*>(m_pGameObject)->Get_SkipAction())
+	{
+		static_cast<CBoss_Server*>(m_pGameObject)->Set_SkipAction(false);
+
+		return BT_SUCCESS;
+	}
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() ==m_vecAnimDesc[0].iAnimIndex && m_iLoop < 2)
 		static_cast<CMonster_Server*>(m_pGameObject)->LookAt_Target_Direction_Lerp(fTimeDelta);
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex&& m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[0].iAnimIndex)>48 && m_iLoop < 2)
@@ -31,9 +37,11 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Rush_Server::OnUpdate(const _float& fTimeD
 		m_pGameObject->Get_ModelCom()->Reserve_NextAnimation(m_vecAnimDesc[m_iCurrAnimation].iAnimIndex, m_vecAnimDesc[m_iCurrAnimation].fChangeTime,
 			m_vecAnimDesc[m_iCurrAnimation].iStartFrame, m_vecAnimDesc[m_iCurrAnimation].iChangeFrame);
 	}
-	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex &&  m_iLoop == 2&& static_cast<CBoss_Server*>(m_pGameObject)->Get_Armor() < 1 || static_cast<CBoss_Server*>(m_pGameObject)->Get_Phase() > 1)
+	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex && m_iLoop == 2 )
+	{
+		if (static_cast<CBoss_Server*>(m_pGameObject)->Get_Armor() < 1 || static_cast<CBoss_Server*>(m_pGameObject)->Get_Phase() > 1)
 			static_cast<CBoss_Server*>(m_pGameObject)->Set_CounterSkill(true);
-
+	}
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[0].iAnimIndex) > 48 && m_iLoop < 3)
 	{
 		static_cast<CBoss_Server*>(m_pGameObject)->Set_CounterSkill(false);
@@ -61,12 +69,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Rush_Server::OnUpdate(const _float& fTimeD
 				m_vecAnimDesc[m_iCurrAnimation].iStartFrame, m_vecAnimDesc[2].iChangeFrame);
 		}
 	}
-	if (static_cast<CBoss_Server*>(m_pGameObject)->Get_SkipAction() )
-	{
-		static_cast<CBoss_Server*>(m_pGameObject)->Set_SkipAction(false); 
-		
-		return BT_SUCCESS;
-	}
+
 
 	return __super::OnUpdate(fTimeDelta);
 }
@@ -74,6 +77,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Rush_Server::OnUpdate(const _float& fTimeD
 void CValtan_BT_Attack_Rush_Server::OnEnd()
 {
 	__super::OnEnd();
+	m_iLoop = 0;
 	static_cast<CBoss_Valtan_Server*>(m_pGameObject)->Set_Rush(false);
 	static_cast<CMonster_Server*>(m_pGameObject)->Add_SkillStack();
 	static_cast<CMonster_Server*>(m_pGameObject)->Set_Attacked(true);
