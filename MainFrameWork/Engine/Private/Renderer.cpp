@@ -326,8 +326,6 @@ HRESULT CRenderer::Initialize_Prototype()
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_Decals"), TEXT("Target_DecalEmissive"))))
 		return E_FAIL;
 
-	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_HBAO+"), TEXT("Target_HBAO+"))))
-		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_SSAO"), TEXT("Target_SSAO"))))
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_SSAO_Blur_H"), TEXT("Target_SSAO_Blur_H"))))
@@ -575,10 +573,17 @@ HRESULT CRenderer::Draw()
 		return E_FAIL;
 	if (FAILED(Render_Lights()))
 		return E_FAIL; 
-	/*if (FAILED(Render_HBAOPLUS()))
-		return E_FAIL;*/
-	if (FAILED(Render_SSAO()))
-		return E_FAIL;
+
+	if (0 == m_iSSAO_Switch)
+	{
+		if (FAILED(Render_HBAOPLUS()))
+			return E_FAIL;
+	}
+	else if (1 == m_iSSAO_Switch)
+	{
+		if (FAILED(Render_SSAO()))
+			return E_FAIL;
+	}
 
 	if (FAILED(Render_Bloom()))
 		return E_FAIL;
@@ -1070,9 +1075,6 @@ HRESULT CRenderer::Render_SSR()
 
 HRESULT CRenderer::Render_HBAOPLUS()
 {
-	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_HBAO+"))))
-		return E_FAIL;
-
 	GFSDK_SSAO_InputData_D3D11 Input;
 	Input.DepthData.DepthTextureType = GFSDK_SSAO_HARDWARE_DEPTHS;
 	Input.DepthData.pFullResDepthTextureSRV = CGraphic_Device::GetInstance()->Get_DepthStencilSRV();
@@ -1098,9 +1100,6 @@ HRESULT CRenderer::Render_HBAOPLUS()
 	GFSDK_SSAO_Status status;
 	status = CGraphic_Device::GetInstance()->Get_AOContext()->RenderAO(m_pContext, Input, Params, Output);
 	assert(status == GFSDK_SSAO_OK);
-
-	if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
-		return E_FAIL;
 
 	return S_OK;
 }
@@ -1306,11 +1305,32 @@ HRESULT CRenderer::Render_Deferred()
 		FAILED(m_pTarget_Manager->Bind_SRV(m_pMRTShader, TEXT("Target_Emissive"), "g_EmissiveTarget")))
 		return E_FAIL;
 
-	if (FAILED(m_pMRTShader->Bind_RawValue("g_bSSAO", &m_iSSAO_Switch, sizeof(_int))))
+	/*if (FAILED(m_pMRTShader->Bind_RawValue("g_bSSAO", &m_iSSAO_Switch, sizeof(_int))))
 		return E_FAIL;
 
-	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pMRTShader, TEXT("Target_SSAO_Blur_HV"), "g_SSAOBlurTarget")))
-		return E_FAIL;
+	if(1 == m_iSSAO_Switch)
+	{
+		if (FAILED(m_pTarget_Manager->Bind_SRV(m_pMRTShader, TEXT("Target_SSAO_Blur_HV"), "g_SSAOBlurTarget")))
+			return E_FAIL;
+	}
+	else if (2 == m_iSSAO_Switch)
+	{
+		if (FAILED(m_pTarget_Manager->Bind_SRV(m_pMRTShader, TEXT("Target_HBAO+"), "g_SSAOBlurTarget")))
+			return E_FAIL;
+	}*/
+
+	//
+	if (1 == m_iSSAO_Switch)
+	{
+		if (FAILED(m_pTarget_Manager->Bind_SRV(m_pMRTShader, TEXT("Target_SSAO_Blur_HV"), "g_SSAOBlurTarget")))
+			return E_FAIL;
+	}
+	else if (0 == m_iSSAO_Switch)
+	{
+		if (FAILED(m_pTarget_Manager->Bind_SRV(m_pMRTShader, TEXT("Target_HBAO+"), "g_SSAOBlurTarget")))
+			return E_FAIL;
+	}
+	//
 
 	if (m_bPBR_Switch)
 	{
@@ -1870,7 +1890,6 @@ HRESULT CRenderer::Render_Debug()
 		return E_FAIL;
 	
 	if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_SSAO_Blur_V"), m_pMRTShader, m_pVIBuffer)))
-		return E_FAIL;
 	
 	if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_Effects"), m_pMRTShader, m_pVIBuffer)))
 		return E_FAIL;

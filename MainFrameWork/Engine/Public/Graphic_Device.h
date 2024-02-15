@@ -58,10 +58,12 @@ private:
 	/* ID3D11RenderTargetView : 렌더타겟용으로 사용될 수 있는 텍스쳐 타입. */
 	/* ID3D11DepthStencilView : 깊이스텐실버퍼로서 사용될 수 있는 타입.  */
 	ID3D11RenderTargetView*		m_pBackBufferRTV = nullptr;
+
+	ID3D11Texture2D*			m_pDepthStencilTexture = nullptr;
 	ID3D11DepthStencilView*		m_pDepthStencilView = nullptr;
 	ID3D11ShaderResourceView*	m_pDepthStencilSRV = nullptr;
 
-	GFSDK_SSAO_Context_D3D11*	m_pAOContext;
+	GFSDK_SSAO_Context_D3D11*	m_pAOContext = nullptr;
 	
 private:
 	/* 스왑체인에게 필수적으로 필요한 데이터는 백버퍼가 필요하여. 하여 백버퍼를 생성하기위한 정보를 던져준다. */

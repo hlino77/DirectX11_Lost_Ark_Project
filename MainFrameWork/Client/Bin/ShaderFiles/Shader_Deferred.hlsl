@@ -21,7 +21,7 @@ Texture2D		g_ShadowDepthTarget;
 Texture2D		g_StaticShadowDepthTarget;
 texture2D		g_OutlineTarget;
 
-bool			g_bSSAO = true;
+int				g_iSSAO_Option = true;
 bool			g_bShadow = false;
 
 float4			g_vCamPosition;
@@ -181,8 +181,8 @@ float4 PS_MAIN_DEFERRED(VS_OUT_TARGET In) : SV_TARGET
 	
     float fAO = 1.f;
 	
-    if (true == g_bSSAO)
-        fAO = g_SSAOBlurTarget.Sample(LinearSampler, In.vTexcoord).r;
+	//if(0 != g_iSSAO_Option)
+	fAO = g_SSAOBlurTarget.Sample(LinearSampler, In.vTexcoord).r;
 	
     return fAO * (vDiffuse) + vEmissive;
 }
@@ -209,8 +209,8 @@ float4 PS_MAIN_PBR_DEFERRED(VS_OUT_TARGET In) : SV_TARGET
 
 	float fAO = 1.f;
 
-	if (true == g_bSSAO)
-		fAO = g_SSAOBlurTarget.Sample(LinearSampler, In.vTexcoord).r;
+	//if(0 != g_iSSAO_Option)
+	fAO = g_SSAOBlurTarget.Sample(LinearSampler, In.vTexcoord).r;
 
 	float4	vWorldPos;
 

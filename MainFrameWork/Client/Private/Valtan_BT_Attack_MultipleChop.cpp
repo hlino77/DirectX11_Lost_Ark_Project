@@ -6,6 +6,9 @@
 #include "GameInstance.h"
 #include <Skill.h>
 #include "Effect_Manager.h"
+#include "ServerSessionManager.h"
+#include "Player.h"
+#include "Camera_Player.h"
 #include "ColliderSphere.h"
 
 CValtan_BT_Attack_MultipleChop::CValtan_BT_Attack_MultipleChop()
@@ -49,6 +52,10 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_MultipleChop::OnUpdate(const _float& fTime
 			tDesc.pPivotMatrix = &m_pGameObject->Get_TransformCom()->Get_WorldMatrix();
 			EFFECT_START(L"VT_MultipleChop_1st", &tDesc);
 
+			CServerSessionManager::GetInstance()->Get_Player()->Get_Camera()->Set_RadialBlur(0.05f, tDesc.pPivotMatrix->Translation(), 0.2f, 0.05f);
+			CServerSessionManager::GetInstance()->Get_Player()->Get_Camera()->Cam_Shake(0.08f, 100.f, 0.2f, 5.0f);
+			CServerSessionManager::GetInstance()->Get_Player()->Get_Camera()->Set_Chromatic(0.05f, tDesc.pPivotMatrix->Translation(), 0.2f, 0.05f);
+
 			m_bEffectStart[0] = true;
 		}
 
@@ -80,6 +87,10 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_MultipleChop::OnUpdate(const _float& fTime
 			CEffect_Manager::EFFECTPIVOTDESC tDesc;
 			tDesc.pPivotMatrix = &m_pGameObject->Get_TransformCom()->Get_WorldMatrix();
 			EFFECT_START(L"VT_MultipleChop_2nd", &tDesc);
+
+			CServerSessionManager::GetInstance()->Get_Player()->Get_Camera()->Set_RadialBlur(0.05f, tDesc.pPivotMatrix->Translation(), 0.2f, 0.075f);
+			CServerSessionManager::GetInstance()->Get_Player()->Get_Camera()->Cam_Shake(0.1f, 100.f, 0.2f, 5.0f);
+			CServerSessionManager::GetInstance()->Get_Player()->Get_Camera()->Set_Chromatic(0.05f, tDesc.pPivotMatrix->Translation(), 0.2f, 0.075f);
 
 			m_bEffectStart[1] = true;
 		}
@@ -114,6 +125,10 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_MultipleChop::OnUpdate(const _float& fTime
 			tDesc.pPivotMatrix = &m_pGameObject->Get_TransformCom()->Get_WorldMatrix();
 			EFFECT_START(L"VT_MultipleChop_3rd", &tDesc);
 
+			CServerSessionManager::GetInstance()->Get_Player()->Get_Camera()->Set_RadialBlur(0.05f, tDesc.pPivotMatrix->Translation(), 0.2f, 0.075f);
+			CServerSessionManager::GetInstance()->Get_Player()->Get_Camera()->Cam_Shake(0.12f, 100.f, 0.2f, 5.0f);
+			CServerSessionManager::GetInstance()->Get_Player()->Get_Camera()->Set_Chromatic(0.05f, tDesc.pPivotMatrix->Translation(), 0.2f, 0.075f);
+
 			m_bEffectStart[2] = true;
 		}
 
@@ -145,6 +160,10 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_MultipleChop::OnUpdate(const _float& fTime
 			CEffect_Manager::EFFECTPIVOTDESC tDesc;
 			tDesc.pPivotMatrix = &m_pGameObject->Get_TransformCom()->Get_WorldMatrix();
 			EFFECT_START(L"VT_MultipleChop_4th", &tDesc);
+
+			CServerSessionManager::GetInstance()->Get_Player()->Get_Camera()->Set_RadialBlur(0.07f, tDesc.pPivotMatrix->Translation(), 0.2f, 0.12f);
+			CServerSessionManager::GetInstance()->Get_Player()->Get_Camera()->Cam_Shake(0.12f, 100.f, 0.4f, 5.0f);
+			CServerSessionManager::GetInstance()->Get_Player()->Get_Camera()->Set_Chromatic(0.07f, tDesc.pPivotMatrix->Translation(), 0.2f, 0.12f);
 
 			m_bEffectStart[3] = true;
 		}
