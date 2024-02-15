@@ -8,6 +8,7 @@
 #include "Camera_Player.h"
 #include "UI_Manager.h"
 #include "Sound_Manager.h"
+#include "Chat_Manager.h"
 
 CUI_NPC_ItemUpgrade::CUI_NPC_ItemUpgrade(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     :CUI(pDevice, pContext)
@@ -391,10 +392,22 @@ void CUI_NPC_ItemUpgrade::Tick(_float fTimeDelta)
         if (0.5f <= m_fDeActiveAcc)
         {
             CServerSessionManager::GetInstance()->Get_Player()->Get_Camera()->Set_FadeInOut(1.f, false);
+            CChat_Manager::GetInstance()->Set_Active(true);
             CUI* pUI = CUI_Manager::GetInstance()->Find_UI((LEVELID)CGameInstance::GetInstance()->Get_CurrLevelIndex(), TEXT("UI_Chat"));
-            for (auto& iter : pUI->Get_UIParts())
+            if (nullptr != pUI)
             {
-                iter->Set_Active(true);
+                for (auto& iter : pUI->Get_UIParts())
+                {
+                    iter->Set_Active(true);
+                }
+            }
+            pUI = CUI_Manager::GetInstance()->Find_UI((LEVELID)CGameInstance::GetInstance()->Get_CurrLevelIndex(), TEXT("UI_PartyWnd"));
+            if (nullptr != pUI)
+            {
+                for (auto& iter : pUI->Get_UIParts())
+                {
+                    iter->Set_Active(true);
+                }
             }
 
             m_fDeActiveAcc = 0.0f;
@@ -674,15 +687,8 @@ void CUI_NPC_ItemUpgrade::Get_PlayerInformation()
 void CUI_NPC_ItemUpgrade::Set_Active_UpGrade(_bool  IsUpgrade, CPlayer* pPlayer)
 {
     Set_Active(IsUpgrade);
-    if ((true == IsUpgrade)&&(nullptr != pPlayer))
-    {
-        m_pUsingPlayer = static_cast<CPlayer*>(pPlayer);
-        if (nullptr == m_pUsingPlayer)
-            return;
-        Update_Items();
 
-    }
-    else if ((true == IsUpgrade)&&(nullptr == pPlayer))
+   if ((true == IsUpgrade)&&(nullptr == pPlayer))
     {
         m_pUsingPlayer = CServerSessionManager::GetInstance()->Get_Player();
         if (nullptr == m_pUsingPlayer)
@@ -712,6 +718,15 @@ void CUI_NPC_ItemUpgrade::Set_Active_UpGrade(_bool  IsUpgrade, CPlayer* pPlayer)
     }
     CServerSessionManager::GetInstance()->Get_Player()->Get_Camera()->Set_FadeInOut(1.f, false);
     CUI* pUI = CUI_Manager::GetInstance()->Find_UI((LEVELID)CGameInstance::GetInstance()->Get_CurrLevelIndex(), TEXT("UI_Chat"));
+    if (nullptr != pUI)
+    {
+        for (auto& iter : pUI->Get_UIParts())
+        {
+            iter->Set_Active(false);
+        }
+        CChat_Manager::GetInstance()->Set_Active(false);
+    }
+    pUI = CUI_Manager::GetInstance()->Find_UI((LEVELID)CGameInstance::GetInstance()->Get_CurrLevelIndex(), TEXT("UI_PartyWnd"));
     if (nullptr != pUI)
     {
         for (auto& iter : pUI->Get_UIParts())
@@ -836,8 +851,8 @@ void CUI_NPC_ItemUpgrade::Update_UpgradeButton(POINT pt, _float fTimeDelta)
             CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"Item_Upgrade_Wating.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
             m_bResultWaiting = true;
             _uint SuccessPercent = 0;
-            SuccessPercent = CGameInstance::GetInstance()->Random_Int(0, 100);
-            if (50 < SuccessPercent)
+            SuccessPercent = CGameInstance::GetInstance()->Random_Int(1, 100);
+            if (75 < SuccessPercent)
             {
                 CPlayer* pPlayer = CServerSessionManager::GetInstance()->Get_Player();
 

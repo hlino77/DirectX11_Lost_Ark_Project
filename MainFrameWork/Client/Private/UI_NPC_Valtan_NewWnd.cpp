@@ -97,7 +97,7 @@ void CUI_NPC_ValtanEntrance_Wnd::Tick(_float fTimeDelta)
     if (true == m_bDeActive)
     {
         m_fDeActiveAcc += fTimeDelta;
-        if (m_fDeActiveAcc >= 0.5f)
+        if (m_fDeActiveAcc >= 2.f)
         {
             m_bDeActive = false;
             Reset_Player_Control();

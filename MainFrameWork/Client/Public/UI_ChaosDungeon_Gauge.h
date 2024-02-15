@@ -29,6 +29,10 @@ public:
     _float  Get_CurrGauge() { return m_fCurrGauge; }
     _float  Get_GaugeRatio() { return m_fRatio; }
 
+    void    Get_MaxGauge(_float fMaxGauge) { m_fMaxGauge = fMaxGauge; }
+    void    Get_CurrGauge(_float fCurrGauge) { m_fCurrGauge = fCurrGauge; }
+
+
 private:
     virtual HRESULT Ready_Components();
     virtual HRESULT Bind_ShaderResources();

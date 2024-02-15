@@ -12,7 +12,7 @@
 #include "Boss_Valtan.h"
 
 #include "UI_Manager.h"
-
+#include "Chat_Manager.h"
 
 CValtan_BT_Dead::CValtan_BT_Dead()
 {
@@ -27,6 +27,11 @@ void CValtan_BT_Dead::OnStart()
 	m_bDeadEffect = false;
 	m_iCameraSequence = 0;
 	m_fSlowMotionSpeed = 0.02f;
+
+	CUI_Manager::GetInstance()->Set_UIs_Active(false, LEVEL_VALTANMAIN);
+	CUI_Manager::GetInstance()->Set_RenderNickName(false, LEVELID::LEVEL_BERN);
+	CUI_Manager::GetInstance()->Set_RenderNickName(false, LEVELID::LEVEL_STATIC);
+	CChat_Manager::GetInstance()->Set_Active(false);
 }
 
 CBT_Node::BT_RETURN CValtan_BT_Dead::OnUpdate(const _float& fTimeDelta)
@@ -63,7 +68,6 @@ void CValtan_BT_Dead::OnEnd()
 	static_cast<CMonster*>(m_pGameObject)->Set_Left(false);
 	static_cast<CMonster*>(m_pGameObject)->Set_AnimationSpeed(0.f);
 	static_cast<CMonster*>(m_pGameObject)->Set_Die(4.f);
-	CUI_Manager::GetInstance()->Clear_Valtan();
 }
 
 void CValtan_BT_Dead::Update_Camera(_float fTimeDelta)

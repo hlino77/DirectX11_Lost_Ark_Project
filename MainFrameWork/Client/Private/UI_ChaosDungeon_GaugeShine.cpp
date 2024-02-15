@@ -47,17 +47,15 @@ HRESULT CUI_ChaosDungeon_GaugeShine::Initialize(void* pArg)
 void CUI_ChaosDungeon_GaugeShine::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
-
-	if (49 <= m_fFrame)
-		m_fFrame = 0.f;
-
 	m_fFrame += 30.f * fTimeDelta;
-	m_bRender = false;
+	//m_bRender = false;
 }
 
 void CUI_ChaosDungeon_GaugeShine::LateTick(_float fTimeDelta)
 {
 	__super::LateTick(fTimeDelta);
+	if (49 <= m_fFrame)
+		m_fFrame = 0.f;
 }
 
 HRESULT CUI_ChaosDungeon_GaugeShine::Render()

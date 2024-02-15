@@ -24,6 +24,7 @@ public:
     void    Set_CurrEstherGauge(_float fCurrGauge) { m_fCurrGauge = fCurrGauge; }
     void    Set_MaxEstherGauge(_float   fMaxGauge) { m_fMaxGauge = fMaxGauge; }
     void    Set_PartyLeader(class CPlayer* pPlayer) { m_pPartyLeader = pPlayer; }
+
     class CPlayer* Get_PartyLeader() { return m_pPartyLeader; }
 
 private:

@@ -423,11 +423,8 @@ void CController_WR::Get_DeadMessage()
 
 void CController_WR::Get_WR_IdentityMessage()
 {
-	if (m_fMaxGage <= m_fIdentityGage)
-	{
-		m_IsIdentity = true;
-		m_fIdentityGage = m_fMaxGage;
-	}
+	m_IsIdentity = true;
+	m_fIdentityGage = m_fMaxGage;
 }
 
 void CController_WR::Increase_IdenGage(_float iGage)

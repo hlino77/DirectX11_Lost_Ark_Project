@@ -55,6 +55,7 @@
 #include "Camera_Player.h"
 #include "Player.h"
 #include "ServerSessionManager.h"
+#include "Chat_Manager.h"
 
 CBoss_Valtan::CBoss_Valtan(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CBoss(pDevice, pContext)
@@ -370,6 +371,11 @@ void CBoss_Valtan::Update_Dissolve(_float fTimeDelta)
 			CServerSessionManager::GetInstance()->Get_Player()->Get_Camera()->Set_Mode(CCamera_Player::CameraState::DEFAULT);
 			CServerSessionManager::GetInstance()->Get_Player()->Get_Camera()->Set_DefaultOffset();
 			CServerSessionManager::GetInstance()->Get_Player()->Get_Camera()->DefaultLength(7.0f);
+			CUI_Manager::GetInstance()->Set_UIs_Active(true, LEVEL_VALTANMAIN);
+			CUI_Manager::GetInstance()->Set_RenderNickName(true, LEVELID::LEVEL_BERN);
+			CUI_Manager::GetInstance()->Set_RenderNickName(true, LEVELID::LEVEL_STATIC);
+			CChat_Manager::GetInstance()->Set_Active(true);
+			CUI_Manager::GetInstance()->Clear_Valtan();
 		}
 	}
 	else if (m_bDissolveIn)

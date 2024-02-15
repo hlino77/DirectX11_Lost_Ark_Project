@@ -120,14 +120,6 @@ HRESULT CUI_ChaosDungeon_Gauge::Bind_ShaderResources()
 
 void CUI_ChaosDungeon_Gauge::Update_Gauge()
 {
-	//여기서 뭔가 서버에서 받아옴
-
-	//TEST
-	/*if (KEY_TAP(KEY::V))
-	{
-		m_fCurrGauge += 10.f;
-	}*/
-
 	m_fRatio = m_fCurrGauge / m_fMaxGauge;
 }
 

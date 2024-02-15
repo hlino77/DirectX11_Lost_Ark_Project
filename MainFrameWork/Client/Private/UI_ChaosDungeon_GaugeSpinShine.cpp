@@ -48,16 +48,15 @@ void CUI_ChaosDungeon_GaugeSpinShine::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
 
-	if (76 <= m_fFrame)
-		m_fFrame = 0.f;
-
 	m_fFrame += 30.f * fTimeDelta;
-	m_bRender = false;
+	//m_bRender = false;
 }
 
 void CUI_ChaosDungeon_GaugeSpinShine::LateTick(_float fTimeDelta)
 {
 	__super::LateTick(fTimeDelta);
+	if (76 <= m_fFrame)
+		m_fFrame = 0.f;
 }
 
 HRESULT CUI_ChaosDungeon_GaugeSpinShine::Render()
@@ -99,7 +98,7 @@ HRESULT CUI_ChaosDungeon_GaugeSpinShine::Bind_ShaderResources()
 	if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
 		return E_FAIL;
 
-	m_pTextureCom->Set_SRV(m_pShaderCom, "g_DiffuseTexture",(_uint)m_fFrame);
+	m_pTextureCom->Set_SRV(m_pShaderCom, "g_MaskTexture",(_uint)m_fFrame);
 
 	return S_OK;
 }

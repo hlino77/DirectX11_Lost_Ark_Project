@@ -40,13 +40,13 @@ HRESULT CUI_Monster_Hp::Initialize(void* pArg)
 
 	m_pTransformCom->Set_Scale(Vec3(m_fSizeX, m_fSizeY, 1.f));
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION,
-		Vec3(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.3f));
+		Vec3(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.2f));
 
 	_float fSizeX = 80.f;
 	_float fSizeY = 7.0f;
 	m_pTransform_Hp->Set_Scale(Vec3(fSizeX, fSizeY, 1.f));
 	m_pTransform_Hp->Set_State(CTransform::STATE_POSITION,
-		Vec3(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.3f));
+		Vec3(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.2f));
 	
 	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixIdentity());
 	XMStoreFloat4x4(&m_ProjMatrix, XMMatrixOrthographicLH(g_iWinSizeX, g_iWinSizeY, 0.f, 1.f));
@@ -63,10 +63,10 @@ HRESULT CUI_Monster_Hp::Initialize(void* pArg)
 			Vec3 vHostPos = m_pOwner->Get_EffectPos();
 
 			m_pTransformCom->Set_State(CTransform::STATE_POSITION,
-				Vec3(vHostPos.x * g_iWinSizeX * 0.5f, vHostPos.y * g_iWinSizeY * 0.5f, 0.3f));
+				Vec3(vHostPos.x * g_iWinSizeX * 0.5f, vHostPos.y * g_iWinSizeY * 0.5f, 0.2f));
 
 			m_pTransform_Hp->Set_State(CTransform::STATE_POSITION,
-				Vec3(vHostPos.x * g_iWinSizeX * 0.5f, vHostPos.y * g_iWinSizeY * 0.5f, 0.3f));
+				Vec3(vHostPos.x * g_iWinSizeX * 0.5f, vHostPos.y * g_iWinSizeY * 0.5f, 0.2f));
 		}
 	}
 
@@ -98,7 +98,8 @@ void CUI_Monster_Hp::LateTick(_float fTimeDelta)
 	else
 		m_bRender = false;
 
-	__super::LateTick(fTimeDelta);
+	if(m_bRender)
+		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_WORLDUI, this);
 }
 
 HRESULT CUI_Monster_Hp::Render()
@@ -201,10 +202,10 @@ void CUI_Monster_Hp::Update_Postion()
 		m_vEffectPos = vHostPos;
 
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION,
-			Vec3(vHostPos.x * g_iWinSizeX * 0.5f, vHostPos.y * g_iWinSizeY * 0.5f, 0.3f));
-
+			Vec3(vHostPos.x * g_iWinSizeX * 0.5f, vHostPos.y * g_iWinSizeY * 0.5f, 0.2f));
+		
 		m_pTransform_Hp->Set_State(CTransform::STATE_POSITION,
-			Vec3(vHostPos.x * g_iWinSizeX * 0.5f, vHostPos.y * g_iWinSizeY * 0.5f, 0.3f));
+			Vec3(vHostPos.x * g_iWinSizeX * 0.5f, vHostPos.y * g_iWinSizeY * 0.5f, 0.2f));
 
 	}
 }
