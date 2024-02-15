@@ -170,16 +170,16 @@ void CController_WR::Check_Iden_State(_float fTimeDelta)
 			m_IsIdentity = false;
 			m_fIdentityGage = -1.f;
 
-			CB_UpdateIdentityAuraPivot.clear();
+			//CB_UpdateIdentityAuraPivot.clear();
 			static_cast<CPlayer*>(m_pOwner)->Delete_Effect(L"Slayer_Rage_Aura");
 		}
 		else
 		{
-			Matrix matPivot;
-			CB_UpdateIdentityAuraPivot(matPivot);
+			//Matrix matPivot;
+			//CB_UpdateIdentityAuraPivot(matPivot);
 			CEffect* pAuraEffect = static_cast<CPlayer*>(m_pOwner)->Get_Effect(L"Slayer_Rage_Aura");
 			if (pAuraEffect)
-				pAuraEffect->Update_Pivot(matPivot);
+				pAuraEffect->Update_Pivot(m_pOwner->Get_TransformCom()->Get_WorldMatrix());
 		}
 	}
 	else if (false == m_IsIdentity && -1.f == m_fIdentityGage)
