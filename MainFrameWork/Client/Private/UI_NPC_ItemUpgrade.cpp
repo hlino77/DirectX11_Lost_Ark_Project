@@ -852,7 +852,7 @@ void CUI_NPC_ItemUpgrade::Update_UpgradeButton(POINT pt, _float fTimeDelta)
             m_bResultWaiting = true;
             _uint SuccessPercent = 0;
             SuccessPercent = CGameInstance::GetInstance()->Random_Int(1, 100);
-            if (75 < SuccessPercent)
+            if (25 < SuccessPercent)
             {
                 CPlayer* pPlayer = CServerSessionManager::GetInstance()->Get_Player();
 
