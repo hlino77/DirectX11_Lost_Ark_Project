@@ -5,6 +5,7 @@
 #include "Model.h"
 #include "ColliderSphere.h"
 #include "ColliderOBB.h"
+
 CGhoul_BT_Attack_1::CGhoul_BT_Attack_1()
 {
 }
@@ -12,7 +13,7 @@ CGhoul_BT_Attack_1::CGhoul_BT_Attack_1()
 void CGhoul_BT_Attack_1::OnStart()
 {
 	__super::OnStart(0);
-
+	//Add_Sound(L"Ghoul", L"WWISEDEFAULTBANK_S_MONSTER_GLOBAL_UNDEAD1#1 (13899944)");
 }
 
 CBT_Node::BT_RETURN CGhoul_BT_Attack_1::OnUpdate(const _float& fTimeDelta)
@@ -36,6 +37,8 @@ CBT_Node::BT_RETURN CGhoul_BT_Attack_1::OnUpdate(const _float& fTimeDelta)
 		pCollider->Get_Child()->SetActive(false);
 	}	
 
+	Add_Sound(0, 0, L"Effect", L"Attack1_Start",15);
+	Add_Sound(2, 1, L"Effect", L"Attack1_End");
 	return  __super::OnUpdate(fTimeDelta);
 }
 

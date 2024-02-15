@@ -52,6 +52,7 @@ private:
     _bool   m_bIdentityOn = { false };
     _float  m_fFrame = { 0.f };
     _float  m_fDelay = { 0.f };
+    _bool   m_bChainRender = { false };
 
 public:
     static  CUI_WDRIdentity_Chain* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
