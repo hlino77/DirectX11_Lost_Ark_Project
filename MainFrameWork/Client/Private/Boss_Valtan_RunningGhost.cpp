@@ -10,6 +10,9 @@
 #include "ColliderOBB.h"
 #include "RigidBody.h"
 #include "NavigationMgr.h"
+#include "Effect.h"
+#include "Effect_Manager.h"
+#include "Effect_Particle.h"
 
 CBoss_Valtan_RunningGhost::CBoss_Valtan_RunningGhost(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CBoss(pDevice, pContext)
@@ -82,13 +85,73 @@ void CBoss_Valtan_RunningGhost::Tick(_float fTimeDelta)
 {
 	m_PlayAnimation = std::async(&CModel::Play_Animation, m_pModelCom, fTimeDelta * m_fAnimationSpeed);
 	Update_StatusEffect(fTimeDelta);
+
 	_float fDistance = (m_vTargetPos - m_pTransformCom->Get_State(CTransform::STATE_POSITION)).Length();
 	if (m_bRender && m_pModelCom->Get_Anim_Frame(m_pModelCom->Get_CurrAnim()) > m_pModelCom->Get_Anim_MaxFrame(m_pModelCom->Get_CurrAnim()) - 5 && !m_pModelCom->IsNext())
+	{
+		for (auto& Effect : m_Effects)
+		{
+			Effect->EffectEnd();
+		}
+		m_Effects.clear();
+
+		for (auto& Particle : m_Particles)
+		{
+			dynamic_cast<CEffect_Particle*>(Particle)->ParticleEnd();
+		}
+		m_Particles.clear();
+		m_pRushEffect->EffectEnd();
 		Set_Die();
+	}
+		
+	
+	if (m_bEffect == false)
+	{
+		Vec3 vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+		Vec3 vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+		vPos += vLook * 12.f;
+
+		{
+			Matrix matWorld = Matrix::CreateWorld(vPos + vLook * 7.5f, -vLook, Vec3(0.0f, 1.0f, 0.0f));
+
+			CEffect_Manager::EFFECTPIVOTDESC tDesc;
+			tDesc.pPivotMatrix = &matWorld;
+
+			EFFECT_START_OUTLIST(L"VT_ChainDoor", &tDesc, m_Effects);
+			EFFECT_START_OUTLIST(L"VT_ChainDoorParticle", &tDesc, m_Particles);
+		}
+
+		{
+			Matrix matWorld = Matrix::CreateWorld(vPos + vLook * -7.5f, vLook, Vec3(0.0f, 1.0f, 0.0f));
+
+			CEffect_Manager::EFFECTPIVOTDESC tDesc;
+			tDesc.pPivotMatrix = &matWorld;
+
+			EFFECT_START_OUTLIST(L"VT_ChainDoor", &tDesc, m_Effects);
+			EFFECT_START_OUTLIST(L"VT_ChainDoorParticle", &tDesc, m_Particles);
+		}
+
+		m_bEffect = true;
+	}
+	
+	if (m_pRushEffect != nullptr)
+	{
+		m_pRushEffect->Update_Pivot(m_pTransformCom->Get_WorldMatrix());
+	}
+
 	if (fDistance < 15.f && !m_bRender)
 	{
 		m_bRender = true;
 		m_pModelCom->Reserve_NextAnimation(m_pModelCom->Initailize_FindAnimation(TEXT("att_battle_18_02"), 0.9f), 0.f, 0, 0);
+
+		if (m_pRushEffect == nullptr)
+		{
+			vector<CEffect*> Effects;
+			CEffect_Manager::EFFECTPIVOTDESC tDesc;
+			tDesc.pPivotMatrix = &m_pTransformCom->Get_WorldMatrix();
+			EFFECT_START_OUTLIST(L"ValtanRush", &tDesc, Effects);
+		}
+
 	}
 }
 

@@ -37,6 +37,8 @@ enum : uint16
 	PKT_S_BUFFSKILL = 26,
 	PKT_S_PLAYERTELEPORT = 27,
 	PKT_S_CHANGEEQUIP = 28,
+	PKT_S_DUNGEANRATIO = 29,
+	PKT_S_ESTHERGAGE = 30,
 };
 
 //TODO
@@ -69,6 +71,8 @@ bool Handel_S_CREATESKILL_Server(PacketSessionRef& session, Protocol::S_CREATE_S
 bool Handel_S_BUFFSKILL_Server(PacketSessionRef& session, Protocol::S_BUFF_SKILL& pkt);
 bool Handel_S_PLAYERTELEPORT_Server(PacketSessionRef& session, Protocol::S_PLAYERTELEPORT& pkt);
 bool Handel_S_CHANGEEQUIP_Server(PacketSessionRef& session, Protocol::S_CHANGEEQUIP& pkt);
+bool Handel_S_DUNGEANRATIO_Server(PacketSessionRef& session, Protocol::S_DUNGEANRATIO& pkt);
+bool Handel_S_ESTHERGAGE_Server(PacketSessionRef& session, Protocol::S_ESTHER& pkt);
 
 
 class CServerPacketHandler
@@ -108,6 +112,8 @@ public:
 		GPacketHandler[PKT_S_BUFFSKILL] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::S_BUFF_SKILL>(Handel_S_BUFFSKILL_Server, session, buffer, len); };
 		GPacketHandler[PKT_S_PLAYERTELEPORT] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::S_PLAYERTELEPORT>(Handel_S_PLAYERTELEPORT_Server, session, buffer, len); };
 		GPacketHandler[PKT_S_CHANGEEQUIP] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::S_CHANGEEQUIP>(Handel_S_CHANGEEQUIP_Server, session, buffer, len); };
+		GPacketHandler[PKT_S_DUNGEANRATIO] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::S_DUNGEANRATIO>(Handel_S_DUNGEANRATIO_Server, session, buffer, len); };
+		GPacketHandler[PKT_S_ESTHERGAGE] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::S_ESTHER>(Handel_S_ESTHERGAGE_Server, session, buffer, len); };
 
 	}
 
@@ -146,6 +152,8 @@ public:
 	static SendBufferRef MakeSendBuffer(Protocol::S_BUFF_SKILL& pkt) { return MakeSendBuffer(pkt, PKT_S_BUFFSKILL); }
 	static SendBufferRef MakeSendBuffer(Protocol::S_PLAYERTELEPORT& pkt) { return MakeSendBuffer(pkt, PKT_S_PLAYERTELEPORT); }
 	static SendBufferRef MakeSendBuffer(Protocol::S_CHANGEEQUIP& pkt) { return MakeSendBuffer(pkt, PKT_S_CHANGEEQUIP); }
+	static SendBufferRef MakeSendBuffer(Protocol::S_DUNGEANRATIO& pkt) { return MakeSendBuffer(pkt, PKT_S_DUNGEANRATIO); }
+	static SendBufferRef MakeSendBuffer(Protocol::S_ESTHER& pkt) { return MakeSendBuffer(pkt, PKT_S_ESTHERGAGE); }
 
 private:
 	template<typename PacketType, typename ProcessFunc>

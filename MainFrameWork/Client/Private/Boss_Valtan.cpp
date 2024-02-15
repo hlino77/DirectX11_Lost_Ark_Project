@@ -94,7 +94,7 @@ HRESULT CBoss_Valtan::Initialize(void* pArg)
 	m_fRootTargetDistance = 0.f;
 	m_fNoticeRange = 150.f;
 	m_iArmor = 2;
-	m_iPhase = 1;
+	m_iPhase = 3;
 	m_fFontScale = 0.55f;
 	m_pTransformCom->LookAt_Dir(Vec3(0.f, 0.f, 1.f));
 	m_pTransformCom->Turn_Axis(Vec3(0.f, 1.f, 0.f), XMConvertToRadians(-1.f));

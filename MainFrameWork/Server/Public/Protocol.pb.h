@@ -48,7 +48,7 @@ struct TableStruct_Protocol_2eproto {
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::AuxiliaryParseTableField aux[]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
-  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[34]
+  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[36]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::FieldMetadata field_metadata[];
   static const ::PROTOBUF_NAMESPACE_ID::internal::SerializationTable serialization_table[];
@@ -92,6 +92,12 @@ extern S_CREATE_SKILLDefaultTypeInternal _S_CREATE_SKILL_default_instance_;
 class S_DELETEGAMEOBJECT;
 struct S_DELETEGAMEOBJECTDefaultTypeInternal;
 extern S_DELETEGAMEOBJECTDefaultTypeInternal _S_DELETEGAMEOBJECT_default_instance_;
+class S_DUNGEANRATIO;
+struct S_DUNGEANRATIODefaultTypeInternal;
+extern S_DUNGEANRATIODefaultTypeInternal _S_DUNGEANRATIO_default_instance_;
+class S_ESTHER;
+struct S_ESTHERDefaultTypeInternal;
+extern S_ESTHERDefaultTypeInternal _S_ESTHER_default_instance_;
 class S_EVENT;
 struct S_EVENTDefaultTypeInternal;
 extern S_EVENTDefaultTypeInternal _S_EVENT_default_instance_;
@@ -172,6 +178,8 @@ template<> ::Protocol::S_CREATE_OBJCECT* Arena::CreateMaybeMessage<::Protocol::S
 template<> ::Protocol::S_CREATE_PLAYER* Arena::CreateMaybeMessage<::Protocol::S_CREATE_PLAYER>(Arena*);
 template<> ::Protocol::S_CREATE_SKILL* Arena::CreateMaybeMessage<::Protocol::S_CREATE_SKILL>(Arena*);
 template<> ::Protocol::S_DELETEGAMEOBJECT* Arena::CreateMaybeMessage<::Protocol::S_DELETEGAMEOBJECT>(Arena*);
+template<> ::Protocol::S_DUNGEANRATIO* Arena::CreateMaybeMessage<::Protocol::S_DUNGEANRATIO>(Arena*);
+template<> ::Protocol::S_ESTHER* Arena::CreateMaybeMessage<::Protocol::S_ESTHER>(Arena*);
 template<> ::Protocol::S_EVENT* Arena::CreateMaybeMessage<::Protocol::S_EVENT>(Arena*);
 template<> ::Protocol::S_HP* Arena::CreateMaybeMessage<::Protocol::S_HP>(Arena*);
 template<> ::Protocol::S_IDENTITY* Arena::CreateMaybeMessage<::Protocol::S_IDENTITY>(Arena*);
@@ -6069,6 +6077,292 @@ class S_CHANGEEQUIP final :
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_Protocol_2eproto;
 };
+// -------------------------------------------------------------------
+
+class S_DUNGEANRATIO final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.S_DUNGEANRATIO) */ {
+ public:
+  inline S_DUNGEANRATIO() : S_DUNGEANRATIO(nullptr) {}
+  ~S_DUNGEANRATIO() override;
+  explicit constexpr S_DUNGEANRATIO(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  S_DUNGEANRATIO(const S_DUNGEANRATIO& from);
+  S_DUNGEANRATIO(S_DUNGEANRATIO&& from) noexcept
+    : S_DUNGEANRATIO() {
+    *this = ::std::move(from);
+  }
+
+  inline S_DUNGEANRATIO& operator=(const S_DUNGEANRATIO& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline S_DUNGEANRATIO& operator=(S_DUNGEANRATIO&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const S_DUNGEANRATIO& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const S_DUNGEANRATIO* internal_default_instance() {
+    return reinterpret_cast<const S_DUNGEANRATIO*>(
+               &_S_DUNGEANRATIO_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    34;
+
+  friend void swap(S_DUNGEANRATIO& a, S_DUNGEANRATIO& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(S_DUNGEANRATIO* other) {
+    if (other == this) return;
+    if (GetOwningArena() == other->GetOwningArena()) {
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(S_DUNGEANRATIO* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline S_DUNGEANRATIO* New() const final {
+    return new S_DUNGEANRATIO();
+  }
+
+  S_DUNGEANRATIO* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<S_DUNGEANRATIO>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const S_DUNGEANRATIO& from);
+  void MergeFrom(const S_DUNGEANRATIO& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(S_DUNGEANRATIO* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "Protocol.S_DUNGEANRATIO";
+  }
+  protected:
+  explicit S_DUNGEANRATIO(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kFRatioFieldNumber = 1,
+  };
+  // float fRatio = 1;
+  void clear_fratio();
+  float fratio() const;
+  void set_fratio(float value);
+  private:
+  float _internal_fratio() const;
+  void _internal_set_fratio(float value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:Protocol.S_DUNGEANRATIO)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  float fratio_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_Protocol_2eproto;
+};
+// -------------------------------------------------------------------
+
+class S_ESTHER final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.S_ESTHER) */ {
+ public:
+  inline S_ESTHER() : S_ESTHER(nullptr) {}
+  ~S_ESTHER() override;
+  explicit constexpr S_ESTHER(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  S_ESTHER(const S_ESTHER& from);
+  S_ESTHER(S_ESTHER&& from) noexcept
+    : S_ESTHER() {
+    *this = ::std::move(from);
+  }
+
+  inline S_ESTHER& operator=(const S_ESTHER& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline S_ESTHER& operator=(S_ESTHER&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const S_ESTHER& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const S_ESTHER* internal_default_instance() {
+    return reinterpret_cast<const S_ESTHER*>(
+               &_S_ESTHER_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    35;
+
+  friend void swap(S_ESTHER& a, S_ESTHER& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(S_ESTHER* other) {
+    if (other == this) return;
+    if (GetOwningArena() == other->GetOwningArena()) {
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(S_ESTHER* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline S_ESTHER* New() const final {
+    return new S_ESTHER();
+  }
+
+  S_ESTHER* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<S_ESTHER>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const S_ESTHER& from);
+  void MergeFrom(const S_ESTHER& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(S_ESTHER* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "Protocol.S_ESTHER";
+  }
+  protected:
+  explicit S_ESTHER(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kIPlayerIDFieldNumber = 1,
+    kILevelFieldNumber = 2,
+    kIEstherGageFieldNumber = 3,
+  };
+  // int32 iPlayerID = 1;
+  void clear_iplayerid();
+  ::PROTOBUF_NAMESPACE_ID::int32 iplayerid() const;
+  void set_iplayerid(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_iplayerid() const;
+  void _internal_set_iplayerid(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // int32 iLevel = 2;
+  void clear_ilevel();
+  ::PROTOBUF_NAMESPACE_ID::int32 ilevel() const;
+  void set_ilevel(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_ilevel() const;
+  void _internal_set_ilevel(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // int32 iEstherGage = 3;
+  void clear_iesthergage();
+  ::PROTOBUF_NAMESPACE_ID::int32 iesthergage() const;
+  void set_iesthergage(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_iesthergage() const;
+  void _internal_set_iesthergage(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:Protocol.S_ESTHER)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  ::PROTOBUF_NAMESPACE_ID::int32 iplayerid_;
+  ::PROTOBUF_NAMESPACE_ID::int32 ilevel_;
+  ::PROTOBUF_NAMESPACE_ID::int32 iesthergage_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_Protocol_2eproto;
+};
 // ===================================================================
 
 
@@ -9701,9 +9995,101 @@ S_CHANGEEQUIP::mutable_itemcodes() {
   return _internal_mutable_itemcodes();
 }
 
+// -------------------------------------------------------------------
+
+// S_DUNGEANRATIO
+
+// float fRatio = 1;
+inline void S_DUNGEANRATIO::clear_fratio() {
+  fratio_ = 0;
+}
+inline float S_DUNGEANRATIO::_internal_fratio() const {
+  return fratio_;
+}
+inline float S_DUNGEANRATIO::fratio() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_DUNGEANRATIO.fRatio)
+  return _internal_fratio();
+}
+inline void S_DUNGEANRATIO::_internal_set_fratio(float value) {
+  
+  fratio_ = value;
+}
+inline void S_DUNGEANRATIO::set_fratio(float value) {
+  _internal_set_fratio(value);
+  // @@protoc_insertion_point(field_set:Protocol.S_DUNGEANRATIO.fRatio)
+}
+
+// -------------------------------------------------------------------
+
+// S_ESTHER
+
+// int32 iPlayerID = 1;
+inline void S_ESTHER::clear_iplayerid() {
+  iplayerid_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 S_ESTHER::_internal_iplayerid() const {
+  return iplayerid_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 S_ESTHER::iplayerid() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_ESTHER.iPlayerID)
+  return _internal_iplayerid();
+}
+inline void S_ESTHER::_internal_set_iplayerid(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  iplayerid_ = value;
+}
+inline void S_ESTHER::set_iplayerid(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_iplayerid(value);
+  // @@protoc_insertion_point(field_set:Protocol.S_ESTHER.iPlayerID)
+}
+
+// int32 iLevel = 2;
+inline void S_ESTHER::clear_ilevel() {
+  ilevel_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 S_ESTHER::_internal_ilevel() const {
+  return ilevel_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 S_ESTHER::ilevel() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_ESTHER.iLevel)
+  return _internal_ilevel();
+}
+inline void S_ESTHER::_internal_set_ilevel(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  ilevel_ = value;
+}
+inline void S_ESTHER::set_ilevel(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_ilevel(value);
+  // @@protoc_insertion_point(field_set:Protocol.S_ESTHER.iLevel)
+}
+
+// int32 iEstherGage = 3;
+inline void S_ESTHER::clear_iesthergage() {
+  iesthergage_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 S_ESTHER::_internal_iesthergage() const {
+  return iesthergage_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 S_ESTHER::iesthergage() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_ESTHER.iEstherGage)
+  return _internal_iesthergage();
+}
+inline void S_ESTHER::_internal_set_iesthergage(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  iesthergage_ = value;
+}
+inline void S_ESTHER::set_iesthergage(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_iesthergage(value);
+  // @@protoc_insertion_point(field_set:Protocol.S_ESTHER.iEstherGage)
+}
+
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

@@ -265,12 +265,12 @@ HRESULT CRenderer::Initialize_Prototype()
 	constexpr _float fTargetCY = 144.f;
 
 	//Test
-	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Cascade1"), fTargetX, fTargetY, fTargetCX, fTargetCY)))
-		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Cascade2"), 3.f * fTargetX, fTargetY, fTargetCX, fTargetCY)))
-		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Cascade3"), 5.f * fTargetX, fTargetY, fTargetCX, fTargetCY)))
-		return E_FAIL;
+	//if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Cascade1"), fTargetX, fTargetY, fTargetCX, fTargetCY)))
+	//	return E_FAIL;
+	//if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Cascade2"), 3.f * fTargetX, fTargetY, fTargetCX, fTargetCY)))
+	//	return E_FAIL;
+	//if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Cascade3"), 5.f * fTargetX, fTargetY, fTargetCX, fTargetCY)))
+	//	return E_FAIL;
 
 	/*if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Normal"), fTargetX, fTargetY, fTargetCX, fTargetCY)))
 		return E_FAIL;
@@ -278,34 +278,34 @@ HRESULT CRenderer::Initialize_Prototype()
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_NormalDepth"), 5.f * fTargetX, fTargetY, fTargetCX, fTargetCY)))
 		return E_FAIL;*/
-	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Properties"), 7.f * fTargetX, fTargetY, fTargetCX, fTargetCY)))
-		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_EffectOneBlend"), fTargetX, 3.f * fTargetY, fTargetCX, fTargetCY)))
-		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Emissive"), 3.f * fTargetX, 3.f * fTargetY, fTargetCX, fTargetCY)))
-		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_EffectAlphaBlend"), 5.f * fTargetX, 3.f * fTargetY, fTargetCX, fTargetCY)))
-		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_SSAO_Blur_HV"), 7.f * fTargetX, 3.f * fTargetY, fTargetCX, fTargetCY)))
-		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_BloomDownSample1"), fTargetX, 5.f * fTargetY, fTargetCX, fTargetCY)))
-		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_PrePostProcess"), 3.f * fTargetX, 5.f * fTargetY, fTargetCX, fTargetCY)))
-		return E_FAIL;	
-	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_DecalAlphaBlend"), 5.f * fTargetX, 5.f * fTargetY, fTargetCX, fTargetCY)))
-		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_DecalOneBlend"), 7.f * fTargetX, 5.f * fTargetY, fTargetCX, fTargetCY)))
-		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_DecalEmissive"), fTargetX, 7.f * fTargetY, fTargetCX, fTargetCY)))
-		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Distortion"), 3.f * fTargetX, 7.f * fTargetY, fTargetCX, fTargetCY)))
-		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_SSR"), 5.f * fTargetX, 7.f * fTargetY, fTargetCX, fTargetCY)))
-		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_BloomBlur_HV_5x5"), 7.f * fTargetX, 7.f * fTargetY, fTargetCX, fTargetCY)))
-		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Outline"), fTargetX, 9.f * fTargetY, fTargetCX, fTargetCY)))
-		return E_FAIL;
+	//if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Properties"), 7.f * fTargetX, fTargetY, fTargetCX, fTargetCY)))
+	//	return E_FAIL;
+	//if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_EffectOneBlend"), fTargetX, 3.f * fTargetY, fTargetCX, fTargetCY)))
+	//	return E_FAIL;
+	//if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Emissive"), 3.f * fTargetX, 3.f * fTargetY, fTargetCX, fTargetCY)))
+	//	return E_FAIL;
+	//if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_EffectAlphaBlend"), 5.f * fTargetX, 3.f * fTargetY, fTargetCX, fTargetCY)))
+	//	return E_FAIL;
+	//if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_SSAO_Blur_HV"), 7.f * fTargetX, 3.f * fTargetY, fTargetCX, fTargetCY)))
+	//	return E_FAIL;
+	//if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_BloomDownSample1"), fTargetX, 5.f * fTargetY, fTargetCX, fTargetCY)))
+	//	return E_FAIL;
+	//if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_PrePostProcess"), 3.f * fTargetX, 5.f * fTargetY, fTargetCX, fTargetCY)))
+	//	return E_FAIL;	
+	//if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_DecalAlphaBlend"), 5.f * fTargetX, 5.f * fTargetY, fTargetCX, fTargetCY)))
+	//	return E_FAIL;
+	//if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_DecalOneBlend"), 7.f * fTargetX, 5.f * fTargetY, fTargetCX, fTargetCY)))
+	//	return E_FAIL;
+	//if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_DecalEmissive"), fTargetX, 7.f * fTargetY, fTargetCX, fTargetCY)))
+	//	return E_FAIL;
+	//if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Distortion"), 3.f * fTargetX, 7.f * fTargetY, fTargetCX, fTargetCY)))
+	//	return E_FAIL;
+	//if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_SSR"), 5.f * fTargetX, 7.f * fTargetY, fTargetCX, fTargetCY)))
+	//	return E_FAIL;
+	//if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_BloomBlur_HV_5x5"), 7.f * fTargetX, 7.f * fTargetY, fTargetCX, fTargetCY)))
+	//	return E_FAIL;
+	//if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Outline"), fTargetX, 9.f * fTargetY, fTargetCX, fTargetCY)))
+	//	return E_FAIL;
 
 //#endif
 

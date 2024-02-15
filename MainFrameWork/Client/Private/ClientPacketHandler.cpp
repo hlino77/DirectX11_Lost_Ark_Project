@@ -863,3 +863,17 @@ bool Handel_S_CHANGEEQUIP_Client(PacketSessionRef& session, Protocol::S_CHANGEEQ
 	return true;
 }
 
+bool Handel_S_DUNGEANRATIO_Client(PacketSessionRef& session, Protocol::S_DUNGEANRATIO& pkt)
+{
+
+
+	return true;
+}
+
+bool Handel_S_ESTHERGAGE_Client(PacketSessionRef& session, Protocol::S_ESTHER& pkt)
+{
+
+
+	return true;
+}
+

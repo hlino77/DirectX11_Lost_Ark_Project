@@ -6,6 +6,7 @@ class CPartObject;
 END
 
 BEGIN(Client)
+class CEffect;
 
 class CBoss_Valtan_RunningGhost :
     public CBoss
@@ -39,6 +40,12 @@ private:
 private:
 	CModel* m_pModelPartCom[(_uint)PARTS::PARTS_END] = {};
 
+	_bool m_bEffect = false;
+
+	vector<CEffect*> m_Effects;
+	vector<CEffect*> m_Particles;
+
+	CEffect* m_pRushEffect = nullptr;
 public:
 	static CBoss* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg);

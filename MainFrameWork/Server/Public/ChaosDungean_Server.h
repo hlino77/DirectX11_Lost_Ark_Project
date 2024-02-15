@@ -59,6 +59,10 @@ private: /* 해당 객체가 사용해야할 컴포넌트들을 저장하낟. */
 	HRESULT	Broadcast_PlayerInfo();
 
 	void	Wait_For_Player();
+
+	void	Update_Ratio();
+
+	void	Send_Ratio(_float fRatio);
 private:
 	_float m_fStartDelay = 0.0f;
 
@@ -85,6 +89,8 @@ private:
 	vector<wstring> m_MonsterSpawnList;
 	vector<wstring> m_BossSpawnList;
 	vector<CPlayer_Server*> m_Players;
+
+	_float m_fRatioDelay = 0.2f;
 public:
 	static CChaosDungean_Server* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg);

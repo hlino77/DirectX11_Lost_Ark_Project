@@ -561,3 +561,28 @@ bool Handel_S_CHANGEEQUIP_Server(PacketSessionRef& session, Protocol::S_CHANGEEQ
 	Safe_Release(pGameInstance);
 	return true;
 }
+
+bool Handel_S_DUNGEANRATIO_Server(PacketSessionRef& session, Protocol::S_DUNGEANRATIO& pkt)
+{
+
+
+	return true;
+}
+
+bool Handel_S_ESTHERGAGE_Server(PacketSessionRef& session, Protocol::S_ESTHER& pkt)
+{
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+
+	_uint iPlayerID = pkt.iplayerid();
+	CPlayer_Server* pPlayer = dynamic_cast<CPlayer_Server*>(pGameInstance->Find_GameObject(pkt.ilevel(), (_uint)LAYER_TYPE::LAYER_PLAYER, iPlayerID));
+
+	if (pPlayer == nullptr)
+	{
+		Safe_Release(pGameInstance);
+		return true;
+	}
+
+	CGameSessionManager::GetInstance()->Broadcast_Others(CServerPacketHandler::MakeSendBuffer(pkt), session->GetSessionID());
+
+	return true;
+}

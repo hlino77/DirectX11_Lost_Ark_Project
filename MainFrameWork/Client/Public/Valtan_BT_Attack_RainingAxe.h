@@ -20,6 +20,8 @@ private:
     _uint               m_iAttackCount = 0;
     _float              m_fAttackTerm = 0.f;
     _bool               m_bShoot =true;
+
+    _bool               m_bWarning = false;
 public:
     static	CValtan_BT_Attack_RainingAxe* Create(void* pArg);
     virtual void Free() override;

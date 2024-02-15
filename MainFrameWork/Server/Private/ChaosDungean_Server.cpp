@@ -100,7 +100,10 @@ void CChaosDungean_Server::LateTick(_float fTimeDelta)
 	for (auto iterMonster = m_Monsters.begin(); iterMonster != m_Monsters.end();)
 	{
 		if ((*iterMonster)->Is_Dead())
+		{
 			iterMonster = m_Monsters.erase(iterMonster);
+			Update_Ratio();
+		}
 		else
 			++iterMonster;
 	}
@@ -108,7 +111,10 @@ void CChaosDungean_Server::LateTick(_float fTimeDelta)
 	for (auto iterBoss = m_Bosses.begin(); iterBoss != m_Bosses.end();)
 	{
 		if ((*iterBoss)->Is_Dead())
+		{
 			iterBoss = m_Bosses.erase(iterBoss);
+			Update_Ratio();
+		}
 		else
 			++iterBoss;
 	}
@@ -118,6 +124,12 @@ void CChaosDungean_Server::LateTick(_float fTimeDelta)
 	{
 		Broadcast_PlayerInfo();
 		m_fBroadcastTime = 0.0f;
+	}
+
+	m_fRatioDelay -= fTimeDelta;
+	if (m_fRatioDelay < 0.0f)
+	{
+		m_fRatioDelay = 0.0f;
 	}
 }
 
@@ -432,6 +444,37 @@ void CChaosDungean_Server::Wait_For_Player()
 		{
 			Player->Get_GameSession()->Send(pSendBuffer);
 		}
+	}
+}
+
+void CChaosDungean_Server::Update_Ratio()
+{
+	if (m_fRatioDelay > 0.0f)
+		return;
+	
+	switch (m_eDungeanLevel)
+	{
+	case CHAOSDUNGEANLEVEL::LEVEL1:
+		Send_Ratio(1.0f - (m_iMonsterCount / 270.0f));
+		break;
+	case CHAOSDUNGEANLEVEL::LEVEL2:
+		Send_Ratio(1.0f - (m_iBossCount / 270.0f));
+		break;
+	case CHAOSDUNGEANLEVEL::LEVEL3:
+		Send_Ratio(1.0f - (m_iBossCount / 270.0f));
+		break;
+	}
+
+	m_fRatioDelay = 0.2f;
+}
+
+void CChaosDungean_Server::Send_Ratio(_float fRatio)
+{
+	Protocol::S_DUNGEANRATIO pkt;
+	pkt.set_fratio(fRatio);
+	for (auto& Player : m_Players)
+	{
+		Player->Get_GameSession()->Send(CServerPacketHandler::MakeSendBuffer(pkt));
 	}
 }
 

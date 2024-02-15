@@ -14,6 +14,7 @@
 #include "SKill_Valtan_RainingAxe.h"
 
 
+
 CValtan_BT_Attack_RainingAxe::CValtan_BT_Attack_RainingAxe()
 {
 }
@@ -26,23 +27,40 @@ void CValtan_BT_Attack_RainingAxe::OnStart()
 	else
 		m_iAttackCount = 3;
 	m_fAttackTerm = 0.f;
-	m_bShoot =true;
+	m_bShoot = true;
+
+	m_bWarning = false;
+	
 }
 
 CBT_Node::BT_RETURN CValtan_BT_Attack_RainingAxe::OnUpdate(const _float& fTimeDelta)
 {
+
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[1].iAnimIndex && static_cast<CBoss*>(m_pGameObject)->Get_Phase() == 1)
 	{
 		m_pGameObject->Set_Render(false);
 		m_pGameObject->Get_TransformCom()->LookAt_Dir(Vec3(0.f, 0.f, -1.f));
 		static_cast<CBoss*>(m_pGameObject)->Move_to_SpawnPosition();
 	}
-	else if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[1].iAnimIndex && static_cast<CBoss*>(m_pGameObject)->Get_Phase() == 2&& m_fLoopTime < m_vecAnimDesc[1].fMaxLoopTime-1.f&& !m_pGameObject->Get_ModelCom()->IsNext())
+	else if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[1].iAnimIndex && static_cast<CBoss*>(m_pGameObject)->Get_Phase() == 2 && m_fLoopTime < m_vecAnimDesc[1].fMaxLoopTime-1.f&& !m_pGameObject->Get_ModelCom()->IsNext())
 	{
 		m_pGameObject->Set_Render(false);
 		static_cast<CBoss*>(m_pGameObject)->LookAt_Target_Direction_Lerp(fTimeDelta);
 		m_pGameObject->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, static_cast<CBoss*>(m_pGameObject)->Get_NearTarget_Position());
 	}
+
+	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[1].iAnimIndex && static_cast<CBoss*>(m_pGameObject)->Get_Phase() == 2 && m_fLoopTime > m_vecAnimDesc[1].fMaxLoopTime - 1.f && !m_pGameObject->Get_ModelCom()->IsNext())
+	{
+		if (m_bWarning == false)
+		{
+			CEffect_Manager::EFFECTPIVOTDESC tDesc;
+			tDesc.pPivotMatrix = &m_pGameObject->Get_TransformCom()->Get_WorldMatrix();
+			EFFECT_START(L"VT_RainAxe2WarningIn", &tDesc);
+
+			m_bWarning = true;
+		}
+	}
+
 
 	if (m_iCurrAnimation == 2)
 		m_pGameObject->Set_Render(true);
@@ -60,7 +78,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_RainingAxe::OnUpdate(const _float& fTimeDe
 				m_fLoopTime = m_vecAnimDesc[1].fMaxLoopTime - 2.f;
 			}
 
-			if (m_iAttackCount == 2)
+			if (m_iAttackCount == 2 && static_cast<CBoss*>(m_pGameObject)->Get_Phase() == 1)
 			{
 				CEffect_Manager::EFFECTPIVOTDESC tDesc;
 				tDesc.pPivotMatrix = &m_pGameObject->Get_TransformCom()->Get_WorldMatrix();
@@ -156,6 +174,12 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_RainingAxe::OnUpdate(const _float& fTimeDe
 				pSkill->Get_TransformCom()->LookAt_Dir(vLook);
 				static_cast<CSkill*>(pSkill)->Set_DoughnutRadii(12.f,4.3f);
 			}
+
+			CEffect_Manager::EFFECTPIVOTDESC tDesc;
+			tDesc.pPivotMatrix = &m_pGameObject->Get_TransformCom()->Get_WorldMatrix();
+			EFFECT_START(L"VT_RainAxeIn", &tDesc);
+			EFFECT_START(L"VT_RainAxeOut", &tDesc);
+			EFFECT_START(L"VT_RainAxe2WarningOut", &tDesc);
 		}
 	}
 
