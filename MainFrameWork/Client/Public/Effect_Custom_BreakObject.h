@@ -45,8 +45,8 @@ private:
 	HRESULT Ready_Components(void* pArg);
 
 
-	void	Spread_Random_Dir(float fTimeDelta);
-	void	Target_Random_Dir(Vec3 TargetPosition, float fTimeDelta);
+	void	Spread_Random_Dir(_float fTimeDelta);
+	void	Target_Random_Dir(Vec3 TargetPosition, _float fTimeDelta);
 
 
 private:
@@ -69,6 +69,9 @@ private:
 	// 	RandomDir
 	_bool  m_bSetDir = false;
 	Vec3   m_RandomMoveDirection = {};
+
+	_int  m_iRight = 0;
+	_int  m_iFront = 0;
 
 	// RimLight
 	_float	m_fRimLightTime = {};
