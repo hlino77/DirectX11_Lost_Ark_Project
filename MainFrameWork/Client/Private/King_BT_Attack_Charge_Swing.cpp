@@ -6,6 +6,8 @@
 #include "Skill.h"
 #include "GameInstance.h"
 #include <Boss.h>
+#include <Effect_Manager.h>
+
 CKing_BT_Attack_Charge_Swing::CKing_BT_Attack_Charge_Swing()
 {
 }
@@ -25,7 +27,9 @@ CBT_Node::BT_RETURN CKing_BT_Attack_Charge_Swing::OnUpdate(const _float& fTimeDe
 		ModelDesc.iObjectID = -1;
 		ModelDesc.pOwner = m_pGameObject;
 
-
+		CEffect_Manager::EFFECTPIVOTDESC tDesc;
+		tDesc.pPivotMatrix = &m_pGameObject->Get_TransformCom()->Get_WorldMatrix();
+		EFFECT_START(L"KING_Getsuga_Tenshou", &tDesc);
 		CGameObject* pSkill = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_Skill_King_ChargeSwing", &ModelDesc);
 		if (pSkill != nullptr)
 		{

@@ -26,7 +26,7 @@ HRESULT CSkill_King_ChargeSwing::Initialize(void* pArg)
 {
     if (FAILED(__super::Initialize(pArg)))
         return E_FAIL;
-	m_fMoveSpeed = 6.f;
+	m_fMoveSpeed = 25.f;
 	m_fLastTime = 5.f;
 	m_SkillDesc.iAtk = 30;
 	m_SkillDesc.fForce = 30.5f;
@@ -92,12 +92,12 @@ HRESULT CSkill_King_ChargeSwing::Ready_Coliders()
 			m_Coliders.emplace((_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS, pCollider);
 		}
 	}
-	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->Set_Radius(3.f);
+	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->Set_Radius(7.f);
 	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->SetActive(true);
 	m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->Set_Offset(Vec3(0.0f, 0.5f, 0.0f));
 
 	COBBCollider* pChildCollider = dynamic_cast<COBBCollider*>(m_Coliders[(_uint)LAYER_COLLIDER::LAYER_SKILL_BOSS]->Get_Child());
-	pChildCollider->Set_Scale(Vec3(1.5f, 0.2f, 1.f));
+	pChildCollider->Set_Scale(Vec3(3.5f, 0.2f, 1.f));
 	pChildCollider->Set_Offset(Vec3(0.0f, 0.5f, 0.f));
 	pChildCollider->SetActive(true);
 	for (auto& Collider : m_Coliders)
