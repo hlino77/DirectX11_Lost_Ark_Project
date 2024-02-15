@@ -106,7 +106,7 @@ protected:
 	_float						m_fUpgradeMaxGauge = { 100.f };
 	_float						m_fUpgradeGauge = { 0.f };
 
-	_uint						m_iItemUpgradelevel = { 1 };
+	_uint						m_iItemUpgradelevel = { 10 };
 	_bool						m_bEquipWearing = { false };
 
 	ITEMCODE					m_eItemCode = ITEMCODE::Default;
