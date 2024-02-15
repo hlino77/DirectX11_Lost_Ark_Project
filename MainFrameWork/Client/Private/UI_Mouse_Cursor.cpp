@@ -49,7 +49,7 @@ HRESULT CUI_Mouse_Cursor::Initialize(void* pArg)
     XMStoreFloat4x4(&m_ViewMatrix, XMMatrixIdentity());
     XMStoreFloat4x4(&m_ProjMatrix, XMMatrixOrthographicLH(g_iWinSizeX, g_iWinSizeY, 0.f, 1.f));
 
-    //ShowCursor(false);
+    ShowCursor(false);
 
     return S_OK;
 }
