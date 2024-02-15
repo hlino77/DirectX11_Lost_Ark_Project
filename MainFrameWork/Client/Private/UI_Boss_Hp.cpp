@@ -545,6 +545,7 @@ void CUI_Boss_Hp::Set_MaxHp(_int iMaxHp)
 {
 	CUI_Boss_Hp::m_iMaxHp = iMaxHp;
 	m_fDivideCountHp = (_float)m_iMaxHp / (_float)m_iHpCount;
+	m_fHpRatio = ((_float)m_iCurrHp - (m_fDivideCountHp * (_float)m_iHpCount)) / m_fDivideCountHp;
 }
 
 void CUI_Boss_Hp::Set_CurrHpColor(_uint iHpColor)
@@ -585,6 +586,8 @@ void CUI_Boss_Hp::Update_BossHp()
 		m_pInGameHpCountWnd->Set_Alpha(1.f);
 		m_pInGameHpCountWnd->Get_TransformCom()->Set_Scale(Vec3(50.f, 20.0f, 0.f));
 		wstring strHpCount = TEXT("x") + to_wstring(m_iHpCount);
+		if (0 == m_iHpCount)
+			strHpCount = TEXT("");
 		Vec2 vMeasure = CGameInstance::GetInstance()->MeasureString(m_szFont, strHpCount);
 		Vec2 vOrigin = vMeasure * 0.5f;
 		m_pInGameHpCountWnd->Set_Text(m_strTagHpCount, m_szFont, strHpCount, Vec2(25.f, 10.f), Vec2(0.3f, 0.3f), vOrigin, 0.f, Vec4(1.0f, 1.0f, 1.0f, 1.f));

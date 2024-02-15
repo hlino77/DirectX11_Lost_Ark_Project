@@ -26,6 +26,7 @@
 #include "Effect_Trail.h"
 #include "Sound_Manager.h"
 #include "UI_Manager.h"
+#include "Chat_Manager.h"
 
 CValtan_BT_Spawn::CValtan_BT_Spawn()
 {
@@ -448,6 +449,7 @@ void CValtan_BT_Spawn::End_Scene()
 	CUI_Manager::GetInstance()->Set_UIs_Active(true, LEVELID::LEVEL_VALTANMAIN);
 	CUI_Manager::GetInstance()->Set_RenderNickName(true, LEVELID::LEVEL_VALTANMAIN);
 	CUI_Manager::GetInstance()->Set_RenderNickName(true, LEVELID::LEVEL_STATIC);
+	CChat_Manager::GetInstance()->Set_Active(true);
 }
 
 void CValtan_BT_Spawn::Update_LightningParticle(_float fTimeDelta)

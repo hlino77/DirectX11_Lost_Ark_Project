@@ -140,18 +140,9 @@ HRESULT CUI_SkillIcon_Frame::Render()
 
     if(m_bHaveSkill)
     {
-        if (!m_bPicked)
-        {
-            if (FAILED(Bind_ShaderResources_Skill()))
-                return E_FAIL;
-        }
-        else if(m_bPicked)
-        {
-            if (FAILED(Bind_ShaderResources_Picked()))
-                return E_FAIL;
-        }
+        if (FAILED(Bind_ShaderResources_Skill()))
+            return E_FAIL;
         m_pTextureCom_Skill->Set_SRV(m_pShaderCom, "g_DiffuseTexture", m_iTextureIndex);
-
         m_pShaderCom->Begin(19);
         m_pVIBufferCom->Render();
     }
@@ -469,7 +460,7 @@ HRESULT CUI_SkillIcon_Frame::Bind_ShaderResources_Skill()
     if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
         return E_FAIL;
 
-    if((TEXT("Dead_Start") == CServerSessionManager::GetInstance()->Get_Player()->Get_State()) || (TEXT("Dead_End") == CServerSessionManager::GetInstance()->Get_Player()->Get_State()))
+    if((TEXT("Fall") == CServerSessionManager::GetInstance()->Get_Player()->Get_State()) ||(TEXT("Dead_Start") == CServerSessionManager::GetInstance()->Get_Player()->Get_State()) || (TEXT("Dead_End") == CServerSessionManager::GetInstance()->Get_Player()->Get_State()))
         m_bSilence = true;
 
     if (FAILED(m_pShaderCom->Bind_RawValue("g_Silence", &m_bSilence, sizeof(_bool))))

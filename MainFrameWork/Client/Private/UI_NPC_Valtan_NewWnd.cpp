@@ -41,7 +41,7 @@ HRESULT CUI_NPC_ValtanEntrance_Wnd::Initialize(void* pArg)
     if (FAILED(Ready_Components()))
         return E_FAIL;
 
-    m_strUITag = TEXT("NPC_UI_ChaosDungeon_NewWnd");
+    m_strUITag = TEXT("NPC_UI_ValtanEntrance_NewWnd");
 
     m_fX = g_iWinSizeX * 0.5f;
     m_fY = 400.f;
