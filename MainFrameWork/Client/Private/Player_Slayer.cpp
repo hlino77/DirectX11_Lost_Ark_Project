@@ -314,6 +314,7 @@ void CPlayer_Slayer::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 			{
 				if (false == m_pController->Is_GrabState() && false == m_pController->Is_Dead())
 				{
+					m_IsSafeZone = false;
 					m_pController->Get_GrabMessage(pOther->Get_Owner());
 				}
 			}
