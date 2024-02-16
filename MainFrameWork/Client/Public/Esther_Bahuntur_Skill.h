@@ -47,7 +47,7 @@ private:
 	_uint					m_iAnimIndex;
 
 	_bool					m_bCutStart = { false };
-	_bool					m_bProjStart = { false };
+	_bool					m_bProjStart[2] = { false, false };
 	_bool					m_bAnim = { false };
 	_bool					m_bEndStart = { false };
 

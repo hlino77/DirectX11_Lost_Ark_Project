@@ -124,7 +124,7 @@ void CState_GN_Grabbed::ToNone_GrabPos(_float fTimeDelta)
 	WorldMatrix._42 *= 0.01f;
 	WorldMatrix._43 *= 0.01f;
 	WorldMatrix *= GrabMatrix;
-	Matrix ComputeMatrix = WorldMatrix * m_pValtan->Get_ModelCom()->Get_TransformCom()->Get_WorldMatrix();
+	Matrix ComputeMatrix = WorldMatrix * m_pValtan->Get_TransformCom()->Get_WorldMatrix();
 
 	if (false == static_cast<CBoss_Valtan*>(m_pValtan)->Get_BehaviorTree()->Get_CurrentAction()->Get_CurrentAnimDesc().bIsLoop)
 	{
