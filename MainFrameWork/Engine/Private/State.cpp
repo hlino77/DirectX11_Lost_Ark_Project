@@ -9,6 +9,9 @@ CState::CState(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Con
 
 void CState::StopStateSound()
 {
+	if (0 == m_SoundFrames.size())
+		return;
+
 	for (size_t i = 0; i < m_SoundFrames.size() -1 ; i++)
 	{
 		if (-1 == m_SoundFrames[i].iFrame) continue;
