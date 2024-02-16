@@ -143,7 +143,7 @@ void CBoss_Valtan_Server::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStat
 	WRITE_LOCK
 		 if (!m_IsInvincible)
 		{
-			 _uint iDamage_Result = _uint((_float)iDamage * ((10.f - (_float)m_iArmor) * 3.f / 10.f));
+			 _uint iDamage_Result = _uint((_float)iDamage * ((10.f - ((_float)m_iArmor * 3.f)) / 10.f));
 			_uint iGroggy_Result = iGroggy;
 			_bool	bGroggyObsorb = false;
 			STATUSEFFECT eEfect = STATUSEFFECT::EFFECTEND;

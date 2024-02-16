@@ -446,7 +446,7 @@ HRESULT CEsther_Bahuntur_Skill::Ready_Projectile()
 		Proj_Desc.fRadius = 20.f;
 		Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 0.1f);
 		Proj_Desc.iStatusEffect = (_uint)CPlayer_Controller::BUFFEFFECT::HALFDAMAGE;
-		Proj_Desc.fRepulsion = 0.01f;
+		Proj_Desc.fRepulsion = 0.00001f;
 		Proj_Desc.fStatusDuration = 20.f;
 		m_vecSkillProjDesces.push_back(Proj_Desc);
 	}
