@@ -977,6 +977,9 @@ void CPlayer_Controller::Get_BuffMessage(_uint iBuffStatus, _float fAmount, _flo
 			case (_uint)BUFFEFFECT::MANAREFILL:
 				ManaRefill(0.0f);
 				break;
+			case (_uint)BUFFEFFECT::HPREFILL:
+				HPRefill(0.0f);
+				break;
 			case (_uint)BUFFEFFECT::STIIFIMMUNE:
 				StiffImmune(0.0f);
 				break;
@@ -995,6 +998,11 @@ void CPlayer_Controller::Get_BuffMessage(_uint iBuffStatus, _float fAmount, _flo
 		m_bBuffEffect[iBuffStatus] = true;
 		m_fBuffDuration[iBuffStatus] = fDurtaion;
 		ManaRefill(fAmount);
+		break;
+	case (_uint)BUFFEFFECT::HPREFILL:
+		m_bBuffEffect[iBuffStatus] = true;
+		m_fBuffDuration[iBuffStatus] = fDurtaion;
+		HPRefill(fAmount);
 		break;
 	case (_uint)BUFFEFFECT::STIIFIMMUNE:
 		m_bBuffEffect[iBuffStatus] = true;
@@ -1026,6 +1034,9 @@ void CPlayer_Controller::BuffEffect_Duration(const _float& fTimeDelta)
 				break;
 			case (_uint)BUFFEFFECT::MANAREFILL:
 				ManaRefill(0.0f);
+				break;
+			case (_uint)BUFFEFFECT::HPREFILL:
+				HPRefill(0.0f);
 				break;
 			case (_uint)BUFFEFFECT::STIIFIMMUNE:
 				StiffImmune(0.0f);
@@ -1060,6 +1071,24 @@ void CPlayer_Controller::ManaRefill(_float fAmount)
 		if (tPcStat.iCurMp >= tPcStat.iMaxMp)
 		{
 			tPcStat.iCurMp = tPcStat.iMaxMp;
+		}
+		m_pOwner->Set_PlayerStat_Desc(tPcStat);
+	}
+}
+
+void CPlayer_Controller::HPRefill(_float fAmount)
+{
+	if (-1.f == m_fBuffDuration[(_uint)BUFFEFFECT::HPREFILL])
+	{
+		m_fBuffAmount[(_uint)BUFFEFFECT::HPREFILL] = 0;
+	}
+	else
+	{
+		CGameObject::STATDESC tPcStat = m_pOwner->Get_PlayerStat_Desc();
+		tPcStat.iCurHp += tPcStat.iMaxHp * fAmount;
+		if (tPcStat.iCurHp >= tPcStat.iMaxHp)
+		{
+			tPcStat.iCurHp = tPcStat.iMaxHp;
 		}
 		m_pOwner->Set_PlayerStat_Desc(tPcStat);
 	}

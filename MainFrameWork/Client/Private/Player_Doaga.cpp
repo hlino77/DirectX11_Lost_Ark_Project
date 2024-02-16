@@ -388,7 +388,7 @@ void CPlayer_Doaga::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 			}
 			else if ((_uint)LAYER_COLLIDER::LAYER_BODY_BOSS == pOther->Get_ColLayer())
 			{
-				m_pController->Increase_IdenGage(5.f);
+				m_pController->Increase_IdenGage(15.f);
 			}	
 		}
 		else if (iColLayer == (_uint)LAYER_COLLIDER::LAYER_SKILL_PLAYER)
@@ -403,7 +403,7 @@ void CPlayer_Doaga::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 				}
 				else if ((_uint)LAYER_COLLIDER::LAYER_BODY_BOSS == pOther->Get_ColLayer())
 				{
-					m_pController->Increase_IdenGage(15.f);
+					m_pController->Increase_IdenGage(30.f);
 				}
 			}
 		}

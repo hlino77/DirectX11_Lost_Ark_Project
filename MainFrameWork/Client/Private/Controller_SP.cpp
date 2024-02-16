@@ -66,9 +66,9 @@ HRESULT CController_SP::Initialize(void* pArg)
 	Proj_Iden_Desc.fRadius = 2.4f;
 	Proj_Iden_Desc.vOffset = Vec3(0.0f, 0.2f, 0.1f);
 	Proj_Iden_Desc.iDamage = 2;
-	Proj_Iden_Desc.iStatusEffect = (_uint)BUFFEFFECT::MANAREFILL;
+	Proj_Iden_Desc.iStatusEffect = (_uint)BUFFEFFECT::HPREFILL;
 	Proj_Iden_Desc.fStatusDuration = 0.f;
-	Proj_Iden_Desc.fRepulsion = 0.3f;
+	Proj_Iden_Desc.fRepulsion = 0.1f;
 	Proj_Iden_Desc.bUseProjPos = true;
 	m_Attack_Desces[2] = Proj_Iden_Desc;
 	
