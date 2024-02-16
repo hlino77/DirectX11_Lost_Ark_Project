@@ -250,8 +250,8 @@ void CPlayer_Controller_GN::Get_GrabMessage(CGameObject* pGrabber)
 	static_cast<CPlayer*>(m_pOwner)->Set_State(TEXT("Grabbed"));
 
 	static_cast<CPlayer*>(m_pOwner)->Set_SuperArmorState(false);
-	static_cast<CPlayer*>(m_pOwner)->Set_Invincible(false);
 	static_cast<CPlayer*>(m_pOwner)->Set_SuperiorArmorState(false);
+	static_cast<CPlayer*>(m_pOwner)->Set_Invincible(false);
 
 	m_bBuffEffect[(_uint)BUFFEFFECT::STIIFIMMUNE] = false;
 	m_fBuffDuration[(_uint)BUFFEFFECT::STIIFIMMUNE] = -1;
