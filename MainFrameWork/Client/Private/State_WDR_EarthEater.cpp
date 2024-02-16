@@ -382,13 +382,13 @@ void CState_WDR_EarthEater::Effect_Exit()
 	{
 		dynamic_cast<CEffect_Custom_EarthEaterParticle*>(Effect)->Effect_Exit();
 	}
-
+	m_Particles.clear();
 
 	for (auto& Effect : m_SmallParticles)
 	{
 		dynamic_cast<CEffect_Custom_EarthEaterSmallParticle*>(Effect)->Effect_Exit();
 	}
-
+	m_SmallParticles.clear();
 
 }
 
