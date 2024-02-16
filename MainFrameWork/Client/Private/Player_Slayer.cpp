@@ -326,12 +326,22 @@ void CPlayer_Slayer::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 				m_pController->Get_BuffMessage(static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().iStatusEffect,
 					static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().fRepulsion,
 					static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().fStatusDuration);
+
+				if ((_uint)CPlayer_Controller::BUFFEFFECT::HPREFILL == static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().iStatusEffect)
+				{
+					Send_Hp();
+				}
 			}
 			else if ((_uint)LAYER_COLLIDER::LAYER_BUFF_ESTHER == pOther->Get_ColLayer())
 			{
 				m_pController->Get_BuffMessage(static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().iStatusEffect,
 					static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().fRepulsion,
 					static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().fStatusDuration);
+
+				if ((_uint)CPlayer_Controller::BUFFEFFECT::HPREFILL == static_cast<CProjectile*>(pOther->Get_Owner())->Get_ProjInfo().iStatusEffect)
+				{
+					Send_Hp();
+				}
 			}
 			else if ((_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER == pOther->Get_ColLayer())
 			{

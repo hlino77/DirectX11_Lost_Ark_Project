@@ -617,35 +617,32 @@ void CPlayer_Controller::Get_StatusEffectMessage(_uint iStatus, _float fDurtaion
 		return;
 
 	/* 시작시 이미 이펙트상태면 초기화 */
-	for (size_t i = 0; i < (_uint)STATUSEFFECT::_END; i++)
+	if (true == m_bStatusEffect[iStatus])
 	{
-		if (true == m_bStatusEffect[i])
+		m_bStatusEffect[iStatus] = false;
+		m_fStatusDuration[iStatus] = -1.f;
+		switch (iStatus)
 		{
-			m_bStatusEffect[i] = false;
-			m_fStatusDuration[i] = -1.f;
-			switch (i)
-			{
-			case (_uint)STATUSEFFECT::BUG:
-				Bug();
-				break;
-			case (_uint)STATUSEFFECT::FEAR:
-				Fear();
-				break;
-			case (_uint)STATUSEFFECT::EARTHQUAKE:
-				EarthQuake();
-				break;
-			case (_uint)STATUSEFFECT::SHOCK:
-				Shock();
-				break;
-			case (_uint)STATUSEFFECT::STUN:
-				Stun();
-				break;
-			case (_uint)STATUSEFFECT::SILENCE:
-				Silence();
-				break;
-			default:
-				break;
-			}
+		case (_uint)STATUSEFFECT::BUG:
+			Bug();
+			break;
+		case (_uint)STATUSEFFECT::FEAR:
+			Fear();
+			break;
+		case (_uint)STATUSEFFECT::EARTHQUAKE:
+			EarthQuake();
+			break;
+		case (_uint)STATUSEFFECT::SHOCK:
+			Shock();
+			break;
+		case (_uint)STATUSEFFECT::STUN:
+			Stun();
+			break;
+		case (_uint)STATUSEFFECT::SILENCE:
+			Silence();
+			break;
+		default:
+			break;
 		}
 	}
 
@@ -963,27 +960,24 @@ void CPlayer_Controller::Get_BuffMessage(_uint iBuffStatus, _float fAmount, _flo
 		return;
 
 	/* 시작시 이미 이펙트상태면 초기화 */
-	for (size_t i = 0; i < (_uint)BUFFEFFECT::_END; i++)
+	if (true == m_bBuffEffect[iBuffStatus])
 	{
-		if (true == m_bBuffEffect[i])
+		m_bBuffEffect[iBuffStatus] = false;
+		m_fBuffDuration[iBuffStatus] = -1.f;
+		switch (iBuffStatus)
 		{
-			m_bBuffEffect[i] = false;
-			m_fBuffDuration[i] = -1.f;
-			switch (i)
-			{
-			case (_uint)BUFFEFFECT::HALFDAMAGE:
-				HalfDamage(0.0f);
-				break;
-			case (_uint)BUFFEFFECT::MANAREFILL:
-				ManaRefill(0.0f);
-				break;
-			case (_uint)BUFFEFFECT::HPREFILL:
-				HPRefill(0.0f);
-				break;
-			case (_uint)BUFFEFFECT::STIIFIMMUNE:
-				StiffImmune(0.0f);
-				break;
-			}
+		case (_uint)BUFFEFFECT::HALFDAMAGE:
+			HalfDamage(0.0f);
+			break;
+		case (_uint)BUFFEFFECT::MANAREFILL:
+			ManaRefill(0.0f);
+			break;
+		case (_uint)BUFFEFFECT::HPREFILL:
+			HPRefill(0.0f);
+			break;
+		case (_uint)BUFFEFFECT::STIIFIMMUNE:
+			StiffImmune(0.0f);
+			break;
 		}
 	}
 
