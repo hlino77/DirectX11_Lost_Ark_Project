@@ -105,7 +105,7 @@ HRESULT CBoss_Valtan_Server::Initialize(void* pArg)
 	m_iPhase = 1;
 	m_fAttackRange = m_vecAttackRanges[0];
 	m_fRootTargetDistance = 0.f;
-	m_iMaxHp = 8214139495;
+	m_iMaxHp = 24642418485;
 	m_iHp = m_iMaxHp;
 	m_iMaxArmorDurability = (_uint)((_float)m_iMaxHp / 160.f * 3.f);
 	m_iArmorDurability = m_iMaxArmorDurability;

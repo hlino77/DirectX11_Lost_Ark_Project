@@ -43,9 +43,9 @@ CBT_Node::BT_RETURN CValtan_BT_Phase3::OnUpdate(const _float& fTimeDelta)
 void CValtan_BT_Phase3::OnEnd()
 {
 	__super::OnEnd();
-	static_cast<CBoss*>(m_pGameObject)->Set_MaxHp(529402339);
-	static_cast<CBoss*>(m_pGameObject)->Set_Hp(529402339);
-	static_cast<CBoss_Valtan*>(m_pGameObject)->Set_HpUI(40, 529402339, L"찢겨진 마수의 군주");
+	static_cast<CBoss*>(m_pGameObject)->Set_MaxHp(1588207017);
+	static_cast<CBoss*>(m_pGameObject)->Set_Hp(1588207017);
+	static_cast<CBoss_Valtan*>(m_pGameObject)->Set_HpUI(40, 1588207017, L"찢겨진 마수의 군주");
 	static_cast<CBoss_Valtan*>(m_pGameObject)->Set_HpUIRender(true);
 	CSound_Manager::GetInstance()->Stop_Channel_Sound(L"Commander of Beast Valtan");
 	CSound_Manager::GetInstance()->PlayBGM_AddChannel(L"Ravaged Tyrant of Beasts", L"BGM", L"Ravaged Tyrant of Beasts.wav", 0.3f);

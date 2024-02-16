@@ -80,7 +80,7 @@ HRESULT CBoss_Valtan::Initialize(void* pArg)
 	m_eBossType = VALTAN;
 	m_iMaxGroggyGauge = 2000;
 	m_iGroggyGauge = m_iMaxGroggyGauge;
-	m_iMaxHp = 8214139495;
+	m_iMaxHp = 24642418485;
 	m_iHp = m_iMaxHp;
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
