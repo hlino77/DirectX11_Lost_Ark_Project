@@ -36,6 +36,7 @@ void CState_GN_Dash::Enter_State()
 	m_pController->Get_StopMessage();
 	m_pController->Get_DashMessage(m_pPlayer->Get_TargetPos());
 	m_pController->Get_SkillEndMessage();
+	m_pPlayer->Set_SuperiorArmorState(true);
 }
 
 void CState_GN_Dash::Tick_State(_float fTimeDelta)
@@ -46,6 +47,7 @@ void CState_GN_Dash::Tick_State(_float fTimeDelta)
 void CState_GN_Dash::Exit_State()
 {
 	m_bDashContinue = false;
+	m_pPlayer->Set_SuperiorArmorState(false);
 
 	if (true == m_pPlayer->Is_CancelState())
 	{

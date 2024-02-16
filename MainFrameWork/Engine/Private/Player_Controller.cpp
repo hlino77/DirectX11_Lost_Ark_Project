@@ -604,15 +604,11 @@ void CPlayer_Controller::Get_DashMessage(Vec3 vPos)
 
 	if (fLength >= FLT_EPSILON)
 		Look(vPos);
-
-	m_pOwner->Set_Invincible(true);
 }
 
 void CPlayer_Controller::Get_DashEndMessage(_float fCoolTime)
 {
 	m_fCoolTime[SKILL_KEY::SPACE] = fCoolTime;
-
-	m_pOwner->Set_Invincible(false);
 }
 
 void CPlayer_Controller::Get_StatusEffectMessage(_uint iStatus, _float fDurtaion)
