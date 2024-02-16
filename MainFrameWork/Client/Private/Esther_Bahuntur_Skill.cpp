@@ -144,7 +144,8 @@ void CEsther_Bahuntur_Skill::Ready()
 
 	m_bEndStart = false;
 	m_bCutStart = false;
-	m_bProjStart = false;
+	m_bProjStart[0] = false;
+	m_bProjStart[1] = false;
 	m_IsFinished = false;
 
 	m_bSound = false;
@@ -229,7 +230,7 @@ void CEsther_Bahuntur_Skill::Act2(_float fTimeDelta)
 
 void CEsther_Bahuntur_Skill::Act3(_float fTimeDelta)
 {
-	if (70 <= m_pModelCom->Get_Anim_Frame(m_iAnimIndex) && false == m_bProjStart)
+	if (70 <= m_pModelCom->Get_Anim_Frame(m_iAnimIndex) && false == m_bProjStart[0])
 	{
 		{
 			CProjectile* pSkill = CPool<CProjectile>::Get_Obj();
@@ -238,15 +239,17 @@ void CEsther_Bahuntur_Skill::Act3(_float fTimeDelta)
 			pSkill->InitProjectile(&m_vecSkillProjDesces[0]);
 		}
 		
+		m_bProjStart[0] = true;
+	}
+	if (71 <= m_pModelCom->Get_Anim_Frame(m_iAnimIndex) && false == m_bProjStart[1])
+	{
 		{
 			CProjectile* pSkill = CPool<CProjectile>::Get_Obj();
 			m_vecSkillProjDesces[1].vAttackPos = Vec3();
 			m_vecSkillProjDesces[1].AttackMatrix = m_pTransformCom->Get_WorldMatrix();
 			pSkill->InitProjectile(&m_vecSkillProjDesces[1]);
 		}
-
-
-		m_bProjStart = true;
+		m_bProjStart[1] = true;
 	}
 }
 
