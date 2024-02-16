@@ -32,7 +32,9 @@ void CValtan_BT_Dead::OnStart()
 	CUI_Manager::GetInstance()->Set_RenderNickName(false, LEVELID::LEVEL_BERN);
 	CUI_Manager::GetInstance()->Set_RenderNickName(false, LEVELID::LEVEL_STATIC);
 	CChat_Manager::GetInstance()->Set_Active(false);
-	CServerSessionManager::GetInstance()->Get_Player()->Set_State(TEXT("Resurrect"));
+
+	if((TEXT("Dead_End") == CServerSessionManager::GetInstance()->Get_Player()->Get_State())|| (TEXT("Dead_Start") == CServerSessionManager::GetInstance()->Get_Player()->Get_State()))
+		CServerSessionManager::GetInstance()->Get_Player()->Set_State(TEXT("Resurrect"));
 }
 
 CBT_Node::BT_RETURN CValtan_BT_Dead::OnUpdate(const _float& fTimeDelta)
