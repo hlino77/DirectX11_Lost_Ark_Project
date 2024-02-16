@@ -55,6 +55,8 @@ public:
 	void						Set_SkipAction(_bool bCounter) { m_bSkipAction = bCounter; }
 
 
+	_bool						Get_Counter() { return m_bCounter; }
+	void						Set_Counter(_bool bCounter) { m_bCounter = bCounter; }
 
 	
 	_int						Get_Armor() { return m_iArmor; }
@@ -114,6 +116,7 @@ protected:
 	_int							m_iGroggyCount = 0;
 	_uint							m_iMaxGroggyCount = 0;
 	_float							m_fTimeCount = 0.f;
+	_bool							m_bCounter = false;
 	_bool							m_bDummy = false;
 public:
 	virtual CGameObject* Clone(void* pArg);
