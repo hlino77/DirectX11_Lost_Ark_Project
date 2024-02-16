@@ -96,7 +96,7 @@ void CState_WDR_EarthEater::Exit_State()
 	if (true == m_pController->Get_PlayerSkill(m_eSkillSelectKey)->Is_SuperArmor())
 		m_pPlayer->Set_SuperArmorState(false);
 
-	if (true == m_pPlayer->Is_CancelState())
+	if (true == m_pPlayer->Is_CancelState() || true == m_pController->Is_HitState())
 	{
 		Effect_Exit();
 		StopStateSound();

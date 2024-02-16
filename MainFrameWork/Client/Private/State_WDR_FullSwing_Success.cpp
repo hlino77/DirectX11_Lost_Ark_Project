@@ -82,7 +82,7 @@ void CState_WDR_FullSwing_Success::Exit_State()
 
 	m_pController->Set_SkillSuccess(m_eSkillSelectKey, false);
 
-	if (true == m_pPlayer->Is_CancelState())
+	if (true == m_pPlayer->Is_CancelState() || true == m_pController->Is_HitState())
 	{
 		Effect_TrailEnd1();
 		Effect_TrailEnd2();
