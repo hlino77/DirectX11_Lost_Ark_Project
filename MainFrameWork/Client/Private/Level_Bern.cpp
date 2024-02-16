@@ -113,20 +113,24 @@ HRESULT CLevel_Bern::Initialize()
 	if (m_bFirstEnter)
 	{
 		//CEventMgr::GetInstance()->Start_Event((_uint)EVENT::BERNSTART);
+		
 	}
 	else
 	{
 		CSound_Manager::GetInstance()->PlayBGM_AddChannel(L"CastleBern", L"BGM", L"CastleBern.wav", 0.5f);
 		CUI_Manager::GetInstance()->Set_RenderNickName(true, LEVEL_BERN);
 	}
+
+
+
 	CUI_Manager::GetInstance()->Set_LevelCustomOption();
 	return S_OK;
 }
 
 HRESULT CLevel_Bern::Tick(const _float& fTimeDelta)
 {
-	/*if(KEY_TAP(KEY::F9))
-		m_pRendererCom->Set_StaticShadow();*/
+	if(KEY_TAP(KEY::F9))
+		CSound_Manager::GetInstance()->PlayBGM_AddChannel(L"CastleBern", L"BGM", L"CastleBern.wav", 0.5f);
 
 	CRenderer::Set_Add_Fog_Time(fTimeDelta);
 
