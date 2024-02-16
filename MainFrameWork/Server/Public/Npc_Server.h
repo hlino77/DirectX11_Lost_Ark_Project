@@ -35,7 +35,6 @@ protected:
 	HRESULT				Ready_Coliders();
 
 protected:
-	_bool				m_bFirst = false;
 
 public:
 	virtual void Free();

@@ -57,11 +57,6 @@ HRESULT CGuide_Valtan_Npc_Server::Render_Debug()
 
 HRESULT CGuide_Valtan_Npc_Server::Actice_Npc_Function(int32 iLevel, int32 iPlayerID)
 {
-	if (true == m_bFirst)
-		return S_OK;
-
-	m_bFirst = true;
-
 	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 
 	vector<CGameObject*> LevelObjects = pGameInstance->Find_GameObjects(LEVEL_BERN, (_uint)LAYER_TYPE::LAYER_PLAYER);
