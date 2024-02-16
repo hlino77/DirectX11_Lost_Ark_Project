@@ -20,11 +20,6 @@ void CValtan_BT_Attack_BugSmash_Server::OnStart()
 CBT_Node::BT_RETURN CValtan_BT_Attack_BugSmash_Server::OnUpdate(const _float& fTimeDelta)
 {
 	m_pGameObject->Get_TransformCom()->Set_Up(Vec3(0.f, 1.f, 0.f));
-	if (static_cast<CBoss_Server*>(m_pGameObject)->Get_SkipAction())
-	{
-		static_cast<CBoss_Server*>(m_pGameObject)->Set_SkipAction(false);
-		return BT_SUCCESS;
-	}
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[1].iAnimIndex)
 	{
 		static_cast<CBoss_Server*>(m_pGameObject)->Move_to_SpawnPosition();
