@@ -17,6 +17,7 @@
 #include "ChaosDungean_Server.h"
 #include "Guide_Chaos_Npc_Server.h"
 #include "ValtanMain_Server.h"
+#include "Party_Server.h"
 
 CLevel_Bern_Server::CLevel_Bern_Server()
 	: CLevel(nullptr, nullptr)
@@ -59,12 +60,27 @@ HRESULT CLevel_Bern_Server::Initialize()
 
 
 	m_fNextLevelDelay = 3.0f;
+	m_bKey_Lock = false;
 
 	return S_OK;
 }
 
 HRESULT CLevel_Bern_Server::Tick(const _float& fTimeDelta)
 {
+
+	if (m_bKey_Lock == false)
+	{
+		if (GetAsyncKeyState('V') & 0x8000 && GetAsyncKeyState('1') & 0x8000)
+		{
+			if (m_bKey_Lock)
+				return S_OK;
+			m_bKey_Lock = true;
+
+			Enter_ValtanMain();
+		}
+	}
+	
+
 
 	return S_OK;
 }
@@ -259,14 +275,7 @@ void CLevel_Bern_Server::Enter_ValtanMain()
 	if (LevelObjects.empty())
 		return;
 
-	vector<CPlayer_Server*> Players;
-
-	for (auto& Object : LevelObjects)
-	{
-		CPlayer_Server* pPlayer = dynamic_cast<CPlayer_Server*>(Object);
-		if (pPlayer)
-			Players.push_back(pPlayer);
-	}
+	vector<CPlayer_Server*> Players = dynamic_cast<CPlayer_Server*>(LevelObjects.front())->Get_Party()->Get_Players();
 
 	CValtanMain_Server::DUNGEANDESC tDesc;
 	tDesc.Players = Players;
