@@ -13,7 +13,7 @@ public:
 	enum HIT_TYPE { WEAK, DMG, DOWN, KNOCKDOWN, BOUND, TWIST, TYPE_END };
 
 	enum class STATUSEFFECT { COUNTER, GROGGY, EARTHQUAKE, BUG, FEAR, SHOCK, STUN, SILENCE, _END };
-	enum class BUFFEFFECT { HALFDAMAGE, MANAREFILL, STIIFIMMUNE, _END };
+	enum class BUFFEFFECT { HALFDAMAGE, MANAREFILL, HPREFILL,STIIFIMMUNE, _END };
 
 public:
 	typedef struct tagControllerDesc
@@ -175,6 +175,7 @@ protected:
 	virtual void			BuffEffect_Duration(const _float& fTimeDelta);
 	virtual void			HalfDamage(_float fAmount);
 	virtual void			ManaRefill(_float fAmount);
+	virtual void			HPRefill(_float fAmount);
 	virtual void			StiffImmune(_float fAmount);
 
 	/* ¿¡½º´õ */
