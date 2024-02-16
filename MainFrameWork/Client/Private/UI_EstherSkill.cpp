@@ -114,7 +114,7 @@ void CUI_EstherSkill::LateTick(_float fTimeDelta)
 {
 	__super::LateTick(fTimeDelta);
 	Update_UseEshterSkill();
-	if (m_fCurrGauge == m_fMaxGauge)
+	if (m_fCurrGauge >= m_fMaxGauge)
 		m_bMaxGauge = true;
 	else
 		m_bMaxGauge = false;
@@ -228,33 +228,36 @@ void CUI_EstherSkill::Update_ShineEffect(_float  fTimeDelta)
 		return;
 	}
 
-	if (!m_bDecreaseEffect)
+	if (m_bMaxGauge)
 	{
-		if (1.f >= m_fFrameEffectAlpha)
+		if (!m_bDecreaseEffect)
 		{
-			m_fFrameEffectAlpha += fTimeDelta;
-			m_fGaugeEffectAlpha += fTimeDelta;
+			if (1.f >= m_fFrameEffectAlpha)
+			{
+				m_fFrameEffectAlpha += fTimeDelta;
+				m_fGaugeEffectAlpha += fTimeDelta;
+			}
+			if (1.f < m_fFrameEffectAlpha)
+			{
+				m_fFrameEffectAlpha = 1.f;
+				m_fGaugeEffectAlpha = 1.f;
+				m_bDecreaseEffect = true;
+			}
 		}
-		if (1.f < m_fFrameEffectAlpha)
-		{
-			m_fFrameEffectAlpha = 1.f;
-			m_fGaugeEffectAlpha = 1.f;
-			m_bDecreaseEffect = true;
-		}
-	}
 
-	else if (m_bDecreaseEffect)
-	{
-		if (0.f < m_fFrameEffectAlpha)
+		else if (m_bDecreaseEffect)
 		{
-			m_fFrameEffectAlpha -= fTimeDelta;
-			m_fGaugeEffectAlpha -= fTimeDelta;
-		}
-		if (0.f > m_fFrameEffectAlpha)
-		{
-			m_fFrameEffectAlpha = 0.f;
-			m_fGaugeEffectAlpha = 0.f;
-			m_bDecreaseEffect = false;
+			if (0.f < m_fFrameEffectAlpha)
+			{
+				m_fFrameEffectAlpha -= fTimeDelta;
+				m_fGaugeEffectAlpha -= fTimeDelta;
+			}
+			if (0.f > m_fFrameEffectAlpha)
+			{
+				m_fFrameEffectAlpha = 0.f;
+				m_fGaugeEffectAlpha = 0.f;
+				m_bDecreaseEffect = false;
+			}
 		}
 	}
 }
