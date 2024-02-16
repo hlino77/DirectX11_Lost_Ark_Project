@@ -61,6 +61,7 @@
 #include "Valtan_BT_IF_Phase2_Server.h"
 #include "Valtan_BT_IF_Phase3_Server.h"
 #include <Valtan_BT_IF_Hp_UnderRatio.h>
+#include <Valtan_BT_IF_Hp_UnderRatioMultiple.h>
 #include <Valtan_BT_IF_Armor_Server.h>
 #include <Valtan_BT_Repeat_Server.h>
 #include <Boss_BT_ArmorBreak_Server.h>
@@ -1105,8 +1106,8 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	if (FAILED(pSequenceTrippleCounterChop->AddChild(pTrippleCounterChop_3))) return E_FAIL;
 
 	DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::IF;
-	CBT_Decorator* pIf_Hp_UnderRatio47 = CValtan_BT_IF_Hp_UnderRatio::Create(&DecoratorDesc);
-	static_cast<CValtan_BT_IF_Hp_UnderRatio*>(pIf_Hp_UnderRatio47)->Set_Ratio(47.f / 160.f);
+	CBT_Decorator* pIf_Hp_UnderRatio47 = CValtan_BT_IF_Hp_UnderRatioMultiple::Create(&DecoratorDesc);
+	static_cast<CValtan_BT_IF_Hp_UnderRatioMultiple*>(pIf_Hp_UnderRatio47)->Set_Ratio(47.f / 160.f);
 	if (FAILED(pIf_Hp_UnderRatio47->AddChild(pSequenceTrippleCounterChop))) return E_FAIL;
 
 

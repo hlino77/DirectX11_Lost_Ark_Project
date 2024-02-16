@@ -5,14 +5,14 @@
 
 BEGIN(Server)
 
-class CValtan_BT_IF_Hp_UnderRatio :
+class CValtan_BT_IF_Hp_UnderRatioMultiple :
     public CBT_Decorator
 {
 
 private:
-	CValtan_BT_IF_Hp_UnderRatio() = default;
-	CValtan_BT_IF_Hp_UnderRatio(const CValtan_BT_IF_Hp_UnderRatio& rhs) = delete;
-	virtual ~CValtan_BT_IF_Hp_UnderRatio() = default;
+	CValtan_BT_IF_Hp_UnderRatioMultiple() = default;
+	CValtan_BT_IF_Hp_UnderRatioMultiple(const CValtan_BT_IF_Hp_UnderRatioMultiple& rhs) = delete;
+	virtual ~CValtan_BT_IF_Hp_UnderRatioMultiple() = default;
 
 
 public:
@@ -33,33 +33,28 @@ private:
 	virtual void OnEnd() override
 	{
 		Reset();
-		if (m_eReturn == BT_SUCCESS)
-			m_bIsPlayed = true;
 	}
 
 private:
 	_bool	Is_UnderCertainHp()
 	{
 		_float dPercent =	_float(m_pGameObject->Get_Hp()) / _float(m_pGameObject->Get_MaxHp());
-		if (m_eReturn == BT_RUNNING ||dPercent <= m_fSpecialSkillRatio&& !m_bIsPlayed)
+		if (m_eReturn == BT_RUNNING ||dPercent <= m_fSpecialSkillRatio)
 			return true;
 
 		return false;
 	}
 
 private:
-
 	_float m_fSpecialSkillRatio = 0.f;
-	_bool m_bIsPlayed = false;
-
 public:
-	static	CValtan_BT_IF_Hp_UnderRatio* Create(void* pArg)
+	static	CValtan_BT_IF_Hp_UnderRatioMultiple* Create(void* pArg)
 	{
-		CValtan_BT_IF_Hp_UnderRatio* pInstance = new CValtan_BT_IF_Hp_UnderRatio;
+		CValtan_BT_IF_Hp_UnderRatioMultiple* pInstance = new CValtan_BT_IF_Hp_UnderRatioMultiple;
 
 		if (FAILED(pInstance->Initialize(pArg)))
 		{
-			MSG_BOX("Failed to Created : CValtan_BT_IF_Hp_UnderRatio");
+			MSG_BOX("Failed to Created : CValtan_BT_IF_Hp_UnderRatioMultiple");
 			Safe_Release(pInstance);
 		}
 
