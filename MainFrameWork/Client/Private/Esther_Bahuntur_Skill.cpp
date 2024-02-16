@@ -229,7 +229,7 @@ void CEsther_Bahuntur_Skill::Act2(_float fTimeDelta)
 
 void CEsther_Bahuntur_Skill::Act3(_float fTimeDelta)
 {
-	if (79 <= m_pModelCom->Get_Anim_Frame(m_iAnimIndex) && false == m_bProjStart)
+	if (70 <= m_pModelCom->Get_Anim_Frame(m_iAnimIndex) && false == m_bProjStart)
 	{
 		{
 			CProjectile* pSkill = CPool<CProjectile>::Get_Obj();

@@ -446,6 +446,8 @@ void CPlayer_Controller::Get_HitMessage(_uint iDamage, _float fForce, Vec3 vPos)
 	if (true == m_bBuffEffect[(_uint)BUFFEFFECT::HALFDAMAGE])
 	{
 		m_iDamaged *= m_fBuffAmount[(_uint)BUFFEFFECT::HALFDAMAGE];
+		if (m_iDamaged >= 1000)
+			m_iDamaged = 1000;
 	}
 
 	m_vHitColiPos = vPos;
