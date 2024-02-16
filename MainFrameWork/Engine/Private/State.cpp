@@ -11,6 +11,8 @@ void CState::StopStateSound()
 {
 	for (size_t i = 0; i < m_SoundFrames.size() -1 ; i++)
 	{
+		if (-1 == m_SoundFrames[i].iFrame) continue;
+
 		CSound_Manager::GetInstance()->Stop_Channel_Sound(m_SoundFrames[i].strName);
 	}
 }
