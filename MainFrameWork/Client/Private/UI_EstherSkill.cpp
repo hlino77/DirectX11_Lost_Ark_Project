@@ -215,7 +215,7 @@ void CUI_EstherSkill::Update_ShineEffect(_float  fTimeDelta)
 {
 	if (!m_bMaxGauge)
 	{
-		if (0.f < m_fFrameEffectAlpha)
+		if (0.f <= m_fFrameEffectAlpha)
 		{
 			m_fFrameEffectAlpha -= fTimeDelta;
 			m_fGaugeEffectAlpha -= fTimeDelta;
@@ -247,7 +247,7 @@ void CUI_EstherSkill::Update_ShineEffect(_float  fTimeDelta)
 
 		else if (m_bDecreaseEffect)
 		{
-			if (0.f < m_fFrameEffectAlpha)
+			if (0.f <= m_fFrameEffectAlpha)
 			{
 				m_fFrameEffectAlpha -= fTimeDelta;
 				m_fGaugeEffectAlpha -= fTimeDelta;
