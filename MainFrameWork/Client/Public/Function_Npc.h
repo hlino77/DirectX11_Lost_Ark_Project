@@ -37,7 +37,7 @@ protected:
 	void					Set_Colliders(_float fTimeDelta);
 
 protected:
-	
+	_bool					m_bCallFunctionFirst = { false };
 
 
 public:
