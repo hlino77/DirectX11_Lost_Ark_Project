@@ -45,7 +45,7 @@ private:
 	vector<CEffect*> m_Effects;
 	vector<CEffect*> m_Particles;
 
-	CEffect* m_pRushEffect = nullptr;
+	vector<CEffect*> m_RushEffects;
 public:
 	static CBoss* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg);

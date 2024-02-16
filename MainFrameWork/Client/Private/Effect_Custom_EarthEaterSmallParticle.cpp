@@ -34,6 +34,11 @@ HRESULT CEffect_Custom_EarthEaterSmallParticle::Initialize(void* pArg)
 
 void CEffect_Custom_EarthEaterSmallParticle::Tick(_float fTimeDelta)
 {
+	if (KEY_TAP(KEY::P))
+	{
+		Effect_Exit();
+	}
+
 	switch (m_eState)
 	{
 	case EarthEaterState::START:

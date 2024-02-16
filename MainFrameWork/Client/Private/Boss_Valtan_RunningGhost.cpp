@@ -101,7 +101,11 @@ void CBoss_Valtan_RunningGhost::Tick(_float fTimeDelta)
 		}
 
 		m_Particles.clear();
-		m_pRushEffect->EffectEnd();
+		for (auto& Effect : m_RushEffects)
+		{
+			Effect->EffectEnd();
+		}
+		m_RushEffects.clear();
 		Set_Die();
 	}
 		
@@ -135,9 +139,12 @@ void CBoss_Valtan_RunningGhost::Tick(_float fTimeDelta)
 		m_bEffect = true;
 	}
 	
-	if (m_pRushEffect != nullptr)
+	if (m_RushEffects.empty() != true)
 	{
-		m_pRushEffect->Update_Pivot(m_pTransformCom->Get_WorldMatrix());
+		for (auto& Effect : m_RushEffects)
+		{
+			Effect->Update_Pivot(m_pTransformCom->Get_WorldMatrix());
+		}
 	}
 
 	if (fDistance < 15.f && !m_bRender)
@@ -145,15 +152,13 @@ void CBoss_Valtan_RunningGhost::Tick(_float fTimeDelta)
 		m_bRender = true;
 		m_pModelCom->Reserve_NextAnimation(m_pModelCom->Initailize_FindAnimation(TEXT("att_battle_18_02"), 0.9f), 0.f, 0, 0);
 
-		if (m_pRushEffect == nullptr)
+		if (m_RushEffects.empty())
 		{
 			vector<CEffect*> Effects;
 			CEffect_Manager::EFFECTPIVOTDESC tDesc;
 			tDesc.pPivotMatrix = &m_pTransformCom->Get_WorldMatrix();
-			EFFECT_START_OUTLIST(L"ValtanRush", &tDesc, Effects);
-			m_pRushEffect = Effects.front();
+			EFFECT_START_OUTLIST(L"ValtanRush", &tDesc, m_RushEffects);
 		}
-
 	}
 }
 
