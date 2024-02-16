@@ -35,6 +35,9 @@ public:
 	void						Set_GroggyObsrob(_int iGroggyCount) { m_iGroggyObsrob = iGroggyCount; }
 	_bool						Is_Rush() { return m_IsRush; }
 	void						Set_Rush(_bool IsRush) { m_IsRush = IsRush; }
+	_bool						Is_BugSmash() { return m_IsBugSmash; }
+	void						Set_BugSmash(_bool IsBugSmash) { m_IsBugSmash = IsBugSmash; }
+
 private:
 	virtual HRESULT		Ready_Components();
 	virtual	HRESULT		Ready_BehaviourTree();
@@ -44,6 +47,7 @@ private:
 	_int		m_iGroggyObsrob = 0;
 	_bool		m_IsRush = {false};
 	_bool		m_bTest = false;
+	_bool		m_IsBugSmash = { false };
 public:
 	static CBoss_Server* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg);

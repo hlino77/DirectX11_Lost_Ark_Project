@@ -20,9 +20,9 @@ void CValtan_BT_Attack_BugSmash_Server::OnStart()
 CBT_Node::BT_RETURN CValtan_BT_Attack_BugSmash_Server::OnUpdate(const _float& fTimeDelta)
 {
 	m_pGameObject->Get_TransformCom()->Set_Up(Vec3(0.f, 1.f, 0.f));
-	if (static_cast<CBoss_Server*>(m_pGameObject)->Get_SkipAction())
+	if (static_cast<CBoss_Server*>(m_pGameObject)->Get_Counter())
 	{
-		static_cast<CBoss_Server*>(m_pGameObject)->Set_SkipAction(false);
+		static_cast<CBoss_Server*>(m_pGameObject)->Set_Counter(false);
 		return BT_SUCCESS;
 	}
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[1].iAnimIndex)
@@ -38,10 +38,12 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_BugSmash_Server::OnUpdate(const _float& fT
 	}
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[7].iAnimIndex && !m_pGameObject->Get_ModelCom()->IsNext() && m_fLoopTime > 1.f && !static_cast<CBoss_Server*>(m_pGameObject)->Is_CounterSkill())
 	{
+		static_cast<CBoss_Valtan_Server*>(m_pGameObject)->Set_BugSmash(true);
 		static_cast<CBoss_Server*>(m_pGameObject)->Set_CounterSkill(true);
 	}
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[7].iAnimIndex && m_pGameObject->Get_ModelCom()->IsNext() && static_cast<CBoss_Server*>(m_pGameObject)->Is_CounterSkill())
 	{
+		static_cast<CBoss_Valtan_Server*>(m_pGameObject)->Set_BugSmash(false);
 		static_cast<CBoss_Server*>(m_pGameObject)->Set_CounterSkill(false);
 	}
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[8].iAnimIndex && !m_pGameObject->Get_ModelCom()->IsNext())

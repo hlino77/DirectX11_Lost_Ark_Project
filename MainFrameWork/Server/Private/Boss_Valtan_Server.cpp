@@ -182,6 +182,8 @@ void CBoss_Valtan_Server::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStat
 				m_IsHit = true;
 				m_IsCounterSkill = false;
 				m_IsCountered = true;
+				if(m_IsBugSmash)
+					Set_Counter(true);
 			}
 			if ( m_iGroggyGauge < 1|| (_uint)STATUSEFFECT::GROGGY == iStatusEffect &&m_IsRush)
 			{
