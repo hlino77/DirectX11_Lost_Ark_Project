@@ -965,7 +965,8 @@ _bool CPlayer::Is_CancelState()
 		TEXT("Dead_End") == strNextState ||
 		TEXT("Fall") == strNextState ||
 		TEXT("Grabbed") == strNextState ||
-		TEXT("Stop") == strNextState)
+		TEXT("Stop") == strNextState ||
+		TEXT("StandDash") == strNextState)
 			return true;
 
 	return false;
