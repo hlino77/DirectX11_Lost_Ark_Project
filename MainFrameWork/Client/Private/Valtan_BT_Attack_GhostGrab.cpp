@@ -36,27 +36,33 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_GhostGrab::OnUpdate(const _float& fTimeDel
 		CSound_Manager::GetInstance()->Stop_Channel_Sound(L"Valtan#28 (615573039)");
 		m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_GRAB_BOSS)->SetActive(false);
 	}
-	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[3].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[3].iAnimIndex) >= 20&& m_bShoot)
+	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[3].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[3].iAnimIndex) >= 20 && m_bShoot)
 	{
 		m_bShoot = false;
 		CSound_Manager::GetInstance()->Stop_Channel_Sound(L"Valtan#217 (1053313532)");
-		Add_Sound( L"Effect", L"Valtan#48 (503572100)"); 
-		Add_Sound( L"Effect", L"Valtan#50 (428724023)");
+		Add_Sound(L"Effect", L"Valtan#48 (503572100)");
+		Add_Sound(L"Effect", L"Valtan#50 (428724023)");
 		CSkill::ModelDesc ModelDesc = {};
-			ModelDesc.iLayer = (_uint)LAYER_TYPE::LAYER_SKILL;
-			ModelDesc.iObjectID = -1;
-			ModelDesc.pOwner = m_pGameObject;
+		ModelDesc.iLayer = (_uint)LAYER_TYPE::LAYER_SKILL;
+		ModelDesc.iObjectID = -1;
+		ModelDesc.pOwner = m_pGameObject;
 
 
-			CGameObject* pSkill = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_Skill_Valtan_Breath", &ModelDesc);
-			if (pSkill != nullptr)
-			{
-				Vec3 vPos = m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
-				Vec3 vLook = m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_LOOK);
-				vLook.Normalize();
-				pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
-				pSkill->Get_TransformCom()->LookAt_Dir(vLook);
-			}
+		CGameObject* pSkill = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_Skill_Valtan_Breath", &ModelDesc);
+		if (pSkill != nullptr)
+		{
+			Vec3 vPos = m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
+			Vec3 vLook = m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_LOOK);
+			vLook.Normalize();
+			pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
+			pSkill->Get_TransformCom()->LookAt_Dir(vLook);
+		}
+		m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->SetActive(true);
+		m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->Set_Radius(0.5f);
+		m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->Set_Offset(Vec3(0.f, 1.3f, -1.1f));
+		static_cast<CBoss*>(m_pGameObject)->Set_Atk(100);
+		static_cast<CBoss*>(m_pGameObject)->Set_Force(49.9f);
+		m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->Set_BoneIndex(m_pGameObject->Get_ModelCom()->Find_BoneIndex(TEXT("bip001-l-hand")));
 	}
 
 	Add_Sound_Channel(0, 0, L"Effect", L"Valtan#28 (615573039)");
@@ -70,6 +76,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_GhostGrab::OnUpdate(const _float& fTimeDel
 void CValtan_BT_Attack_GhostGrab::OnEnd()
 {
 	__super::OnEnd();
+	m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->SetActive(false);
 	static_cast<CBoss_Valtan*>(m_pGameObject)->Reserve_WeaponAnimation(L"att_battle_8_01_loop", 0.2f, 0, 0, 1.15f);
 }
 
