@@ -19,6 +19,7 @@ _uint CRenderer::m_iSSRLevel = 0;
 _bool CRenderer::m_bPBR_Switch = true;
 _int CRenderer::m_iSSAO_Switch = 0;
 _int  CRenderer::m_iFxaa_Switch = true;
+_bool CRenderer::m_bDOF_Switch = false;
 
 CRenderer::ScreenTone_Data CRenderer::m_tScreenTone_Data = { 1.f, 1.f, 1.f };
 
@@ -246,6 +247,18 @@ HRESULT CRenderer::Initialize_Prototype()
 		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
 		return E_FAIL;
 	
+	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_DOF_Blur_H"),
+		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R16G16B16A16_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
+		return E_FAIL;
+	
+	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_DOF_Blur_HV"),
+		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R16G16B16A16_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
+		return E_FAIL;
+	
+	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_DOF_Blended"),
+		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
+		return E_FAIL;
+
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_FinalProcessed"),
 		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
 		return E_FAIL;
@@ -306,6 +319,10 @@ HRESULT CRenderer::Initialize_Prototype()
 	//	return E_FAIL;
 	//if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Outline"), fTargetX, 9.f * fTargetY, fTargetCX, fTargetCY)))
 	//	return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_DOF_Blur_H"), 5.f * fTargetX, 1.f * fTargetY, 2.f * fTargetCX, 2.f * fTargetCY)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_DOF_Blur_HV"), 5.f * fTargetX, 5.f * fTargetY, 2.f * fTargetCX, 2.f * fTargetCY)))
+		return E_FAIL;
 
 //#endif
 
@@ -387,6 +404,13 @@ HRESULT CRenderer::Initialize_Prototype()
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_SSRBlur_HV"), TEXT("Target_SSRBlur_HV"))))
 		return E_FAIL;*/
+	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_DOF_Blur_H"), TEXT("Target_DOF_Blur_H"))))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_DOF_Blur_HV"), TEXT("Target_DOF_Blur_HV"))))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_DepthOfField"), TEXT("Target_DOF_Blended"))))
+		return E_FAIL;
+	
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_PrePostProcessScene"), TEXT("Target_PrePostProcess"))))
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_FinalProcessedScene"), TEXT("Target_FinalProcessed"))))
@@ -484,9 +508,14 @@ HRESULT CRenderer::Initialize_Prototype()
 	
 	m_ProjMatrix = XMMatrixOrthographicLH(ViewportDesc.Width, ViewportDesc.Height, 0.f, 1.f);
 
+	//DOF
+	if (FAILED(Ready_DOF()))
+		return E_FAIL;
+
 	//Blur
 	if (FAILED(Ready_BlurData()))
 		return E_FAIL;
+
 	//SSAO
 	if (FAILED(Ready_SSAO()))
 		return E_FAIL;
@@ -661,6 +690,7 @@ HRESULT CRenderer::Draw()
 		return E_FAIL;
 	if (FAILED(Render_NonLight()))
 		return E_FAIL;
+
 	if (FAILED(Render_PostProcess()))
 		return E_FAIL;
 
@@ -1639,9 +1669,61 @@ HRESULT CRenderer::Render_Bloom()
 	return S_OK;
 }
 
+HRESULT CRenderer::Render_DepthOfField()
+{
+	if (KEY_HOLD(KEY::CTRL) && KEY_TAP(KEY::D))
+		m_bDOF_Switch = !m_bDOF_Switch;
+
+	if (true == m_bDOF_Switch)
+	{
+		m_tDOF_Data.fRange = 20.f;
+		m_tDOF_Data.fFocus = 0.00625f; // 7.5f / 1200.f;
+	}
+	else if (false == m_bDOF_Switch)
+	{
+		return S_OK;
+	}
+
+	if (FAILED(m_pDOFShader->Bind_Matrix("g_WorldMatrix", &m_WorldMatrix)) ||
+		FAILED(m_pDOFShader->Bind_Matrix("g_ViewMatrix", &m_ViewMatrix)) ||
+		FAILED(m_pDOFShader->Bind_Matrix("g_ProjMatrix", &m_ProjMatrix)))
+		return E_FAIL;
+
+	//
+	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_DOF_Blur_H"))) ||
+		FAILED(m_pTarget_Manager->Bind_SRV(m_pDOFShader, TEXT("Target_SSR"), "g_DOFBlurTarget")) ||
+		FAILED(m_pDOFShader->Begin("DOFBlurH")) || FAILED(m_pVIBuffer->Render()) ||
+		FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
+		return E_FAIL;
+
+	//
+	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_DOF_Blur_HV"))) ||
+		FAILED(m_pTarget_Manager->Bind_SRV(m_pDOFShader, TEXT("Target_DOF_Blur_H"), "g_DOFBlurTarget")) ||
+		FAILED(m_pDOFShader->Begin("DOFBlurV")) || FAILED(m_pVIBuffer->Render()) ||
+		FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
+		return E_FAIL;
+
+	//
+	if (FAILED(m_pDOFShader->Bind_CBuffer("DOFData", &m_tDOF_Data, sizeof(DOF_Data))))
+		return E_FAIL;
+
+	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_DepthOfField"))) ||
+		FAILED(m_pTarget_Manager->Bind_SRV(m_pDOFShader, TEXT("Target_DOF_Blur_HV"), "g_DOFBlurTarget")) ||
+		FAILED(m_pTarget_Manager->Bind_SRV(m_pDOFShader, TEXT("Target_NormalDepth"), "g_NormalDepthTarget")) ||
+		FAILED(m_pTarget_Manager->Bind_SRV(m_pDOFShader, TEXT("Target_PrePostProcess"), "g_PreProcessedTarget")) ||
+		FAILED(m_pDOFShader->Begin("DepthOfField")) || FAILED(m_pVIBuffer->Render()) ||
+		FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
+		return E_FAIL;
+
+	return S_OK;
+}
+
 HRESULT CRenderer::Render_PostProcess()
 {
 	CPipeLine* pPipeLine = GET_INSTANCE(CPipeLine);
+
+	if (FAILED(Render_DepthOfField()))
+		return E_FAIL;
 
 	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_BlendEffect"))))
 		return E_FAIL;
@@ -1655,8 +1737,21 @@ HRESULT CRenderer::Render_PostProcess()
 
 	if (FAILED(m_pPostProccessor->Begin("BlendEffect")))
 		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pPostProccessor, TEXT("Target_SSR"), "g_SSRTarget")))
-		return E_FAIL;
+
+	if (true == m_bDOF_Switch)
+	{
+		if (FAILED(m_pTarget_Manager->Bind_SRV(m_pPostProccessor, TEXT("Target_DOF_Blended"), "g_SSRTarget")))
+			return E_FAIL;	// юс╫ц
+		if (FAILED(m_pTarget_Manager->Bind_SRV(m_pPostProccessor, TEXT("Target_DOF_Blended"), "g_PrePostProcessTarget")))
+			return E_FAIL;
+	}
+	else
+	{
+		if (FAILED(m_pTarget_Manager->Bind_SRV(m_pPostProccessor, TEXT("Target_SSR"), "g_SSRTarget")))
+			return E_FAIL;
+		if (FAILED(m_pTarget_Manager->Bind_SRV(m_pPostProccessor, TEXT("Target_PrePostProcess"), "g_PrePostProcessTarget")))
+			return E_FAIL;
+	}
 	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pPostProccessor, TEXT("Target_DecalOneBlend"), "g_DecalOneBlendTarget")))
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pPostProccessor, TEXT("Target_DecalAlphaBlend"), "g_DecalAlphaBlendTarget")))
@@ -1667,8 +1762,7 @@ HRESULT CRenderer::Render_PostProcess()
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pPostProccessor, TEXT("Target_Distortion"), "g_DistortionTarget")))
 		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pPostProccessor, TEXT("Target_PrePostProcess"), "g_PrePostProcessTarget")))
-		return E_FAIL;
+
 	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pPostProccessor, TEXT("Target_BloomBlur_HV_5x5"), "g_BloomTarget")))
 		return E_FAIL;
 	if (FAILED(m_pVIBuffer->Render()))
@@ -2056,6 +2150,10 @@ HRESULT CRenderer::Render_Debug()
 	if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_Cascade3"), m_pMRTShader, m_pVIBuffer)))
 		return E_FAIL;
 
+	if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_DOF_Blur_H"), m_pMRTShader, m_pVIBuffer)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_DOF_Blur_HV"), m_pMRTShader, m_pVIBuffer)))
+		return E_FAIL;
 	//if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_EffectShade"), m_pMRTShader, m_pVIBuffer)))
 	//	return E_FAIL;
 
@@ -2202,6 +2300,17 @@ HRESULT CRenderer::Ready_BlurData()
 
 		m_BlurWeights[i] = fCenterWeight - (iWeight * fAtt);
 	}
+
+	return S_OK;
+}
+
+HRESULT CRenderer::Ready_DOF()
+{
+	m_pDOFShader = CShader::Create(m_pDevice, m_pContext, TEXT("../Bin/ShaderFiles/Shader_DepthOfField.hlsl"), VTXTEX::Elements, VTXTEX::iNumElements);
+	if (nullptr == m_pDOFShader)
+		return E_FAIL;
+	if (FAILED(m_pDOFShader->Initialize()))
+		return E_FAIL;
 
 	return S_OK;
 }
@@ -2466,6 +2575,7 @@ void CRenderer::Free()
 
 	Safe_Release(m_pSSAOShader);
 	Safe_Release(m_pSSRShader);
+	Safe_Release(m_pDOFShader);
 	Safe_Release(m_pBloomShader);
 	Safe_Release(m_pVIBuffer);
 	Safe_Release(m_pBRDFTexture);
