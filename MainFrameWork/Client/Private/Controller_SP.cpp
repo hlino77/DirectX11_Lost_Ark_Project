@@ -107,11 +107,11 @@ void CController_SP::DebugRender()
 
 _bool CController_SP::Is_EstherSkill()
 {
-	if (false == static_cast<CPlayer*>(m_pOwner)->Is_PartyLeader())
-		return false;
+	//if (false == static_cast<CPlayer*>(m_pOwner)->Is_PartyLeader())
+	//	return false;
 
-	if (static_cast<CPlayer*>(m_pOwner)->Get_EstherGage() < static_cast<CPlayer*>(m_pOwner)->Get_EstherMaxGage())
-		return false;
+	//if (static_cast<CPlayer*>(m_pOwner)->Get_EstherGage() < static_cast<CPlayer*>(m_pOwner)->Get_EstherMaxGage())
+	//	return false;
 
 	if (KEY_HOLD(KEY::CTRL) && KEY_TAP(KEY::Z))
 	{

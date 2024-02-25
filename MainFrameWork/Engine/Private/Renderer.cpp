@@ -650,8 +650,12 @@ HRESULT CRenderer::Draw()
 	if (FAILED(Render_Lights()))
 		return E_FAIL; 
 
+	if (FAILED(Render_Outline()))
+		return E_FAIL;
+
 	if (FAILED(Render_Bloom()))
 		return E_FAIL;
+
 	if (FAILED(Render_Deferred()))
 		return E_FAIL;
 
@@ -670,9 +674,6 @@ HRESULT CRenderer::Draw()
 	// ...
 	if (FAILED(Render_AlphaBlend()))
 		return E_FAIL;
-
-	/*if (FAILED(Render_Outline()))
-		return E_FAIL;*/
 
 	if (FAILED(Render_WorldUI()))
 		return E_FAIL;
@@ -1509,6 +1510,7 @@ HRESULT CRenderer::Render_Bloom()
 	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pBloomShader, TEXT("Target_Emissive"), "g_BloomBlurTarget")) ||
 		FAILED(m_pTarget_Manager->Bind_SRV(m_pBloomShader, TEXT("Target_DecalEmissive"), "g_DecalBloomBlurTarget")) ||
 		FAILED(m_pTarget_Manager->Bind_SRV(m_pBloomShader, TEXT("Target_EffectEmissive"), "g_EffectBloomBlurTarget")) ||
+		FAILED(m_pTarget_Manager->Bind_SRV(m_pBloomShader, TEXT("Target_Outline"), "g_OulineBlurTarget")) ||
 		FAILED(m_pBloomShader->Begin("DownSample_Bright")) || FAILED(m_pVIBuffer->Render()) ||
 		FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
 		return E_FAIL;

@@ -602,26 +602,21 @@ float4 PS_CAMOUTLINE(VS_OUT_OUTLINE In) : SV_TARGET0
     return vColor;
 }
 
-PS_OUT_OUTLINE PS_OUTLINE(VS_OUT_OUTLINE In)
+float4 PS_OUTLINE(VS_OUT_OUTLINE In) : SV_TARGET0
 {
-    PS_OUT_OUTLINE Out = (PS_OUT_OUTLINE) 0;
+    float4 vColor = float4(0.f, 0.f, 0.f, 0.f);
     
-    Out.vDiffuse = g_vOutlineColor;
-    Out.vEmissive = g_vOutlineBloom;
+    vColor = g_vOutlineColor;
     
     if (g_bDissolve == true)
     {
-        if (false == (ComputeDissolveColor(Out.vDiffuse, In.vTexUV)))
+        if (false == (ComputeDissolveColor(vColor, In.vTexUV)))
             discard;
         
-        if (-1 == Out.vDiffuse.a)
-        {
-            Out.vDiffuse = float4(Out.vDiffuse.rgb, 1);
-            Out.vEmissive = float4(Out.vDiffuse.rgb, 1);
-        }
+ 
     }
     
-    return Out;
+    return vColor;
 }
 
 technique11 DefaultTechnique
@@ -706,7 +701,7 @@ technique11 DefaultTechnique
     pass SubOutline // 5
     {
         SetRasterizerState(RS_Outline);
-        SetDepthStencilState(DSS_Default, 0);
+        SetDepthStencilState(DSS_Default, 1);
         SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
 
         VertexShader = compile vs_5_0 VS_MAIN_SUBOUTLINE();
@@ -717,7 +712,7 @@ technique11 DefaultTechnique
     pass Inline // 6
     {
         SetRasterizerState(RS_Default);
-        SetDepthStencilState(DSS_Default, 0);
+        SetDepthStencilState(DSS_Default, 1);
         SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
 
         VertexShader = compile vs_5_0 VS_MAIN();
