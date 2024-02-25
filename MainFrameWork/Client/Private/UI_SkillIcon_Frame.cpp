@@ -16,6 +16,7 @@
 #include "Player_Doaga.h"
 #include "TextBox.h"
 #include "Sound_Manager.h"
+#include "UI_Manager.h"
 
 CUI_SkillIcon_Frame::CUI_SkillIcon_Frame(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     :CUI(pDevice, pContext)
@@ -103,6 +104,7 @@ void CUI_SkillIcon_Frame::LateTick(_float fTimeDelta)
     }
     else
     {
+        CUI_Manager::GetInstance()->Set_Player_Mouse(false);
         if (0.8f > m_fAlphaShine)
             m_fAlphaShine += 2.5f * fTimeDelta;
         else if (0.8f <= m_fAlphaShine)
@@ -112,8 +114,8 @@ void CUI_SkillIcon_Frame::LateTick(_float fTimeDelta)
             m_bSound = true;
             CSound_Manager::GetInstance()->PlaySoundFile(L"UI", L"Is_PickingSound.wav", CSound_Manager::GetInstance()->Get_ChannelGroupVolume(TEXT("UI")));
         }
+        Picking_Icon();
     }
-
     if (m_fCoolMaxTime == m_fResultCool)
     {
         m_fCoolAngle = XM_PI;
@@ -142,7 +144,7 @@ HRESULT CUI_SkillIcon_Frame::Render()
     {
         if (FAILED(Bind_ShaderResources_Skill()))
             return E_FAIL;
-        m_pTextureCom_Skill->Set_SRV(m_pShaderCom, "g_DiffuseTexture", m_iTextureIndex);
+        m_pTextureCom_Skill->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
         m_pShaderCom->Begin(19);
         m_pVIBufferCom->Render();
     }
@@ -165,9 +167,105 @@ HRESULT CUI_SkillIcon_Frame::Render()
     return S_OK;
 }
 
-void CUI_SkillIcon_Frame::Set_SkillIcon(const wstring& strSkillName)
+void CUI_SkillIcon_Frame::ReSet_PickedSkillIcon()
 {
+    if (true == CUI_Manager::GetInstance()->Is_PickedIcon())
+    {
+        if (KEY_AWAY(KEY::LBTN))
+            CUI_Manager::GetInstance()->Reset_ItemIcon();
+    }
+}
 
+void CUI_SkillIcon_Frame::Picking_Icon()
+{
+    if (false == CUI_Manager::GetInstance()->Is_PickedIcon())
+    {
+        if (KEY_HOLD(KEY::LBTN))
+        {
+            CUI_Manager::GetInstance()->Picked_SkillIcon(m_pSkill->Get_ObjectTag(), m_pSkill->Get_Skill_Texture(), m_eSkillKey);
+        }
+    }
+    else if (true == CUI_Manager::GetInstance()->Is_PickedIcon())
+    {
+        if (KEY_AWAY(KEY::LBTN))
+        {
+            if ((CUI_Manager::GetInstance()->Is_PickedIcon())&&(0 == m_iTextureIndex))
+            {
+                Set_Player_BindingSkill();
+                CUI_Manager::GetInstance()->Reset_ItemIcon();
+                CUI_Manager::GetInstance()->Set_Player_Mouse(true);
+            }
+        }
+    }
+}
+
+void CUI_SkillIcon_Frame::Set_Player_BindingSkill()
+{
+    CPlayer* pPlayer = CServerSessionManager::GetInstance()->Get_Player();
+    if (nullptr != pPlayer && L"Gunslinger" == pPlayer->Get_ObjectTag())
+    {
+       CPlayer_Skill* pSkill = static_cast<CPlayer_Gunslinger*>(pPlayer)->Get_GN_Controller()->Find_Skill(CUI_Manager::GetInstance()->Get_PickedTag());
+       if(nullptr != pSkill)
+            Set_GN_BindingSkill(pPlayer, pSkill);
+    }
+    else if (nullptr != pPlayer && L"WR" == pPlayer->Get_ObjectTag())
+    {
+        CPlayer_Skill* pSkill = static_cast<CPlayer_Slayer*>(pPlayer)->Get_WR_Controller()->Find_Skill(CUI_Manager::GetInstance()->Get_PickedTag());
+        if (nullptr != pSkill)
+            Set_WR_BindingSkill(pPlayer, pSkill);
+    }
+    else if (nullptr != pPlayer && L"WDR" == pPlayer->Get_ObjectTag())
+    {
+        CPlayer_Skill* pSkill = static_cast<CPlayer_Destroyer*>(pPlayer)->Get_WDR_Controller()->Find_Skill(CUI_Manager::GetInstance()->Get_PickedTag());
+        if (nullptr != pSkill)
+            Set_WDR_BindingSkill(pPlayer, pSkill);
+    }
+    else if (nullptr != pPlayer && L"SP" == pPlayer->Get_ObjectTag())
+    {
+        CPlayer_Skill* pSkill = static_cast<CPlayer_Doaga*>(pPlayer)->Get_SP_Controller()->Find_Skill(CUI_Manager::GetInstance()->Get_PickedTag());
+        if (nullptr != pSkill)
+            Set_SP_BindingSkill(pPlayer, pSkill);
+    }
+}
+
+void CUI_SkillIcon_Frame::Set_GN_BindingSkill(CPlayer* pPlayer, CPlayer_Skill* pSkill)
+{
+    CPlayer_Skill* pOriginSkill = m_pSkill;
+    _uint iOriginKey = (_uint)m_pSkill->Get_BindKey();
+    _uint iSwapKey = (_uint)pSkill->Get_BindKey();
+
+    static_cast<CPlayer_Gunslinger*>(pPlayer)->Get_GN_Controller()->Bind_Skill((CPlayer_Controller::SKILL_KEY)iOriginKey, pSkill);
+    static_cast<CPlayer_Gunslinger*>(pPlayer)->Get_GN_Controller()->Bind_Skill((CPlayer_Controller::SKILL_KEY)iSwapKey, pOriginSkill);
+}
+
+void CUI_SkillIcon_Frame::Set_WR_BindingSkill(CPlayer* pPlayer, CPlayer_Skill* pSkill)
+{
+    CPlayer_Skill* pOriginSkill = m_pSkill;
+    _uint iOriginKey = (_uint)m_pSkill->Get_BindKey();
+    _uint iSwapKey = (_uint)pSkill->Get_BindKey();
+
+    static_cast<CPlayer_Slayer*>(pPlayer)->Get_WR_Controller()->Bind_Skill((CPlayer_Controller::SKILL_KEY)iOriginKey, pSkill);
+    static_cast<CPlayer_Slayer*>(pPlayer)->Get_WR_Controller()->Bind_Skill((CPlayer_Controller::SKILL_KEY)iSwapKey, pOriginSkill);
+}
+
+void CUI_SkillIcon_Frame::Set_WDR_BindingSkill(CPlayer* pPlayer, CPlayer_Skill* pSkill)
+{
+    CPlayer_Skill* pOriginSkill = m_pSkill;
+    _uint iOriginKey = (CPlayer_Controller::SKILL_KEY)m_eSkillKey;
+    _uint iSwapKey = CUI_Manager::GetInstance()->Get_BindingKey();
+
+    static_cast<CPlayer_Destroyer*>(pPlayer)->Get_WDR_Controller()->Bind_Skill((CPlayer_Controller::SKILL_KEY)iOriginKey, pSkill);
+    static_cast<CPlayer_Destroyer*>(pPlayer)->Get_WDR_Controller()->Bind_Skill((CPlayer_Controller::SKILL_KEY)iSwapKey, pOriginSkill);
+}
+
+void CUI_SkillIcon_Frame::Set_SP_BindingSkill(CPlayer* pPlayer, CPlayer_Skill* pSkill)
+{
+    CPlayer_Skill* pOriginSkill = m_pSkill;
+    _uint iOriginKey = (_uint)m_pSkill->Get_BindKey();
+    _uint iSwapKey = (_uint)pSkill->Get_BindKey();
+
+    static_cast<CPlayer_Doaga*>(pPlayer)->Get_SP_Controller()->Bind_Skill((CPlayer_Controller::SKILL_KEY)iOriginKey, pSkill);
+    static_cast<CPlayer_Doaga*>(pPlayer)->Get_SP_Controller()->Bind_Skill((CPlayer_Controller::SKILL_KEY)iSwapKey, pOriginSkill);
 }
 
 void CUI_SkillIcon_Frame::Get_Player_BindingSkill()

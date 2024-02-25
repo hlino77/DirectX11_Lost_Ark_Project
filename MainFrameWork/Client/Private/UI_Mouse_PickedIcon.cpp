@@ -77,11 +77,14 @@ HRESULT CUI_Mouse_PickedIcon::Render()
     if (nullptr == m_pTextureCom)
         return S_OK;
 
-    if (FAILED(Bind_ShaderResources()))
-        return E_FAIL;
-    m_pTexture_Grade->Set_SRV(m_pShaderCom, "g_DiffuseTexture",m_iTextureIndex);
-    m_pShaderCom->Begin(0);
-    m_pVIBufferCom->Render();
+    if (m_bItem)
+    {
+        if (FAILED(Bind_ShaderResources()))
+            return E_FAIL;
+        m_pTexture_Grade->Set_SRV(m_pShaderCom, "g_DiffuseTexture", m_iTextureIndex);
+        m_pShaderCom->Begin(0);
+        m_pVIBufferCom->Render();
+    }
 
     if (FAILED(Bind_ShaderResources()))
         return E_FAIL;
@@ -94,14 +97,21 @@ HRESULT CUI_Mouse_PickedIcon::Render()
 
 void CUI_Mouse_PickedIcon::Set_IconTexture(CTexture* pTextureCom, _uint iTextureIndex)
 {
+    m_bItem = true;
     m_iTextureIndex = iTextureIndex;
     m_pTextureCom = pTextureCom;
+}
+
+void CUI_Mouse_PickedIcon::Set_SkillIconTexture(CTexture* pTextureCom)
+{
+    m_pTextureCom = pTextureCom;
+    m_bItem = false;
 }
 
 HRESULT CUI_Mouse_PickedIcon::Ready_Components()
 {
     if (FAILED(__super::Ready_Components()))
-        return E_FAIL;
+        return E_FAIL;          
     if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Inventory_Rank"),
         TEXT("Com_Texture"), (CComponent**)&m_pTexture_Grade)))
         return E_FAIL;
@@ -129,6 +139,7 @@ HRESULT CUI_Mouse_PickedIcon::Bind_ShaderResources()
 
 void CUI_Mouse_PickedIcon::UnPickedIcon()
 {
+    m_bItem = false;
     m_pTextureCom = nullptr;
 }
 

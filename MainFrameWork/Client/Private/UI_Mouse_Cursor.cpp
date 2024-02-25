@@ -103,6 +103,15 @@ void CUI_Mouse_Cursor::Picked_Icon(CTexture* pTexture_Icon, _uint iItemGrade)
     }
 }
 
+void CUI_Mouse_Cursor::Picked_SkillIcon(CTexture* pTexture_Icon)
+{
+    if (!m_bPickedIcon)
+    {
+        m_bPickedIcon = true;
+        m_pUtility_PickedIcon->Set_SkillIconTexture(pTexture_Icon);
+    }
+}
+
 void CUI_Mouse_Cursor::Reset_Icon()
 {
     if (m_bPickedIcon)

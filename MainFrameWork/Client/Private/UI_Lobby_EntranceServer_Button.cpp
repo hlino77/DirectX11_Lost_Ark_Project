@@ -104,7 +104,7 @@ HRESULT CUILobby_Entrance_to_ServrerButton::Bind_ShaderResources()
 	if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(Vec4))))
 		return E_FAIL;
 
-	m_pTextureCom->Set_SRV(m_pShaderCom, "g_DiffuseTexture", (_uint)m_iTextureIndex);
+	m_pTextureCom->Set_SRV(m_pShaderCom, "g_DiffuseTexture");
 
 	return S_OK;
 }

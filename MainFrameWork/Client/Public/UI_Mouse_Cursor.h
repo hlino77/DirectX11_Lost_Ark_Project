@@ -41,7 +41,8 @@ public:
     CUI_Mouse_EntranceParty* Get_Utilty_EntranceParty() { return m_pUtility_EntranceParty; }
 
 public:
-    void    Picked_Icon(CTexture* pTexture_Icon, _uint iItemGrade);
+    void    Picked_Icon(CTexture* pTexture_Icon, _uint iItemGrade);//아이템
+    void    Picked_SkillIcon(CTexture* pTexture_Icon);//스킬
     void    Reset_Icon();
     _bool   Is_PickedIcon() { return m_bPickedIcon; }
     void    Set_PickedIcon(_bool bPickedIcon) { m_bPickedIcon = bPickedIcon; }

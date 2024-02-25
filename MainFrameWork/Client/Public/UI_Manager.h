@@ -47,12 +47,14 @@ public://BossHp
 
 public://Mouse
     void    Picked_ItemIcon(const wstring& strObjectTag, CTexture* pTexture_Icon , _uint iItemGrade);
+    void    Picked_SkillIcon(const wstring& strObjectTag, CTexture* pTexture_Icon, _uint iBindingKey);
     void    Reset_ItemIcon();
     _bool    Is_PickedIcon();
     void    Set_PickedIcon(_bool bPickedIcon);
     const wstring Get_PickedTag() { return m_strPickedTag; }
     void    Set_PickedTag(wstring strPickedTag) { m_strPickedTag = strPickedTag; }
     void    Set_EntranceParty_Player(_bool  bEntrance, class CPlayer* pPlayer);
+    _uint   Get_BindingKey() { return m_iSkillKey; }
 
 public://Party
     void    Set_Active_EntranceParty(class CPlayer* pPartyLeader, class CPlayer* pPlayer);
@@ -71,6 +73,7 @@ public:
 
 public:
     void    Set_Player_Control(_bool bControl);
+    void    Set_Player_Mouse(_bool bControl);
 
 public://Option
     _float  Get_ChannelVolume(_uint iChannelID);
@@ -86,6 +89,7 @@ private:
     _uint   m_iNextLevel = { 0 };
     POINT   m_pt = {};
     wstring m_strPickedTag = TEXT("");
+    _int   m_iSkillKey = { -1 };
 
     CUI* m_pCurrentBossHpUI = { nullptr };
     CUI* m_pMouseCursor = { nullptr };

@@ -29,6 +29,10 @@ HRESULT CUI_QuickSkill::Initialize(void* pArg)
 
 	if (FAILED(UI_Set()))
 		return E_FAIL;
+	m_fSizeX = 240.f	;
+	m_fSizeY = 88.f;
+	m_fX = 624.f;
+	m_fY = 848.f;
 
 	m_strUITag = TEXT("UI_QuickSlot");
 
@@ -38,11 +42,23 @@ HRESULT CUI_QuickSkill::Initialize(void* pArg)
 void CUI_QuickSkill::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
-
+	Create_Rect();
+	Picking_UI();
 }
 
 void CUI_QuickSkill::LateTick(_float fTimeDelta)
 {
+	if ((!m_bPick)&&(true == CUI_Manager::GetInstance()->Is_PickedIcon()))
+	{
+		if (KEY_AWAY(KEY::LBTN))
+		{
+			if (CUI_Manager::GetInstance()->Is_PickedIcon())
+			{
+				CUI_Manager::GetInstance()->Reset_ItemIcon();
+				CUI_Manager::GetInstance()->Set_Player_Mouse(true);
+			}
+		}
+	}
 }
 
 HRESULT CUI_QuickSkill::Render()

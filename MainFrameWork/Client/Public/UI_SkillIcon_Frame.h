@@ -8,7 +8,7 @@ END
 
 
 BEGIN(Client)
-
+class CPlayer;
 class CUI_SkillIcon_Frame :
     public CUI
 {
@@ -27,13 +27,20 @@ public:
 
 public:
     virtual void UI_Tick(_float fTimeDelta) override {}
-    void    Set_SkillIcon(const wstring & strSkillName);
+    void    ReSet_PickedSkillIcon();
     void    Set_IsHaveSkill(_bool IsHave) { m_bHaveSkill = IsHave; }
     _bool   Get_IsHaveSkill() { return m_bHaveSkill; }
     class CTexture* Get_SkillTexture() { return m_pTextureCom_Skill; }
     void    Set_PickedFrame(_bool IsPicked) { m_bPicked = IsPicked; }
+    CPlayer_Skill* Get_Skill() { return m_pSkill; }
 
 private:
+    void    Picking_Icon();
+    void    Set_Player_BindingSkill();
+    void    Set_GN_BindingSkill(CPlayer* pPlayer, CPlayer_Skill* pSkill);
+    void    Set_WR_BindingSkill(CPlayer* pPlayer,CPlayer_Skill* pSkill);
+    void    Set_WDR_BindingSkill(CPlayer* pPlayer, CPlayer_Skill* pSkill);
+    void    Set_SP_BindingSkill(CPlayer* pPlayer, CPlayer_Skill* pSkill);
     void    Get_Player_BindingSkill();
     void Get_Player_GN(class CPlayer* _pPlayer, CTexture* _pTexture);
     void Get_Player_WR(class CPlayer* _pPlayer, CTexture* _pTexture);

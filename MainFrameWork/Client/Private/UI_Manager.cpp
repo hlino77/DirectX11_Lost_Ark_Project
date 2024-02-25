@@ -268,9 +268,24 @@ void CUI_Manager::Picked_ItemIcon(const wstring& strObjectTag, CTexture* pTextur
 	static_cast<CUI_Mouse_Cursor*>(m_pMouseCursor)->Picked_Icon(pTexture_Icon, iItemGrade);
 }
 
+void CUI_Manager::Picked_SkillIcon(const wstring& strObjectTag, CTexture* pTexture_Icon, _uint iBindingKey)
+{
+	m_strPickedTag = strObjectTag;
+	m_iSkillKey = iBindingKey;
+	if (nullptr == pTexture_Icon)
+		return;
+
+	m_pMouseCursor = Find_UI(LEVEL_STATIC, TEXT("Mouse_Cursor"));
+	if (nullptr == m_pMouseCursor)
+		return;
+
+	static_cast<CUI_Mouse_Cursor*>(m_pMouseCursor)->Picked_SkillIcon(pTexture_Icon);
+}
+
 void CUI_Manager::Reset_ItemIcon()
 {
 	m_strPickedTag = TEXT("");
+	m_iSkillKey = -1;
 	m_pMouseCursor = Find_UI(LEVEL_STATIC, TEXT("Mouse_Cursor"));
 	if (nullptr == m_pMouseCursor)
 		return;
@@ -420,6 +435,30 @@ void CUI_Manager::Set_Player_Control(_bool bControl)
 		static_cast<CPlayer_Doaga*>(pPlayer)->Get_SP_Controller()->Set_Key_Active(bControl);
 	}
 
+}
+
+void CUI_Manager::Set_Player_Mouse(_bool bControl)
+{
+	CPlayer* pPlayer = CServerSessionManager::GetInstance()->Get_Player();
+	if (nullptr == pPlayer)
+		return;
+
+	if (TEXT("Gunslinger") == pPlayer->Get_ObjectTag())
+	{
+		static_cast<CPlayer_Gunslinger*>(pPlayer)->Get_GN_Controller()->Set_Mouse_Active(bControl);
+	}
+	else if (TEXT("WR") == pPlayer->Get_ObjectTag())
+	{
+		static_cast<CPlayer_Slayer*>(pPlayer)->Get_WR_Controller()->Set_Mouse_Active(bControl);
+	}
+	else if (TEXT("WDR") == pPlayer->Get_ObjectTag())
+	{
+		static_cast<CPlayer_Destroyer*>(pPlayer)->Get_WDR_Controller()->Set_Mouse_Active(bControl);
+	}
+	else if (TEXT("SP") == pPlayer->Get_ObjectTag())
+	{
+		static_cast<CPlayer_Doaga*>(pPlayer)->Get_SP_Controller()->Set_Mouse_Active(bControl);
+	}
 }
 
 _float CUI_Manager::Get_ChannelVolume(_uint iChannelID)

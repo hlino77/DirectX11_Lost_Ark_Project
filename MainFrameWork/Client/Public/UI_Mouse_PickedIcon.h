@@ -29,6 +29,7 @@ public:
     void    Set_IsPicked(_bool IsPicked) { m_bPicked = IsPicked; }
     _bool   Get_IsPicked() { return m_bPicked; }
     void    Set_IconTexture(CTexture* pTextureCom, _uint iTextureIndex);
+    void    Set_SkillIconTexture(CTexture* pTextureCom);
 
 private:
     virtual HRESULT Ready_Components();
@@ -38,6 +39,7 @@ private:
 private:
     CTexture* m_pTexture_Grade = { nullptr };
     _bool   m_bPicked = { false };
+    _bool   m_bItem = { false };
 
 public:
     static  CUI_Mouse_PickedIcon* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
