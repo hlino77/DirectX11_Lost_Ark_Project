@@ -386,18 +386,28 @@ _bool CPlayer::Get_CellPickingPos(Vec3& vPickPos)
 {
 	if (TEXT("Idle") || TEXT("Run"))
 	{
+		_float fDist = 10.0f;
+		_float fPickDist = 10.0f;
+		Vec3 ClickPos;
 		m_vecNpcs = m_pGameInstance->Find_GameObjects(m_iCurrLevel, (_uint)LAYER_TYPE::LAYER_NPC);
 		for (auto& pNpc : m_vecNpcs)
 		{
 			if ((_uint)CNpc::NPCTYPE::FUNCTION == static_cast<CNpc*>(pNpc)->Get_NpcType())
 			{
-				if (true == static_cast<CNpc*>(pNpc)->Intersect_Mouse(vPickPos))
+				if (true == static_cast<CNpc*>(pNpc)->Intersect_Mouse(ClickPos, fDist))
 				{
-					m_IsClickNpc = true;
-					return true;
+					if (fPickDist >= fDist)
+					{
+						fPickDist = fDist;
+						vPickPos = ClickPos;
+						m_IsClickNpc = true;
+					}
 				}
 			}
 		}
+
+		if (true == m_IsClickNpc)
+			return true;
 	}
 	m_IsClickNpc = false;
 
