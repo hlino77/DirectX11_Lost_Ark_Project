@@ -493,7 +493,8 @@ void CPlayer_Slayer::OnCollisionStay(const _uint iColLayer, CCollider* pOther)
 		}
 		else if ((_uint)LAYER_COLLIDER::LAYER_BODY_BOSS == pOther->Get_ColLayer())
 		{
-			if (false == static_cast<CBoss*>(pOther->Get_Owner())->Is_Dummy())
+			if (false == static_cast<CBoss*>(pOther->Get_Owner())->Is_Dummy() &&
+				TEXT("Grabbed") != Get_State())
 			{
 				m_pController->Get_CheckLengthMessage(1.f, pOther->Get_Owner());
 			}
@@ -510,7 +511,8 @@ void CPlayer_Slayer::OnCollisionStay(const _uint iColLayer, CCollider* pOther)
 		}
 		else if ((_uint)LAYER_COLLIDER::LAYER_BODY_BOSS == pOther->Get_ColLayer() && TEXT("Dead_End") != Get_State())
 		{
-			if (false == static_cast<CBoss*>(pOther->Get_Owner())->Is_Dummy())
+			if (false == static_cast<CBoss*>(pOther->Get_Owner())->Is_Dummy() &&
+				TEXT("Grabbed") != Get_State())
 			{
 				m_pController->Get_CheckLengthMessage(1.f, pOther->Get_Owner());
 			}

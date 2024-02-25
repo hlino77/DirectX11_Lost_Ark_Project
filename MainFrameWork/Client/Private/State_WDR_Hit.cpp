@@ -135,16 +135,18 @@ void CState_WDR_Hit::Tick_State_Control(_float fTimeDelta)
 	{
 		m_pPlayer->Set_State(TEXT("Fall"));
 	}
-
-	if (m_iHit == m_iHit_Down)
-	{
-		Hit_Down(fTimeDelta);
-	}
 	else
 	{
-		if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iHit))
+		if (m_iHit == m_iHit_Down)
 		{
-			m_pPlayer->Set_State(TEXT("HitEnd"));
+			Hit_Down(fTimeDelta);
+		}
+		else
+		{
+			if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iHit))
+			{
+				m_pPlayer->Set_State(TEXT("HitEnd"));
+			}
 		}
 	}
 }

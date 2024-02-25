@@ -95,8 +95,10 @@ void CState_SP_Hit_Common::Tick_State_Control(_float fTimeDelta)
 	{
 		m_pPlayer->Set_State(TEXT("Fall"));
 	}
-
-	Hit_Dmg(fTimeDelta);
+	else
+	{
+		Hit_Dmg(fTimeDelta);
+	}
 }
 
 void CState_SP_Hit_Common::Tick_State_NoneControl(_float fTimeDelta)
