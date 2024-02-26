@@ -209,7 +209,8 @@ void CUI_SkillIcon_Frame::Set_Player_BindingSkill()
     CPlayer* pPlayer = CServerSessionManager::GetInstance()->Get_Player();
     if (nullptr != pPlayer && L"Gunslinger" == pPlayer->Get_ObjectTag())
     {
-       CPlayer_Skill* pSkill = static_cast<CPlayer_Gunslinger*>(pPlayer)->Get_GN_Controller()->Find_Skill(CUI_Manager::GetInstance()->Get_PickedTag());
+       CPlayer_Controller_GN::GN_IDENTITY eIDentity = static_cast<CPlayer_Controller_GN*>(static_cast<CPlayer_Gunslinger*>(pPlayer)->Get_GN_Controller())->Get_GN_Identity();
+       CPlayer_Skill* pSkill = static_cast<CPlayer_Gunslinger*>(pPlayer)->Get_GN_Controller()->Get_PlayerSkill_Weapon(eIDentity, (CPlayer_Controller::SKILL_KEY)CUI_Manager::GetInstance()->Get_BindingKey());
        if(nullptr != pSkill)
             Set_GN_BindingSkill(pPlayer, pSkill);
     }
@@ -244,10 +245,14 @@ void CUI_SkillIcon_Frame::Set_GN_BindingSkill(CPlayer* pPlayer, CPlayer_Skill* p
     {
     case CPlayer_Controller_GN::GN_IDENTITY::HAND:
         static_cast<CPlayer_Gunslinger*>(pPlayer)->Get_GN_Controller()->Bind_HandSkill((CPlayer_Controller::SKILL_KEY)iOriginKey, pSkill);
-        if(nullptr != pOriginSkill)
+        if (nullptr != pOriginSkill)
+        {
             static_cast<CPlayer_Gunslinger*>(pPlayer)->Get_GN_Controller()->Bind_HandSkill((CPlayer_Controller::SKILL_KEY)iSwapKey, pOriginSkill);
+        }
         else
+        {
             static_cast<CPlayer_Gunslinger*>(pPlayer)->Get_GN_Controller()->Bind_HandSkill((CPlayer_Controller::SKILL_KEY)iSwapKey, nullptr);
+        }
         static_cast<CPlayer_Gunslinger*>(pPlayer)->Get_GN_Controller()->Change_Skill_Iden(CPlayer_Controller_GN::GN_IDENTITY::HAND);
         break;
     case CPlayer_Controller_GN::GN_IDENTITY::SHOT:
@@ -255,7 +260,9 @@ void CUI_SkillIcon_Frame::Set_GN_BindingSkill(CPlayer* pPlayer, CPlayer_Skill* p
         if (nullptr != pOriginSkill)
             static_cast<CPlayer_Gunslinger*>(pPlayer)->Get_GN_Controller()->Bind_ShotSkill((CPlayer_Controller::SKILL_KEY)iSwapKey, pOriginSkill);
         else
+        {
             static_cast<CPlayer_Gunslinger*>(pPlayer)->Get_GN_Controller()->Bind_ShotSkill((CPlayer_Controller::SKILL_KEY)iSwapKey, nullptr);
+        }
         static_cast<CPlayer_Gunslinger*>(pPlayer)->Get_GN_Controller()->Change_Skill_Iden(CPlayer_Controller_GN::GN_IDENTITY::SHOT);
         break;
     case CPlayer_Controller_GN::GN_IDENTITY::LONG:
@@ -263,7 +270,9 @@ void CUI_SkillIcon_Frame::Set_GN_BindingSkill(CPlayer* pPlayer, CPlayer_Skill* p
         if (nullptr != pOriginSkill)
             static_cast<CPlayer_Gunslinger*>(pPlayer)->Get_GN_Controller()->Bind_LongSkill((CPlayer_Controller::SKILL_KEY)iSwapKey, pOriginSkill);
         else
+        {
             static_cast<CPlayer_Gunslinger*>(pPlayer)->Get_GN_Controller()->Bind_LongSkill((CPlayer_Controller::SKILL_KEY)iSwapKey, nullptr);
+        }
         static_cast<CPlayer_Gunslinger*>(pPlayer)->Get_GN_Controller()->Change_Skill_Iden(CPlayer_Controller_GN::GN_IDENTITY::LONG);
         break;
     }

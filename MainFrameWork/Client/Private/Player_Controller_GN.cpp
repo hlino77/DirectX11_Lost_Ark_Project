@@ -277,42 +277,48 @@ void CPlayer_Controller_GN::Skill(GN_IDENTITY eIndex, SKILL_KEY eKey)
 
 HRESULT CPlayer_Controller_GN::Bind_HandSkill(SKILL_KEY eKey, CPlayer_Skill* pSkill)
 {
-	if (nullptr == pSkill)
-		return E_FAIL;
+	/*if (nullptr == pSkill)
+		return E_FAIL;*/
 
 	if (SKILL_KEY::SPACE == eKey)
 		return S_OK;
 
 	m_pHandSkills[eKey] = pSkill;
-	pSkill->Set_BindKey(eKey);
+
+	if(nullptr != pSkill)
+		pSkill->Set_BindKey(eKey);
 
 	return S_OK;
 }
 
 HRESULT CPlayer_Controller_GN::Bind_ShotSkill(SKILL_KEY eKey, CPlayer_Skill* pSkill)
 {
-	if (nullptr == pSkill)
-		return E_FAIL;
+	/*if (nullptr == pSkill)
+		return E_FAIL;*/
 
 	if (SKILL_KEY::SPACE == eKey || SKILL_KEY::A == eKey || SKILL_KEY::S == eKey || SKILL_KEY::D == eKey || SKILL_KEY::F == eKey)
 		return S_OK;
 
 	m_pShotSkills[eKey] = pSkill;
-	pSkill->Set_BindKey(eKey);
+
+	if (nullptr != pSkill)
+		pSkill->Set_BindKey(eKey);
 
 	return S_OK;
 }
 
 HRESULT CPlayer_Controller_GN::Bind_LongSkill(SKILL_KEY eKey, CPlayer_Skill* pSkill)
 {
-	if (nullptr == pSkill)
-		return E_FAIL;
+	/*if (nullptr == pSkill)
+		return E_FAIL;*/
 
 	if (SKILL_KEY::SPACE == eKey || SKILL_KEY::Q == eKey || SKILL_KEY::W == eKey || SKILL_KEY::E == eKey || SKILL_KEY::R == eKey)
 		return S_OK;
 
 	m_pLongSkills[eKey] = pSkill;
-	pSkill->Set_BindKey(eKey);
+
+	if (nullptr != pSkill)
+		pSkill->Set_BindKey(eKey);
 
 	return S_OK;
 }
