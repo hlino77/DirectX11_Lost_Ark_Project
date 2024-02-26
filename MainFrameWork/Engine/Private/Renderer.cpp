@@ -69,6 +69,18 @@ HRESULT CRenderer::Initialize_Prototype()
 		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
 		return E_FAIL;
 
+	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_Outline_Blur_H"),
+		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
+		return E_FAIL;
+
+	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_Outline_Blur_V"),
+		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
+		return E_FAIL;
+
+	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_Outline_Blend"),
+		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
+		return E_FAIL;
+
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_MakeSRV"),
 		500, 500, DXGI_FORMAT_R8G8B8A8_UNORM, Vec4(1.f, 1.f, 1.f, 0.f))))
 		return E_FAIL;
@@ -319,7 +331,7 @@ HRESULT CRenderer::Initialize_Prototype()
 	//	return E_FAIL;
 	//if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Outline"), fTargetX, 9.f * fTargetY, fTargetCX, fTargetCY)))
 	//	return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_DOF_Blur_H"), 5.f * fTargetX, 1.f * fTargetY, 2.f * fTargetCX, 2.f * fTargetCY)))
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Outline_Blend"), 5.f * fTargetX, 1.f * fTargetY, 2.f * fTargetCX, 2.f * fTargetCY)))
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_DOF_Blur_HV"), 5.f * fTargetX, 5.f * fTargetY, 2.f * fTargetCX, 2.f * fTargetCY)))
 		return E_FAIL;
@@ -332,6 +344,12 @@ HRESULT CRenderer::Initialize_Prototype()
 		return E_FAIL;
 
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_OutlineObjects"), TEXT("Target_Outline"))))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_OutlineObjects_Blur_H"), TEXT("Target_Outline_Blur_H"))))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_OutlineObjects_Blur_V"), TEXT("Target_Outline_Blur_V"))))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_OutlineObjects_Blend"), TEXT("Target_Outline_Blend"))))
 		return E_FAIL;
 
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_GameObjects"), TEXT("Target_Diffuse"))))
@@ -493,6 +511,12 @@ HRESULT CRenderer::Initialize_Prototype()
 	if (nullptr == m_pFxaaShader)
 		return E_FAIL;
 	if (FAILED(m_pFxaaShader->Initialize()))
+		return E_FAIL;
+
+	m_pOutlineBlurShader = CShader::Create(m_pDevice, m_pContext, TEXT("../Bin/ShaderFiles/Shader_Outline_Blur.hlsl"), VTXTEX::Elements, VTXTEX::iNumElements);
+	if (nullptr == m_pOutlineBlurShader)
+		return E_FAIL;
+	if (FAILED(m_pOutlineBlurShader->Initialize()))
 		return E_FAIL;
 
 	if (FAILED(Ready_MakeSRV_DSV()))
@@ -702,6 +726,8 @@ HRESULT CRenderer::Draw()
 		return E_FAIL;
 
 	// ...
+
+
 	if (FAILED(Render_AlphaBlend()))
 		return E_FAIL;
 
@@ -1693,7 +1719,7 @@ HRESULT CRenderer::Render_DepthOfField()
 
 	//
 	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_DOF_Blur_H"))) ||
-		FAILED(m_pTarget_Manager->Bind_SRV(m_pDOFShader, TEXT("Target_SSR"), "g_DOFBlurTarget")) ||
+		FAILED(m_pTarget_Manager->Bind_SRV(m_pDOFShader, TEXT("Target_Outline_Blend"), "g_DOFBlurTarget")) ||
 		FAILED(m_pDOFShader->Begin("DOFBlurH")) || FAILED(m_pVIBuffer->Render()) ||
 		FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
 		return E_FAIL;
@@ -1712,8 +1738,38 @@ HRESULT CRenderer::Render_DepthOfField()
 	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_DepthOfField"))) ||
 		FAILED(m_pTarget_Manager->Bind_SRV(m_pDOFShader, TEXT("Target_DOF_Blur_HV"), "g_DOFBlurTarget")) ||
 		FAILED(m_pTarget_Manager->Bind_SRV(m_pDOFShader, TEXT("Target_NormalDepth"), "g_NormalDepthTarget")) ||
-		FAILED(m_pTarget_Manager->Bind_SRV(m_pDOFShader, TEXT("Target_PrePostProcess"), "g_PreProcessedTarget")) ||
+		FAILED(m_pTarget_Manager->Bind_SRV(m_pDOFShader, TEXT("Target_Outline_Blend"), "g_PreProcessedTarget")) ||
 		FAILED(m_pDOFShader->Begin("DepthOfField")) || FAILED(m_pVIBuffer->Render()) ||
+		FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
+		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CRenderer::Render_OutlineBlur()
+{
+	if (FAILED(m_pOutlineBlurShader->Bind_Matrix("g_WorldMatrix", &m_WorldMatrix)) ||
+		FAILED(m_pOutlineBlurShader->Bind_Matrix("g_ViewMatrix", &m_ViewMatrix)) ||
+		FAILED(m_pOutlineBlurShader->Bind_Matrix("g_ProjMatrix", &m_ProjMatrix)))
+		return E_FAIL;
+
+
+	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_OutlineObjects_Blur_H"))) ||
+		FAILED(m_pTarget_Manager->Bind_SRV(m_pOutlineBlurShader, TEXT("Target_Outline"), "g_OutBlurTarget")) ||
+		FAILED(m_pOutlineBlurShader->Begin("BlurH")) || FAILED(m_pVIBuffer->Render()) ||
+		FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
+		return E_FAIL;
+
+	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_OutlineObjects_Blur_V"))) ||
+		FAILED(m_pTarget_Manager->Bind_SRV(m_pOutlineBlurShader, TEXT("Target_Outline_Blur_H"), "g_OutBlurTarget")) ||
+		FAILED(m_pOutlineBlurShader->Begin("BlurV")) || FAILED(m_pVIBuffer->Render()) ||
+		FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
+		return E_FAIL;
+
+	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_OutlineObjects_Blend"))) ||
+		FAILED(m_pTarget_Manager->Bind_SRV(m_pPostProccessor, TEXT("Target_Outline_Blur_V"), "g_OutlineBlurTarget")) ||
+		FAILED(m_pTarget_Manager->Bind_SRV(m_pPostProccessor, TEXT("Target_SSR"), "g_PrePostProcessTarget")) ||
+		FAILED(m_pPostProccessor->Begin("OutlineBlur")) || FAILED(m_pVIBuffer->Render()) ||
 		FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
 		return E_FAIL;
 
@@ -1723,6 +1779,9 @@ HRESULT CRenderer::Render_DepthOfField()
 HRESULT CRenderer::Render_PostProcess()
 {
 	CPipeLine* pPipeLine = GET_INSTANCE(CPipeLine);
+
+	if (FAILED(Render_OutlineBlur()))
+		return E_FAIL;
 
 	if (FAILED(Render_DepthOfField()))
 		return E_FAIL;
@@ -1751,7 +1810,7 @@ HRESULT CRenderer::Render_PostProcess()
 	{
 		if (FAILED(m_pTarget_Manager->Bind_SRV(m_pPostProccessor, TEXT("Target_SSR"), "g_SSRTarget")))
 			return E_FAIL;
-		if (FAILED(m_pTarget_Manager->Bind_SRV(m_pPostProccessor, TEXT("Target_PrePostProcess"), "g_PrePostProcessTarget")))
+		if (FAILED(m_pTarget_Manager->Bind_SRV(m_pPostProccessor, TEXT("Target_Outline_Blend"), "g_PrePostProcessTarget")))
 			return E_FAIL;
 	}
 	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pPostProccessor, TEXT("Target_DecalOneBlend"), "g_DecalOneBlendTarget")))
@@ -2152,7 +2211,7 @@ HRESULT CRenderer::Render_Debug()
 	if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_Cascade3"), m_pMRTShader, m_pVIBuffer)))
 		return E_FAIL;
 
-	if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_DOF_Blur_H"), m_pMRTShader, m_pVIBuffer)))
+	if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_OutlineObjects_Blend"), m_pMRTShader, m_pVIBuffer)))
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_DOF_Blur_HV"), m_pMRTShader, m_pVIBuffer)))
 		return E_FAIL;
@@ -2579,6 +2638,7 @@ void CRenderer::Free()
 	Safe_Release(m_pSSRShader);
 	Safe_Release(m_pDOFShader);
 	Safe_Release(m_pBloomShader);
+	Safe_Release(m_pOutlineBlurShader);
 	Safe_Release(m_pVIBuffer);
 	Safe_Release(m_pBRDFTexture);
 	Safe_Release(m_pVIBufferSSAO);

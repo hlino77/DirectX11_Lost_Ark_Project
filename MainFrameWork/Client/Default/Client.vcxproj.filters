@@ -3274,9 +3274,6 @@
     <ClInclude Include="..\Public\UI_ChatWriteFrame.h">
       <Filter>02.GameObjects\UI\02.Chat\01.WriteFrame</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\UI_Chat.h">
-      <Filter>02.GameObjects\UI\02.Chat</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\State_GN_Gunkata_3.h">
       <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Hand\Gunkata</Filter>
     </ClInclude>
@@ -4823,9 +4820,6 @@
     <ClInclude Include="..\Public\Esther_Bahuntur_Skill_Ceiling.h">
       <Filter>02.GameObjects\Esther\Bahuntur\Skill</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Esther_Bahuntur_Skill_Floor.h">
-      <Filter>02.GameObjects\Esther\Bahuntur\Skill</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\Camera_Cut.h">
       <Filter>02.GameObjects\Camera\Cut</Filter>
     </ClInclude>
@@ -5139,6 +5133,10 @@
     </ClInclude>
     <ClInclude Include="..\Public\UI_Chat.h" />
     <ClInclude Include="..\Public\UI_Chat.h" />
+    <ClInclude Include="..\Public\UI_Chat.h" />
+    <ClInclude Include="..\Public\Esther_Bahuntur_Skill_Floor.h">
+      <Filter>02.GameObjects\Esther\Bahuntur\Skill</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -6441,9 +6439,6 @@
     </ClCompile>
     <ClCompile Include="..\Private\State_GN_Gunkata_2.cpp">
       <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Hand\Gunkata</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\UI_Chat.cpp">
-      <Filter>02.GameObjects\UI\02.Chat</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\State_GN_Gunkata_3.cpp">
       <Filter>02.GameObjects\Player\Player_Gunslinger\State_GN\Skill\Hand\Gunkata</Filter>
@@ -8301,6 +8296,7 @@
     </ClCompile>
     <ClCompile Include="..\Private\UI_Chat.cpp" />
     <ClCompile Include="..\Private\UI_Chat.cpp" />
+    <ClCompile Include="..\Private\UI_Chat.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -8326,15 +8322,6 @@
     </FxCompile>
     <FxCompile Include="..\Bin\ShaderFiles\Shader_Vtx_Font_Instance.hlsl">
       <Filter>97.ShaderFiles\Legacy</Filter>
-    </FxCompile>
-    <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_Animation.hlsl">
-      <Filter>97.ShaderFiles\KSG</Filter>
-    </FxCompile>
-    <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_Defines.hlsl">
-      <Filter>97.ShaderFiles\KSG</Filter>
-    </FxCompile>
-    <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_Global.hlsl">
-      <Filter>97.ShaderFiles\KSG</Filter>
     </FxCompile>
     <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_InOut.hlsl">
       <Filter>97.ShaderFiles\KSG</Filter>
@@ -8518,6 +8505,18 @@
     <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_Animation.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_Global.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\Shader_DepthOfField.hlsl">
+      <Filter>97.ShaderFiles\KSG\02.PostProcessing</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_Global.hlsl">
+      <Filter>97.ShaderFiles\KSG\00.Defines</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_Animation.hlsl">
+      <Filter>97.ShaderFiles\KSG\00.Defines</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_Defines.hlsl">
+      <Filter>97.ShaderFiles\KSG\00.Defines</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_Outline_Blur.hlsl">
       <Filter>97.ShaderFiles\KSG\02.PostProcessing</Filter>
     </FxCompile>
   </ItemGroup>

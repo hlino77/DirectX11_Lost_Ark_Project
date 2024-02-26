@@ -111,6 +111,7 @@ private:
 
 	HRESULT Render_Bloom();
 	HRESULT Render_DepthOfField();
+	HRESULT Render_OutlineBlur();
 	HRESULT Render_PostProcess();
 	HRESULT Render_FXAA();
 
@@ -327,6 +328,9 @@ private:
 	//Cascade
 	ID3D11DepthStencilView* m_pCascadeShadowDSV[3];
 	HRESULT Ready_CascadeShadow();
+
+	// OutlineBlur
+	CShader* m_pOutlineBlurShader = nullptr;
 
 public:
 	static CRenderer* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

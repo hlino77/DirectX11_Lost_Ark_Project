@@ -22,6 +22,7 @@ Texture2D	g_DistortionTarget;
 Texture2D	g_BlendedTarget;
 Texture2D   g_MotionBlurTarget;
 Texture2D   g_RadialBlurTarget;
+Texture2D   g_OutlineBlurTarget;
 Texture2D   g_FinalScene;
 
 Texture2D   g_ProcessingTarget;
@@ -316,12 +317,23 @@ float4 PS_MAIN_RADIALBLUR(PS_IN In) : SV_TARGET0
     return vColor;
 }
 
-float4 PS_MAIN_DEPTHOFFIELD(PS_IN In) : SV_TARGET0
+float4 PS_MAIN_OUTLINEBLUR(PS_IN In) : SV_TARGET0
 {
     float4 vColor = float4(0.f, 0.f, 0.f, 0.f);
+    float4 vSrcColor = float4(0.f, 0.f, 0.f, 0.f);
+    float4 vDstColor = float4(0.f, 0.f, 0.f, 0.f);
 
-    g_ProcessingTarget.Sample(LinearSampler, In.vTexcoord);
-
+    vSrcColor = g_OutlineBlurTarget.Sample(LinearSampler, In.vTexcoord);
+    vDstColor = g_PrePostProcessTarget.Sample(LinearSampler, In.vTexcoord);
+    if (false == any(vSrcColor))
+    {
+        vColor = vDstColor;
+    }
+    else
+    {
+        vColor = float4(vSrcColor.rgb * vSrcColor.a + vDstColor.rgb * (1.f - vSrcColor.a), 1.f);
+    }
+        
     return vColor;
 }
 
@@ -405,6 +417,21 @@ technique11 DefaultTechnique
         DomainShader = NULL;
         GeometryShader = NULL;
         PixelShader = compile ps_5_0 PS_MAIN_RADIALBLUR();
+    }
+
+    pass OutlineBlur // 7
+    {
+        SetRasterizerState(RS_Default);
+        SetDepthStencilState(DSS_None, 0);
+      //SetDepthStencilState(DSS_None_ZTestWrite_True_StencilTest, 1);
+      //SetDepthStencilState(DSS_None_ZTest_And_Write, 0);    
+        SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 1.f), 0xffffffff);
+
+        VertexShader = compile vs_5_0 VS_MAIN();
+        HullShader = NULL;
+        DomainShader = NULL;
+        GeometryShader = NULL;
+        PixelShader = compile ps_5_0 PS_MAIN_OUTLINEBLUR();
     }
 }
 

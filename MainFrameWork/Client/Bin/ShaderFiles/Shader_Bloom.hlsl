@@ -85,7 +85,6 @@ float4 PS_DOWNSAMPLE_BRIGHT(VS_OUT_TARGET In) : SV_TARGET
             outColor += g_BloomBlurTarget.Sample(LinearBorderSampler, In.vTexcoord, int2(x, y));
             outColor += g_DecalBloomBlurTarget.Sample(LinearBorderSampler, In.vTexcoord, int2(x, y));
             outColor += g_EffectBloomBlurTarget.Sample(LinearBorderSampler, In.vTexcoord, int2(x, y));
-            outColor += g_OulineBlurTarget.Sample(LinearBorderSampler, In.vTexcoord, int2(x, y));
         }
     }
     

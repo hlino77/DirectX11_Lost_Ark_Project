@@ -283,7 +283,7 @@ HRESULT CEsther_Way_Dochul::Render_Outline()
 			return E_FAIL;
 	}
 
-	_float     fOutlineThickness = 0.012f;
+	_float     fOutlineThickness = 0.008f;
 	if (FAILED(m_pShaderCom->Bind_RawValue("g_fOutlineThickness", &fOutlineThickness, sizeof(_float))))
 		return E_FAIL;
 
