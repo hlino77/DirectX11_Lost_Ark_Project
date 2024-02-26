@@ -153,6 +153,7 @@
 #include "UI_WatchingMode.h"
 #include "UI_DeadScene.h"
 #include "UI_NPC_Valtan_NewWnd.h"
+#include "UI_Boss_SpecialGroggy.h"
 
 //Monsters
 #include "Monster_Zombie.h"
@@ -5307,7 +5308,15 @@ HRESULT CLoader::Loading_ChaosDungeon_UI()
 			return E_FAIL;
 		pUIManager->Add_CurrFile();
 
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Boss_GroggyFill"),
+			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/InteruptSkill/BossFill.png"))))
+			return E_FAIL;
+		pUIManager->Add_CurrFile();
 
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Boss_GroggyWnd"),
+			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Textures/UI/InteruptSkill/BossWnd.png"))))
+			return E_FAIL;
+		pUIManager->Add_CurrFile();
 
 	}
 
@@ -5372,6 +5381,11 @@ HRESULT CLoader::Loading_ChaosDungeon_UI()
 			CUI_ChaosDungeon_Clear::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
 		pUIManager->Add_CurrFile();
+
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_BossHpUI"),
+			CUI_Boss_Hp::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
+		pUIManager->Add_CurrFile();
 	}
 
 	Safe_Release(pUIManager);
@@ -5406,8 +5420,8 @@ HRESULT CLoader::Loading_Npc_UI()
 		return E_FAIL;
 	pUIManager->Add_CurrFile();
 
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Npc_ValtanEntrance"),
-		CUI_NPC_ValtanEntrance_Wnd::Create(m_pDevice, m_pContext))))
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SpecialGroggyUI"),
+		CUI_Boss_SpecialGroggy::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 	pUIManager->Add_CurrFile();
 

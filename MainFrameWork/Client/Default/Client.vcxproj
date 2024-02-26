@@ -626,6 +626,7 @@
     <ClInclude Include="..\Public\Tea.h" />
     <ClInclude Include="..\Public\ToolBase.h" />
     <ClInclude Include="..\Public\UI_Boss_Hp.h" />
+    <ClInclude Include="..\Public\UI_Boss_SpecialGroggy.h" />
     <ClInclude Include="..\Public\UI_ChaosDungeon.h" />
     <ClInclude Include="..\Public\UI_ChaosDungeon_Clear.h" />
     <ClInclude Include="..\Public\UI_ChaosDungeon_Gauge.h" />
@@ -1322,6 +1323,7 @@
     <ClCompile Include="..\Private\Tea.cpp" />
     <ClCompile Include="..\Private\ToolBase.cpp" />
     <ClCompile Include="..\Private\UI_Boss_Hp.cpp" />
+    <ClCompile Include="..\Private\UI_Boss_SpecialGroggy.cpp" />
     <ClCompile Include="..\Private\UI_ChaosDungeon.cpp" />
     <ClCompile Include="..\Private\UI_ChaosDungeon_Clear.cpp" />
     <ClCompile Include="..\Private\UI_ChaosDungeon_Gauge.cpp" />

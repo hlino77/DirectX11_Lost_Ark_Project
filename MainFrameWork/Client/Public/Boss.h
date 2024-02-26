@@ -21,7 +21,7 @@ END
 
 BEGIN(Client)
 class CUI_Boss_Hp;
-
+class CUI_Boss_SpecialGroggy;
 class CBoss : public CMonster
 {
 public:
@@ -88,6 +88,11 @@ public:
 	void Add_Colider(_int iColIndex, CSphereCollider* pCollider);
 
 	virtual void Set_EffectPos();
+
+	void Set_GroggyPos();
+	Vec3 Get_GroggyPos() { return m_vGroggyPos; }
+
+	class CUI_Boss_SpecialGroggy* Get_GroggyUI() { return m_pBossGroggyUI; }
 
 	void Set_Die(_float fTime=1.f);
 
@@ -194,6 +199,10 @@ protected:
 	//HPUI
 	CUI_Boss_Hp*	m_pBossHpUI = { nullptr };
 	BOSS_TYPE m_eBossType = { BOSS_END };
+	//무력화패턴
+	CUI_Boss_SpecialGroggy* m_pBossGroggyUI = { nullptr };
+	Vec3	m_vGroggyPos = {};
+
 public:
 	virtual CGameObject* Clone(void* pArg);
 	virtual void Free();

@@ -6,6 +6,7 @@
 #include "Skill.h"
 #include "GameInstance.h"
 #include "Effect_Manager.h"
+#include "UI_Boss_SpecialGroggy.h"
 
 CKing_BT_Attack_Erruption::CKing_BT_Attack_Erruption()
 {
@@ -17,6 +18,7 @@ void CKing_BT_Attack_Erruption::OnStart()
 	m_Shoot[0] = true;
 	m_Shoot[1] = true;
 	m_Shoot[2] = true;
+	static_cast<CBoss*>(m_pGameObject)->Get_GroggyUI()->Set_Active(true);
 }
 
 CBT_Node::BT_RETURN CKing_BT_Attack_Erruption::OnUpdate(const _float& fTimeDelta)
@@ -156,6 +158,7 @@ void CKing_BT_Attack_Erruption::OnEnd()
 	__super::OnEnd();
 	static_cast<CBoss*>(m_pGameObject)->Set_MaxGroggyCount(0);
 	static_cast<CBoss*>(m_pGameObject)->Set_GroggyCount(static_cast<CBoss*>(m_pGameObject)->Get_MaxGroggyCount());
+	static_cast<CBoss*>(m_pGameObject)->Get_GroggyUI()->Set_Active(false);
 }
 
 

@@ -28,6 +28,7 @@
 #include "Player.h"
 #include "Item.h"
 #include "Item_Manager.h"
+#include "UI_Boss_SpecialGroggy.h"
 
 CBoss::CBoss(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CMonster(pDevice, pContext)
@@ -344,6 +345,21 @@ void CBoss::Set_EffectPos()
 	Matrix ProjMatrix = CGameInstance::GetInstance()->Get_TransformMatrix(CPipeLine::TRANSFORMSTATE::D3DTS_PROJ);
 	m_vEffectPos = XMVector3TransformCoord(m_vEffectPos, ViewMatrix);
 	m_vEffectPos = XMVector3TransformCoord(m_vEffectPos, ProjMatrix);
+
+	Set_GroggyPos();
+}
+
+void CBoss::Set_GroggyPos()
+{
+	_uint iBoneIndex = m_pModelCom->Find_BoneIndex(TEXT("b_effectworldzero"));
+	Matrix matEffect;
+	matEffect = m_pModelCom->Get_CombinedMatrix(iBoneIndex) * XMMatrixScaling(0.01f, 0.01f, 0.01f);
+	matEffect *= m_pTransformCom->Get_WorldMatrix();
+	memcpy(&m_vGroggyPos, matEffect.m[3], sizeof(Vec3));
+	Matrix ViewMatrix = CGameInstance::GetInstance()->Get_TransformMatrix(CPipeLine::TRANSFORMSTATE::D3DTS_VIEW);
+	Matrix ProjMatrix = CGameInstance::GetInstance()->Get_TransformMatrix(CPipeLine::TRANSFORMSTATE::D3DTS_PROJ);
+	m_vGroggyPos = XMVector3TransformCoord(m_vGroggyPos, ViewMatrix);
+	m_vGroggyPos = XMVector3TransformCoord(m_vGroggyPos, ProjMatrix);
 }
 
 void CBoss::Set_Die(_float fTime)
@@ -360,7 +376,7 @@ void CBoss::Set_Die(_float fTime)
 			CUI_Manager::GetInstance()->Clear_ChaosGate();
 
 			CItem* pItem = nullptr;
-			
+
 			CPlayer* pPlayer = CServerSessionManager::GetInstance()->Get_Player();
 
 			CGameObject::STATDESC tStat = pPlayer->Get_PlayerStat_Desc();
@@ -487,6 +503,11 @@ void CBoss::Set_Die(_float fTime)
 
 		m_pBossHpUI->Set_Dead_BossHpUI();
 		m_pBossHpUI = nullptr;
+		if (nullptr != m_pBossGroggyUI)
+		{
+			Safe_Release(m_pBossGroggyUI);
+			m_pBossGroggyUI = nullptr;
+		}
 	}
 }
 
@@ -504,6 +525,12 @@ void CBoss::Disable_HpUI()
 	{
 		m_pBossHpUI->Set_Dead_BossHpUI();
 		m_pBossHpUI = nullptr;
+	}
+
+	if (nullptr != m_pBossGroggyUI)
+	{
+		Safe_Release(m_pBossGroggyUI);
+		m_pBossGroggyUI = nullptr;
 	}
 }
 
@@ -617,7 +644,6 @@ void CBoss::CullingObject()
 		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONBLEND, this);
 		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOW, this);
 	}
-		
 }
 
 HRESULT CBoss::Ready_BehaviourTree()
@@ -640,6 +666,11 @@ HRESULT CBoss::Ready_HpUI()
 		return E_FAIL;
 	else
 		CUI_Manager::GetInstance()->Set_CurrHPUI(m_pBossHpUI);
+
+	m_pBossGroggyUI = static_cast<CUI_Boss_SpecialGroggy*>(pGameInstance->Add_GameObject(m_iCurrLevel,
+		(_uint)LAYER_TYPE::LAYER_UI, TEXT("Prototype_GameObject_SpecialGroggyUI"), this));
+	if (nullptr == m_pBossGroggyUI)
+		return E_FAIL;
 
 	Safe_Release(pGameInstance);
 	return S_OK;
