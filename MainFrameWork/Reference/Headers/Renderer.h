@@ -205,7 +205,7 @@ private:
 
 	struct DOF_Data
 	{
-		_float	fRange = 300.f;
+		_float	fRange = 50.f;
 		_float	fFocus = 0.00625f; // 7.5f / 1200.f;
 		Vec2	vPadding;
 	};

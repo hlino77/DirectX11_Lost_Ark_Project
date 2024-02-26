@@ -160,8 +160,8 @@ HRESULT CChaosDungean_Server::Ready_ChaosDungean(CHAOSDUNGEANLEVEL eLevel)
 	case CHAOSDUNGEANLEVEL::LEVEL1:
 		m_iCurrLevel = LEVELID::LEVEL_CHAOS_1;
 		m_fStartDelay = 3.f;
-		m_iMonsterCount = 1;
-		m_iMonsterMaxSpawnCount = 1;
+		m_iMonsterCount = 300;
+		m_iMonsterMaxSpawnCount = 50;
 		m_iBossCount = 0;
 		m_MonsterSpawnList.push_back(L"Ghoul");
 		m_MonsterSpawnList.push_back(L"Reaper");
@@ -169,8 +169,8 @@ HRESULT CChaosDungean_Server::Ready_ChaosDungean(CHAOSDUNGEANLEVEL eLevel)
 	case CHAOSDUNGEANLEVEL::LEVEL2:
 		m_iCurrLevel = LEVELID::LEVEL_CHAOS_2;
 		m_fStartDelay = 3.f;
-		m_iMonsterCount = 100;
-		m_iMonsterMaxSpawnCount = 100;
+		m_iMonsterCount = 30;
+		m_iMonsterMaxSpawnCount = 30;
 		m_iBossCount = 0;
 		m_MonsterSpawnList.push_back(L"Zombie");
 		m_MonsterSpawnList.push_back(L"Plant");	
@@ -179,7 +179,7 @@ HRESULT CChaosDungean_Server::Ready_ChaosDungean(CHAOSDUNGEANLEVEL eLevel)
 	case CHAOSDUNGEANLEVEL::LEVEL3:
 		m_iCurrLevel = LEVELID::LEVEL_CHAOS_3;
 		m_fStartDelay = 5.0f;
-		m_iMonsterCount = 40;
+		m_iMonsterCount = 100;
 		m_iMonsterMaxSpawnCount = 20;
 		m_iBossCount = 1;
 		m_MonsterSpawnList.push_back(L"Pawn");
@@ -466,7 +466,7 @@ void CChaosDungean_Server::Update_Ratio()
 		}
 		else
 		{
-			Send_Ratio(1.0f - ((m_iMonsterCount + m_Monsters.size()) / 100.0f));
+			Send_Ratio(1.0f - ((m_iMonsterCount + m_Monsters.size()) / 300.0f));
 		}
 	
 		break;
