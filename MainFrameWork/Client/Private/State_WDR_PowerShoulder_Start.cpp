@@ -83,7 +83,7 @@ void CState_WDR_PowerShoulder_Start::Exit_State()
 
 		Effect_End();
 	}
-	else if (TEXT("Skill_WDR_PowerShoulder_End") == m_pPlayer->Get_ServerState())
+	else if (TEXT("Skill_WDR_PowerShoulder_Loop") != m_pPlayer->Get_ServerState())
 	{
 		Effect_End();
 	}
@@ -223,15 +223,6 @@ void CState_WDR_PowerShoulder_Start::Tick_State_NoneControl(_float fTimeDelta)
 
 	if (m_bEffectEnd == false)
 		Update_Effect();
-
-	if (29 < iAnimFrame)
-	{
-		if (m_bEffectEnd == false)
-		{
-			Effect_End();
-			m_bEffectEnd = true;
-		}
-	}
 }
 
 void CState_WDR_PowerShoulder_Start::Effect_Start()
