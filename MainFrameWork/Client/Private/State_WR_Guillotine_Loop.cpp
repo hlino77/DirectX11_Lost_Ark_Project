@@ -151,6 +151,16 @@ void CState_WR_Guillotine_Loop::Tick_State_NoneControl(_float fTimeDelta)
 		m_iSoundCnt++;
 	}
 
+	if (false == m_bEffectStart && 4 <= iAnimFrame)
+	{
+		CEffect_Manager::EFFECTPIVOTDESC desc;
+		Matrix& matPivot = m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
+		desc.pPivotMatrix = &matPivot;
+		EFFECT_START(TEXT("Slayer_Guillotine_Slash"), &desc)
+
+		m_bEffectStart = true;
+	}
+
 	m_pPlayer->Follow_ServerPos(0.01f, 6.0f * fTimeDelta);
 }
 

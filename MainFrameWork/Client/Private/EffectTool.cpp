@@ -538,8 +538,8 @@ HRESULT CEffectTool::EffectDetail()
 	ImGui::InputFloat2("UV_TileIndex", (_float*)&m_pCurrentEffect->m_Variables.vUV_TileIndex);
 
 	ImGui::InputFloat("Life Time", &m_pCurrentEffect->m_fLifeTime);
-	ImGui::InputFloat("Waiting Time", &m_pCurrentEffect->m_fWaitingTime);
-	ImGui::InputFloat("Remain Time", &m_pCurrentEffect->m_fRemainTime);
+	ImGui::InputFloat("Start Delay Timer", &m_pCurrentEffect->m_fWaitingTime);
+	ImGui::InputFloat("After Image Timer", &m_pCurrentEffect->m_fRemainTime);
 
 	ImGui::Checkbox("Billboard", (_bool*)&m_pCurrentEffect->m_Billboard.iBillboard);
 	/*ImGui::Text("UV_Rotation_Offset");
