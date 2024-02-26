@@ -7,6 +7,7 @@
 #include "Camera_Player.h"
 #include "Effect_Manager.h"
 #include "Model.h"
+#include "Renderer.h"
 
 CState_WR_Guillotine_Start::CState_WR_Guillotine_Start(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Slayer* pOwner)
 	: CState_Skill(strStateName, pMachine, pController), m_pPlayer(pOwner)
@@ -166,6 +167,8 @@ void CState_WR_Guillotine_Start::Init_Camera()
 	pCamera->Set_CameraLength(1.25f);
 
 	//pCamera->ZoomInOut(1.5f, 2.0f);
+
+	CRenderer::Set_DOF_Range(150.f);
 }
 
 void CState_WR_Guillotine_Start::Update_Camera(_uint iAnimFrame, _float fTimeDelta)
@@ -197,6 +200,8 @@ void CState_WR_Guillotine_Start::Reset_Camera()
 	m_pPlayer->Get_Camera()->Set_Mode(CCamera_Player::CameraState::DEFAULT);
 	m_pPlayer->Get_Camera()->Set_DefaultOffset();
 	m_pPlayer->Get_Camera()->DefaultLength(7.0f);
+
+	CRenderer::Set_DOF_Range(50.f);
 }
 
 CState_WR_Guillotine_Start* CState_WR_Guillotine_Start::Create(wstring strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Slayer* pOwner)

@@ -7,6 +7,7 @@
 #include "Model.h"
 #include "Effect_Trail.h"
 #include "Camera_Player.h"
+#include "Renderer.h"
 
 CState_WDR_PerfectSwing_Success::CState_WDR_PerfectSwing_Success(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Destroyer* pOwner)
 	: CState_Skill(strStateName, pMachine, pController), m_pPlayer(pOwner)
@@ -247,6 +248,8 @@ void CState_WDR_PerfectSwing_Success::Reset_Camera()
 	m_pPlayer->Get_Camera()->Set_Mode(CCamera_Player::CameraState::DEFAULT);
 	m_pPlayer->Get_Camera()->Set_DefaultOffset();
 	m_pPlayer->Get_Camera()->DefaultLength(7.0f);
+
+	CRenderer::Set_DOF_Range(50.f);
 }
 
 void CState_WDR_PerfectSwing_Success::Effect_Shot()
@@ -266,6 +269,8 @@ void CState_WDR_PerfectSwing_Success::Init_Camera()
 	Vec3 vTargetPos = m_pPlayer->Get_Camera()->Get_TargetPos();
 	vTargetPos.y += 1.0f;
 	m_vCameraTargetPos = vTargetPos;
+
+	CRenderer::Set_DOF_Range(150.f);
 }
 
 void CState_WDR_PerfectSwing_Success::Update_Camera(_float fTimeDelta)
