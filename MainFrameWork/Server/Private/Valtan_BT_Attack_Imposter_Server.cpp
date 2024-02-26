@@ -15,7 +15,7 @@ CValtan_BT_Attack_Imposter_Server::CValtan_BT_Attack_Imposter_Server()
 
 void CValtan_BT_Attack_Imposter_Server::OnStart()
 {
-	__super::OnStart(0);
+	__super::OnStart(0); 
 	static_cast<CMonster_Server*>(m_pGameObject)->Set_Action(m_strActionName);
 	static_cast<CMonster_Server*>(m_pGameObject)->Send_Monster_Action();
 }
@@ -29,12 +29,19 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_Imposter_Server::OnUpdate(const _float& fT
 	}
 	if (m_iCurrAnimation == 5 && m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[5].iAnimIndex && m_fLoopTime < 3.f)
 	{
+		if (!static_cast<CBoss_Server*>(m_pGameObject)->Is_TargetLock())
+			static_cast<CBoss_Server*>(m_pGameObject)->Set_TargetLock(true);
 		m_pGameObject->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, m_vTargetPos);
 		static_cast<CBoss_Server*>(m_pGameObject)->LookAt_Target_Direction_Lerp(fTimeDelta);
+	}	
+	if (m_iCurrAnimation == 6 && static_cast<CBoss_Server*>(m_pGameObject)->Is_TargetLock())
+	{
+		static_cast<CBoss_Server*>(m_pGameObject)->Set_TargetLock(false);
 	}
-
 	if (m_iCurrAnimation == 9 && m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[9].iAnimIndex && m_fLoopTime < 3.f)
 	{
+		if (!static_cast<CBoss_Server*>(m_pGameObject)->Is_TargetLock())
+			static_cast<CBoss_Server*>(m_pGameObject)->Set_TargetLock(true);
 		static_cast<CBoss_Server*>(m_pGameObject)->LookAt_Target_Direction_Lerp(fTimeDelta);
 	}
 
@@ -70,6 +77,7 @@ void CValtan_BT_Attack_Imposter_Server::On_LastAnimEnd()
 void CValtan_BT_Attack_Imposter_Server::OnEnd()
 {
 	__super::OnEnd();
+	static_cast<CBoss_Server*>(m_pGameObject)->Set_TargetLock(false);
 	static_cast<CMonster_Server*>(m_pGameObject)->Set_Attacked(true);
 }
 

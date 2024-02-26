@@ -85,7 +85,7 @@ void CValtan_BT_Attack_TrippleCounterChop_2::OnEnd()
 			vLook.Normalize();
 			pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
 			pSkill->Get_TransformCom()->LookAt_Dir(vLook);
-			pSkill->Get_Colider(_uint(LAYER_COLLIDER::LAYER_SKILL_BOSS))->Set_Radius(6.f);
+			pSkill->Get_Colider(_uint(LAYER_COLLIDER::LAYER_SKILL_BOSS))->Set_Radius(3.f);
 			static_cast<CSkill*>(pSkill)->Set_StatusEffectDuration(20.f);
 		}
 	}

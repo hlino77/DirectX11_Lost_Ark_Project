@@ -91,6 +91,9 @@ public:
 	_bool						Is_Dummy() { return m_bDummy; }
 	void						Set_Dummy(_bool bDummy) { m_bDummy = bDummy; }
 
+	_bool						Is_TargetLock() { return m_bTargetLock; }
+	void						Set_TargetLock(_bool bTargetLock) { m_bTargetLock = bTargetLock; }
+
 protected:
 	virtual HRESULT		Ready_Components();
 	virtual	HRESULT		Ready_BehaviourTree();
@@ -117,7 +120,11 @@ protected:
 	_uint							m_iMaxGroggyCount = 0;
 	_float							m_fTimeCount = 0.f;
 	_bool							m_bCounter = false;
+
+	_bool							m_bTargetLock = false;
+
 	_bool							m_bDummy = false;
+
 public:
 	virtual CGameObject* Clone(void* pArg);
 	virtual void Free();

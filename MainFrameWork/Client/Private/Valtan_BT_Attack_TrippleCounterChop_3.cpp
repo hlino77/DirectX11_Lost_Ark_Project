@@ -53,7 +53,6 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_TrippleCounterChop_3::OnUpdate(const _floa
 			static_cast<CSkill*>(pSkill)->Set_Atk(99999);
 			static_cast<CSkill*>(pSkill)->Set_Force(55.f);
 		}
-
 	}
 
 	Add_Sound(0, 0, L"Effect", L"Valtan#43 (1015057785)");
@@ -87,7 +86,7 @@ void CValtan_BT_Attack_TrippleCounterChop_3::OnEnd()
 			vLook.Normalize();
 			pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
 			pSkill->Get_TransformCom()->LookAt_Dir(vLook);
-			pSkill->Get_Colider(_uint(LAYER_COLLIDER::LAYER_SKILL_BOSS))->Set_Radius(6.f);
+			pSkill->Get_Colider(_uint(LAYER_COLLIDER::LAYER_SKILL_BOSS))->Set_Radius(3.f);
 			static_cast<CSkill*>(pSkill)->Set_StatusEffectDuration(5.f);
 		}
 	}

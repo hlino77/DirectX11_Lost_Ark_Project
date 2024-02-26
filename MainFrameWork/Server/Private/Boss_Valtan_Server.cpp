@@ -71,6 +71,7 @@
 #include <Valtan_BT_Attack_CounterAttack_1_Server.h>
 #include <Player_Server.h>
 #include "NavigationMgr.h"
+#include <Valtan_BT_Attack_GroggyBall_Server.h>
 
 
 CBoss_Valtan_Server::CBoss_Valtan_Server(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -93,7 +94,7 @@ HRESULT CBoss_Valtan_Server::Initialize_Prototype()
 
 HRESULT CBoss_Valtan_Server::Initialize(void* pArg)
 {
-	//m_bTest = true;
+	m_bTest = true;
 
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
@@ -142,66 +143,134 @@ HRESULT CBoss_Valtan_Server::Render()
 void CBoss_Valtan_Server::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEffect, _float fForce, _float fDuration, _uint iGroggy)
 {
 	WRITE_LOCK
-		 if (!m_IsInvincible)
+		if (!m_IsInvincible)
 		{
-			 _uint iDamage_Result = _uint((_float)iDamage * ((10.f - ((_float)m_iArmor * 3.f)) / 10.f));
-			_uint iGroggy_Result = iGroggy;
-			_bool	bGroggyObsorb = false;
-			STATUSEFFECT eEfect = STATUSEFFECT::EFFECTEND;
-			m_iHp -= iDamage_Result;
-			if (m_IsGroggyLock)
-				iGroggy_Result = 0;
-			if (m_iGroggyObsrob > 0)
+			if (m_iShield > 0)
 			{
-				m_iGroggyObsrob -= iGroggy_Result;
-				iGroggy_Result = 0;
-			}
-			else if (m_iGroggyCount > 0 && m_iMaxGroggyCount > 0)
-			{
-				m_iGroggyCount -= iGroggy_Result;
-				bGroggyObsorb = true;
-				if (m_iGroggyCount < 1)
+				_uint iDamage_Result = _uint((_float)iDamage * ((10.f - ((_float)m_iArmor * 3.f)) / 10.f));
+				_uint iGroggy_Result = 0;
+				_bool	bGroggyObsorb = false;
+				STATUSEFFECT eEfect = STATUSEFFECT::EFFECTEND;
+				m_iShield -= iDamage_Result;
+				if (m_iShield < 0)
 				{
+					m_iShield = 0;
+				}
+				if (m_IsGroggyLock)
+					iGroggy_Result = 0;
+				if (m_iGroggyObsrob > 0)
+				{
+					m_iGroggyObsrob -= iGroggy_Result;
+					iGroggy_Result = 0;
+				}
+				else if (m_iGroggyCount > 0 && m_iMaxGroggyCount > 0)
+				{
+					m_iGroggyCount -= iGroggy_Result;
+					bGroggyObsorb = true;
+					if (m_iGroggyCount < 1)
+					{
+						m_IsHit = true;
+						m_bSkipAction = true;
+						m_IsGroggy = true;
+						m_iGroggyCount = 0;
+						m_iMaxGroggyCount = 0;
+					}
+				}
+				else if (!m_IsGroggy && m_iGroggyGauge > 0 && !m_IsGroggyLock)
+					m_iGroggyGauge -= iGroggy_Result;
+
+
+				if (m_IsGroggy && m_iGroggyGauge > 0 && m_iArmor > 0)
+					m_iArmorDurability -= iDamage;
+				if ((_uint)STATUSEFFECT::COUNTER == iStatusEffect && m_IsCounterSkill)
+				{
+					eEfect = STATUSEFFECT::COUNTER;
+					m_bSkipAction = true;
+					m_IsHit = true;
+					m_IsCounterSkill = false;
+					m_IsCountered = true;
+					if (m_IsBugSmash)
+						Set_Counter(true);
+				}
+				if (m_iGroggyGauge < 1 || (_uint)STATUSEFFECT::GROGGY == iStatusEffect && m_IsRush)
+				{
+					eEfect = STATUSEFFECT::GROGGY;
 					m_IsHit = true;
 					m_bSkipAction = true;
 					m_IsGroggy = true;
-					m_iGroggyCount = 0;
-					m_iMaxGroggyCount = 0;
+					m_IsRush = false;
 				}
+
+
+				m_fStatusEffects[iStatusEffect] += fDuration;
+				if (m_iHp < 1.f && m_iPhase == 2)
+					m_iHp = 1;
+
+				if (m_iHp < 1.f)
+					m_IsHit = true;
+				Send_Collision( 0, Vec3(_float(eEfect), _float(m_iShield), _float(eEfect)), m_iGroggyGauge, (_float)m_iGroggyCount, (_float)bGroggyObsorb, iGroggy_Result);
 			}
-			else if (!m_IsGroggy && m_iGroggyGauge > 0 && !m_IsGroggyLock)
-				m_iGroggyGauge -= iGroggy_Result;
-
-
-			if (m_IsGroggy && m_iGroggyGauge > 0 && m_iArmor > 0)
-				m_iArmorDurability -= iDamage;
-			if ((_uint)STATUSEFFECT::COUNTER == iStatusEffect && m_IsCounterSkill)
+			else
 			{
-				eEfect = STATUSEFFECT::COUNTER;
-				m_bSkipAction = true;
-				m_IsHit = true;
-				m_IsCounterSkill = false;
-				m_IsCountered = true;
-				if(m_IsBugSmash)
-					Set_Counter(true);
+				_uint iDamage_Result = _uint((_float)iDamage * ((10.f - ((_float)m_iArmor * 3.f)) / 10.f));
+				_uint iGroggy_Result = iGroggy;
+				_bool	bGroggyObsorb = false;
+				STATUSEFFECT eEfect = STATUSEFFECT::EFFECTEND;
+				m_iHp -= iDamage_Result;
+				if (m_IsGroggyLock)
+					iGroggy_Result = 0;
+				if (m_iGroggyObsrob > 0)
+				{
+					m_iGroggyObsrob -= iGroggy_Result;
+					iGroggy_Result = 0;
+				}
+				else if (m_iGroggyCount > 0 && m_iMaxGroggyCount > 0)
+				{
+					m_iGroggyCount -= iGroggy_Result;
+					bGroggyObsorb = true;
+					if (m_iGroggyCount < 1)
+					{
+						m_IsHit = true;
+						m_bSkipAction = true;
+						m_IsGroggy = true;
+						m_iGroggyCount = 0;
+						m_iMaxGroggyCount = 0;
+					}
+				}
+				else if (!m_IsGroggy && m_iGroggyGauge > 0 && !m_IsGroggyLock)
+					m_iGroggyGauge -= iGroggy_Result;
+
+
+				if (m_IsGroggy && m_iGroggyGauge > 0 && m_iArmor > 0)
+					m_iArmorDurability -= iDamage;
+				if ((_uint)STATUSEFFECT::COUNTER == iStatusEffect && m_IsCounterSkill)
+				{
+					eEfect = STATUSEFFECT::COUNTER;
+					m_bSkipAction = true;
+					m_IsHit = true;
+					m_IsCounterSkill = false;
+					m_IsCountered = true;
+					if (m_IsBugSmash)
+						Set_Counter(true);
+				}
+				if (m_iGroggyGauge < 1 || (_uint)STATUSEFFECT::GROGGY == iStatusEffect && m_IsRush)
+				{
+					eEfect = STATUSEFFECT::GROGGY;
+					m_IsHit = true;
+					m_bSkipAction = true;
+					m_IsGroggy = true;
+					m_IsRush = false;
+				}
+
+
+				m_fStatusEffects[iStatusEffect] += fDuration;
+				if (m_iHp < 1.f && m_iPhase == 2)
+					m_iHp = 1;
+
+				if (m_iHp < 1.f)
+					m_IsHit = true;
+				Send_Collision(iDamage_Result, Vec3(_float(eEfect), _float(m_iShield), _float(eEfect)), m_iGroggyGauge, (_float)m_iGroggyCount, (_float)bGroggyObsorb, iGroggy_Result);
 			}
-			if ( m_iGroggyGauge < 1|| (_uint)STATUSEFFECT::GROGGY == iStatusEffect &&m_IsRush)
-			{
-				eEfect = STATUSEFFECT::GROGGY;
-				m_IsHit = true;
-				m_bSkipAction = true;
-				m_IsGroggy = true;
-				m_IsRush = false;
-			}
-
-
-			m_fStatusEffects[iStatusEffect] += fDuration;
-			if (m_iHp < 1.f && m_iPhase == 2)
-				m_iHp = 1;
-
-			if (m_iHp < 1.f)
-				m_IsHit = true;
-			Send_Collision(iDamage_Result, Vec3(_float(eEfect), _float(eEfect), _float(eEfect)) , m_iGroggyGauge, (_float)m_iGroggyCount, (_float)bGroggyObsorb, iGroggy_Result);
 		}
 }
 
@@ -1101,17 +1170,52 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 	ActionDesc.strActionName = L"Action_TrippleCounterChop_3";
 	CBT_Action* pTrippleCounterChop_3 = CValtan_BT_Attack_TrippleCounterChop_3_Server::Create(&ActionDesc);
 
-	CompositeDesc.eCompositeType = CBT_Composite::CompositeType::SEQUENCE;
-	CBT_Composite* pSequenceTrippleCounterChop = CBT_Composite::Create(&CompositeDesc);
-	if (FAILED(pSequenceTrippleCounterChop->AddChild(pTrippleCounterChop_1))) return E_FAIL;
-	if (FAILED(pSequenceTrippleCounterChop->AddChild(pTrippleCounterChop_2))) return E_FAIL;
-	if (FAILED(pSequenceTrippleCounterChop->AddChild(pTrippleCounterChop_3))) return E_FAIL;
+	DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::IF;
+	CBT_Decorator* pIf_Hp_UnderRatio47_1 = CValtan_BT_IF_Hp_UnderRatio::Create(&DecoratorDesc);
+	static_cast<CValtan_BT_IF_Hp_UnderRatio*>(pIf_Hp_UnderRatio47_1)->Set_Ratio(47.f / 160.f);
+	if (FAILED(pIf_Hp_UnderRatio47_1->AddChild(pTrippleCounterChop_1))) return E_FAIL;
 
 	DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::IF;
-	CBT_Decorator* pIf_Hp_UnderRatio47 = CValtan_BT_IF_Hp_UnderRatio::Create(&DecoratorDesc);
-	static_cast<CValtan_BT_IF_Hp_UnderRatio*>(pIf_Hp_UnderRatio47)->Set_Ratio(47.f / 160.f);
-	if (FAILED(pIf_Hp_UnderRatio47->AddChild(pSequenceTrippleCounterChop))) return E_FAIL;
+	CBT_Decorator* pIf_Hp_UnderRatio47_2 = CValtan_BT_IF_Hp_UnderRatio::Create(&DecoratorDesc);
+	static_cast<CValtan_BT_IF_Hp_UnderRatio*>(pIf_Hp_UnderRatio47_2)->Set_Ratio(47.f / 160.f);
+	if (FAILED(pIf_Hp_UnderRatio47_2->AddChild(pTrippleCounterChop_2))) return E_FAIL;
 
+	DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::IF;
+	CBT_Decorator* pIf_Hp_UnderRatio47_3 = CValtan_BT_IF_Hp_UnderRatio::Create(&DecoratorDesc);
+	static_cast<CValtan_BT_IF_Hp_UnderRatio*>(pIf_Hp_UnderRatio47_3)->Set_Ratio(47.f / 160.f);
+	if (FAILED(pIf_Hp_UnderRatio47_3->AddChild(pTrippleCounterChop_3))) return E_FAIL;
+
+	//무력화
+	ActionDesc.vecAnimations.clear();
+	AnimationDesc.strAnimName = TEXT("att_battle_17_start");
+	AnimationDesc.iStartFrame = 30;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+	AnimationDesc.strAnimName = TEXT("att_battle_17_loop");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	AnimationDesc.bIsLoop = true;
+	AnimationDesc.fMaxLoopTime = 7.5f;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	AnimationDesc.bIsLoop = false;
+
+	AnimationDesc.strAnimName = TEXT("att_battle_17_end");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+	//무력화
+	ActionDesc.strActionName = L"Action_GroggyBall";
+	CBT_Action* pGroggyBall = CValtan_BT_Attack_GroggyBall_Server::Create(&ActionDesc);
+
+	DecoratorDesc.eDecoratorType = CBT_Decorator::DecoratorType::IF;
+	CBT_Decorator* pIf_Hp_UnderRatio76 = CValtan_BT_IF_Hp_UnderRatio::Create(&DecoratorDesc);
+	static_cast<CValtan_BT_IF_Hp_UnderRatio*>(pIf_Hp_UnderRatio76)->Set_Ratio(76.5f / 160.f);
+	if (FAILED(pIf_Hp_UnderRatio76->AddChild(pGroggyBall))) return E_FAIL;
 
 	ActionDesc.vecAnimations.clear();
 	AnimationDesc.strAnimName = TEXT("idle_battle_1");
@@ -1891,8 +1995,8 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 			// 테스트용
 			//if (FAILED(pSequenceNormalAttack->AddChild(pSequenceTrippleCounterChop)))
 			//if (FAILED(pSequenceNormalAttack->AddChild(pRushGrab)))
-			/*if (FAILED(pSequenceNormalAttack->AddChild(pSwingSeismic)))
-				return E_FAIL;*/
+			if (FAILED(pSequenceNormalAttack->AddChild(pGroggyBall)))
+				return E_FAIL;
  
 		}
 
@@ -2044,10 +2148,20 @@ HRESULT CBoss_Valtan_Server::Ready_BehaviourTree()
 			return E_FAIL;
 		if (FAILED(pSelector_Within_Range->AddChild(pIf_Hp_UnderRatio88)))
 			return E_FAIL;
+		
+		if (FAILED(pSelector_Within_Range->AddChild(pIf_Hp_UnderRatio76)))
+			return E_FAIL;
+
 		if (FAILED(pSelector_Within_Range->AddChild(pIf_Hp_UnderRatio65)))
 			return E_FAIL;
-		if (FAILED(pSelector_Within_Range->AddChild(pIf_Hp_UnderRatio47)))
+
+		if (FAILED(pSelector_Within_Range->AddChild(pIf_Hp_UnderRatio47_1)))
 			return E_FAIL;
+		if (FAILED(pSelector_Within_Range->AddChild(pIf_Hp_UnderRatio47_2)))
+			return E_FAIL;
+		if (FAILED(pSelector_Within_Range->AddChild(pIf_Hp_UnderRatio47_3)))
+			return E_FAIL;
+
 		if (FAILED(pSelector_Within_Range->AddChild(pIf_Hp_UnderRatio30)))
 			return E_FAIL;
 		if (FAILED(pSelector_Within_Range->AddChild(pIf_Hp_UnderRatio16)))

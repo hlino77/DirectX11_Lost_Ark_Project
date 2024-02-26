@@ -38,6 +38,9 @@ public:
 	_bool						Is_BugSmash() { return m_IsBugSmash; }
 	void						Set_BugSmash(_bool IsBugSmash) { m_IsBugSmash = IsBugSmash; }
 
+	_int						Get_Shield() { return m_iShield; }
+	void						Set_Shield(_int iShield) { m_iShield = iShield; }
+
 private:
 	virtual HRESULT		Ready_Components();
 	virtual	HRESULT		Ready_BehaviourTree();
@@ -47,6 +50,7 @@ private:
 	_int		m_iGroggyObsrob = 0;
 	_bool		m_IsRush = {false};
 	_bool		m_bTest = false;
+	_int		m_iShield = 0;
 	_bool		m_IsBugSmash = { false };
 public:
 	static CBoss_Server* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
