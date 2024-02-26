@@ -1942,6 +1942,15 @@
     <Filter Include="02.GameObjects\Skill\Skill_TeleportDoor">
       <UniqueIdentifier>{2d2cab2b-bc34-459b-9531-6d91e1952e2c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="97.ShaderFiles\KSG\00.Defines">
+      <UniqueIdentifier>{1c2f0c11-86e8-4e62-861c-c4a14416572e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="97.ShaderFiles\KSG\02.PostProcessing">
+      <UniqueIdentifier>{51868741-0f79-4c14-b17c-bd7a14e22956}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="97.ShaderFiles\KSG\01.Deferred">
+      <UniqueIdentifier>{81b45943-d166-45ed-bab5-c674dead2ce2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -2848,9 +2857,6 @@
     <ClInclude Include="..\Public\UI_Tool.h">
       <Filter>02.GameObjects\UI\98.Tool</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\UI_Chat.h">
-      <Filter>02.GameObjects\UI\02.Chat</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\UI_ChatFrame.h">
       <Filter>02.GameObjects\UI\02.Chat\00.Frame</Filter>
     </ClInclude>
@@ -3090,9 +3096,6 @@
     </ClInclude>
     <ClInclude Include="..\Public\UI_Tool.h">
       <Filter>02.GameObjects\UI\98.Tool</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\UI_Chat.h">
-      <Filter>02.GameObjects\UI\02.Chat</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI_ChatFrame.h">
       <Filter>02.GameObjects\UI\02.Chat\00.Frame</Filter>
@@ -5134,6 +5137,8 @@
     <ClInclude Include="..\Public\SkyFloor_Blue.h">
       <Filter>02.GameObjects\SkyDome</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\UI_Chat.h" />
+    <ClInclude Include="..\Public\UI_Chat.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -6041,9 +6046,6 @@
     <ClCompile Include="..\Private\UI_Tool.cpp">
       <Filter>02.GameObjects\UI\98.Tool</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\UI_Chat.cpp">
-      <Filter>02.GameObjects\UI\02.Chat</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\UI_ChatFrame.cpp">
       <Filter>02.GameObjects\UI\02.Chat\00.Frame</Filter>
     </ClCompile>
@@ -6277,9 +6279,6 @@
     </ClCompile>
     <ClCompile Include="..\Private\UI_Tool.cpp">
       <Filter>02.GameObjects\UI\98.Tool</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\UI_Chat.cpp">
-      <Filter>02.GameObjects\UI\02.Chat</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UI_ChatFrame.cpp">
       <Filter>02.GameObjects\UI\02.Chat\00.Frame</Filter>
@@ -8300,6 +8299,8 @@
     <ClCompile Include="..\Private\SkyFloor_Blue.cpp">
       <Filter>02.GameObjects\SkyDome</Filter>
     </ClCompile>
+    <ClCompile Include="..\Private\UI_Chat.cpp" />
+    <ClCompile Include="..\Private\UI_Chat.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -8315,14 +8316,6 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="..\Bin\ShaderFiles\Shader_SSAO.hlsl">
-      <Filter>97.ShaderFiles\KSG</Filter>
-    </FxCompile>
-    <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_Animation.hlsl" />
-    <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_Defines.hlsl" />
-    <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_Global.hlsl" />
-    <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_InOut.hlsl" />
-    <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_PBR.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_PBR.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_InOut.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_PBR.hlsl">
@@ -8330,46 +8323,10 @@
     </FxCompile>
     <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_InOut.hlsl">
       <Filter>97. ShaderFiles\KSG</Filter>
-    </FxCompile>
-    <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_Global.hlsl">
-      <Filter>97. ShaderFiles\KSG</Filter>
-    </FxCompile>
-    <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_Defines.hlsl">
-      <Filter>97. ShaderFiles\KSG</Filter>
-    </FxCompile>
-    <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_Animation.hlsl">
-      <Filter>97. ShaderFiles\KSG</Filter>
-    </FxCompile>
-    <FxCompile Include="..\Bin\ShaderFiles\Shader_Bloom.hlsl">
-      <Filter>97.ShaderFiles\KSG</Filter>
-    </FxCompile>
-    <FxCompile Include="..\Bin\ShaderFiles\Shader_PostProcess.hlsl">
-      <Filter>97.ShaderFiles\KSG</Filter>
-    </FxCompile>
-    <FxCompile Include="..\Bin\ShaderFiles\Shader_EffectMesh.hlsl">
-      <Filter>97.ShaderFiles\KSG</Filter>
-    </FxCompile>
-    <FxCompile Include="..\Bin\ShaderFiles\Shader_ParticleSystem.hlsl">
-      <Filter>97.ShaderFiles\KSG</Filter>
-    </FxCompile>
-    <FxCompile Include="..\Bin\ShaderFiles\Shader_EffectTex.hlsl">
-      <Filter>97.ShaderFiles\KSG</Filter>
     </FxCompile>
     <FxCompile Include="..\Bin\ShaderFiles\Shader_Vtx_Font_Instance.hlsl">
       <Filter>97.ShaderFiles\Legacy</Filter>
     </FxCompile>
-    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxModel_Instance.hlsl">
-      <Filter>97.ShaderFiles\KSG</Filter>
-    </FxCompile>
-    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxAnimModel_Instance.hlsl">
-      <Filter>97.ShaderFiles\KSG</Filter>
-    </FxCompile>
-    <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_Effect.hlsl">
-      <Filter>97.ShaderFiles\KSG</Filter>
-    </FxCompile>
-    <FxCompile Include="..\Bin\ShaderFiles\Shader_IBL.hlsl">
-      <Filter>97.ShaderFiles\KSG</Filter>
-    </FxCompile>
     <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_Animation.hlsl">
       <Filter>97.ShaderFiles\KSG</Filter>
     </FxCompile>
@@ -8385,13 +8342,6 @@
     <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_PBR.hlsl">
       <Filter>97.ShaderFiles\KSG</Filter>
     </FxCompile>
-    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxSkyDome.hlsl">
-      <Filter>97.ShaderFiles\KSG</Filter>
-    </FxCompile>
-    <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_Light.hlsl" />
-    <FxCompile Include="..\Bin\ShaderFiles\Shader_Deferred.hlsl" />
-    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxAnimModel.hlsl" />
-    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxModel.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxTex_Effect.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\Shader_Vtx_Lightning.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\Shader_Vtx_ModelEffect_Instance.hlsl" />
@@ -8484,25 +8434,91 @@
     </FxCompile>
     <FxCompile Include="..\Bin\ShaderFiles\Shader_Vtx_Lightning.hlsl">
       <Filter>97.ShaderFiles\Legacy</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_Light.hlsl" />
+    <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_Light.hlsl">
+      <Filter>97.ShaderFiles\KSG</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_Animation.hlsl">
+      <Filter>97.ShaderFiles\KSG\00.Defines</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_Defines.hlsl">
+      <Filter>97.ShaderFiles\KSG\00.Defines</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_Effect.hlsl">
+      <Filter>97.ShaderFiles\KSG\00.Defines</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_Global.hlsl">
+      <Filter>97.ShaderFiles\KSG\00.Defines</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_InOut.hlsl">
+      <Filter>97.ShaderFiles\KSG\00.Defines</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_Light.hlsl">
+      <Filter>97.ShaderFiles\KSG\00.Defines</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_PBR.hlsl">
+      <Filter>97.ShaderFiles\KSG\00.Defines</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_Deferred.hlsl">
+      <Filter>97.ShaderFiles\KSG\01.Deferred</Filter>
     </FxCompile>
     <FxCompile Include="..\Bin\ShaderFiles\Shader_EffectDecal.hlsl">
-      <Filter>97.ShaderFiles\KSG</Filter>
+      <Filter>97.ShaderFiles\KSG\01.Deferred</Filter>
     </FxCompile>
-    <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_Light.hlsl" />
-    <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_Light.hlsl">
-      <Filter>97.ShaderFiles\KSG</Filter>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_EffectMesh.hlsl">
+      <Filter>97.ShaderFiles\KSG\01.Deferred</Filter>
     </FxCompile>
-    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxModel_Effect.hlsl">
-      <Filter>97.ShaderFiles\KSG</Filter>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_EffectTex.hlsl">
+      <Filter>97.ShaderFiles\KSG\01.Deferred</Filter>
     </FxCompile>
     <FxCompile Include="..\Bin\ShaderFiles\Shader_EffectTrail.hlsl">
-      <Filter>97.ShaderFiles\KSG</Filter>
+      <Filter>97.ShaderFiles\KSG\01.Deferred</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_ParticleSystem.hlsl">
+      <Filter>97.ShaderFiles\KSG\01.Deferred</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxAnimModel.hlsl">
+      <Filter>97.ShaderFiles\KSG\01.Deferred</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxAnimModel_Instance.hlsl">
+      <Filter>97.ShaderFiles\KSG\01.Deferred</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxModel.hlsl">
+      <Filter>97.ShaderFiles\KSG\01.Deferred</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxModel_Effect.hlsl">
+      <Filter>97.ShaderFiles\KSG\01.Deferred</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxModel_Instance.hlsl">
+      <Filter>97.ShaderFiles\KSG\01.Deferred</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxSkyDome.hlsl">
+      <Filter>97.ShaderFiles\KSG\01.Deferred</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_Bloom.hlsl">
+      <Filter>97.ShaderFiles\KSG\02.PostProcessing</Filter>
     </FxCompile>
     <FxCompile Include="..\Bin\ShaderFiles\Shader_Fxaa3_11.hlsl">
-      <Filter>97.ShaderFiles\KSG</Filter>
+      <Filter>97.ShaderFiles\KSG\02.PostProcessing</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_IBL.hlsl">
+      <Filter>97.ShaderFiles\KSG\02.PostProcessing</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_PostProcess.hlsl">
+      <Filter>97.ShaderFiles\KSG\02.PostProcessing</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_SSAO.hlsl">
+      <Filter>97.ShaderFiles\KSG\02.PostProcessing</Filter>
     </FxCompile>
     <FxCompile Include="..\Bin\ShaderFiles\Shader_SSR.hlsl">
-      <Filter>97.ShaderFiles\KSG</Filter>
+      <Filter>97.ShaderFiles\KSG\02.PostProcessing</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_Defines.hlsl" />
+    <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_Animation.hlsl" />
+    <FxCompile Include="..\Bin\ShaderFiles\Client_Shader_Global.hlsl" />
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_DepthOfField.hlsl">
+      <Filter>97.ShaderFiles\KSG\02.PostProcessing</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
