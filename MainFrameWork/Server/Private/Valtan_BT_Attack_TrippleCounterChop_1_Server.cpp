@@ -14,15 +14,18 @@ void CValtan_BT_Attack_TrippleCounterChop_1_Server::OnStart()
 	__super::OnStart(0);
 	static_cast<CMonster_Server*>(m_pGameObject)->Set_Action(m_strActionName);
 	static_cast<CMonster_Server*>(m_pGameObject)->Send_Monster_Action();
-
+	if (m_bFirst)
+	{
+		m_bFirst = false;
+		static_cast<CBoss_Server*>(m_pGameObject)->Set_SkipAction(false);
+	}
 }
 
 CBT_Node::BT_RETURN CValtan_BT_Attack_TrippleCounterChop_1_Server::OnUpdate(const _float& fTimeDelta)
 {
 	if (static_cast<CBoss_Server*>(m_pGameObject)->Get_SkipAction())
 	{
-		static_cast<CBoss_Server*>(m_pGameObject)->Set_SkipAction(false);
-		
+		static_cast<CBoss_Server*>(m_pGameObject)->Set_SkipAction(false);		
 		return BT_SUCCESS;
 	}
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[1].iAnimIndex &&m_fLoopTime>1.8f &&!static_cast<CBoss_Server*>(m_pGameObject)->Is_CounterSkill())

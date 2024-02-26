@@ -2848,9 +2848,6 @@
     <ClInclude Include="..\Public\UI_Tool.h">
       <Filter>02.GameObjects\UI\98.Tool</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\UI_Chat.h">
-      <Filter>02.GameObjects\UI\02.Chat</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\UI_ChatFrame.h">
       <Filter>02.GameObjects\UI\02.Chat\00.Frame</Filter>
     </ClInclude>
@@ -5134,6 +5131,10 @@
     <ClInclude Include="..\Public\SkyFloor_Blue.h">
       <Filter>02.GameObjects\SkyDome</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\UI_Chat.h" />
+    <ClInclude Include="..\Public\Valtan_BT_Attack_GroggyBall.h">
+      <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -6040,9 +6041,6 @@
     </ClCompile>
     <ClCompile Include="..\Private\UI_Tool.cpp">
       <Filter>02.GameObjects\UI\98.Tool</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\UI_Chat.cpp">
-      <Filter>02.GameObjects\UI\02.Chat</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UI_ChatFrame.cpp">
       <Filter>02.GameObjects\UI\02.Chat\00.Frame</Filter>
@@ -8299,6 +8297,10 @@
     <ClCompile Include="..\Private\UI_Chat.cpp" />
     <ClCompile Include="..\Private\SkyFloor_Blue.cpp">
       <Filter>02.GameObjects\SkyDome</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Chat.cpp" />
+    <ClCompile Include="..\Private\Valtan_BT_Attack_GroggyBall.cpp">
+      <Filter>02.GameObjects\Boss\Valtan\Behavior</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

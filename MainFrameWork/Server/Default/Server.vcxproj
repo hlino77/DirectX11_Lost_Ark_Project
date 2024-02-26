@@ -232,6 +232,7 @@
     <ClCompile Include="..\Private\Common_BT_Attack1_Server.cpp" />
     <ClCompile Include="..\Private\ValtanMain_Server.cpp" />
     <ClCompile Include="..\Private\Valtan_BT_Attack_FirstTerrainDestruction_Server.cpp" />
+    <ClCompile Include="..\Private\Valtan_BT_Attack_GroggyBall_Server.cpp" />
     <ClCompile Include="..\Private\Valtan_BT_Attack_JumpSeismic_Server.cpp" />
     <ClCompile Include="..\Private\Valtan_BT_Attack_SwingSeismic_Server.cpp" />
     <ClCompile Include="..\Private\Valtan_BT_Attack_MultipleChop_Server.cpp" />
@@ -294,6 +295,7 @@
     <ClInclude Include="..\Public\Skill_RisingSun_Server.h" />
     <ClInclude Include="..\Public\Skill_TeleportDoor_Server.h" />
     <ClInclude Include="..\Public\ValtanMain_Server.h" />
+    <ClInclude Include="..\Public\Valtan_BT_Attack_GroggyBall_Server.h" />
     <ClInclude Include="..\Public\Valtan_BT_Attack_Imprisonment_Server.h" />
     <ClInclude Include="..\Public\Valtan_BT_Attack_TrippleCounterChop_2_Server.h" />
     <ClInclude Include="..\Public\Valtan_BT_Attack_TrippleCounterChop_3_Server.h" />

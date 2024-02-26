@@ -824,6 +824,7 @@
     <ClInclude Include="..\Public\UI_WRIdentity_Spark.h" />
     <ClInclude Include="..\Public\Upgrade_Npc.h" />
     <ClInclude Include="..\Public\Valtan_BT_Attack_FirstTerrainDestruction.h" />
+    <ClInclude Include="..\Public\Valtan_BT_Attack_GroggyBall.h" />
     <ClInclude Include="..\Public\Valtan_BT_Attack_Rush.h" />
     <ClInclude Include="..\Public\Valtan_BT_Attack_JumpSeismic.h" />
     <ClInclude Include="..\Public\Valtan_BT_Attack_SwingSeismic.h" />
@@ -1524,6 +1525,7 @@
     <ClCompile Include="..\Private\UI_WRIdentity_Spark.cpp" />
     <ClCompile Include="..\Private\Upgrade_Npc.cpp" />
     <ClCompile Include="..\Private\Valtan_BT_Attack_FirstTerrainDestruction.cpp" />
+    <ClCompile Include="..\Private\Valtan_BT_Attack_GroggyBall.cpp" />
     <ClCompile Include="..\Private\Valtan_BT_Attack_Rush.cpp" />
     <ClCompile Include="..\Private\Valtan_BT_Attack_JumpSeismic.cpp" />
     <ClCompile Include="..\Private\Valtan_BT_Attack_SwingSeismic.cpp" />

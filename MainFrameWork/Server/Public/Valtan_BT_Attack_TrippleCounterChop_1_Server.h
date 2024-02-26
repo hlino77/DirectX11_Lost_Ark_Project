@@ -18,6 +18,7 @@ private:
     virtual void		OnEnd()								override;
 
     virtual void On_FirstAnimStart()override;
+    _bool   m_bFirst = true;
 public:
     static	CValtan_BT_Attack_TrippleCounterChop_1_Server* Create(void* pArg);
     virtual void Free() override;

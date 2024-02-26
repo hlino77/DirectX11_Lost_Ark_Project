@@ -33,14 +33,24 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_SecondTerrainDestruction_Server::OnUpdate(
 		m_pGameObject->Get_TransformCom()->Go_Straight(static_cast<CMonster_Server*>(m_pGameObject)->Get_MoveSpeed() * 1.1f, fTimeDelta);
 	}
 	if (m_iCurrAnimation == 12 && m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[12].iAnimIndex && m_fLoopTime < 1.5f)
+	{
+		if (!static_cast<CBoss_Server*>(m_pGameObject)->Is_TargetLock())
+		{
+			static_cast<CBoss_Server*>(m_pGameObject)->Set_TargetLock(true);
+		}
 		static_cast<CMonster_Server*>(m_pGameObject)->LookAt_Target_Direction_Lerp(fTimeDelta);
-
+	}
+	if (m_iCurrAnimation == 13 && static_cast<CBoss_Server*>(m_pGameObject)->Is_TargetLock())
+	{
+		static_cast<CBoss_Server*>(m_pGameObject)->Set_TargetLock(false);
+	}
 	return __super::OnUpdate(fTimeDelta);
 }
 
 void CValtan_BT_Attack_SecondTerrainDestruction_Server::OnEnd()
 {
 	__super::OnEnd();
+	static_cast<CBoss_Server*>(m_pGameObject)->Set_TargetLock(false);
 	static_cast<CMonster_Server*>(m_pGameObject)->Add_SkillStack();
 	static_cast<CMonster_Server*>(m_pGameObject)->Set_Attacked(true);
 }

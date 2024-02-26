@@ -56,6 +56,7 @@
 #include "Player.h"
 #include "ServerSessionManager.h"
 #include "Chat_Manager.h"
+#include <Valtan_BT_Attack_GroggyBall.h>
 
 CBoss_Valtan::CBoss_Valtan(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CBoss(pDevice, pContext)
@@ -356,6 +357,45 @@ HRESULT CBoss_Valtan::Render()
 	if (FAILED(m_pShaderCom->Bind_RawValue("g_fRimLight", &fRimLightColor, sizeof(_float))))
 		return E_FAIL;
 	return S_OK;
+}
+
+void CBoss_Valtan::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStatusEffect, _float fForce, _float fDuration, _uint iGroggy)
+{
+	m_iHp -= iDamage;
+	if (m_iHp < 1.f && m_iPhase == 2)
+		m_iHp = 1;
+	if (fDuration == 1.f)
+		m_iGroggyCount -= iGroggy;
+	else
+		m_iGroggyGauge -= iGroggy;
+	if (m_iHp < 1)
+		m_iHp = 0;
+
+
+	if (m_iGroggyCount != fForce)
+		m_iGroggyCount = fForce;
+	if (m_iGroggyGauge != iStatusEffect)
+		m_iGroggyGauge = iStatusEffect;
+	if (m_iGroggyGauge < 1)
+		m_iGroggyGauge = 0;
+	if (vHitPos.y != m_iShield)
+		m_iShield = vHitPos.y;
+	if (m_iGroggyCount < 1)
+	{
+		m_iGroggyCount = 0;
+		m_iMaxGroggyCount = 0;
+	}
+	if (iDamage == 0.f)
+	{
+		if (vHitPos.x == (_float)STATUSEFFECT::GROGGY)
+		{
+
+			Set_RimLight(0.05f, 1.f);
+		}
+	}
+	else
+		Set_RimLight(0.05f, 1.f);
+
 }
 
 void CBoss_Valtan::Update_Dissolve(_float fTimeDelta)
@@ -1380,7 +1420,37 @@ HRESULT CBoss_Valtan::Ready_BehaviourTree()
 	ActionDesc.strActionName = L"Action_TrippleCounterChop_3";
 	CBT_Action* pTrippleCounterChop_3 = CValtan_BT_Attack_TrippleCounterChop_3::Create(&ActionDesc);
 
+	//무력화
+	ActionDesc.vecAnimations.clear();
+	AnimationDesc.strAnimName = TEXT("att_battle_17_start");
+	AnimationDesc.iStartFrame = 30;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
 
+	AnimationDesc.strAnimName = TEXT("att_battle_17_loop");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	AnimationDesc.bIsLoop = true;
+	AnimationDesc.fMaxLoopTime = 7.5f;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	AnimationDesc.bIsLoop = false;
+
+	AnimationDesc.strAnimName = TEXT("att_battle_17_end");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+
+	AnimationDesc.strAnimName = TEXT("idle_battle_1");
+	AnimationDesc.iStartFrame = 0;
+	AnimationDesc.fChangeTime = 0.2f;
+	AnimationDesc.iChangeFrame = 0;
+	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	//무력화
+	ActionDesc.strActionName = L"Action_GroggyBall";
+	CBT_Action* pGroggyBall = CValtan_BT_Attack_GroggyBall::Create(&ActionDesc);
 
 	ActionDesc.vecAnimations.clear();
 	AnimationDesc.strAnimName = TEXT("idle_battle_1");

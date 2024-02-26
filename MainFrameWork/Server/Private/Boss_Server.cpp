@@ -57,7 +57,8 @@ void CBoss_Server::Tick(_float fTimeDelta)
 {
 
 	m_fSkillCoolDown += fTimeDelta;
-	Find_NearTarget(fTimeDelta);
+	if (m_bTargetLock == false)
+		Find_NearTarget(fTimeDelta);
 	m_fTimeCount += fTimeDelta;
 
 	if (m_pBehaviorTree != nullptr)
