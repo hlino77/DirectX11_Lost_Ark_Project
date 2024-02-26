@@ -22,6 +22,7 @@ _int  CRenderer::m_iFxaa_Switch = true;
 _bool CRenderer::m_bDOF_Switch = true;
 
 CRenderer::ScreenTone_Data CRenderer::m_tScreenTone_Data = { 1.f, 1.f, 1.f };
+CRenderer::DOF_Data CRenderer::m_tDOF_Data = { 50.f, 7.5f / 1200.f };
 
 _float CRenderer::m_fFogDensity      = 0.f;
 _float CRenderer::m_fFogStartHeight  = 0.f;
@@ -1704,8 +1705,8 @@ HRESULT CRenderer::Render_DepthOfField()
 
 	if (true == m_bDOF_Switch)
 	{
-		m_tDOF_Data.fRange = 20.f;
-		m_tDOF_Data.fFocus = 0.00625f; // 7.5f / 1200.f;
+		//m_tDOF_Data.fRange = 20.f;
+		//m_tDOF_Data.fFocus = 0.00625f; // 7.5f / 1200.f;
 	}
 	else if (false == m_bDOF_Switch)
 	{

@@ -109,6 +109,10 @@ HRESULT CLevel_ChaosLevel3::Initialize()
 
 	CSound_Manager::GetInstance()->PlayBGM(L"BGM", L"Albion_s Rage.wav", 0.5f);
 	CUI_Manager::GetInstance()->Set_LevelCustomOption();
+
+	// DOF
+	CRenderer::Set_DOF_Range(50.f);
+
 	return S_OK;
 }
 

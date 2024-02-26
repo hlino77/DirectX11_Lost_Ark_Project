@@ -121,7 +121,7 @@ HRESULT CLevel_Bern::Initialize()
 		CUI_Manager::GetInstance()->Set_RenderNickName(true, LEVEL_BERN);
 	}
 
-
+	CRenderer::Set_DOF_Range(50.f);
 
 	CUI_Manager::GetInstance()->Set_LevelCustomOption();
 	return S_OK;

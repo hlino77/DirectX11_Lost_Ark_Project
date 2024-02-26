@@ -3,6 +3,7 @@
 #include "GameInstance.h"
 #include "Player.h"
 #include "AsUtils.h"
+#include "Renderer.h"
 
 CCamera_Player::CCamera_Player(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, wstring strObjTag)
 	: CCamera(pDevice, pContext, strObjTag)
@@ -109,6 +110,24 @@ void CCamera_Player::Cam_Shake(_float fFirstShake, _float fForce, _float fTime, 
 	m_vShakeVelocity.Normalize();
 
 	m_vShakeVelocity *= fFirstShake;
+}
+
+void CCamera_Player::ZoomInOut(_float fCameraLength, _float fSpeed)
+{
+	m_fTargetCameraLength = fCameraLength; m_fZoomSpeed = fSpeed;
+	CRenderer::Set_DOF_Focus(fCameraLength / 1200.f);
+}
+
+void CCamera_Player::DefaultLength(_float fSpeed)
+{
+	m_fTargetCameraLength = m_fDefaultLength; m_fZoomSpeed = fSpeed;
+	CRenderer::Set_DOF_Focus(m_fDefaultLength / 1200.f);
+}
+
+void CCamera_Player::Set_CameraLength(_float fCameraLength)
+{
+	m_fCameraLength = m_fTargetCameraLength = fCameraLength;
+	CRenderer::Set_DOF_Focus(fCameraLength / 1200.f);
 }
 
 void CCamera_Player::Tick_FreeCamera(_float fTimeDelta)

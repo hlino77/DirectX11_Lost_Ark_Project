@@ -49,6 +49,9 @@ public:
 	void	Set_StaticShadow() { m_bRenderStaticShadow = true; }
 	static void	Set_IBLTexture(_int iIndex) { m_iIBLTextureIndex = iIndex; }
 
+	static void	Set_DOF_Focus(_float fFocus) { m_tDOF_Data.fFocus = fFocus; }
+	static void	Set_DOF_Range(_float fRange) { m_tDOF_Data.fRange = fRange; }
+
 	static void	Set_SSRLevel(_int iLevel) { m_iSSRLevel = iLevel; }
 	static void	Set_GrayScale(_float fGrayScale) { m_tScreenTone_Data.fGrayScale = fGrayScale; }
 	static void	Set_Contrast(_float fContrast) { m_tScreenTone_Data.fContrast = fContrast; }
@@ -127,6 +130,7 @@ private:
 	HRESULT Render_Esther();
 
 	HRESULT Render_Cascade();
+
 private:
 	//Debug
 	vector<class CGameObject*> m_DebugRenderObjects;
@@ -201,10 +205,12 @@ private:
 
 	struct DOF_Data
 	{
-		_float	fRange = 100.f;
-		_float	fFocus = 7.5f / 1200.f;
+		_float	fRange = 50.f;
+		_float	fFocus = 0.00625f; // 7.5f / 1200.f;
 		Vec2	vPadding;
-	} m_tDOF_Data;
+	};
+
+	static DOF_Data m_tDOF_Data;
 
 	//Bloom
 	HRESULT	Ready_Bloom();

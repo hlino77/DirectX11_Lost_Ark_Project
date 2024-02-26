@@ -128,6 +128,10 @@ HRESULT CLevel_ValtanMain::Initialize()
 	CUI_Manager::GetInstance()->Set_RenderNickName(false, LEVELID::LEVEL_VALTANMAIN);
 	CUI_Manager::GetInstance()->Set_RenderNickName(false, LEVELID::LEVEL_STATIC);
 	CUI_Manager::GetInstance()->Set_LevelCustomOption();
+
+	// DOF
+	CRenderer::Set_DOF_Range(50.f);
+
 	return S_OK;
 }
 

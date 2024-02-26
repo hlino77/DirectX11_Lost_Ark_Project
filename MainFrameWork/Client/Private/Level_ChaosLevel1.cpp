@@ -250,6 +250,9 @@ HRESULT CLevel_ChaosLevel1::Ready_Layer_SkyBox(const LAYER_TYPE eLayerType)
 	CRenderer::Set_Fog_ChangeSpeed(1.f);
 	CRenderer::Set_Fog_MinValue(0.5f);
 
+	// DOF
+	CRenderer::Set_DOF_Range(50.f);
+
 	Safe_Release(pGameInstance);
 
 	return S_OK;

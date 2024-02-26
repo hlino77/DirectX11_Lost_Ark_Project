@@ -61,6 +61,7 @@ HRESULT CLevel_Lobby::Initialize()
 	m_bConnect = false;
 
 	CRenderer::Set_IBLTexture(4);
+	CRenderer::Set_DOF_Range(0.f);
 
 	CSound_Manager::GetInstance()->PlayBGM(L"BGM", L"Sunrise Horizon.wav", 0.5f);
 	CUI_Manager::GetInstance()->Set_LevelCustomOption();

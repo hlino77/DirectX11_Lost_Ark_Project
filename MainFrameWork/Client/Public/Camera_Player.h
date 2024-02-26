@@ -37,9 +37,9 @@ public:
 
 public:
 	void		Cam_Shake(_float fFirstShake, _float fForce, _float fTime, _float fBreak);
-	void		ZoomInOut(_float fCameraLength, _float fSpeed) { m_fTargetCameraLength = fCameraLength; m_fZoomSpeed = fSpeed; }
-	void		DefaultLength(_float fSpeed) { m_fTargetCameraLength = m_fDefaultLength; m_fZoomSpeed = fSpeed; }
-	void		Set_CameraLength(_float fCameraLength) { m_fCameraLength = m_fTargetCameraLength = fCameraLength; }
+	void		ZoomInOut(_float fCameraLength, _float fSpeed);// { m_fTargetCameraLength = fCameraLength; m_fZoomSpeed = fSpeed; }
+	void		DefaultLength(_float fSpeed);// { m_fTargetCameraLength = m_fDefaultLength; m_fZoomSpeed = fSpeed; }
+	void		Set_CameraLength(_float fCameraLength);// { m_fCameraLength = m_fTargetCameraLength = fCameraLength; }
 
 	void		Set_Offset(Vec3 vOffset) { m_vOffset = vOffset; m_vOffset.Normalize(); }
 	Vec3		Get_Offset() { return m_vOffset; }
