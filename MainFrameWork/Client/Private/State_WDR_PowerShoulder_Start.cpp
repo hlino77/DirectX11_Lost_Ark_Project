@@ -83,6 +83,10 @@ void CState_WDR_PowerShoulder_Start::Exit_State()
 
 		Effect_End();
 	}
+	else if (TEXT("Skill_WDR_PowerShoulder_End") == m_pPlayer->Get_ServerState())
+	{
+		Effect_End();
+	}
 
 	m_bComboContinue = false;
 
@@ -146,9 +150,7 @@ void CState_WDR_PowerShoulder_Start::Tick_State_Control(_float fTimeDelta)
 	{
 		if (true == m_bComboContinue)
 		{
-			Effect_End();
 			m_pPlayer->Set_State(TEXT("Skill_WDR_PowerShoulder_End"));
-			Effect_End();
 			m_bEffectEnd = true;
 			return;
 		}
