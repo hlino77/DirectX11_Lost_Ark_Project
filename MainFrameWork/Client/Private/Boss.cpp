@@ -506,7 +506,7 @@ void CBoss::Set_Die(_float fTime)
 		if (nullptr != m_pBossGroggyUI)
 		{
 			m_pBossGroggyUI->Set_Owner(nullptr);
-			Safe_Release(m_pBossGroggyUI);
+			m_pBossGroggyUI->Set_Dead(true);
 			m_pBossGroggyUI = nullptr;
 		}
 	}
@@ -531,7 +531,7 @@ void CBoss::Disable_HpUI()
 	if (nullptr != m_pBossGroggyUI)
 	{
 		m_pBossGroggyUI->Set_Owner(nullptr);
-		Safe_Release(m_pBossGroggyUI);
+		m_pBossGroggyUI->Set_Dead(true);
 		m_pBossGroggyUI = nullptr;
 	}
 }
