@@ -168,7 +168,7 @@ void CState_WDR_SizemicHammer::Tick_State_NoneControl(_float fTimeDelta)
 		if (m_SkillFrames[m_iSkillCnt] == 41)
 		{
 			CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt + 3].strName, m_SoundFrames[m_iSoundCnt + 3].strGroup, m_SoundFrames[m_iSoundCnt + 3].strName, m_SoundFrames[m_iSoundCnt + 3].fVolume);
-
+			Effect_Skill();
 		}
 
 		if (m_SkillFrames[m_iSkillCnt] == 57)
@@ -180,16 +180,6 @@ void CState_WDR_SizemicHammer::Tick_State_NoneControl(_float fTimeDelta)
 		m_iSkillCnt++;
 	}
 
-
-
-	if (-1 != m_SkillFrames[m_iSkillCnt] && m_SkillFrames[m_iSkillCnt] <= (_int)iAnimFrame)
-	{
-		if (m_SkillFrames[m_iSkillCnt] == 41)
-		{
-			Effect_Skill();
-		}
-		m_iSkillCnt++;
-	}
 }
 
 void CState_WDR_SizemicHammer::Effect_Skill()

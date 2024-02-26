@@ -162,14 +162,11 @@ void CState_WDR_HeavyCrush::Tick_State_NoneControl(_float fTimeDelta)
 
 	if (-1 != m_SkillFrames[m_iSkillCnt] && m_SkillFrames[m_iSkillCnt] <= (_int)iAnimFrame)
 	{
-		m_iSkillCnt++;
-	
 		if (m_EffectSound == false)
 		{
 			CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt + 2].strName, m_SoundFrames[m_iSoundCnt + 2].strGroup, m_SoundFrames[m_iSoundCnt + 2].strName, m_SoundFrames[m_iSoundCnt + 2].fVolume);
 			m_EffectSound = true;
 		}
-
 	}
 
 
