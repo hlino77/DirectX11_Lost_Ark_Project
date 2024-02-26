@@ -1653,6 +1653,7 @@
     </FxCompile>
     <FxCompile Include="..\Bin\ShaderFiles\Shader_Bloom.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\Shader_Deferred.hlsl" />
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_DepthOfField.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\Shader_EffectDecal.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\Shader_EffectMesh.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\Shader_EffectTrail.hlsl" />

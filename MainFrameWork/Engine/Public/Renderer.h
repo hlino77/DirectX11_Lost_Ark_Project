@@ -110,6 +110,7 @@ private:
 	HRESULT Render_AlphaBlend();
 
 	HRESULT Render_Bloom();
+	HRESULT Render_DepthOfField();
 	HRESULT Render_PostProcess();
 	HRESULT Render_FXAA();
 
@@ -189,6 +190,20 @@ private:
 	_bool	m_bTargetOnOff = false;
 	static _bool	m_bPBR_Switch;
 	static _int		m_iSSAO_Switch;
+
+	// DepthOfField
+	HRESULT Ready_DOF();
+
+	static _bool m_bDOF_Switch;
+
+	CShader* m_pDOFShader = nullptr;
+
+	struct DOF_Data
+	{
+		_float	fRange = 100.f;
+		_float	fFocus = 7.5f / 1200.f;
+		Vec2	vPadding;
+	} m_tDOF_Data;
 
 	//Bloom
 	HRESULT	Ready_Bloom();
@@ -309,10 +324,10 @@ private:
 	static  _float  m_fContrast;
 	static  _float  m_fSaturation;
 
-
 	//Cascade
 	ID3D11DepthStencilView* m_pCascadeShadowDSV[3];
 	HRESULT Ready_CascadeShadow();
+
 public:
 	static CRenderer* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CComponent* Clone(CGameObject* pObject, void* pArg) override;
