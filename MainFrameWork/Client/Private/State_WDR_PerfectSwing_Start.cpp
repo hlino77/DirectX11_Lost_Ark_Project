@@ -6,6 +6,7 @@
 #include "Player_Skill.h"
 #include "Model.h"
 #include "Camera_Player.h"
+#include "Renderer.h"
 
 CState_WDR_PerfectSwing_Start::CState_WDR_PerfectSwing_Start(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Destroyer* pOwner)
 	: CState_Skill(strStateName, pMachine, pController), m_pPlayer(pOwner)
@@ -97,12 +98,16 @@ void CState_WDR_PerfectSwing_Start::Init_Camera()
 	m_pPlayer->Get_Camera()->Set_Offset(m_vCameraOffset);
 	m_pPlayer->Get_Camera()->Set_CameraLength(2.8f);
 	m_pPlayer->Get_Camera()->ZoomInOut(2.0f, 1.0f);
+
+	CRenderer::Set_DOF_Range(150.f);
 }
 
 void CState_WDR_PerfectSwing_Start::Reset_Camera()
 {
 	m_pPlayer->Get_Camera()->Set_DefaultOffset();
 	m_pPlayer->Get_Camera()->DefaultLength(5.0f);
+
+	CRenderer::Set_DOF_Range(50.f);
 }
 
 CState_WDR_PerfectSwing_Start* CState_WDR_PerfectSwing_Start::Create(wstring strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Destroyer* pOwner)

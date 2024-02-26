@@ -9,6 +9,7 @@
 #include "Effect.h"
 #include "Camera_Player.h"
 #include "ServerSessionManager.h"
+#include "Renderer.h"
 
 CState_SP_Onestroke::CState_SP_Onestroke(const wstring& strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Doaga* pOwner)
 	: CState_Skill(strStateName, pMachine, pController), m_pPlayer(pOwner)
@@ -365,6 +366,8 @@ void CState_SP_Onestroke::Init_Camera()
 	pCamera->Set_CameraLength(3.0f);
 
 	pCamera->ZoomInOut(1.0f, 3.0f);
+
+	CRenderer::Set_DOF_Range(150.f);
 }
 
 void CState_SP_Onestroke::Update_Camera(_uint iAnimFrame, _float fTimeDelta)
@@ -416,6 +419,7 @@ void CState_SP_Onestroke::Reset_Camera()
 	m_pPlayer->Get_Camera()->Set_DefaultOffset();
 	m_pPlayer->Get_Camera()->DefaultLength(7.0f);
 
+	CRenderer::Set_DOF_Range(50.f);
 }
 
 CState_SP_Onestroke* CState_SP_Onestroke::Create(wstring strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Doaga* pOwner)
