@@ -47,7 +47,7 @@ public:
 	HRESULT			Bind_LongSkill(SKILL_KEY eKey, class CPlayer_Skill* pSkill);
 
 	CPlayer_Skill* Get_PlayerSkill_Weapon(GN_IDENTITY eStance, SKILL_KEY eKey);
-
+	void			Change_Skill_Iden(GN_IDENTITY eIndex);
 private:
 	virtual void	Input(const _float& fTimeDelta) override;
 	virtual void	Attack(Vec3 vPos) override;
@@ -56,7 +56,6 @@ private:
 
 private:
 	void			GN_Identity(GN_IDENTITY eIndex);
-	void			Change_Skill_Iden(GN_IDENTITY eIndex);
 	void			Change_Iden_Collider(GN_IDENTITY eIndex);
 
 	virtual void	EstherSkill(_uint iIndex) override;

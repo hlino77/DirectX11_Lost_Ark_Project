@@ -1942,6 +1942,9 @@
     <Filter Include="02.GameObjects\Skill\Skill_TeleportDoor">
       <UniqueIdentifier>{2d2cab2b-bc34-459b-9531-6d91e1952e2c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\UI\15.Boss_Hp\SpecialGroggy">
+      <UniqueIdentifier>{9f23a083-9e7e-4ddd-8ab6-c95ba89f3045}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -2847,9 +2850,6 @@
     </ClInclude>
     <ClInclude Include="..\Public\UI_Tool.h">
       <Filter>02.GameObjects\UI\98.Tool</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\UI_Chat.h">
-      <Filter>02.GameObjects\UI\02.Chat</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI_ChatFrame.h">
       <Filter>02.GameObjects\UI\02.Chat\00.Frame</Filter>
@@ -5134,6 +5134,10 @@
     <ClInclude Include="..\Public\SkyFloor_Blue.h">
       <Filter>02.GameObjects\SkyDome</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\UI_Chat.h" />
+    <ClInclude Include="..\Public\UI_Boss_SpecialGroggy.h">
+      <Filter>02.GameObjects\UI\15.Boss_Hp\SpecialGroggy</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -6040,9 +6044,6 @@
     </ClCompile>
     <ClCompile Include="..\Private\UI_Tool.cpp">
       <Filter>02.GameObjects\UI\98.Tool</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\UI_Chat.cpp">
-      <Filter>02.GameObjects\UI\02.Chat</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UI_ChatFrame.cpp">
       <Filter>02.GameObjects\UI\02.Chat\00.Frame</Filter>
@@ -8299,6 +8300,10 @@
     <ClCompile Include="..\Private\UI_Chat.cpp" />
     <ClCompile Include="..\Private\SkyFloor_Blue.cpp">
       <Filter>02.GameObjects\SkyDome</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Chat.cpp" />
+    <ClCompile Include="..\Private\UI_Boss_SpecialGroggy.cpp">
+      <Filter>02.GameObjects\UI\15.Boss_Hp\SpecialGroggy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
