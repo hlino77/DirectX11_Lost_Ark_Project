@@ -11,6 +11,7 @@
 #include "Camera_Player.h"
 #include <Effect_Manager.h>
 #include "Effect.h"
+#include "UI_Boss_SpecialGroggy.h"
 
 CValtan_BT_Attack_GroggyBall::CValtan_BT_Attack_GroggyBall()
 {
@@ -35,6 +36,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_GroggyBall::OnUpdate(const _float& fTimeDe
 		EFFECT_START_OUTLIST(L"VT_Shield", &tDesc, m_vecEffect);
 		static_cast<CBoss*>(m_pGameObject)->Set_MaxGroggyCount(50);
 		static_cast<CBoss*>(m_pGameObject)->Set_GroggyCount(static_cast<CBoss*>(m_pGameObject)->Get_MaxGroggyCount());
+		static_cast<CBoss*>(m_pGameObject)->Get_GroggyUI()->Set_Active(true);
 	}
 	if (false == m_vecEffect.empty()&&(static_cast<CBoss_Valtan*>(m_pGameObject)->Get_Shield() < 1 || m_iCurrAnimation == 2))
 	{		
@@ -48,6 +50,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_GroggyBall::OnUpdate(const _float& fTimeDe
 		static_cast<CBoss*>(m_pGameObject)->Set_Invincible(true);
 		static_cast<CBoss*>(m_pGameObject)->Set_MaxGroggyCount(0);
 		static_cast<CBoss*>(m_pGameObject)->Set_GroggyCount(static_cast<CBoss*>(m_pGameObject)->Get_MaxGroggyCount());
+		static_cast<CBoss*>(m_pGameObject)->Get_GroggyUI()->Set_Active(false);
 	}
 	if (m_iCurrAnimation == 2 && m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[2].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[2].iAnimIndex) >= 35 && m_bShoot)
 	{

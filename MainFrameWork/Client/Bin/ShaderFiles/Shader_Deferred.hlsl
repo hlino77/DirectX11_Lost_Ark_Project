@@ -298,20 +298,56 @@ float PCF_StaticShadowCalculation_Cascade(float4 vWorldPos, float fBias, float f
 
 float4 PS_MAIN_DEFERRED(VS_OUT_TARGET In) : SV_TARGET
 {
-    vector vDiffuse = g_DiffuseTarget.Sample(LinearSampler, In.vTexcoord);
-    if (vDiffuse.a == 0.f)
-    {
-        float4 vPriority = g_PriorityTarget.Sample(LinearSampler, In.vTexcoord);
-        return vPriority;
-    }
-    float4	vEmissive =	g_BloomTarget.Sample(LinearSampler, In.vTexcoord);
-	
-    float fAO = 1.f;
-	
-	//if(0 != g_iSSAO_Option)
+	vector vDiffuse = g_DiffuseTarget.Sample(LinearSampler, In.vTexcoord);
+	if (vDiffuse.a == 0.f)
+	{
+		float4 vPriority = g_PriorityTarget.Sample(LinearSampler, In.vTexcoord);
+		return vPriority;
+	}
+	float4    vEmissive = g_BloomTarget.Sample(LinearSampler, In.vTexcoord);
+
+	float fAO = 1.f;
 	fAO = g_SSAOBlurTarget.Sample(LinearSampler, In.vTexcoord).r;
-	
-    return fAO * (vDiffuse) + vEmissive;
+
+	//shadow
+	float4 vNormal = g_NormalTarget.Sample(LinearSampler, In.vTexcoord);
+	float fNormalOffset = g_fBias;
+
+	float4 vWorldPos;
+
+	vWorldPos.x = In.vTexcoord.x * 2.f - 1.f;
+	vWorldPos.y = In.vTexcoord.y * -2.f + 1.f;
+	vWorldPos.z = vNormal.w;
+	vWorldPos.w = 1.f;
+
+	float fViewZ = g_NormalDepthTarget.Sample(PointSampler, In.vTexcoord).w * 1200.f;
+	vWorldPos = vWorldPos * fViewZ;
+	vWorldPos = mul(vWorldPos, g_ProjMatrixInv);
+	vWorldPos = mul(vWorldPos, g_ViewMatrixInv);
+
+	float fDot = saturate(dot(normalize(g_vLightDir.xyz) * -1.f, vNormal.xyz));
+
+	float fBias = max((fNormalOffset * 5.0f) * (1.0f - (fDot * -1.0f)), fNormalOffset);
+
+	float fResultShadow = 1.0f;
+
+	vector vStaticPosition = mul(vWorldPos, g_StaticLightViewMatrix);
+	vStaticPosition = mul(vStaticPosition, g_LightProjMatrix);
+
+	float fStaticShadow = PCF_StaticShadowCalculation_Cascade(vWorldPos, fBias, fViewZ);
+	if (fStaticShadow > 0.51f)
+	{
+		vector vDynamicPosition = mul(vWorldPos, g_LightViewMatrix);
+		vDynamicPosition = mul(vDynamicPosition, g_LightProjMatrix);
+
+		float fShadow = PCF_ShadowCalculation(vDynamicPosition, fBias);
+
+		fResultShadow = min(fStaticShadow, fShadow);
+	}
+	else
+		fResultShadow = fStaticShadow;
+
+	return fAO * (pow(vDiffuse, 2.2f)) * fResultShadow + vEmissive;
 }
 
 float4 PS_MAIN_PBR_DEFERRED(VS_OUT_TARGET In) : SV_TARGET

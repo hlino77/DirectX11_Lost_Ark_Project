@@ -1074,6 +1074,11 @@ HRESULT CLoader::Loading_For_Level_Bern()
 	if (FAILED(Loading_Esther_Cut()))
 		return E_FAIL;
 	
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SpecialGroggyUI"),
+		CUI_Boss_SpecialGroggy::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
+
 	CNavigationMgr::GetInstance()->Add_Navigation(LEVELID::LEVEL_BERN, L"BernCastle.Navi");
 	pUIManager->Add_CurrFile();
 	
@@ -5409,6 +5414,10 @@ HRESULT CLoader::Loading_Npc_UI()
 		return E_FAIL;
 	pUIManager->Add_CurrFile();
 
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Npc_ValtanEntrance"),
+		CUI_NPC_ValtanEntrance_Wnd::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	pUIManager->Add_CurrFile();
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Npc_ChaosDungeonEntrance_NewWnd"),
 		CUI_NPC_ChaosDungeon_NewWnd::Create(m_pDevice, m_pContext))))
@@ -5417,11 +5426,6 @@ HRESULT CLoader::Loading_Npc_UI()
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Npc_Item_Upgrade"),
 		CUI_NPC_ItemUpgrade::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-	pUIManager->Add_CurrFile();
-
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SpecialGroggyUI"),
-		CUI_Boss_SpecialGroggy::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 	pUIManager->Add_CurrFile();
 

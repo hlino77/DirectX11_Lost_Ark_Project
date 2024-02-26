@@ -22,7 +22,7 @@
 #include "UI_InGame_NamePlate.h"
 #include "UI_ChaosDungeon_Clear.h"
 #include "UI_ValtanClearWnd.h"
-#include "UI_DeadScene.h";
+#include "UI_DeadScene.h"
 #include "UI_Option.h"
 #include "Renderer.h"
 #include "Sound_Manager.h"

@@ -63,6 +63,9 @@ void CUI_Boss_SpecialGroggy::LateTick(_float fTimeDelta)
 
 HRESULT CUI_Boss_SpecialGroggy::Render()
 {
+	if (0 == m_fMaxGroggyCount)
+		return S_OK;
+
 	if (FAILED(Bind_ShaderResources()))
 		return E_FAIL;
 	m_pShaderCom->Begin(0);
@@ -78,7 +81,7 @@ HRESULT CUI_Boss_SpecialGroggy::Render()
 
 HRESULT CUI_Boss_SpecialGroggy::Ready_Components()
 {
-	if (FAILED(Ready_Components()))
+	if (FAILED(__super::Ready_Components()))
 		return E_FAIL;
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Boss_GroggyWnd"),
 		TEXT("Com_Texture"), (CComponent**)&m_pTextureCom)))
@@ -127,7 +130,8 @@ void CUI_Boss_SpecialGroggy::Update_GroggyCount()
 
 	m_fCurrGroggyCount = static_cast<CBoss*>(m_pOwner)->Get_GroggyCount();
 	m_fMaxGroggyCount = static_cast<CBoss*>(m_pOwner)->Get_MaxGroggyCount();
-	m_fRatio = m_fCurrGroggyCount / m_fMaxGroggyCount;
+	if(0 != m_fMaxGroggyCount)
+		m_fRatio = m_fCurrGroggyCount / m_fMaxGroggyCount;
 }
 
 void CUI_Boss_SpecialGroggy::Update_Position()

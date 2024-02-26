@@ -18,7 +18,6 @@ void CKing_BT_Attack_Erruption::OnStart()
 	m_Shoot[0] = true;
 	m_Shoot[1] = true;
 	m_Shoot[2] = true;
-	static_cast<CBoss*>(m_pGameObject)->Get_GroggyUI()->Set_Active(true);
 }
 
 CBT_Node::BT_RETURN CKing_BT_Attack_Erruption::OnUpdate(const _float& fTimeDelta)
@@ -28,11 +27,13 @@ CBT_Node::BT_RETURN CKing_BT_Attack_Erruption::OnUpdate(const _float& fTimeDelta
 		m_Shoot[2] = false;
 		static_cast<CBoss*>(m_pGameObject)->Set_MaxGroggyCount(150);
 		static_cast<CBoss*>(m_pGameObject)->Set_GroggyCount(static_cast<CBoss*>(m_pGameObject)->Get_MaxGroggyCount());
+		static_cast<CBoss*>(m_pGameObject)->Get_GroggyUI()->Set_Active(true);
 	}
 	if (m_fLoopTime > m_vecAnimDesc[3].fMaxLoopTime)
 	{
 		static_cast<CBoss*>(m_pGameObject)->Set_MaxGroggyCount(0);
 		static_cast<CBoss*>(m_pGameObject)->Set_GroggyCount(static_cast<CBoss*>(m_pGameObject)->Get_MaxGroggyCount());
+		static_cast<CBoss*>(m_pGameObject)->Get_GroggyUI()->Set_Active(false);
 	}
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[3].iAnimIndex && m_Shoot[0])
 	{
@@ -158,7 +159,6 @@ void CKing_BT_Attack_Erruption::OnEnd()
 	__super::OnEnd();
 	static_cast<CBoss*>(m_pGameObject)->Set_MaxGroggyCount(0);
 	static_cast<CBoss*>(m_pGameObject)->Set_GroggyCount(static_cast<CBoss*>(m_pGameObject)->Get_MaxGroggyCount());
-	static_cast<CBoss*>(m_pGameObject)->Get_GroggyUI()->Set_Active(false);
 }
 
 
