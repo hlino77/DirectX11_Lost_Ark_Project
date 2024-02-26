@@ -86,7 +86,7 @@ public:
 	virtual HRESULT			Render_Debug();
 
 public:
-	virtual _bool			Intersect_Mouse(Vec3& vPickPos);
+	virtual _bool			Intersect_Mouse(Vec3& vPickPos, _float& fDist);
 
 	CShader* Get_ShaderCom() { return m_pShaderCom; }
 

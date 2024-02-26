@@ -37,7 +37,7 @@ void CState_GN_Grabbed::Enter_State()
 
 	m_pPlayer->Get_TransformCom()->Set_WorldMatrix(XMMatrixIdentity());
 	m_pPlayer->Get_TransformCom()->My_Rotation(Vec3(90.f, 0.f, 0.f));
-	m_pPlayer->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, Vec3(-10.f, 40.f, 0.f));
+	m_pPlayer->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, Vec3(-0.1f, 0.4f, 0.f));
 	m_SaveMatrix = m_pPlayer->Get_TransformCom()->Get_WorldMatrix();
 
 	m_pPlayer->Set_Navi(false);
@@ -81,26 +81,10 @@ void CState_GN_Grabbed::To_GrabPos(_float fTimeDelta)
 	GrabMatrix.r[2] = XMVector3Normalize(GrabMatrix.r[2]);
 
 	Matrix WorldMatrix = m_SaveMatrix;
-	WorldMatrix._41 *= 0.01f;
-	WorldMatrix._42 *= 0.01f;
-	WorldMatrix._43 *= 0.01f;
 	WorldMatrix *= GrabMatrix;
 	Matrix ComputeMatrix = WorldMatrix * m_pController->Get_Grabber()->Get_TransformCom()->Get_WorldMatrix();
 
-	if (false == static_cast<CBoss_Valtan*>(m_pController->Get_Grabber())->Get_BehaviorTree()->Get_CurrentAction()->Get_CurrentAnimDesc().bIsLoop)
-	{
-		m_pPlayer->Get_TransformCom()->Set_WorldMatrix(ComputeMatrix);
-		m_pPlayer->Get_TransformCom()->Set_Scale(Vec3(1.f, 1.f, 1.f));
-	}
-	else
-	{
-		m_fGrabTimeAcc += fTimeDelta;
-		if (0.15f >= m_fGrabTimeAcc)
-		{
-			m_pPlayer->Get_TransformCom()->Set_WorldMatrix(ComputeMatrix);
-			m_pPlayer->Get_TransformCom()->Set_Scale(Vec3(1.f, 1.f, 1.f));
-		}
-	}
+	m_pPlayer->Get_TransformCom()->Set_WorldMatrix(ComputeMatrix);
 }
 
 void CState_GN_Grabbed::ToNone_GrabPos(_float fTimeDelta)
@@ -120,26 +104,10 @@ void CState_GN_Grabbed::ToNone_GrabPos(_float fTimeDelta)
 	GrabMatrix.r[2] = XMVector3Normalize(GrabMatrix.r[2]);
 
 	Matrix WorldMatrix = m_SaveMatrix;
-	WorldMatrix._41 *= 0.01f;
-	WorldMatrix._42 *= 0.01f;
-	WorldMatrix._43 *= 0.01f;
 	WorldMatrix *= GrabMatrix;
 	Matrix ComputeMatrix = WorldMatrix * m_pValtan->Get_TransformCom()->Get_WorldMatrix();
 
-	if (false == static_cast<CBoss_Valtan*>(m_pValtan)->Get_BehaviorTree()->Get_CurrentAction()->Get_CurrentAnimDesc().bIsLoop)
-	{
-		m_pPlayer->Get_TransformCom()->Set_WorldMatrix(ComputeMatrix);
-		m_pPlayer->Get_TransformCom()->Set_Scale(Vec3(1.f, 1.f, 1.f));
-	}
-	else
-	{
-		m_fGrabTimeAcc += fTimeDelta;
-		if (0.15f >= m_fGrabTimeAcc)
-		{
-			m_pPlayer->Get_TransformCom()->Set_WorldMatrix(ComputeMatrix);
-			m_pPlayer->Get_TransformCom()->Set_Scale(Vec3(1.f, 1.f, 1.f));
-		}
-	}
+	m_pPlayer->Get_TransformCom()->Set_WorldMatrix(ComputeMatrix);
 }
 
 CState_GN_Grabbed* CState_GN_Grabbed::Create(wstring strStateName, CStateMachine* pMachine, CPlayer_Controller* pController, CPlayer_Gunslinger* pOwner)

@@ -209,7 +209,7 @@ HRESULT CEsther_Way_Dochul::Render()
 
 	m_pModelCom->SetUpAnimation_OnShader(m_pShaderCom);
 
-	m_pModelCom->Render(m_pShaderCom);
+	m_pModelCom->Render_Inline(m_pShaderCom);
 
 	if (true == m_IsDissolve)
 	{
@@ -287,7 +287,7 @@ HRESULT CEsther_Way_Dochul::Render_Outline()
 	if (FAILED(m_pShaderCom->Bind_RawValue("g_fOutlineThickness", &fOutlineThickness, sizeof(_float))))
 		return E_FAIL;
 
-	Vec4	   vOutlineColor = Vec4(1.f, 0.f, 0.f, 1.f);
+	Vec4	   vOutlineColor = Vec4(1.f, 1.f, 1.f, 1.f);
 	if (FAILED(m_pShaderCom->Bind_RawValue("g_vOutlineColor", &vOutlineColor, sizeof(Vec4))))
 		return E_FAIL;
 
@@ -363,7 +363,7 @@ void CEsther_Way_Dochul::CullingObject()
 
 	if (m_bRender)
 	{
-		//m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_OUTLINE , this);
+		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_OUTLINE , this);
 		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONBLEND, this);
 		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOW, this);
 	}

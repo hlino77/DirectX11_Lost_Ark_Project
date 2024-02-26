@@ -180,12 +180,18 @@ void CNpcTool::Set_DebugRender_Npc()
 void CNpcTool::Pick_Npc()
 {
 	_uint iIndex = 0;
+	_float fDist = 10.0f;
+	_float fPickDist = 10.0f;
 	Vec3 vPickPos;
 	for (auto& pNpc : m_vecNpcs)
 	{
-		if (true == static_cast<CNpc*>(pNpc)->Intersect_Mouse(vPickPos))
+		if (true == static_cast<CNpc*>(pNpc)->Intersect_Mouse(vPickPos, fDist))
 		{
-			m_iCurNpc = iIndex;
+			if (fPickDist >= fDist)
+			{
+				fPickDist = fDist;
+				m_iCurNpc = iIndex;
+			}
 		}
 		iIndex++;
 	}

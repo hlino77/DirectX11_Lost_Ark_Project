@@ -140,11 +140,14 @@ DepthStencilState DSS_Outline
     DepthWriteMask = zero;
 
     StencilEnable = true;
-    StencilWriteMask = 0xff;
 
     FrontFaceStencilFunc = not_equal;
     FrontFaceStencilPass = keep;
     FrontFaceStencilFail = keep;
+
+    BackFaceStencilFunc = not_equal;
+    BackFaceStencilPass = keep;
+    BackFaceStencilFail = keep;
 };
 
 DepthStencilState DSS_Inline
@@ -153,7 +156,6 @@ DepthStencilState DSS_Inline
     DepthWriteMask = zero;
 
     StencilEnable = true;
-    StencilWriteMask = 0xff;
 
     FrontFaceStencilFunc = always;
     FrontFaceStencilPass = keep;

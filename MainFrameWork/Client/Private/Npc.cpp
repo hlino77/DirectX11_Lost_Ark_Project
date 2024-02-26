@@ -576,7 +576,7 @@ void CNpc::Show_SpeechBuble(const wstring& szChat)
 	m_pSpeechBuble->Active_SpeechBuble(szChat);
 }
 
-_bool CNpc::Intersect_Mouse(Vec3& vPickPos)
+_bool CNpc::Intersect_Mouse(Vec3& vPickPos, _float& fDist)
 {
 	POINT pt;
 	GetCursorPos(&pt);
@@ -594,14 +594,15 @@ _bool CNpc::Intersect_Mouse(Vec3& vPickPos)
 
 	Ray MouseRay = Ray(vWorldRayOrigin, vWorldRayDir);
 
-	_float fDist;
+	_float fCheckDist;
 	for (auto& Colider : m_Coliders)
 	{
 		if (Colider.second->IsActive())
 		{
-			if (true == Colider.second->Intersects(MouseRay, fDist))
+			if (true == Colider.second->Intersects(MouseRay, fCheckDist))
 			{
 				vPickPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+				fDist = fCheckDist;
 				m_IsClicked = true;
 				return true;
 			}

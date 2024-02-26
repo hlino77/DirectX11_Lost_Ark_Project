@@ -57,7 +57,7 @@ public:
 	virtual void		Get_MoveMessage(Vec3 vPos);  
 	virtual void		Get_MoveSpeedMessage(_float fSpeed) { m_fMoveSpeed = fSpeed; }
 	virtual void		Get_DirMessage(Vec3 vPos); 
-	virtual void		Get_StopMessage()	{ m_vNextMove = Vec3(); m_bStop = true;}
+	virtual void		Get_StopMessage() { m_vNextMove = Vec3(); m_bStop = true; m_bMoveStop = true; }
 	virtual void		Get_LerpLookMessage(Vec3 vAt, _float fSpeed = 20.f); 
 	virtual void		Get_LerpDirLookMessage(Vec3 vAt, _float fSpeed = 20.f);
 	virtual void		Get_LookMessage(Vec3 vAt);

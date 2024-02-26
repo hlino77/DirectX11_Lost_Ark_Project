@@ -40,7 +40,7 @@ HRESULT CMainApp_Server::Initialize()
 	CServerPacketHandler::Init();
 
 
-	wstring strIP = L"192.168.0.223";
+	wstring strIP = L"127.0.0.1";
 
 	ServerServiceRef service = std::make_shared<ServerService>
 		(
