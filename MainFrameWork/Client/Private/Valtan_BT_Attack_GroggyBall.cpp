@@ -30,11 +30,11 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_GroggyBall::OnUpdate(const _float& fTimeDe
 	if (!m_bShield && m_iCurrAnimation == 1 && !m_pGameObject->Get_ModelCom()->IsNext() && static_cast<CBoss*>(m_pGameObject)->Get_MaxGroggyCount() == 0)
 	{
 		m_bShield = true;
-		static_cast<CBoss_Valtan*>(m_pGameObject)->Set_Shield(10902324);
+		static_cast<CBoss_Valtan*>(m_pGameObject)->Set_Shield(20902324);
 		CEffect_Manager::EFFECTPIVOTDESC tDesc;
 		tDesc.pPivotMatrix = &m_pGameObject->Get_TransformCom()->Get_WorldMatrix();
 		EFFECT_START_OUTLIST(L"VT_Shield", &tDesc, m_vecEffect);
-		static_cast<CBoss*>(m_pGameObject)->Set_MaxGroggyCount(50);
+		static_cast<CBoss*>(m_pGameObject)->Set_MaxGroggyCount(150);
 		static_cast<CBoss*>(m_pGameObject)->Set_GroggyCount(static_cast<CBoss*>(m_pGameObject)->Get_MaxGroggyCount());
 		static_cast<CBoss*>(m_pGameObject)->Get_GroggyUI()->Set_Active(true);
 	}

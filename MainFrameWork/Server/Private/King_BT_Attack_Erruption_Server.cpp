@@ -21,7 +21,7 @@ CBT_Node::BT_RETURN CKing_BT_Attack_Erruption_Server::OnUpdate(const _float& fTi
 	if (m_bSetGroggyCount && m_vecAnimDesc[0].iAnimIndex == m_pGameObject->Get_ModelCom()->Get_CurrAnim())
 	{
 		m_bSetGroggyCount = false;
-		static_cast<CBoss_Server*>(m_pGameObject)->Set_MaxGroggyCount(150);
+		static_cast<CBoss_Server*>(m_pGameObject)->Set_MaxGroggyCount(350);
 		static_cast<CBoss_Server*>(m_pGameObject)->Set_GroggyCount(static_cast<CBoss_Server*>(m_pGameObject)->Get_MaxGroggyCount());
 	}	
 	if (m_fLoopTime > m_vecAnimDesc[3].fMaxLoopTime)

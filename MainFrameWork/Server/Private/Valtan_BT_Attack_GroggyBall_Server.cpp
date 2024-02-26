@@ -33,8 +33,8 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_GroggyBall_Server::OnUpdate(const _float& 
 	if (!m_bShield && m_iCurrAnimation == 1 && !m_pGameObject->Get_ModelCom()->IsNext() && static_cast<CBoss_Server*>(m_pGameObject)->Get_MaxGroggyCount() == 0)
 	{
 		m_bShield = true;
-		static_cast<CBoss_Valtan_Server*>(m_pGameObject)->Set_Shield(10902324);
-		static_cast<CBoss_Server*>(m_pGameObject)->Set_MaxGroggyCount(50);
+		static_cast<CBoss_Valtan_Server*>(m_pGameObject)->Set_Shield(20902324);
+		static_cast<CBoss_Server*>(m_pGameObject)->Set_MaxGroggyCount(150);
 		static_cast<CBoss_Server*>(m_pGameObject)->Set_GroggyCount(static_cast<CBoss_Server*>(m_pGameObject)->Get_MaxGroggyCount());
 	}
 	if (m_iCurrAnimation == 2 && !m_pGameObject->Get_ModelCom()->IsNext() && static_cast<CBoss_Server*>(m_pGameObject)->Get_MaxGroggyCount() > 0)
