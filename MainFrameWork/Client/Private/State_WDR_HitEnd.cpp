@@ -96,8 +96,10 @@ void CState_WDR_HitEnd::Tick_State_Control(_float fTimeDelta)
 		2 <= m_pPlayer->Get_ValtanPhase())
 	{
 		m_pPlayer->Set_State(TEXT("Fall"));
+		return;
 	}
-	else if (true == m_pController->Is_Dash())
+
+	if (true == m_pController->Is_Dash())
 	{
 		Vec3 vClickPos;
 		if (true == m_pPlayer->Get_CellPickingPos(vClickPos))
@@ -106,6 +108,7 @@ void CState_WDR_HitEnd::Tick_State_Control(_float fTimeDelta)
 			m_pPlayer->Set_TargetPos(Vec3());
 
 		m_pPlayer->Set_State(TEXT("StandDash"));
+		return;
 	}
 
 
@@ -122,6 +125,7 @@ void CState_WDR_HitEnd::Tick_State_Control(_float fTimeDelta)
 		if (m_fDownTime <= m_fTimeAcc)
 		{
 			m_pPlayer->Set_State(TEXT("Stand"));
+			return;
 		}
 	}
 }

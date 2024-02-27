@@ -155,6 +155,7 @@ void CState_WR_Hit::Tick_State_Control(_float fTimeDelta)
 		2 <= m_pPlayer->Get_ValtanPhase())
 	{
 		m_pPlayer->Set_State(TEXT("Fall"));
+		return;
 	}
 	else
 	{
@@ -167,6 +168,7 @@ void CState_WR_Hit::Tick_State_Control(_float fTimeDelta)
 			if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_iHit))
 			{
 				m_pPlayer->Set_State(TEXT("HitEnd"));
+				return;
 			}
 		}
 	}
@@ -205,12 +207,14 @@ void CState_WR_Hit::Hit_Down(_float fTimeDelta)
 				m_pPlayer->Set_TargetPos(Vec3());
 
 			m_pPlayer->Set_State(TEXT("StandDash"));
+			return;
 		}
 
 		m_fTimeAcc += fTimeDelta;
 		if (m_fDownTime <= m_fTimeAcc)
 		{
 			m_pPlayer->Set_State(TEXT("Stand"));
+			return;
 		}
 	}
 }

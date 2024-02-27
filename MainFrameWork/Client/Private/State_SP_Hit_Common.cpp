@@ -94,6 +94,7 @@ void CState_SP_Hit_Common::Tick_State_Control(_float fTimeDelta)
 		2 <= m_pPlayer->Get_ValtanPhase())
 	{
 		m_pPlayer->Set_State(TEXT("Fall"));
+		return;
 	}
 	else
 	{
@@ -117,12 +118,14 @@ void CState_SP_Hit_Common::Hit_Dmg(_float fTimeDelta)
 			m_pPlayer->Set_TargetPos(Vec3());
 
 		m_pPlayer->Set_State(TEXT("Dash"));
+		return;
 	}
 
 	m_fTimeAcc += fTimeDelta;
 	if (m_fDmgTime <= m_fTimeAcc)
 	{
 		m_pPlayer->Set_State(TEXT("Idle"));
+		return;
 	}
 }
 
