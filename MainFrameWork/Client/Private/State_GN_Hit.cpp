@@ -152,7 +152,7 @@ void CState_GN_Hit::Tick_State_Control(_float fTimeDelta)
 	}
 
 	if (false == CNavigationMgr::GetInstance()->Is_NeighborActive(m_pPlayer->Get_CurrLevel(), m_pPlayer) &&
-		0 <= m_pPlayer->Get_ValtanPhase())
+		2 <= m_pPlayer->Get_ValtanPhase())
 	{
 		m_pPlayer->Set_State(TEXT("Fall"));
 	}

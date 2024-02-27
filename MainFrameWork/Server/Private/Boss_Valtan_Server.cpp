@@ -94,7 +94,7 @@ HRESULT CBoss_Valtan_Server::Initialize_Prototype()
 
 HRESULT CBoss_Valtan_Server::Initialize(void* pArg)
 {
-	m_bTest = true;
+	//m_bTest = true;
 
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;

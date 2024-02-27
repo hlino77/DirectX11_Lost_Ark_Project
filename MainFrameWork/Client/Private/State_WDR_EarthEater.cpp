@@ -98,9 +98,10 @@ void CState_WDR_EarthEater::Exit_State()
 
 	if (true == m_pPlayer->Is_CancelState() || true == m_pController->Is_HitState())
 	{
-		Effect_Exit();
 		StopStateSound();
 	}
+
+	Effect_Exit();
 
 	m_Particles.clear();
 	m_SmallParticles.clear();
