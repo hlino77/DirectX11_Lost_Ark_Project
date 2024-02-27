@@ -336,6 +336,7 @@ void CCamera_Player::Tick_ResetCamera(_float fTimeDelta)
 		{
 			m_fCameraLength = m_fTargetCameraLength = m_fDefaultLength;
 		}
+		CRenderer::Set_DOF_Focus(m_fDefaultLength / 1200.f);
 	}
 
 	Vec3 vPlayerPos = m_pTarget->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
