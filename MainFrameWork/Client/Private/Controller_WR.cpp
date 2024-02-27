@@ -370,8 +370,11 @@ void CController_WR::Get_HitMessage(_uint iDamge, _float fForce, Vec3 vPos)
 		return;
 	}
 
-	if (HIT_TYPE::WEAK != m_eHitType && false == static_cast<CPlayer*>(m_pOwner)->Is_SuperiorArmor())
+	if (HIT_TYPE::WEAK != m_eHitType && false == static_cast<CPlayer*>(m_pOwner)->Is_SuperiorArmor() ||
+		HIT_TYPE::WEAK != m_eHitType && true == static_cast<CPlayer*>(m_pOwner)->Is_SafeZonePierce())
 	{
+		static_cast<CPlayer*>(m_pOwner)->Off_SafeZonePierce();
+
 		if (HIT_TYPE::DMG == m_eHitType && false == static_cast<CPlayer*>(m_pOwner)->Is_SuperArmor())
 		{
 			m_IsHitState = true;

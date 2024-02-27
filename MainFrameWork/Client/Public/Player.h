@@ -227,6 +227,9 @@ public:
 	_uint					Get_EstherGage() { return m_iCurEstherGage; }
 	void					Set_EstherGage(_uint iGauge) { m_iCurEstherGage = iGauge; }
 
+	_bool					Is_SafeZonePierce() { return m_IsSafeZonePierce; }
+	void					Off_SafeZonePierce() { m_IsSafeZonePierce = false; }
+
 protected:
 	virtual HRESULT			Ready_Components();
 	virtual HRESULT			Ready_Parts() { return S_OK; }
@@ -322,6 +325,8 @@ protected:
 	unordered_map<wstring, CEffect*> m_Effects;
 
 	_bool m_bPlayerInfoSend = true;
+
+	_bool m_IsSafeZonePierce = false;
 public:
 	virtual void Free();
 

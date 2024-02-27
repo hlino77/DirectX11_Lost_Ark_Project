@@ -377,7 +377,7 @@ void CPlayer_Gunslinger::OnCollisionEnter(const _uint iColLayer, CCollider* pOth
 			{
 				if (false == Is_Invincible())
 				{
-					if (false == m_IsSafeZone || true == static_cast<CSkill*>(pOther->Get_Owner())->Is_SafeZonePierce())
+					if (false == m_IsSafeZone || true == (m_IsSafeZonePierce = static_cast<CSkill*>(pOther->Get_Owner())->Is_SafeZonePierce()))
 					{
 						Vec3 vCenter;
 						if (true == static_cast<CSkill*>(pOther->Get_Owner())->Get_Collider_Center(pOther->GetID(), &vCenter))
