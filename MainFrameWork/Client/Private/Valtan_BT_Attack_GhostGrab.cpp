@@ -36,7 +36,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_GhostGrab::OnUpdate(const _float& fTimeDel
 		CSound_Manager::GetInstance()->Stop_Channel_Sound(L"Valtan#28 (615573039)");
 		m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_GRAB_BOSS)->SetActive(false);
 	}
-	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[3].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[3].iAnimIndex) >= 20 && m_bShoot)
+	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[3].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[3].iAnimIndex) >= 19 && m_bShoot)
 	{
 		m_bShoot = false;
 		CSound_Manager::GetInstance()->Stop_Channel_Sound(L"Valtan#217 (1053313532)");
@@ -54,6 +54,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_GhostGrab::OnUpdate(const _float& fTimeDel
 			Vec3 vPos = m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
 			Vec3 vLook = m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_LOOK);
 			vLook.Normalize();
+			vPos -= vLook * 0.2f;
 			pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
 			pSkill->Get_TransformCom()->LookAt_Dir(vLook);
 		}

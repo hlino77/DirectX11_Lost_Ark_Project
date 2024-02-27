@@ -27,7 +27,7 @@ HRESULT CSkill_Valtan_Breath::Initialize(void* pArg)
 {
     if (FAILED(__super::Initialize(pArg)))
         return E_FAIL;
-	m_fLastTime = 0.5f;
+	m_fLastTime = 0.8f;
 	m_SkillDesc.iAtk = 100;
 	m_SkillDesc.fForce = 49.9f;
     return S_OK;
