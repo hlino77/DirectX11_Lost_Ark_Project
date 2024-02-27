@@ -61,7 +61,7 @@ HRESULT CController_WDR::Initialize(void* pArg)
 
 	Proj_Desc.fRadius = 1.8f;
 	Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 1.5f);
-	Proj_Desc.iDamage = 300;
+	Proj_Desc.iDamage = 600;
 	Proj_Desc.fRepulsion = 0.f;
 	m_Attack_Desces[3] = Proj_Desc;
 

@@ -73,7 +73,7 @@ void CSkill_WDR_PerfectSwing::Check_ColliderState()
 {
 	if (TEXT("Skill_WDR_PerfectSwing_Success") == static_cast<CPlayer_Destroyer*>(m_pOwner)->Get_State())
 	{
-		m_SkillProjDesc.iDamage = 3000;
+		m_SkillProjDesc.iDamage = 5000;
 
 		if (nullptr != static_cast<CPlayer*>(m_pOwner)->Get_EquipItem((_uint)CPlayer::PART::WEAPON))
 		{
@@ -81,12 +81,12 @@ void CSkill_WDR_PerfectSwing::Check_ColliderState()
 			if (iItemLevel <= 10)
 			{
 				_uint iDamage = m_vecSkillProjDesces[0].iDamage;
-				m_SkillProjDesc.iDamage = 3000 * m_iDefaultItem;
+				m_SkillProjDesc.iDamage = 5000 * m_iDefaultItem;
 			}
 			else
 			{
 				_uint iDamage = m_vecSkillProjDesces[0].iDamage;
-				m_SkillProjDesc.iDamage = 3000 * m_iUpgradedItem;
+				m_SkillProjDesc.iDamage = 5000 * m_iUpgradedItem;
 			}
 		}
 	}
