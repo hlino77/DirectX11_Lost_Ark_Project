@@ -397,7 +397,7 @@ HRESULT CEffect_Manager::Effect_Start(wstring strEffectBundle, EFFECTPIVOTDESC* 
 				pEffect = m_hashEffectPools[EffectTag].front();
 				m_hashEffectPools[EffectTag].pop();
 			}
-
+			pEffect->CB_UpdatePivot.clear();
 			pEffect->Reset(*pDesc);
 			pEffect->Tick(0.0f);
 			pEffect->Set_Active(true);
@@ -432,7 +432,7 @@ HRESULT CEffect_Manager::Effect_Start(wstring strEffectBundle, EFFECTPIVOTDESC* 
 				pEffect = m_hashEffectPools[EffectTag].front();
 				m_hashEffectPools[EffectTag].pop();
 			}
-
+			pEffect->CB_UpdatePivot.clear();
 			pEffect->Reset(*pDesc);
 			pEffect->Tick(0.0f);
 			pEffect->Set_Active(true);
