@@ -141,7 +141,10 @@ extern HINSTANCE g_hInstance;
 using namespace Client;
 
 
-#define SERVER_IP		L"192.168.200.120" 
+#define SERVER_IP		L"127.0.0.1"
+//#define SERVER_IP		L"192.168.200.120" 
 //#define SERVER_IP		L"192.168.0.30"
+
+
 
 #define SERVER_PORT		7777

@@ -42,10 +42,8 @@ HRESULT CState_WDR_Iden_Attack_4::Initialize()
 
 void CState_WDR_Iden_Attack_4::Enter_State()
 {
+	m_EffectSound = false;
 	
-	CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume);
-	
-
 	m_iAttackCnt = 0;
 
 	m_pPlayer->Reserve_Animation(m_Attack_4, 0.1f, 0, 0, 1.f);
@@ -82,6 +80,13 @@ void CState_WDR_Iden_Attack_4::Tick_State_Control(_float fTimeDelta)
 		17 <= iAnimIndex)
 	{
 		m_IsAttackContinue = true;
+
+		if (false == m_EffectSound)
+		{
+			CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume);
+			m_EffectSound = true;
+		}
+
 	}
 	else if (true == static_cast<CController_WDR*>(m_pController)->Is_Identity() &&
 		27 > iAnimIndex &&
@@ -89,6 +94,7 @@ void CState_WDR_Iden_Attack_4::Tick_State_Control(_float fTimeDelta)
 	{
 		m_IsAttackContinue = false;
 		m_IsSkillContinue = true;
+
 	}
 
 	if (true == m_pPlayer->Get_ModelCom()->Is_AnimationEnd(m_Attack_4))
@@ -163,6 +169,25 @@ void CState_WDR_Iden_Attack_4::Tick_State_NoneControl(_float fTimeDelta)
 		m_iAttackCnt++;
 		Effect_Shot();
 	}
+
+	_uint iAnimIndex = m_pPlayer->Get_ModelCom()->Get_Anim_Frame(m_Attack_4);
+
+
+	if (true == m_pController->Is_Attack() &&
+		27 > iAnimIndex &&
+		17 <= iAnimIndex)
+	{
+		m_IsAttackContinue = true;
+
+		if (false == m_EffectSound)
+		{
+			CSound_Manager::GetInstance()->PlaySoundFile_AddChannel(m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].strGroup, m_SoundFrames[m_iSoundCnt].strName, m_SoundFrames[m_iSoundCnt].fVolume);
+			m_EffectSound = true;
+		}
+
+	}
+
+
 }
 
 void CState_WDR_Iden_Attack_4::Effect_Shot()
