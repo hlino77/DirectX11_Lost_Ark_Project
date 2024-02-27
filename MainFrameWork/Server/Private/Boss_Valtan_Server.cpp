@@ -156,13 +156,13 @@ void CBoss_Valtan_Server::Hit_Collision(_uint iDamage, Vec3 vHitPos, _uint iStat
 				{
 					m_iShield = 0;
 				}
-				if (m_IsGroggyLock)
-					iGroggy_Result = 0;
 				if (m_iGroggyObsrob > 0)
 				{
 					m_iGroggyObsrob -= iGroggy_Result;
 					iGroggy_Result = 0;
-				}
+				}				
+				if (m_IsGroggyLock)
+					iGroggy_Result = 0;
 				else if (m_iGroggyCount > 0 && m_iMaxGroggyCount > 0)
 				{
 					m_iGroggyCount -= iGroggy_Result;

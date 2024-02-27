@@ -42,7 +42,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_RushGrab::OnUpdate(const _float& fTimeDelt
 		Add_Sound(3, 2, L"Effect", L"Valtan#299 (954830834)");
 	}
 
-	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[6].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[6].iAnimIndex) >= 20 && m_bShoot)
+	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[6].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[6].iAnimIndex) >= 19 && m_bShoot)
 	{
 		m_bShoot = false;
 		CSkill::ModelDesc ModelDesc = {};
@@ -59,6 +59,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_RushGrab::OnUpdate(const _float& fTimeDelt
 			Vec3 vPos = m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_POSITION);
 			Vec3 vLook = m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_LOOK);
 			vLook.Normalize();
+			vPos -= vLook * 0.2f;
 			pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
 			pSkill->Get_TransformCom()->LookAt_Dir(vLook);
 		}
