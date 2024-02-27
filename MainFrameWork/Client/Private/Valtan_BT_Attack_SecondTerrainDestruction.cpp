@@ -115,6 +115,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_SecondTerrainDestruction::OnUpdate(const _
 			static_cast<CSkill*>(pSkill)->Set_Force(32.f);
 			static_cast<CSkill*>(pSkill)->Set_PizzaSlope(55.f, -45.f);
 			static_cast<CSkill*>(pSkill)->Set_PizzaRadii(30.f, 5.f);
+			static_cast<CSkill*>(pSkill)->Set_SafeZonePierce(true);
 		}
 		pSkill = nullptr;
 		pSkill = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_Skill_Valtan_PizzaInstant", &ModelDesc);
@@ -127,6 +128,7 @@ CBT_Node::BT_RETURN CValtan_BT_Attack_SecondTerrainDestruction::OnUpdate(const _
 			static_cast<CSkill*>(pSkill)->Set_Force(32.f);
 			static_cast<CSkill*>(pSkill)->Set_PizzaSlope(45.f, -55.f);
 			static_cast<CSkill*>(pSkill)->Set_PizzaRadii(30.f, 5.f);
+			static_cast<CSkill*>(pSkill)->Set_SafeZonePierce(true);
 		}
 		{
 			CGameObject* pFloor = CGameInstance::GetInstance()->GetInstance()->Find_GameObject(m_pGameObject->Get_CurrLevel(), (_uint)LAYER_TYPE::LAYER_BACKGROUND, L"Floor_All_R01");
