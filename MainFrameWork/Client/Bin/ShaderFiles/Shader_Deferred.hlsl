@@ -419,8 +419,8 @@ float4 PS_MAIN_PBR_DEFERRED(VS_OUT_TARGET In) : SV_TARGET
 	F0 = lerp(F0, vAlbedo.xyz, fMetallic); // π›ªÁ¿≤ F0
 
 	// calculate per-light radiance
-	float3 L = normalize(-g_vLightDir);
-	float3 H = normalize(V + L);
+	//float3 L = normalize(-g_vLightDir);
+	//float3 H = normalize(V + L);
 
     float3 vPBR_Color = IntegratedBRDF(fRoughness, fMetallic, vAlbedo.xyz, F0, N, V, fAO);
 
