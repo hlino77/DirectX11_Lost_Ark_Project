@@ -429,7 +429,7 @@ void CUI_Lobby_NickName::Set_NickName(const wstring& strStageName)
 
 void CUI_Lobby_NickName::Random_NickName()
 {
-	_int iRandomIndex =  CGameInstance::GetInstance()->Random_Int(0,10);
+	/*_int iRandomIndex =  CGameInstance::GetInstance()->Random_Int(0,10);
 
 	switch (iRandomIndex)	
 	{
@@ -466,10 +466,15 @@ void CUI_Lobby_NickName::Random_NickName()
 	case 10:
 		m_strNickName = TEXT("ªÏ∑¡¡÷ººø‰");
 		break;
-	}
-
-	if((_uint)CHR_CLASS::DESTROYER ==  m_iClassIndex)
+	}*/
+	if ((_uint)CHR_CLASS::GUNSLINGER == m_iClassIndex)
+		m_strNickName = TEXT("A±ﬁ«—øÏ");
+	else if((_uint)CHR_CLASS::SLAYER ==  m_iClassIndex)
+		m_strNickName = TEXT("¡ÍΩ≈≈‰≥¢∞œµ‡");
+	else if ((_uint)CHR_CLASS::DESTROYER == m_iClassIndex)
 		m_strNickName = TEXT("µ∫ÿ¿Ã");
+	else if ((_uint)CHR_CLASS::DOAGA == m_iClassIndex)
+		m_strNickName = TEXT("«—∫◊«»«œº“");
 }
 
 CUI_Lobby_NickName* CUI_Lobby_NickName::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

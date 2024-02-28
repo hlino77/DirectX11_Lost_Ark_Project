@@ -94,6 +94,9 @@ HRESULT CUI_Option_Sound::Initialize(void* pArg)
 		m_fVolume[i] = m_fSoundRatio[i];
 		m_fDragBarX[i] = m_fDragLineMinX + (m_fDragLineSizeX* m_fSoundRatio[i]);
 	}
+	m_bCheckVolume[1] = false;
+	m_fVolume[1] = 0.f;
+	CSound_Manager::GetInstance()->Set_ChannelGroupVolume(TEXT("BGM"), m_fVolume[1]);
 
 	return S_OK;
 }

@@ -31,14 +31,14 @@ HRESULT CSkill_GN_SpiralChaser::Initialize(void* pArg)
 	Proj_Spawn_Desc.eLayer_Collider = (_uint)LAYER_COLLIDER::LAYER_SKILL_PLAYER;
 
 	Proj_Spawn_Desc.fAttackTime = 10.f;
-	Proj_Spawn_Desc.fRadius = 1.7f;
+	Proj_Spawn_Desc.fRadius = 0.5f;
 	Proj_Spawn_Desc.vOffset = Vec3(0.0f, 0.2f, 0.0f);
 
 	Proj_Spawn_Desc.IsSpawner = true;
 	Proj_Spawn_Desc.fSpawnAttackTime = 0.05f;
 	Proj_Spawn_Desc.iSpawnAmount = 20;
 	Proj_Spawn_Desc.fSpawnTime = 0.1f;
-	Proj_Spawn_Desc.fSpawnRadius = 1.2f;
+	Proj_Spawn_Desc.fSpawnRadius = 1.8f;
 	Proj_Spawn_Desc.vSpawnOffset = Vec3(0.0f, 0.0f, 0.0f);
 
 	Proj_Spawn_Desc.iDamage = 90;
