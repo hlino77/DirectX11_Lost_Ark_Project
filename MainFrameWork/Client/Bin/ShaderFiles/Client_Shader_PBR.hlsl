@@ -229,6 +229,7 @@ float3 BRDF(in float fRoughness, in float fMetallic, in float3 vDiffuseColor, in
     
     float3 R = reflect(-V, N);
     
+    
     float D = NormalDistributionGGXTR(NdotH, fRoughness);
     float G = GeometrySmith(NdotV, NdotL, fRoughness);
     float3 F = fresnelSchlick(HdotV, F0);
@@ -244,8 +245,9 @@ float3 BRDF(in float fRoughness, in float fMetallic, in float3 vDiffuseColor, in
     float3 specular_factor = numerator / max(denom, 0.001);
     
     //////////////////// 240127
-    float3 vRadiance = g_vLightDiffuse.xyz * EPSILON /*attenuation*/;
+    float3 vRadiance = g_vLightDiffuse.xyz * EPSILON; //EPSILON = attenuation
     float3 Lo = (kD * vDiffuseColor / PI + specular_factor) * vRadiance * NdotL;
+    
     
     float3 F1 = FresnelSchlickRoughness(NdotV, F0, fRoughness);
     
@@ -263,7 +265,7 @@ float3 BRDF(in float fRoughness, in float fMetallic, in float3 vDiffuseColor, in
     float3 specular = prefilteredColor * (F1 * envBRDF.x + envBRDF.y);
     
     float3 vAmbient = (kD * vDiffuse + specular) * fAO;
-    
+
     float3 vColor = vAmbient + Lo;
     
     return vColor;
@@ -292,5 +294,31 @@ float3 BRDF(in float fRoughness, in float fMetallic, in float3 vDiffuseColor, in
     //return (kD * diffuse_factor + specular_factor) * (NdotL + fAO);
     //return (kD * vDiffuseColor / PI + specular_factor) * NdotL * fAO;
     //return (kD * vDiffuseColor + specular_factor) * NdotL;
+}
+
+float3 IntegratedBRDF(in float fRoughness, in float fMetallic, in float3 vDiffuseColor, in float3 F0, in float3 N, in float3 V, in float fAO)
+{
+    const float NdotV = max(dot(N, V), EPSILON);
+    
+    float3 R = reflect(-V, N);
+    
+    float3 F1 = FresnelSchlickRoughness(NdotV, F0, fRoughness);
+    
+    float3 kS = F1;
+    float3 kD = 1.0 - kS;
+    kD *= 1.0 - fMetallic;
+    
+    float3 vIrradiance = g_IrradianceTexture.Sample(LinearClampSampler, N).rgb;
+    float3 vDiffuse = vIrradiance * vDiffuseColor.xyz;
+    
+    const float MAX_REFLECTION_LOD = 9.0f;
+    
+    float3 prefilteredColor = g_PreFilteredTexture.SampleLevel(LinearClampSampler, R, fRoughness * MAX_REFLECTION_LOD).rgb;
+    float2 envBRDF = g_BRDFTexture.Sample(LinearClampSampler, float2(NdotV, fRoughness)).rg;
+    float3 specular = prefilteredColor * (F1 * envBRDF.x + envBRDF.y);
+    
+    float3 vColor = (kD * vDiffuse) * fAO + specular;
+    
+    return vColor;
 }
 #endif

@@ -422,7 +422,7 @@ float4 PS_MAIN_PBR_DEFERRED(VS_OUT_TARGET In) : SV_TARGET
 	float3 L = normalize(-g_vLightDir);
 	float3 H = normalize(V + L);
 
-	float3 vPBR_Color = BRDF(fRoughness, fMetallic, vAlbedo.xyz, F0, N, V, L, H, fAO);
+    float3 vPBR_Color = IntegratedBRDF(fRoughness, fMetallic, vAlbedo.xyz, F0, N, V, fAO);
 
 	float3 vColor = float3(0.f, 0.f, 0.f);
 
@@ -460,7 +460,6 @@ float4 PS_MAIN_PBR_DEFERRED(VS_OUT_TARGET In) : SV_TARGET
 		ComputeRimLight(vRimLightColor, N, -V);
 		vColor += vRimLightColor;
 	}
-
 
 #pragma region Fog
 

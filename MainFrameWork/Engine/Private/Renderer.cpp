@@ -2531,7 +2531,7 @@ HRESULT CRenderer::Ready_IBL()
 {
 	m_pIrradianceTexture = CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/BackGround/IrradianceMap/IrradianceMap%d.dds"), 23);
 	m_pPreFilteredTexture = CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/BackGround/PreFilteredMap/PreFilteredMap%d.dds"), 23);
-	m_pBRDFTexture = CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/BackGround/Brdf/Brdf0.dds"));
+	m_pBRDFTexture = CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/BackGround/Brdf/Brdf1.dds"));
 
 	if (nullptr == m_pIrradianceTexture || nullptr == m_pPreFilteredTexture || nullptr == m_pBRDFTexture)
 		return E_FAIL;
