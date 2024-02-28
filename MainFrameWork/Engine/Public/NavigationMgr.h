@@ -45,7 +45,7 @@ private:
 	unordered_map<_uint, CNavigation*> m_Navigations;
 
 private:
-	_bool m_bRender = true;
+	_bool m_bRender = false;
 
 	ID3D11Device* m_pDevice = nullptr;
 	ID3D11DeviceContext* m_pContext = nullptr;

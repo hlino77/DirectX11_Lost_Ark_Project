@@ -4,6 +4,7 @@
 #include "PipeLine.h"
 
 atomic<_uint> CCollider::g_iNextID = 0;
+_bool  CCollider::m_bColRender = false;
 
 CCollider::CCollider(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, ColliderType eColliderType)
 	: Super(pDevice, pContext)
@@ -21,20 +22,15 @@ CCollider::CCollider(const CCollider& rhs)
 	, m_eColliderType(rhs.m_eColliderType)
 	, m_IsTrigger(rhs.m_IsTrigger)
 	//, m_iCol(rhs.m_iCol)
-#ifdef _DEBUG
 	, m_pBatch(rhs.m_pBatch)
 	, m_pEffect(rhs.m_pEffect)
 	, m_pInputLayout(rhs.m_pInputLayout)
-#endif
 {
-#ifdef _DEBUG
 	Safe_AddRef(m_pInputLayout);
-#endif
 }
 
 HRESULT CCollider::Initialize_Prototype()
 {
-#ifdef _DEBUG
 	if (m_pDevice && m_pContext)
 	{
 		m_pBatch = new PrimitiveBatch<VertexPositionColor>(m_pContext);
@@ -54,7 +50,6 @@ HRESULT CCollider::Initialize_Prototype()
 			return E_FAIL;
 		}
 	}
-#endif
 
 	return S_OK;
 }
@@ -68,21 +63,22 @@ HRESULT CCollider::Initialize(void* pArg)
 
 void CCollider::DebugRender()
 {
-#ifdef _DEBUG
-	m_pEffect->SetWorld(XMMatrixIdentity());
+	if (true == m_bColRender)
+	{
+		m_pEffect->SetWorld(XMMatrixIdentity());
 
-	CPipeLine* pPipeLine = CPipeLine::GetInstance();
-	pPipeLine->AddRef();
+		CPipeLine* pPipeLine = CPipeLine::GetInstance();
+		pPipeLine->AddRef();
 
-	m_pEffect->SetView(pPipeLine->Get_TransformMatrix(CPipeLine::D3DTS_VIEW));
-	m_pEffect->SetProjection(pPipeLine->Get_TransformMatrix(CPipeLine::D3DTS_PROJ));
+		m_pEffect->SetView(pPipeLine->Get_TransformMatrix(CPipeLine::D3DTS_VIEW));
+		m_pEffect->SetProjection(pPipeLine->Get_TransformMatrix(CPipeLine::D3DTS_PROJ));
 
-	Safe_Release(pPipeLine);
+		Safe_Release(pPipeLine);
 
-	m_pEffect->Apply(m_pContext);
+		m_pEffect->Apply(m_pContext);
 
-	m_pContext->IASetInputLayout(m_pInputLayout);
-#endif // DEBUG
+		m_pContext->IASetInputLayout(m_pInputLayout);
+	}
 }
 
 void CCollider::OnCollisionEnter(CCollider* pOther)
@@ -112,14 +108,11 @@ void CCollider::Reset_Attack()
 void CCollider::Free()
 {
 	Super::Free();
-#ifdef _DEBUG
+
 	if (false == m_isCloned)
 	{
 		Safe_Delete(m_pBatch);
 		Safe_Delete(m_pEffect);
 	}
-
 	Safe_Release(m_pInputLayout);
-
-#endif // _DEBUG
 }

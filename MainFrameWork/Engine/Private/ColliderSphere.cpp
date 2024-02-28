@@ -54,20 +54,22 @@ void CSphereCollider::Update_Collider()
 
 void CSphereCollider::DebugRender()
 {
-#ifdef _DEBUG
-	Super::DebugRender();
+	if (true == m_bColRender)
+	{
+		Super::DebugRender();
 
-	m_pBatch->Begin();
+		m_pBatch->Begin();
 
-	DX::Draw(m_pBatch, m_tBoundingSphere, Colors::Green);
+		DX::Draw(m_pBatch, m_tBoundingSphere, Colors::Green);
 
-	m_pBatch->End();
+		m_pBatch->End();
 
 
-	if (m_pChild)
-		m_pChild->DebugRender();
-#endif // DEBUG
+		if (m_pChild)
+			m_pChild->DebugRender();
+	}
 }
+
 _bool CSphereCollider::Intersects(SimpleMath::Ray& ray, OUT _float& distance)
 {
 	if (m_tBoundingSphere.Intersects(ray.position, ray.direction, OUT distance) == false)

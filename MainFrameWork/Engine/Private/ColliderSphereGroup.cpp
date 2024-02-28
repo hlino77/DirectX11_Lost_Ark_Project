@@ -48,15 +48,15 @@ void CSphereColliderGroup::Update_Collider()
 
 void CSphereColliderGroup::DebugRender()
 {
-#ifdef _DEBUG
-	
-	for (auto& Collider : m_Colliders)
+	if (true == m_bColRender)
 	{
-		Collider->DebugRender();
+		for (auto& Collider : m_Colliders)
+		{
+			Collider->DebugRender();
+		}
 	}
-
-#endif // DEBUG
 }
+
 _bool CSphereColliderGroup::Intersects(SimpleMath::Ray& ray, OUT _float& distance)
 {
 	return false;

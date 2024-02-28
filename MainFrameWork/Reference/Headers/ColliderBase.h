@@ -82,7 +82,13 @@ public:
 
 	void			Set_AttackCollider(_uint iAttack, _uint iAttackType, _bool bSlow);
 	void			Reset_Attack();
+
+public:
+	static void		Swtich_ColRender() { m_bColRender = !m_bColRender; }
+
 protected:
+	static _bool			m_bColRender;
+	
 	CRigidBody*				m_pRigidBody;
 
 	_uint					m_iColLayer;
@@ -107,13 +113,12 @@ private:
 	//_int			m_iCol;
 
 
-	
-#ifdef _DEBUG
 protected:
 	PrimitiveBatch<VertexPositionColor>*	m_pBatch = nullptr;
 	BasicEffect*							m_pEffect = nullptr;
 	ID3D11InputLayout*						m_pInputLayout = nullptr;
-#endif
+
+	
 
 public:
 	virtual void Free()						override;

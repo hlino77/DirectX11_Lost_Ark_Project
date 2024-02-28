@@ -14,6 +14,7 @@
 #include "RigidBody.h"
 #include "MainLogo.h"
 #include "BackGround_Loading.h"
+#include "ColliderBase.h"
 #include "ColliderOBB.h"
 #include "ColliderDoughnut.h"
 #include "ColliderSphereGroup.h"
@@ -156,6 +157,8 @@ void CMainApp::Tick(_float fTimeDelta)
 
 	if (KEY_HOLD(KEY::N) && KEY_TAP(KEY::NUM_1))
 		CNavigationMgr::GetInstance()->OnOff_Render();
+	if (KEY_HOLD(KEY::C) && KEY_TAP(KEY::NUM_1))
+		CCollider::Swtich_ColRender();
 
 	//if (KEY_HOLD(KEY::CTRL) && KEY_TAP(KEY::S))
 	//	m_pRenderer_Com->Set_StaticShadow();
@@ -191,7 +194,7 @@ HRESULT CMainApp::Render()
 	if (FAILED(CChat_Manager::GetInstance()->Render()))
 		return E_FAIL;
 
-	//CNavigationMgr::GetInstance()->Render(m_pGameInstance->Get_CurrLevelIndex());
+	CNavigationMgr::GetInstance()->Render(m_pGameInstance->Get_CurrLevelIndex());
 
 	if (FAILED(m_pGameInstance->Render_Debug()))
 		return E_FAIL;

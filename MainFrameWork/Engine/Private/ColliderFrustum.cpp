@@ -50,16 +50,18 @@ void CFrustumCollider::Update_Collider()
 
 void CFrustumCollider::DebugRender()
 {
-#ifdef _DEBUG
-	Super::DebugRender();
+	if (true == m_bColRender)
+	{
+		Super::DebugRender();
 
-	m_pBatch->Begin();
+		m_pBatch->Begin();
 
-	DX::Draw(m_pBatch, m_tBoundingFrustum, Colors::Green);
+		DX::Draw(m_pBatch, m_tBoundingFrustum, Colors::Green);
 
-	m_pBatch->End();
-#endif // DEBUG
+		m_pBatch->End();
+	}
 }
+
 _bool CFrustumCollider::Intersects(SimpleMath::Ray& ray, OUT _float& distance)
 {
 	return m_tBoundingFrustum.Intersects(ray.position, ray.direction, OUT distance);
