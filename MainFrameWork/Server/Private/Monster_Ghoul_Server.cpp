@@ -80,7 +80,7 @@ HRESULT CMonster_Ghoul_Server::Initialize(void* pArg)
 	m_vecAttackRanges.push_back(1.f);
 	m_vecAttackRanges.push_back(4.5f);
 	m_fAttackRange = m_vecAttackRanges[0];
-	m_fNoticeRange = 20.f;
+	m_fNoticeRange = 7.f;
 	m_pRigidBody->SetMass(2.0f);
 	m_fRootTargetDistance = 0.9f;
 	m_iMaxHp = 40000000;
