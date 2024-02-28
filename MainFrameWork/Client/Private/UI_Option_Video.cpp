@@ -115,9 +115,13 @@ HRESULT CUI_Option_Video::Initialize(void* pArg)
 
 	m_fRatioX[0] = (m_fDragBarX_IBL - m_fDragLineMinX) / m_fDragLineSizeX;
 	m_fRatioX[1] = (m_fDragBarX_SSR - m_fDragLineMinX) / m_fDragLineSizeX;
-	m_fRatioX[2] = (m_fDragBarX_ScreenTone_Grayscale - m_fDragLineMinX) / m_fDragLineSizeX;
+	/*m_fRatioX[2] = (m_fDragBarX_ScreenTone_Grayscale - m_fDragLineMinX) / m_fDragLineSizeX;
 	m_fRatioX[3] = (m_fDragBarX_ScreenTone_Contrast - m_fDragLineMinX) / m_fDragLineSizeX;
-	m_fRatioX[4] = (m_fDragBarX_ScreenTone_Saturation - m_fDragLineMinX) / m_fDragLineSizeX;
+	m_fRatioX[4] = (m_fDragBarX_ScreenTone_Saturation - m_fDragLineMinX) / m_fDragLineSizeX;*/
+
+	m_fRatioX[2] = 0.5f;
+	m_fRatioX[3] = 0.5f;
+	m_fRatioX[4] = 0.5f;
 
 	return S_OK;
 }
