@@ -372,8 +372,8 @@ float4 PS_MAIN_PBR_DEFERRED(VS_OUT_TARGET In) : SV_TARGET
 
 	float fAO = 1.f;
 
-	//if(0 != g_iSSAO_Option)
-	fAO = g_SSAOBlurTarget.Sample(LinearSampler, In.vTexcoord).r;
+	if (true == g_iSSAO_Option)
+		fAO = g_SSAOBlurTarget.Sample(LinearSampler, In.vTexcoord).r;
 
 	float4	vWorldPos;
 
