@@ -21,7 +21,7 @@ _int CRenderer::m_iSSAO_Switch = 0;
 _int  CRenderer::m_iFxaa_Switch = true;
 _bool CRenderer::m_bDOF_Switch = true;
 
-CRenderer::ScreenTone_Data CRenderer::m_tScreenTone_Data = { 1.f, 1.f, 1.f };
+CRenderer::ScreenTone_Data CRenderer::m_tScreenTone_Data = { 0.5f, 0.5f, 0.5f };
 CRenderer::DOF_Data CRenderer::m_tDOF_Data = { 50.f, 7.5f / 1200.f };
 
 _float CRenderer::m_fFogDensity      = 0.f;
@@ -1982,15 +1982,16 @@ HRESULT CRenderer::Render_PostProcess()
 				m_bDeadSceneStart = true;
 			}
 
-			m_tScreenTone_Data.fGrayScale = 0.2f;
-			m_tScreenTone_Data.fContrast = 1.f;
-			m_tScreenTone_Data.fSaturation = 1.f;
+			m_tScreenTone_Data.fGrayScale = 0.1f;
+			m_tScreenTone_Data.fContrast = 0.5f;
+			m_tScreenTone_Data.fSaturation = 0.5f;
 		}
 		else
 		{
 			if (true == m_bDeadSceneStart)
 			{
 				m_tScreenTone_Data = m_tScreenTone_BackUp;
+
 				m_bDeadSceneStart = false;
 			}
 		}
@@ -2531,7 +2532,7 @@ HRESULT CRenderer::Ready_IBL()
 {
 	m_pIrradianceTexture = CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/BackGround/IrradianceMap/IrradianceMap%d.dds"), 23);
 	m_pPreFilteredTexture = CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/BackGround/PreFilteredMap/PreFilteredMap%d.dds"), 23);
-	m_pBRDFTexture = CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/BackGround/Brdf/Brdf0.dds"));
+	m_pBRDFTexture = CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/BackGround/Brdf/Brdf1.dds"));
 
 	if (nullptr == m_pIrradianceTexture || nullptr == m_pPreFilteredTexture || nullptr == m_pBRDFTexture)
 		return E_FAIL;

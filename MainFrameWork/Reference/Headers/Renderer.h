@@ -310,9 +310,9 @@ private:
 	// Screen Tone
 	struct ScreenTone_Data
 	{
-		_float	fGrayScale = 1.f;
-		_float	fContrast = 1.f;
-		_float	fSaturation = 1.f;
+		_float	fGrayScale = 0.5f;
+		_float	fContrast = 0.5f;
+		_float	fSaturation = 0.5f;
 		_float	fPadding;
 	};
 
