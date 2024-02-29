@@ -32,7 +32,7 @@ Texture2D   g_PostProcessedTarget;
 Texture2D   g_Texture;
 
 float2      g_PixelSize;
-int         g_KernelSize; //Ä¿³ÎÀº ÀÌ¹ÌÁö Ã³¸®¿¡¼­ ÇÊÅÍ ¶Ç´Â À©µµ¿ì¶ó°íµµ ºÒ¸®´Â ÀÛÀº Çà·Ä ¶Ç´Â ¸¶½ºÅ©
+int         g_KernelSize; //ì»¤ë„ì€ ì´ë¯¸ì§€ ì²˜ë¦¬ì—ì„œ í•„í„° ë˜ëŠ” ìœˆë„ìš°ë¼ê³ ë„ ë¶ˆë¦¬ëŠ” ì‘ì€ í–‰ë ¬ ë˜ëŠ” ë§ˆìŠ¤í¬
 float       g_CenterWeight;
 float	    g_WeightAtt;
 
@@ -65,7 +65,7 @@ struct VS_OUT
 	float2		vTexcoord : TEXCOORD0;
 };
 
-VS_OUT VS_MAIN(/* Á¤Á¡ */VS_IN In)
+VS_OUT VS_MAIN(/* ì •ì  */VS_IN In)
 {
 	VS_OUT			Out = (VS_OUT)0;
 	
@@ -88,7 +88,7 @@ struct PS_IN
 };
 
 float4 PS_MAIN_POSTPROCESS(PS_IN In) : SV_TARGET0
-{    // ÀÏ´Ü ±×´ë·Î ¸®ÅÏ
+{    // ì¼ë‹¨ ê·¸ëŒ€ë¡œ ë¦¬í„´
     return g_ProcessingTarget.Sample(LinearSampler, In.vTexcoord);
 }
 
@@ -109,7 +109,7 @@ float4 PS_MAIN_SCREENTONE(PS_IN In) : SV_TARGET0
     float avg = (vColor.r + vColor.g + vColor.b) / 3.0;
     float4 vNewColor;
     vNewColor.a = 1.0f;
-    vNewColor.rgb = avg * (2.f * g_fGrayScale - 1.f) + vColor.rgb * 2.f * g_fGrayScale;
+    vNewColor.rgb = avg * (2.f * g_fGrayScale - 1.f) + vColor.rgb * 2.f * (1.f - g_fGrayScale);
 
     return 0.5f + 2.f * g_fContrastValue * (vNewColor - 0.5f);
 }
@@ -159,7 +159,7 @@ float4 PS_MAIN_BLENDEFFECT(PS_IN In) : SV_TARGET0
         vColor = float4(vEffectOneBlend.rgb * 1.f + vColor.rgb * 1.f, 1.f);
     }
 	
-    /* º£ÀÌ½º ÄÚµå */
+    /* ë² ì´ìŠ¤ ì½”ë“œ */
     if (EPSILON < vEffectAlphaBlend.a)
     {
         vColor = float4(vEffectAlphaBlend.rgb * vEffectAlphaBlend.a + vColor.rgb * (1.f - vEffectAlphaBlend.a), 1.f);
@@ -176,7 +176,7 @@ float4 PS_MAIN_BLENDEFFECT(PS_IN In) : SV_TARGET0
     
     return vColor;
     
-    /* ÅØ½ºÃ³ ÀúÀå½Ã »ç¿ëµÉ ÄÚµå */
+    /* í…ìŠ¤ì²˜ ì €ì¥ì‹œ ì‚¬ìš©ë  ì½”ë“œ */
     //if (EPSILON < vEffectAlphaBlend.a)
     //{
     //    if(1 - EPSILON <= vColor.a)
@@ -222,7 +222,7 @@ float4 PS_MAIN_CHROMATIC(PS_IN In) : SV_TARGET0
     vColor.g = g_ProcessingTarget.Sample(LinearClampSampler, In.vTexcoord - BlurDir * fChromaticIntensity * 0.5f).g;
     vColor.b = g_ProcessingTarget.Sample(LinearClampSampler, In.vTexcoord - BlurDir * fChromaticIntensity).b;
 
-	//vColor *= (1.0 - g_BlurStrength * 0.5); //¾ÈÇÏ¸é ±×³É ¹à¾ÆÁü
+	//vColor *= (1.0 - g_BlurStrength * 0.5); //ì•ˆí•˜ë©´ ê·¸ëƒ¥ ë°ì•„ì§
 
     return vColor;
 }
@@ -281,7 +281,7 @@ float4 PS_MAIN_RADIALBLUR(PS_IN In) : SV_TARGET0
     vBlurCenter.x = vBlurCenter.x * 0.5f + 0.5f;
     vBlurCenter.y = vBlurCenter.y * -0.5f + 0.5f;
 	
-    float2 center = float2(vBlurCenter.x, vBlurCenter.y); //Áß½ÉÁ¡<-¸¶¿ì½ºÀÇ À§Ä¡¸¦ ¹Ş¾Æ¿À¸é ¸¶¿ì½º¸¦ Áß½ÉÀ¸·Î ºí·¯µÊ
+    float2 center = float2(vBlurCenter.x, vBlurCenter.y); //ì¤‘ì‹¬ì <-ë§ˆìš°ìŠ¤ì˜ ìœ„ì¹˜ë¥¼ ë°›ì•„ì˜¤ë©´ ë§ˆìš°ìŠ¤ë¥¼ ì¤‘ì‹¬ìœ¼ë¡œ ë¸”ëŸ¬ë¨
 	
     // g_RadialBlurTarget.Sample(LinearClampSampler, In.vTexcoord);
     
