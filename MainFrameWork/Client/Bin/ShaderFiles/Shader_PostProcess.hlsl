@@ -109,7 +109,7 @@ float4 PS_MAIN_SCREENTONE(PS_IN In) : SV_TARGET0
     float avg = (vColor.r + vColor.g + vColor.b) / 3.0;
     float4 vNewColor;
     vNewColor.a = 1.0f;
-    vNewColor.rgb = avg * (2.f * g_fGrayScale - 1.f) + vColor.rgb * 2.f * g_fGrayScale;
+    vNewColor.rgb = avg * (2.f * g_fGrayScale - 1.f) + vColor.rgb * 2.f * (1.f - g_fGrayScale);
 
     return 0.5f + 2.f * g_fContrastValue * (vNewColor - 0.5f);
 }
