@@ -41,7 +41,8 @@ VS_OUT_TARGET VS_MAIN_SSR(TARGET_IN In)
 float4 PS_MAIN_SSR(VS_OUT_TARGET In) : SV_TARGET
 {
     if (0 == iStepCount || EPSILON > fSSRStep)
-        return g_PrePostProcessTarget.Sample(LinearSampler, In.vTexcoord);
+        //return g_PrePostProcessTarget.Sample(LinearSampler, In.vTexcoord);
+        return (float4) 0.f;
     
     float4 vColor = float4(0.f, 0.f, 0.f, 0.f);
     
@@ -78,7 +79,7 @@ float4 PS_MAIN_SSR(VS_OUT_TARGET In) : SV_TARGET
     float fPixelDepth = 0.f;
     int iStepDistance = 0;
     float2 vRayPixelPos = (float2) 0;
-  
+
     [loop]
     for (iStepDistance = 1; iStepDistance < iStepCount; ++iStepDistance)
     {
@@ -111,10 +112,22 @@ float4 PS_MAIN_SSR(VS_OUT_TARGET In) : SV_TARGET
     clip(iStepCount - 0.5f - iStepDistance);
     
 
-    return g_PrePostProcessTarget.Sample(LinearSampler, vRayPixelPos) * (1.f - iStepDistance / iStepCount) * (clamp(pow(vProperties.x, 2.2f) / (vProperties.y + EPSILON), 0.01f, 1.f));
-    
+    return g_PrePostProcessTarget.Sample(LinearSampler, vRayPixelPos) * (1.f - iStepDistance / iStepCount) * (clamp(pow(vProperties.x, 2.2f) / (vProperties.y + EPSILON), 0.01f, 1.f)); 
 }
 
+float4 PS_MAIN_BLENDSSR(VS_OUT_TARGET In) : SV_TARGET
+{
+    float4 vColor = g_PrePostProcessTarget.Sample(LinearSampler, In.vTexcoord);
+    float4 vSSR = g_SSRTarget.Sample(LinearSampler, In.vTexcoord);
+    
+    if (EPSILON < vSSR.a)
+    {
+        vColor = float4(vSSR.rgb * vSSR.a + vColor.rgb * (1.f - vSSR.a), 1.f);
+    }
+    
+    return vColor;
+
+}
 //cbuffer PerFrame
 //{
 //    float g_fTexelWidth = 1.f / 1600.f;
@@ -160,27 +173,12 @@ float4 PS_MAIN_SSR(VS_OUT_TARGET In) : SV_TARGET
 //    return vFinalPixel;
 //}
 
-DepthStencilState DSS_DepthFalse_StencilEnable
-{
-    DepthEnable = false;
-    DepthWriteMask = zero;
-
-    StencilEnable = true;
-    StencilReadMask = 0xff;
-    StencilWriteMask = 0xff;
-
-    FrontFaceStencilFunc = equal;
-    FrontFaceStencilPass = keep;
-    FrontFaceStencilFail = keep;
-};
-
 technique11 DefaultTechnique
 {
     pass SSR // 0
     {
         SetRasterizerState(RS_Default);
         SetDepthStencilState(DSS_None, 0);
-        //SetDepthStencilState(DSS_DepthFalse_StencilEnable, 2);
         SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 1.f), 0xffffffff);
 		
         VertexShader = compile vs_5_0 VS_MAIN_SSR();
@@ -190,6 +188,18 @@ technique11 DefaultTechnique
         PixelShader = compile ps_5_0 PS_MAIN_SSR();
     }
 
+    pass BlendSSR // 0
+    {
+        SetRasterizerState(RS_Default);
+        SetDepthStencilState(DSS_None, 0);
+        SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 1.f), 0xffffffff);
+		
+        VertexShader = compile vs_5_0 VS_MAIN_SSR();
+        GeometryShader = NULL;
+        HullShader = NULL;
+        DomainShader = NULL;
+        PixelShader = compile ps_5_0 PS_MAIN_BLENDSSR();
+    }
     //pass SSR_Blur_H // 1
     //{
     //    SetRasterizerState(RS_Default);

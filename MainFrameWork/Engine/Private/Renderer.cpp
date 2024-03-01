@@ -216,6 +216,10 @@ HRESULT CRenderer::Initialize_Prototype()
 		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
 		return E_FAIL;
 
+	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_BlendSSR"),
+		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
+		return E_FAIL;
+
 	/*if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_SSRBlur_H"),
 		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R16G16B16A16_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
 		return E_FAIL;
@@ -323,38 +327,9 @@ HRESULT CRenderer::Initialize_Prototype()
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_RadialBlur"), 11.5f * fTargetX, 7.f * fTargetY, fTargetCX, fTargetCY)))
 		return E_FAIL;
-	//if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Properties"), 7.f * fTargetX, fTargetY, fTargetCX, fTargetCY)))
-	//	return E_FAIL;
-	//if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_EffectOneBlend"), fTargetX, 3.f * fTargetY, fTargetCX, fTargetCY)))
-	//	return E_FAIL;
-	//if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Emissive"), 3.f * fTargetX, 3.f * fTargetY, fTargetCX, fTargetCY)))
-	//	return E_FAIL;
-	//if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_EffectAlphaBlend"), 5.f * fTargetX, 3.f * fTargetY, fTargetCX, fTargetCY)))
-	//	return E_FAIL;
-	//if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_SSAO_Blur_HV"), 7.f * fTargetX, 3.f * fTargetY, fTargetCX, fTargetCY)))
-	//	return E_FAIL;
-	//if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_BloomDownSample1"), fTargetX, 5.f * fTargetY, fTargetCX, fTargetCY)))
-	//	return E_FAIL;
-	//if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_PrePostProcess"), 3.f * fTargetX, 5.f * fTargetY, fTargetCX, fTargetCY)))
-	//	return E_FAIL;	
-	//if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_DecalAlphaBlend"), 5.f * fTargetX, 5.f * fTargetY, fTargetCX, fTargetCY)))
-	//	return E_FAIL;
-	//if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_DecalOneBlend"), 7.f * fTargetX, 5.f * fTargetY, fTargetCX, fTargetCY)))
-	//	return E_FAIL;
-	//if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_DecalEmissive"), fTargetX, 7.f * fTargetY, fTargetCX, fTargetCY)))
-	//	return E_FAIL;
-	//if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Distortion"), 3.f * fTargetX, 7.f * fTargetY, fTargetCX, fTargetCY)))
-	//	return E_FAIL;
-	//if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_SSR"), 5.f * fTargetX, 7.f * fTargetY, fTargetCX, fTargetCY)))
-	//	return E_FAIL;
-	//if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_BloomBlur_HV_5x5"), 7.f * fTargetX, 7.f * fTargetY, fTargetCX, fTargetCY)))
-	//	return E_FAIL;
-	//if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Outline"), fTargetX, 9.f * fTargetY, fTargetCX, fTargetCY)))
-	//	return E_FAIL;
-	/*if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Outline_Blend"), 5.f * fTargetX, 1.f * fTargetY, fTargetCX, fTargetCY)))
+
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_DOF_Blended"), 6.25f * fTargetX, 8.f * fTargetY, 3.f * fTargetCX, 3.f * fTargetCY)))
 		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_DOF_Blur_HV"), 5.f * fTargetX, 5.f * fTargetY, fTargetCX, fTargetCY)))
-		return E_FAIL;*/
 
 //#endif
 
@@ -435,6 +410,8 @@ HRESULT CRenderer::Initialize_Prototype()
 		return E_FAIL;
 
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_SSR"), TEXT("Target_SSR"))))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_BlendSSR"), TEXT("Target_BlendSSR"))))
 		return E_FAIL;
 	/*if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_SSRBlur_H"), TEXT("Target_SSRBlur_H"))))
 		return E_FAIL;
@@ -1179,6 +1156,22 @@ HRESULT CRenderer::Render_SSR()
 	if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
 		return E_FAIL;
 
+	// Blend SSR
+	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_BlendSSR"))))
+		return E_FAIL;
+
+	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pSSRShader, TEXT("Target_SSR"), "g_SSRTarget")))
+		return E_FAIL;
+
+	if (FAILED(m_pSSRShader->Begin("BlendSSR")))
+		return E_FAIL;
+
+	if (FAILED(m_pVIBuffer->Render()))
+		return E_FAIL;
+
+	if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
+		return E_FAIL;
+
 	/*if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_SSRBlur_H"))))
 		return E_FAIL;
 
@@ -1739,7 +1732,7 @@ HRESULT CRenderer::Render_DepthOfField()
 
 	//
 	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_DOF_Blur_H"))) ||
-		FAILED(m_pTarget_Manager->Bind_SRV(m_pDOFShader, TEXT("Target_Outline_Blend"), "g_DOFBlurTarget")) ||
+		FAILED(m_pTarget_Manager->Bind_SRV(m_pDOFShader, TEXT("Target_BlendSSR"), "g_DOFBlurTarget")) ||
 		FAILED(m_pDOFShader->Begin("DOFBlurH")) || FAILED(m_pVIBuffer->Render()) ||
 		FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
 		return E_FAIL;
@@ -1758,7 +1751,7 @@ HRESULT CRenderer::Render_DepthOfField()
 	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_DepthOfField"))) ||
 		FAILED(m_pTarget_Manager->Bind_SRV(m_pDOFShader, TEXT("Target_DOF_Blur_HV"), "g_DOFBlurTarget")) ||
 		FAILED(m_pTarget_Manager->Bind_SRV(m_pDOFShader, TEXT("Target_NormalDepth"), "g_NormalDepthTarget")) ||
-		FAILED(m_pTarget_Manager->Bind_SRV(m_pDOFShader, TEXT("Target_Outline_Blend"), "g_PreProcessedTarget")) ||
+		FAILED(m_pTarget_Manager->Bind_SRV(m_pDOFShader, TEXT("Target_BlendSSR"), "g_PreProcessedTarget")) ||
 		FAILED(m_pDOFShader->Begin("DepthOfField")) || FAILED(m_pVIBuffer->Render()) ||
 		FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
 		return E_FAIL;
@@ -1773,7 +1766,6 @@ HRESULT CRenderer::Render_OutlineBlur()
 		FAILED(m_pOutlineBlurShader->Bind_Matrix("g_ProjMatrix", &m_ProjMatrix)))
 		return E_FAIL;
 
-
 	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_OutlineObjects_Blur_H"))) ||
 		FAILED(m_pTarget_Manager->Bind_SRV(m_pOutlineBlurShader, TEXT("Target_Outline"), "g_OutBlurTarget")) ||
 		FAILED(m_pOutlineBlurShader->Begin("BlurH")) || FAILED(m_pVIBuffer->Render()) ||
@@ -1783,13 +1775,6 @@ HRESULT CRenderer::Render_OutlineBlur()
 	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_OutlineObjects_Blur_V"))) ||
 		FAILED(m_pTarget_Manager->Bind_SRV(m_pOutlineBlurShader, TEXT("Target_Outline_Blur_H"), "g_OutBlurTarget")) ||
 		FAILED(m_pOutlineBlurShader->Begin("BlurV")) || FAILED(m_pVIBuffer->Render()) ||
-		FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
-		return E_FAIL;
-
-	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_OutlineObjects_Blend"))) ||
-		FAILED(m_pTarget_Manager->Bind_SRV(m_pPostProccessor, TEXT("Target_Outline_Blur_V"), "g_OutlineBlurTarget")) ||
-		FAILED(m_pTarget_Manager->Bind_SRV(m_pPostProccessor, TEXT("Target_SSR"), "g_PrePostProcessTarget")) ||
-		FAILED(m_pPostProccessor->Begin("OutlineBlur")) || FAILED(m_pVIBuffer->Render()) ||
 		FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
 		return E_FAIL;
 
@@ -1819,20 +1804,20 @@ HRESULT CRenderer::Render_PostProcess()
 	if (FAILED(m_pPostProccessor->Begin("BlendEffect")))
 		return E_FAIL;
 
+	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pPostProccessor, TEXT("Target_Outline_Blur_V"), "g_OutlineBlurTarget")))
+		return E_FAIL;
+	
 	if (true == m_bDOF_Switch)
 	{
-		if (FAILED(m_pTarget_Manager->Bind_SRV(m_pPostProccessor, TEXT("Target_DOF_Blended"), "g_SSRTarget")))
-			return E_FAIL;	// юс╫ц
 		if (FAILED(m_pTarget_Manager->Bind_SRV(m_pPostProccessor, TEXT("Target_DOF_Blended"), "g_PrePostProcessTarget")))
 			return E_FAIL;
 	}
-	else
+	else if (false == m_bDOF_Switch)
 	{
-		if (FAILED(m_pTarget_Manager->Bind_SRV(m_pPostProccessor, TEXT("Target_SSR"), "g_SSRTarget")))
-			return E_FAIL;
-		if (FAILED(m_pTarget_Manager->Bind_SRV(m_pPostProccessor, TEXT("Target_Outline_Blend"), "g_PrePostProcessTarget")))
+		if (FAILED(m_pTarget_Manager->Bind_SRV(m_pPostProccessor, TEXT("Target_BlendSSR"), "g_PrePostProcessTarget")))
 			return E_FAIL;
 	}
+
 	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pPostProccessor, TEXT("Target_DecalOneBlend"), "g_DecalOneBlendTarget")))
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pPostProccessor, TEXT("Target_DecalAlphaBlend"), "g_DecalAlphaBlendTarget")))
@@ -2064,9 +2049,6 @@ HRESULT CRenderer::Render_PostProcess()
 
 HRESULT CRenderer::Render_FXAA()
 {
-	/*if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_FXAA"))))
-		return E_FAIL;*/
-
 	if (FAILED(m_pFxaaShader->Bind_Matrix("g_WorldMatrix", &m_WorldMatrix)))
 		return E_FAIL;
 	if (FAILED(m_pFxaaShader->Bind_Matrix("g_ViewMatrix", &m_ViewMatrix)))
@@ -2078,26 +2060,14 @@ HRESULT CRenderer::Render_FXAA()
 	if (FAILED(m_pFxaaShader->Bind_RawValue("g_bFxaa", &m_iFxaa_Switch, sizeof(_int))))
 		return E_FAIL;
 
-	if (false == m_bDeadScene)
-	{
-		//if (FAILED(m_pTarget_Manager->Bind_SRV(m_pFxaaShader, TEXT("Target_FinalProcessed"), "g_FinalTarget")))
-		if (FAILED(m_pTarget_Manager->Bind_SRV(m_pFxaaShader, TEXT("Target_Dead"), "g_FinalTarget")))
-			return E_FAIL;
-	}
-	else
-	{
-		if (FAILED(m_pTarget_Manager->Bind_SRV(m_pFxaaShader, TEXT("Target_Dead"), "g_FinalTarget")))
-			return E_FAIL;
-	}
+	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pFxaaShader, TEXT("Target_Dead"), "g_FinalTarget")))
+		return E_FAIL;
 
 	if (FAILED(m_pFxaaShader->Begin("Fxaa3_11")))
 		return E_FAIL;
 
 	if (FAILED(m_pVIBuffer->Render()))
 		return E_FAIL;
-
-	/*if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
-		return E_FAIL;*/
 
 	return S_OK;
 }
@@ -2247,6 +2217,8 @@ HRESULT CRenderer::Render_Debug()
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_DOF_Blur_HV"), m_pMRTShader, m_pVIBuffer)))
 		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_DepthOfField"), m_pMRTShader, m_pVIBuffer)))
+		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_BlendEffect"), m_pMRTShader, m_pVIBuffer)))
 		return E_FAIL;
 	
@@ -2255,6 +2227,9 @@ HRESULT CRenderer::Render_Debug()
 	if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_MotionBlur"), m_pMRTShader, m_pVIBuffer)))
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_RadialBlur"), m_pMRTShader, m_pVIBuffer)))
+		return E_FAIL;
+	
+	if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_OutlineObjects_Blend"), m_pMRTShader, m_pVIBuffer)))
 		return E_FAIL;
 
 	/*if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_Cascade1"), m_pMRTShader, m_pVIBuffer)))
