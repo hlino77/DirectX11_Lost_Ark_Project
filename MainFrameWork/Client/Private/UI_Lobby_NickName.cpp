@@ -470,7 +470,7 @@ void CUI_Lobby_NickName::Random_NickName()
 	if ((_uint)CHR_CLASS::GUNSLINGER == m_iClassIndex)
 		m_strNickName = TEXT("건슬링어");
 	else if((_uint)CHR_CLASS::SLAYER ==  m_iClassIndex)
-		m_strNickName = TEXT("슬레이어");
+		m_strNickName = TEXT("쥬신토끼겅듀");
 	else if ((_uint)CHR_CLASS::DESTROYER == m_iClassIndex)
 		m_strNickName = TEXT("디스트로이어");
 	else if ((_uint)CHR_CLASS::DOAGA == m_iClassIndex)
