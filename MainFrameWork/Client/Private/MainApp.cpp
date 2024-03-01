@@ -133,7 +133,7 @@ HRESULT CMainApp::Initialize()
 
 void CMainApp::Tick(_float fTimeDelta)
 {
-	if (KEY_TAP(KEY::F1))
+	if (KEY_TAP(KEY::F5))
 	{
 		Active_Camera_Free();
 	}
@@ -146,14 +146,14 @@ void CMainApp::Tick(_float fTimeDelta)
 		CQuadTreeMgr::GetInstance()->Set_Stop(true);
 	}
 
-	if (KEY_TAP(KEY::F5))
-	{
-		g_fTimeDeltaRatio = 0.1f;
-	}
-	if (KEY_TAP(KEY::F6))
-	{
-		g_fTimeDeltaRatio = 1.0f;
-	}
+	//if (KEY_TAP(KEY::F5))
+	//{
+	//	g_fTimeDeltaRatio = 0.1f;
+	//}
+	//if (KEY_TAP(KEY::F6))
+	//{
+	//	g_fTimeDeltaRatio = 1.0f;
+	//}
 
 	if (KEY_HOLD(KEY::N) && KEY_TAP(KEY::NUM_1))
 		CNavigationMgr::GetInstance()->OnOff_Render();

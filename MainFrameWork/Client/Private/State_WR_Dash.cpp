@@ -42,7 +42,7 @@ void CState_WR_Dash::Enter_State()
 	}
 	else
 	{
-		m_pPlayer->Reserve_Animation(m_iDash_Normal, 0.2f, 0, 0);
+		m_pPlayer->Reserve_Animation(m_iDash_Normal, 0.2f, 0, 0, 3.f);
 		m_iDash = m_iDash_Normal;
 	}
 

@@ -68,6 +68,7 @@ void CSphereCollider::DebugRender()
 		if (m_pChild)
 			m_pChild->DebugRender();
 	}
+
 }
 
 _bool CSphereCollider::Intersects(SimpleMath::Ray& ray, OUT _float& distance)

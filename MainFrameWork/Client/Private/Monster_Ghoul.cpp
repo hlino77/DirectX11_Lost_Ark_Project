@@ -71,7 +71,7 @@ HRESULT CMonster_Ghoul::Initialize(void* pArg)
 
 	if (FAILED(Ready_Coliders()))
 		return E_FAIL;
-	m_iAtk = 5;
+	m_iAtk = 20;
 	m_fRootTargetDistance = 0.9f;
     return S_OK;
 }

@@ -284,9 +284,9 @@ void CController_WDR::Get_HitMessage(_uint iDamge, _float fForce, Vec3 vPos)
 		static_cast<CPlayer*>(m_pOwner)->Show_Damage(m_iCalculateDamaged, false);
 	if (0 >= tPcStat.iCurHp)
 	{
-		tPcStat.iCurHp = 0;
+		tPcStat.iCurHp = 10;
 		m_pOwner->Set_PlayerStat_Desc(tPcStat);
-		static_cast<CPlayer*>(m_pOwner)->Set_State(TEXT("Dead_Start"));
+		//static_cast<CPlayer*>(m_pOwner)->Set_State(TEXT("Dead_Start"));
 		static_cast<CPlayer*>(m_pOwner)->Send_Hp();
 		return;
 	}
