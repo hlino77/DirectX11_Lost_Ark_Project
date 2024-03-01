@@ -521,7 +521,10 @@ HRESULT CMonster_Ghoul_Server::Ready_BehaviourTree()
 	AnimationDesc.iStartFrame = 0;
 	AnimationDesc.fChangeTime = 0.2f;
 	AnimationDesc.iChangeFrame = 0;
+	AnimationDesc.bIsLoop = true;
+	AnimationDesc.fMaxLoopTime = 2.5f;
 	ActionDesc.vecAnimations.push_back(AnimationDesc);
+	AnimationDesc.bIsLoop = false;
 	ActionDesc.strActionName = L"Action_Idle_0";
 	CBT_Action* pIdle_0 = CCommon_BT_Idle_Server::Create(&ActionDesc);
 

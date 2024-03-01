@@ -19,7 +19,7 @@ CBT_Node::BT_RETURN CCommon_BT_Move_Server::OnUpdate(const _float& fTimeDelta)
 	if (static_cast<CMonster_Server*>(m_pGameObject)->Is_Hit())
 		return BT_FAIL;
 
-	if (static_cast<CMonster_Server*>(m_pGameObject)->Get_NearTargetDistance() < 10.f && !static_cast<CMonster_Server*>(m_pGameObject)->Is_Hit())
+	if (static_cast<CMonster_Server*>(m_pGameObject)->Get_NearTargetDistance() < static_cast<CMonster_Server*>(m_pGameObject)->Get_NoticeRange() && !static_cast<CMonster_Server*>(m_pGameObject)->Is_Hit())
 		return BT_FAIL;
 
 	if(static_cast<CMonster_Server*>(m_pGameObject)->Is_Close_To_RandomPosition())

@@ -79,9 +79,9 @@ HRESULT CNavigation::Render()
 			RenderPoints[2] = Points[2];
 
 			// 렌더링용 포인트만 조정
-			RenderPoints[0].y += 0.01f;
-			RenderPoints[1].y += 0.01f;
-			RenderPoints[2].y += 0.01f;
+			RenderPoints[0].y += 0.1f;
+			RenderPoints[1].y += 0.1f;
+			RenderPoints[2].y += 0.1f;
 
 			// 조정된 포인트로 렌더링
 
