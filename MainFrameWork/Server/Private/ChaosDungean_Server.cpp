@@ -209,9 +209,6 @@ void CChaosDungean_Server::Spawn_Monster()
 			iMonster = 1;
 		szMonsterName = m_MonsterSpawnList[iMonster];
 		vPos = Vec3(vPos.x + CGameInstance::GetInstance()->Get_RandomFloat(-4.f, 4.f), vPos.y, vPos.z + CGameInstance::GetInstance()->Get_RandomFloat(-4.f, 4.f));
-
-
-
 	}
 		break;
 	case CHAOSDUNGEANLEVEL::LEVEL2:

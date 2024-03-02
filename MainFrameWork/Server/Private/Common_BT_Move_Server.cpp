@@ -2,6 +2,8 @@
 #include "Common_BT_Move_Server.h"
 #include "Monster_Server.h"
 #include "Model.h"
+#include "NavigationMgr.h"
+
 CCommon_BT_Move_Server::CCommon_BT_Move_Server()
 {
 }
@@ -26,6 +28,9 @@ CBT_Node::BT_RETURN CCommon_BT_Move_Server::OnUpdate(const _float& fTimeDelta)
 		return BT_FAIL;
 
 	static_cast<CMonster_Server*>(m_pGameObject)->Move_to_RandomPosition(fTimeDelta);
+
+	if(CNavigationMgr::GetInstance()->Is_Outside(m_pGameObject->Get_CurrLevel(), m_pGameObject, 0.2f))
+		return BT_FAIL;
 
 	return BT_RUNNING;
 }

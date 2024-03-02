@@ -15,6 +15,7 @@ void CCommon_BT_Chase_Server::OnStart()
 		static_cast<CMonster_Server*>(m_pGameObject)->Set_RandomPosition(2.f);
 	else
 		static_cast<CMonster_Server*>(m_pGameObject)->Set_RandomPosition(0.f);
+	static_cast<CMonster_Server*>(m_pGameObject)->Set_NoticeRange(10.f);
 	static_cast<CMonster_Server*>(m_pGameObject)->Set_Action(m_strActionName);
 	static_cast<CMonster_Server*>(m_pGameObject)->Send_Monster_Action();
 }
