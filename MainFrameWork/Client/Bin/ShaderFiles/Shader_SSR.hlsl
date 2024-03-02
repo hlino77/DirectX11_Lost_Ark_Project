@@ -111,8 +111,9 @@ float4 PS_MAIN_SSR(VS_OUT_TARGET In) : SV_TARGET
  
     clip(iStepCount - 0.5f - iStepDistance);
     
-
-    return g_PrePostProcessTarget.Sample(LinearSampler, vRayPixelPos) * (1.f - iStepDistance / iStepCount) * (clamp(pow(vProperties.x, 2.2f) / (vProperties.y + EPSILON), 0.01f, 1.f)); 
+    vColor = g_PrePostProcessTarget.Sample(LinearSampler, vRayPixelPos);
+    vColor = vColor * smoothstep(0.f, 1.f, 1.f - iStepDistance / iStepCount) * clamp(pow(vProperties.x, 2.2f) / (vProperties.y + EPSILON), 0.01f, 1.f);
+    return vColor;
 }
 
 float4 PS_MAIN_BLENDSSR(VS_OUT_TARGET In) : SV_TARGET
