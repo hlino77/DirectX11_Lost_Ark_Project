@@ -40,9 +40,6 @@
     <Filter Include="02. GameObject\04. Boss">
       <UniqueIdentifier>{e63e4bc0-f32e-476a-9239-bb58d366c947}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\05. Skill">
-      <UniqueIdentifier>{a23ec4bd-fdd6-4eb7-971d-015c8c362160}</UniqueIdentifier>
-    </Filter>
     <Filter Include="03. Event">
       <UniqueIdentifier>{b95de2b2-9bf8-4ec7-b6f5-a42ec9bf466d}</UniqueIdentifier>
     </Filter>
@@ -220,12 +217,6 @@
     <Filter Include="02. GameObject\04. Boss\Valtan\Behavior\Action_BattleIdle">
       <UniqueIdentifier>{091f62ee-1d9b-44c2-b60b-6745c9eece50}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\05. Skill\Skill_RisingSun_Server">
-      <UniqueIdentifier>{3903748b-f429-436e-936e-cd3d0622b3bf}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\05. Skill\Skill_TeleportDoor_Server">
-      <UniqueIdentifier>{d9be8682-113d-43c1-84ea-cade4f352cca}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. GameObject\04. Boss\Valtan\Behavior\Dead">
       <UniqueIdentifier>{c0c47c10-95cd-43d4-8b7c-30abe1e0c2de}</UniqueIdentifier>
     </Filter>
@@ -234,6 +225,15 @@
     </Filter>
     <Filter Include="02. GameObject\04. Boss\Valtan\Behavior\Spawn">
       <UniqueIdentifier>{d77f0c53-57de-4202-a3d7-4a2dffbb96af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\06. ChaosDungean\05. Skill">
+      <UniqueIdentifier>{a23ec4bd-fdd6-4eb7-971d-015c8c362160}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\06. ChaosDungean\05. Skill\Skill_RisingSun_Server">
+      <UniqueIdentifier>{3903748b-f429-436e-936e-cd3d0622b3bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\06. ChaosDungean\05. Skill\Skill_TeleportDoor_Server">
+      <UniqueIdentifier>{d9be8682-113d-43c1-84ea-cade4f352cca}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -283,7 +283,7 @@
       <Filter>02. GameObject\03. Monster</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Skill_Server.cpp">
-      <Filter>02. GameObject\05. Skill</Filter>
+      <Filter>02. GameObject\06. ChaosDungean\05. Skill</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\ServerEvent.cpp">
       <Filter>03. Event</Filter>
@@ -559,10 +559,10 @@
       <Filter>02. GameObject\04. Boss\Valtan\Behavior\Action_BattleIdle</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Skill_RisingSun_Server.cpp">
-      <Filter>02. GameObject\05. Skill\Skill_RisingSun_Server</Filter>
+      <Filter>02. GameObject\06. ChaosDungean\05. Skill\Skill_RisingSun_Server</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Skill_TeleportDoor_Server.cpp">
-      <Filter>02. GameObject\05. Skill\Skill_TeleportDoor_Server</Filter>
+      <Filter>02. GameObject\06. ChaosDungean\05. Skill\Skill_TeleportDoor_Server</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Valtan_BT_Dead_Server.cpp">
       <Filter>02. GameObject\04. Boss\Valtan\Behavior\Dead</Filter>
@@ -627,7 +627,7 @@
       <Filter>02. GameObject\04. Boss</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Skill_Server.h">
-      <Filter>02. GameObject\05. Skill</Filter>
+      <Filter>02. GameObject\06. ChaosDungean\05. Skill</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\ServerEvent.h">
       <Filter>03. Event</Filter>
@@ -993,10 +993,10 @@
       <Filter>02. GameObject\04. Boss\Valtan\Behavior\Action_BattleIdle</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Skill_RisingSun_Server.h">
-      <Filter>02. GameObject\05. Skill\Skill_RisingSun_Server</Filter>
+      <Filter>02. GameObject\06. ChaosDungean\05. Skill\Skill_RisingSun_Server</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Skill_TeleportDoor_Server.h">
-      <Filter>02. GameObject\05. Skill\Skill_TeleportDoor_Server</Filter>
+      <Filter>02. GameObject\06. ChaosDungean\05. Skill\Skill_TeleportDoor_Server</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Valtan_BT_Dead_Server.h">
       <Filter>02. GameObject\04. Boss\Valtan\Behavior\Dead</Filter>

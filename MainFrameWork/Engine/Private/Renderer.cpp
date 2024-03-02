@@ -78,10 +78,6 @@ HRESULT CRenderer::Initialize_Prototype()
 		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
 		return E_FAIL;
 
-	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_Outline_Blend"),
-		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
-		return E_FAIL;
-
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_MakeSRV"),
 		500, 500, DXGI_FORMAT_R8G8B8A8_UNORM, Vec4(1.f, 1.f, 1.f, 0.f))))
 		return E_FAIL;
@@ -92,10 +88,6 @@ HRESULT CRenderer::Initialize_Prototype()
 
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_Normal"),
 		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R32G32B32A32_FLOAT, Vec4(1.f, 1.f, 1.f, 1.f))))
-		return E_FAIL;
-
-	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_Shade"),
-		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R16G16B16A16_UNORM, Vec4(1.f, 1.f, 1.f, 1.f))))
 		return E_FAIL;
 
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_Properties"),
@@ -128,10 +120,6 @@ HRESULT CRenderer::Initialize_Prototype()
 	
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_DecalEmissive"),
 		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
-		return E_FAIL;
-
-	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_Specular"),
-		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R16G16B16A16_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
 		return E_FAIL;
 
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_NormalDepth"),
@@ -195,10 +183,6 @@ HRESULT CRenderer::Initialize_Prototype()
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_BloomUpSample2"),
 		ViewportDesc.Width / m_fSampleRatio5x5, ViewportDesc.Height / m_fSampleRatio5x5, DXGI_FORMAT_R16G16B16A16_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
 		return E_FAIL;
-
-	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_BloomUpSample3"),
-		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R16G16B16A16_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
-		return E_FAIL;
 	
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_BloomBlur_H_5x5"),
 		ViewportDesc.Width / m_fSampleRatio5x5, ViewportDesc.Height / m_fSampleRatio5x5, DXGI_FORMAT_R16G16B16A16_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
@@ -225,6 +209,10 @@ HRESULT CRenderer::Initialize_Prototype()
 		return E_FAIL;
 	
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_SSR"),
+		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
+		return E_FAIL;
+
+	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_BlendSSR"),
 		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
 		return E_FAIL;
 
@@ -276,13 +264,9 @@ HRESULT CRenderer::Initialize_Prototype()
 		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
 		return E_FAIL;
 
-	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_Dead"),
+	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_ScreenTone"),
 		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
 		return E_FAIL;
-
-	/*if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_FXAA"),
-		ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
-		return E_FAIL;*/
 
 //#ifdef _DEBUG
 	constexpr _float fTargetX = 128.f;
@@ -290,52 +274,141 @@ HRESULT CRenderer::Initialize_Prototype()
 	constexpr _float fTargetCX = 256.f;
 	constexpr _float fTargetCY = 144.f;
 
-	//Test
-	//if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Cascade1"), fTargetX, fTargetY, fTargetCX, fTargetCY)))
-	//	return E_FAIL;
-	//if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Cascade2"), 3.f * fTargetX, fTargetY, fTargetCX, fTargetCY)))
-	//	return E_FAIL;
-	//if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Cascade3"), 5.f * fTargetX, fTargetY, fTargetCX, fTargetCY)))
-	//	return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Diffuse"), 1.f * fTargetX, fTargetY, fTargetCX, fTargetCY)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Normal"), 3.f * fTargetX, fTargetY, fTargetCX, fTargetCY)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_NormalDepth"), 1.f * fTargetX, 3.f * fTargetY, fTargetCX, fTargetCY)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Properties"), 3.f * fTargetX, 3.f * fTargetY, fTargetCX, fTargetCY)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Emissive"), 1.f * fTargetX, 5.f * fTargetY, fTargetCX, fTargetCY)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_EffectEmissive"), 3.f * fTargetX, 5.f * fTargetY, fTargetCX, fTargetCY)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_DecalEmissive"), 1.f * fTargetX, 7.f * fTargetY, fTargetCX, fTargetCY)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Distortion"), 3.f * fTargetX, 7.f * fTargetY, fTargetCX, fTargetCY)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_PrePostProcess"), 1.f * fTargetX, 9.f * fTargetY, fTargetCX, fTargetCY)))
+		return E_FAIL;
 
-	/*if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Normal"), fTargetX, fTargetY, fTargetCX, fTargetCY)))
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_SSAO_Blur_HV"), 9.5f * fTargetX, fTargetY, fTargetCX, fTargetCY)))
 		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Shade"), 3.f * fTargetX, fTargetY, fTargetCX, fTargetCY)))
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_BloomBlur_HV_5x5"), 11.5f * fTargetX, fTargetY, fTargetCX, fTargetCY)))
 		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_NormalDepth"), 5.f * fTargetX, fTargetY, fTargetCX, fTargetCY)))
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_SSR"), 9.5f * fTargetX, 3.f * fTargetY, fTargetCX, fTargetCY)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_DOF_Blur_HV"), 11.5f * fTargetX, 3.f * fTargetY, fTargetCX, fTargetCY)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_BlendEffect"), 9.5f * fTargetX, 5.f * fTargetY, fTargetCX, fTargetCY)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_ChromaticAberration"), 11.5f * fTargetX, 5.f * fTargetY, fTargetCX, fTargetCY)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_MotionBlur"), 9.5f * fTargetX, 7.f * fTargetY, fTargetCX, fTargetCY)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_RadialBlur"), 11.5f * fTargetX, 7.f * fTargetY, fTargetCX, fTargetCY)))
+		return E_FAIL;
+
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/*constexpr _float fTargetX = 1600.f / 14.f;
+	constexpr _float fTargetY = 900.f / 14.f;
+	constexpr _float fTargetCX = 1600.f / 7.f;
+	constexpr _float fTargetCY = 900.f / 7.f;
+
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Priority"), 1.f * fTargetX, fTargetY, fTargetCX, fTargetCY)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Diffuse"), 3.f * fTargetX, fTargetY, fTargetCX, fTargetCY)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Outline"), 5.f * fTargetX, fTargetY, fTargetCX, fTargetCY)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Outline_Blur_H"), 7.f * fTargetX, fTargetY, fTargetCX, fTargetCY)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Outline_Blur_V"), 9.f * fTargetX, fTargetY, fTargetCX, fTargetCY)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Normal"), 11.f * fTargetX, fTargetY, fTargetCX, fTargetCY)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_NormalDepth"), 13.f * fTargetX, fTargetY, fTargetCX, fTargetCY)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_SSAO"), 1.f * fTargetX, 3.f * fTargetY, fTargetCX, fTargetCY)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_SSAO_Blur_H"), 3.f * fTargetX, 3.f * fTargetY, fTargetCX, fTargetCY)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_SSAO_Blur_HV"), 5.f * fTargetX, 3.f * fTargetY, fTargetCX, fTargetCY)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_ShadowDepth"), 7.f * fTargetX, 3.f * fTargetY, fTargetCX, fTargetCY)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Cascade1"), 9.f * fTargetX, 3.f * fTargetY, fTargetCX, fTargetCY)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Cascade2"), 11.f * fTargetX, 3.f * fTargetY, fTargetCX, fTargetCY)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Cascade3"), 13.f * fTargetX, 3.f * fTargetY, fTargetCX, fTargetCY)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Properties"), 1.f * fTargetX, 5.f * fTargetY, fTargetCX, fTargetCY)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Emissive"), 3.f * fTargetX, 5.f * fTargetY, fTargetCX, fTargetCY)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_EffectOneBlend"), 5.f * fTargetX, 5.f * fTargetY, fTargetCX, fTargetCY)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_EffectAlphaBlend"), 7.f * fTargetX, 5.f * fTargetY, fTargetCX, fTargetCY)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_EffectEmissive"), 9.f * fTargetX, 5.f * fTargetY, fTargetCX, fTargetCY)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_DecalOneBlend"), 11.f * fTargetX, 5.f * fTargetY, fTargetCX, fTargetCY)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_DecalAlphaBlend"), 13.f * fTargetX, 5.f * fTargetY, fTargetCX, fTargetCY)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_DecalEmissive"), 1.f * fTargetX, 7.f * fTargetY, fTargetCX, fTargetCY)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_BloomDownSample1"), 3.f * fTargetX, 7.f * fTargetY, fTargetCX, fTargetCY)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_BloomDownSample2"), 5.f * fTargetX, 7.f * fTargetY, fTargetCX, fTargetCY)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_BloomDownSample3"), 7.f * fTargetX, 7.f * fTargetY, fTargetCX, fTargetCY)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_BloomUpSample1"), 9.f * fTargetX, 7.f * fTargetY, fTargetCX, fTargetCY)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_BloomUpSample2"), 11.f * fTargetX, 7.f * fTargetY, fTargetCX, fTargetCY)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_BloomBlur_H_125x125"), 13.f * fTargetX, 7.f * fTargetY, fTargetCX, fTargetCY)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_BloomBlur_HV_125x125"), 1.f * fTargetX, 9.f * fTargetY, fTargetCX, fTargetCY)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_BloomBlur_H_25x25"), 3.f * fTargetX, 9.f * fTargetY, fTargetCX, fTargetCY)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_BloomBlur_HV_25x25"), 5.f * fTargetX, 9.f * fTargetY, fTargetCX, fTargetCY)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_BloomBlur_H_5x5"), 7.f * fTargetX, 9.f * fTargetY, fTargetCX, fTargetCY)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_BloomBlur_HV_5x5"), 9.f * fTargetX, 9.f * fTargetY, fTargetCX, fTargetCY)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_SSR"), 11.f * fTargetX, 9.f * fTargetY, fTargetCX, fTargetCY)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_BlendSSR"), 13.f * fTargetX, 9.f * fTargetY, fTargetCX, fTargetCY)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_BlendEffect"), 1.f * fTargetX, 11.f * fTargetY, fTargetCX, fTargetCY)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_ChromaticAberration"), 3.f * fTargetX, 11.f * fTargetY, fTargetCX, fTargetCY)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_MotionBlur"), 5.f * fTargetX, 11.f * fTargetY, fTargetCX, fTargetCY)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_RadialBlur"), 7.f * fTargetX, 11.f * fTargetY, fTargetCX, fTargetCY)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_PrePostProcess"), 9.f * fTargetX, 11.f * fTargetY, fTargetCX, fTargetCY)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Distortion"), 11.f * fTargetX, 11.f * fTargetY, fTargetCX, fTargetCY)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_DOF_Blur_H"), 13.f * fTargetX, 11.f * fTargetY, fTargetCX, fTargetCY)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_DOF_Blur_HV"), 1.f * fTargetX, 13.f * fTargetY, fTargetCX, fTargetCY)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_DOF_Blended"), 3.f * fTargetX, 13.f * fTargetY, fTargetCX, fTargetCY)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_FinalProcessed"), 5.f * fTargetX, 13.f * fTargetY, fTargetCX, fTargetCY)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_ScreenTone"), 7.f * fTargetX, 13.f * fTargetY, fTargetCX, fTargetCY)))
 		return E_FAIL;*/
-	//if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Properties"), 7.f * fTargetX, fTargetY, fTargetCX, fTargetCY)))
-	//	return E_FAIL;
-	//if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_EffectOneBlend"), fTargetX, 3.f * fTargetY, fTargetCX, fTargetCY)))
-	//	return E_FAIL;
-	//if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Emissive"), 3.f * fTargetX, 3.f * fTargetY, fTargetCX, fTargetCY)))
-	//	return E_FAIL;
-	//if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_EffectAlphaBlend"), 5.f * fTargetX, 3.f * fTargetY, fTargetCX, fTargetCY)))
-	//	return E_FAIL;
-	//if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_SSAO_Blur_HV"), 7.f * fTargetX, 3.f * fTargetY, fTargetCX, fTargetCY)))
-	//	return E_FAIL;
-	//if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_BloomDownSample1"), fTargetX, 5.f * fTargetY, fTargetCX, fTargetCY)))
-	//	return E_FAIL;
-	//if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_PrePostProcess"), 3.f * fTargetX, 5.f * fTargetY, fTargetCX, fTargetCY)))
-	//	return E_FAIL;	
-	//if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_DecalAlphaBlend"), 5.f * fTargetX, 5.f * fTargetY, fTargetCX, fTargetCY)))
-	//	return E_FAIL;
-	//if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_DecalOneBlend"), 7.f * fTargetX, 5.f * fTargetY, fTargetCX, fTargetCY)))
-	//	return E_FAIL;
-	//if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_DecalEmissive"), fTargetX, 7.f * fTargetY, fTargetCX, fTargetCY)))
-	//	return E_FAIL;
-	//if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Distortion"), 3.f * fTargetX, 7.f * fTargetY, fTargetCX, fTargetCY)))
-	//	return E_FAIL;
-	//if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_SSR"), 5.f * fTargetX, 7.f * fTargetY, fTargetCX, fTargetCY)))
-	//	return E_FAIL;
-	//if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_BloomBlur_HV_5x5"), 7.f * fTargetX, 7.f * fTargetY, fTargetCX, fTargetCY)))
-	//	return E_FAIL;
-	//if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Outline"), fTargetX, 9.f * fTargetY, fTargetCX, fTargetCY)))
-	//	return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Outline_Blend"), 5.f * fTargetX, 1.f * fTargetY, 2.f * fTargetCX, 2.f * fTargetCY)))
-		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_DOF_Blur_HV"), 5.f * fTargetX, 5.f * fTargetY, 2.f * fTargetCX, 2.f * fTargetCY)))
-		return E_FAIL;
 
 //#endif
 
@@ -349,8 +422,6 @@ HRESULT CRenderer::Initialize_Prototype()
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_OutlineObjects_Blur_H"), TEXT("Target_Outline_Blur_H"))))
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_OutlineObjects_Blur_V"), TEXT("Target_Outline_Blur_V"))))
-		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_OutlineObjects_Blend"), TEXT("Target_Outline_Blend"))))
 		return E_FAIL;
 
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_GameObjects"), TEXT("Target_Diffuse"))))
@@ -402,8 +473,6 @@ HRESULT CRenderer::Initialize_Prototype()
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_BloomUpSample2"), TEXT("Target_BloomUpSample2"))))
 		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_BloomUpSample3"), TEXT("Target_BloomUpSample3"))))
-		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_BloomBlur_H_125x125"), TEXT("Target_BloomBlur_H_125x125"))))
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_BloomBlur_HV_125x125"), TEXT("Target_BloomBlur_HV_125x125"))))
@@ -418,6 +487,8 @@ HRESULT CRenderer::Initialize_Prototype()
 		return E_FAIL;
 
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_SSR"), TEXT("Target_SSR"))))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_BlendSSR"), TEXT("Target_BlendSSR"))))
 		return E_FAIL;
 	/*if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_SSRBlur_H"), TEXT("Target_SSRBlur_H"))))
 		return E_FAIL;
@@ -435,7 +506,7 @@ HRESULT CRenderer::Initialize_Prototype()
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_FinalProcessedScene"), TEXT("Target_FinalProcessed"))))
 		return E_FAIL;
 
-	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_DeadScene"), TEXT("Target_Dead"))))
+	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_ScreenTone"), TEXT("Target_ScreenTone"))))
 		return E_FAIL;
 
 	/*if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_FXAA"), TEXT("Target_FXAA"))))
@@ -462,8 +533,6 @@ HRESULT CRenderer::Initialize_Prototype()
 
 	/* 이 렌더타겟들은 게임내에 존재하는 빛으로부터 연산한 결과를 저장받는다. */
 	/* For.MRT_ */
-	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_Lights"), TEXT("Target_Shade"))))
-		return E_FAIL;
 
 	//cascade
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_Cascade1"), TEXT("Target_Cascade1"))))
@@ -684,12 +753,15 @@ HRESULT CRenderer::Draw()
 	if (FAILED(Render_Cascade()))
 		return E_FAIL;
 
+	if (KEY_HOLD(KEY::CTRL) && KEY_TAP(KEY::N))
+		m_bAO_OnOff = !m_bAO_OnOff;
+
 	if (0 == m_iSSAO_Switch)
 	{
 		if (FAILED(Render_HBAOPLUS()))
 			return E_FAIL;
 	}
-	else if (1 == m_iSSAO_Switch)
+	else
 	{
 		if (FAILED(Render_SSAO()))
 			return E_FAIL;
@@ -1161,6 +1233,22 @@ HRESULT CRenderer::Render_SSR()
 	if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
 		return E_FAIL;
 
+	// Blend SSR
+	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_BlendSSR"))))
+		return E_FAIL;
+
+	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pSSRShader, TEXT("Target_SSR"), "g_SSRTarget")))
+		return E_FAIL;
+
+	if (FAILED(m_pSSRShader->Begin("BlendSSR")))
+		return E_FAIL;
+
+	if (FAILED(m_pVIBuffer->Render()))
+		return E_FAIL;
+
+	if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
+		return E_FAIL;
+
 	/*if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_SSRBlur_H"))))
 		return E_FAIL;
 
@@ -1344,8 +1432,6 @@ HRESULT CRenderer::Render_SSAO()
 	return S_OK;
 }
 
-
-
 HRESULT CRenderer::Render_Deferred()
 {
 	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_PrePostProcessScene"))))
@@ -1373,6 +1459,9 @@ HRESULT CRenderer::Render_Deferred()
 	if (FAILED(m_pMRTShader->Bind_Matrix("g_ProjMatrixInv", &CPipeLine::GetInstance()->Get_TransformMatrixInverse(CPipeLine::D3DTS_PROJ))))
 		return E_FAIL;
 
+	// temp
+	if (FAILED(m_pMRTShader->Bind_RawValue("g_iSSAO_Option", &m_bAO_OnOff, sizeof(_int))))
+		return E_FAIL;
 
 	if (FAILED(m_pMRTShader->Bind_Matrix("g_StaticLightViewMatrix", &CLight_Manager::GetInstance()->Get_StaticLightMatrix())))
 		return E_FAIL;
@@ -1720,7 +1809,7 @@ HRESULT CRenderer::Render_DepthOfField()
 
 	//
 	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_DOF_Blur_H"))) ||
-		FAILED(m_pTarget_Manager->Bind_SRV(m_pDOFShader, TEXT("Target_Outline_Blend"), "g_DOFBlurTarget")) ||
+		FAILED(m_pTarget_Manager->Bind_SRV(m_pDOFShader, TEXT("Target_BlendSSR"), "g_DOFBlurTarget")) ||
 		FAILED(m_pDOFShader->Begin("DOFBlurH")) || FAILED(m_pVIBuffer->Render()) ||
 		FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
 		return E_FAIL;
@@ -1739,7 +1828,7 @@ HRESULT CRenderer::Render_DepthOfField()
 	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_DepthOfField"))) ||
 		FAILED(m_pTarget_Manager->Bind_SRV(m_pDOFShader, TEXT("Target_DOF_Blur_HV"), "g_DOFBlurTarget")) ||
 		FAILED(m_pTarget_Manager->Bind_SRV(m_pDOFShader, TEXT("Target_NormalDepth"), "g_NormalDepthTarget")) ||
-		FAILED(m_pTarget_Manager->Bind_SRV(m_pDOFShader, TEXT("Target_Outline_Blend"), "g_PreProcessedTarget")) ||
+		FAILED(m_pTarget_Manager->Bind_SRV(m_pDOFShader, TEXT("Target_BlendSSR"), "g_PreProcessedTarget")) ||
 		FAILED(m_pDOFShader->Begin("DepthOfField")) || FAILED(m_pVIBuffer->Render()) ||
 		FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
 		return E_FAIL;
@@ -1754,7 +1843,6 @@ HRESULT CRenderer::Render_OutlineBlur()
 		FAILED(m_pOutlineBlurShader->Bind_Matrix("g_ProjMatrix", &m_ProjMatrix)))
 		return E_FAIL;
 
-
 	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_OutlineObjects_Blur_H"))) ||
 		FAILED(m_pTarget_Manager->Bind_SRV(m_pOutlineBlurShader, TEXT("Target_Outline"), "g_OutBlurTarget")) ||
 		FAILED(m_pOutlineBlurShader->Begin("BlurH")) || FAILED(m_pVIBuffer->Render()) ||
@@ -1764,13 +1852,6 @@ HRESULT CRenderer::Render_OutlineBlur()
 	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_OutlineObjects_Blur_V"))) ||
 		FAILED(m_pTarget_Manager->Bind_SRV(m_pOutlineBlurShader, TEXT("Target_Outline_Blur_H"), "g_OutBlurTarget")) ||
 		FAILED(m_pOutlineBlurShader->Begin("BlurV")) || FAILED(m_pVIBuffer->Render()) ||
-		FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
-		return E_FAIL;
-
-	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_OutlineObjects_Blend"))) ||
-		FAILED(m_pTarget_Manager->Bind_SRV(m_pPostProccessor, TEXT("Target_Outline_Blur_V"), "g_OutlineBlurTarget")) ||
-		FAILED(m_pTarget_Manager->Bind_SRV(m_pPostProccessor, TEXT("Target_SSR"), "g_PrePostProcessTarget")) ||
-		FAILED(m_pPostProccessor->Begin("OutlineBlur")) || FAILED(m_pVIBuffer->Render()) ||
 		FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
 		return E_FAIL;
 
@@ -1800,20 +1881,20 @@ HRESULT CRenderer::Render_PostProcess()
 	if (FAILED(m_pPostProccessor->Begin("BlendEffect")))
 		return E_FAIL;
 
+	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pPostProccessor, TEXT("Target_Outline_Blur_V"), "g_OutlineBlurTarget")))
+		return E_FAIL;
+	
 	if (true == m_bDOF_Switch)
 	{
-		if (FAILED(m_pTarget_Manager->Bind_SRV(m_pPostProccessor, TEXT("Target_DOF_Blended"), "g_SSRTarget")))
-			return E_FAIL;	// 임시
 		if (FAILED(m_pTarget_Manager->Bind_SRV(m_pPostProccessor, TEXT("Target_DOF_Blended"), "g_PrePostProcessTarget")))
 			return E_FAIL;
 	}
-	else
+	else if (false == m_bDOF_Switch)
 	{
-		if (FAILED(m_pTarget_Manager->Bind_SRV(m_pPostProccessor, TEXT("Target_SSR"), "g_SSRTarget")))
-			return E_FAIL;
-		if (FAILED(m_pTarget_Manager->Bind_SRV(m_pPostProccessor, TEXT("Target_Outline_Blend"), "g_PrePostProcessTarget")))
+		if (FAILED(m_pTarget_Manager->Bind_SRV(m_pPostProccessor, TEXT("Target_BlendSSR"), "g_PrePostProcessTarget")))
 			return E_FAIL;
 	}
+
 	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pPostProccessor, TEXT("Target_DecalOneBlend"), "g_DecalOneBlendTarget")))
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pPostProccessor, TEXT("Target_DecalAlphaBlend"), "g_DecalAlphaBlendTarget")))
@@ -1867,6 +1948,13 @@ HRESULT CRenderer::Render_PostProcess()
 		if (FAILED(m_pTarget_Manager->Bind_SRV(m_pPostProccessor, TEXT("Target_ChromaticAberration"), "g_ProcessingTarget")))
 			return E_FAIL;
 	}
+	else
+	{
+		if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_ChromaticAberration"))))
+			return E_FAIL;
+		if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
+			return E_FAIL;
+	}
 
 	// Motion Blur
 	if (pPipeLine->Is_MotionBlur() || false == m_bMotionBlurInitialized)
@@ -1914,6 +2002,13 @@ HRESULT CRenderer::Render_PostProcess()
 		if (FAILED(m_pTarget_Manager->Bind_SRV(m_pPostProccessor, TEXT("Target_MotionBlur"), "g_ProcessingTarget")))
 			return E_FAIL;
 	}
+	else
+	{
+		if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_MotionBlur"))))
+			return E_FAIL;
+		if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
+			return E_FAIL;
+	}
 
 	m_matPreCamView = pPipeLine->Get_TransformMatrix(CPipeLine::D3DTS_VIEW);
 
@@ -1946,6 +2041,13 @@ HRESULT CRenderer::Render_PostProcess()
 		m_tRadialBlur_Data.fRadialBlurIntensity = 0.f;
 		m_tRadialBlur_Data.vRadialBlurWorldPos = Vec3(0.f, 0.f, 0.f);
 	}
+	else
+	{
+		if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_RadialBlur"))))
+			return E_FAIL;
+		if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
+			return E_FAIL;
+	}
 
 	// 최종 화면
 	{
@@ -1965,7 +2067,7 @@ HRESULT CRenderer::Render_PostProcess()
 	// 데드신
 	//if(true == m_bDeadScene)
 	{
-		if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_DeadScene"))))
+		if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_ScreenTone"))))
 			return E_FAIL;
 
 		if (FAILED(m_pTarget_Manager->Bind_SRV(m_pPostProccessor, TEXT("Target_FinalProcessed"), "g_FinalScene")))
@@ -2024,9 +2126,6 @@ HRESULT CRenderer::Render_PostProcess()
 
 HRESULT CRenderer::Render_FXAA()
 {
-	/*if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_FXAA"))))
-		return E_FAIL;*/
-
 	if (FAILED(m_pFxaaShader->Bind_Matrix("g_WorldMatrix", &m_WorldMatrix)))
 		return E_FAIL;
 	if (FAILED(m_pFxaaShader->Bind_Matrix("g_ViewMatrix", &m_ViewMatrix)))
@@ -2038,26 +2137,14 @@ HRESULT CRenderer::Render_FXAA()
 	if (FAILED(m_pFxaaShader->Bind_RawValue("g_bFxaa", &m_iFxaa_Switch, sizeof(_int))))
 		return E_FAIL;
 
-	if (false == m_bDeadScene)
-	{
-		//if (FAILED(m_pTarget_Manager->Bind_SRV(m_pFxaaShader, TEXT("Target_FinalProcessed"), "g_FinalTarget")))
-		if (FAILED(m_pTarget_Manager->Bind_SRV(m_pFxaaShader, TEXT("Target_Dead"), "g_FinalTarget")))
-			return E_FAIL;
-	}
-	else
-	{
-		if (FAILED(m_pTarget_Manager->Bind_SRV(m_pFxaaShader, TEXT("Target_Dead"), "g_FinalTarget")))
-			return E_FAIL;
-	}
+	if (FAILED(m_pTarget_Manager->Bind_SRV(m_pFxaaShader, TEXT("Target_ScreenTone"), "g_FinalTarget")))
+		return E_FAIL;
 
 	if (FAILED(m_pFxaaShader->Begin("Fxaa3_11")))
 		return E_FAIL;
 
 	if (FAILED(m_pVIBuffer->Render()))
 		return E_FAIL;
-
-	/*if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
-		return E_FAIL;*/
 
 	return S_OK;
 }
@@ -2171,60 +2258,89 @@ HRESULT CRenderer::Render_Debug()
 	if (FAILED(m_pMRTShader->Bind_Matrix("g_ProjMatrix", &m_ProjMatrix)))
 		return E_FAIL;
 
-	//if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_GameObjects"), m_pMRTShader, m_pVIBuffer)))
-	//	return E_FAIL;
-
-
-	//if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_Lights"), m_pMRTShader, m_pVIBuffer)))
-	//	return E_FAIL;
-	//
-	//if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_SSAO_Blur_V"), m_pMRTShader, m_pVIBuffer)))
-	//	return E_FAIL;
-	//
-	//if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_Effects"), m_pMRTShader, m_pVIBuffer)))
-	//	return E_FAIL;
-	//if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_Decals"), m_pMRTShader, m_pVIBuffer)))
-	//	return E_FAIL;
-
-	if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_Lights"), m_pMRTShader, m_pVIBuffer)))
+	if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_Priority"), m_pMRTShader, m_pVIBuffer)))
 		return E_FAIL;
-	
-	if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_SSAO_Blur_V"), m_pMRTShader, m_pVIBuffer)))
-	
+	if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_GameObjects"), m_pMRTShader, m_pVIBuffer)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_OutlineObjects"), m_pMRTShader, m_pVIBuffer)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_OutlineObjects_Blur_H"), m_pMRTShader, m_pVIBuffer)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_OutlineObjects_Blur_V"), m_pMRTShader, m_pVIBuffer)))
+		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_Effects"), m_pMRTShader, m_pVIBuffer)))
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_Decals"), m_pMRTShader, m_pVIBuffer)))
 		return E_FAIL;
 
-	//if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_PrePostProcessScene"), m_pMRTShader, m_pVIBuffer)))
-	//	return E_FAIL;
-	//
-	//if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_BloomDownSample1"), m_pMRTShader, m_pVIBuffer)))
-	//	return E_FAIL;
-	//if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_BloomBlur_HV_5x5"), m_pMRTShader, m_pVIBuffer)))
-	//	return E_FAIL;
-	//if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_SSR"), m_pMRTShader, m_pVIBuffer)))
-	//	return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_SSAO"), m_pMRTShader, m_pVIBuffer)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_SSAO_Blur_H"), m_pMRTShader, m_pVIBuffer)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_SSAO_Blur_V"), m_pMRTShader, m_pVIBuffer)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_PrePostProcessScene"), m_pMRTShader, m_pVIBuffer)))
+		return E_FAIL;
 
+	if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_BloomDownSample1"), m_pMRTShader, m_pVIBuffer)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_BloomDownSample2"), m_pMRTShader, m_pVIBuffer)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_BloomDownSample3"), m_pMRTShader, m_pVIBuffer)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_BloomUpSample1"), m_pMRTShader, m_pVIBuffer)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_BloomUpSample2"), m_pMRTShader, m_pVIBuffer)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_BloomBlur_H_125x125"), m_pMRTShader, m_pVIBuffer)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_BloomBlur_H_25x25"), m_pMRTShader, m_pVIBuffer)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_BloomBlur_H_5x5"), m_pMRTShader, m_pVIBuffer)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_BloomBlur_HV_125x125"), m_pMRTShader, m_pVIBuffer)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_BloomBlur_HV_25x25"), m_pMRTShader, m_pVIBuffer)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_BloomBlur_HV_5x5"), m_pMRTShader, m_pVIBuffer)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_SSR"), m_pMRTShader, m_pVIBuffer)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_BlendSSR"), m_pMRTShader, m_pVIBuffer)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_DOF_Blur_H"), m_pMRTShader, m_pVIBuffer)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_DOF_Blur_HV"), m_pMRTShader, m_pVIBuffer)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_DepthOfField"), m_pMRTShader, m_pVIBuffer)))
+		return E_FAIL;
+
+	if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_PrePostProcessScene"), m_pMRTShader, m_pVIBuffer)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_FinalProcessedScene"), m_pMRTShader, m_pVIBuffer)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_ScreenTone"), m_pMRTShader, m_pVIBuffer)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_BlendEffect"), m_pMRTShader, m_pVIBuffer)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_ChromaticAberration"), m_pMRTShader, m_pVIBuffer)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_MotionBlur"), m_pMRTShader, m_pVIBuffer)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_RadialBlur"), m_pMRTShader, m_pVIBuffer)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_ChromaticAberration"), m_pMRTShader, m_pVIBuffer)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_ShadowDepth"), m_pMRTShader, m_pVIBuffer)))
+		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_Cascade1"), m_pMRTShader, m_pVIBuffer)))
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_Cascade2"), m_pMRTShader, m_pVIBuffer)))
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_Cascade3"), m_pMRTShader, m_pVIBuffer)))
 		return E_FAIL;
-
-	if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_OutlineObjects_Blend"), m_pMRTShader, m_pVIBuffer)))
+	if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_ShadowDepth"), m_pMRTShader, m_pVIBuffer)))
 		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_DOF_Blur_HV"), m_pMRTShader, m_pVIBuffer)))
-		return E_FAIL;
-	//if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_EffectShade"), m_pMRTShader, m_pVIBuffer)))
-	//	return E_FAIL;
-
-	/*if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_ShadowDepth"), m_pMRTShader, m_pVIBuffer)))
-		return E_FAIL;
-
-	if (FAILED(m_pTarget_Manager->Render(TEXT("MRT_StaticShadowDepth"), m_pMRTShader, m_pVIBuffer)))
-		return E_FAIL;*/
 
 	return S_OK;
 }

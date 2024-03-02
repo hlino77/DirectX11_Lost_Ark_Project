@@ -196,6 +196,9 @@ private:
 	static _bool	m_bPBR_Switch;
 	static _int		m_iSSAO_Switch;
 
+	// temp
+	_bool		m_bAO_OnOff = true;
+
 	// DepthOfField
 	HRESULT Ready_DOF();
 

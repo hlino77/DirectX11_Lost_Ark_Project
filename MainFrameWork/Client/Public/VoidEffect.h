@@ -138,9 +138,9 @@ public:
 	} m_Particle;
 
 	// Trail
-	_int	m_iTrailVtxCount = 4;
+	_int	m_iTrailVtxCount = 50;
 
-	string	m_strPassName = "OneBlend";
+	string	m_strPassName = "AlphaBlend";
 
 	tagVoidEffectDesc m_tVoidEffectDesc;
 

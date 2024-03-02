@@ -131,19 +131,24 @@ float4 PS_MAIN_BLENDEFFECT(PS_IN In) : SV_TARGET0
     float4 vColor = g_PrePostProcessTarget.Sample(LinearSampler, In.vTexcoord + float2(fDistortion, fDistortion));
     //float4 vColor = float4(g_PrePostProcessTarget.Sample(LinearSampler, In.vTexcoord + float2(fDistortion, fDistortion)).rgb, 1.f);
     
-    float4 vSSR = g_SSRTarget.Sample(LinearSampler, In.vTexcoord + float2(fDistortion, fDistortion));
-    
-    if (EPSILON < vSSR.a)
-    {
-        vColor = float4(vSSR.rgb * vSSR.a + vColor.rgb * (1.f - vSSR.a), 1.f);
-    }
-    
     float4 vDecalOneBlend = g_DecalOneBlendTarget.Sample(LinearSampler, In.vTexcoord);
     float4 vDecalAlphaBlend = g_DecalAlphaBlendTarget.Sample(LinearSampler, In.vTexcoord);
 	
 	float4 vEffectOneBlend = g_EffectOneBlendTarget.Sample(LinearSampler, In.vTexcoord);
 	float4 vEffectAlphaBlend = g_EffectAlphaBlendTarget.Sample(LinearSampler, In.vTexcoord);
 	
+    float4 vOutlineBlur = g_OutlineBlurTarget.Sample(LinearSampler, In.vTexcoord);
+    
+    if (true == any(vOutlineBlur))
+    {
+        vColor = float4(vOutlineBlur.rgb * vOutlineBlur.a + vColor.rgb * (1.f - vOutlineBlur.a), 1.f);
+    }
+    
+    if (EPSILON < vOutlineBlur.a)
+    {
+        vColor = float4(vOutlineBlur.rgb * vOutlineBlur.a + vColor.rgb * (1.f - vOutlineBlur.a), 1.f);
+    }
+    
     if (EPSILON < vDecalOneBlend.a)
 	{
         vColor = float4(vDecalOneBlend.rgb * 1.f + vColor.rgb * 1.f, 1.f);
