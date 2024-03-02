@@ -79,6 +79,32 @@ void CValtan_BT_Attack_GhostGrab::OnEnd()
 	__super::OnEnd();
 	m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->SetActive(false);
 	static_cast<CBoss_Valtan*>(m_pGameObject)->Reserve_WeaponAnimation(L"att_battle_8_01_loop", 0.2f, 0, 0, 1.15f);
+	CSkill::ModelDesc ModelDesc = {};
+	ModelDesc.iLayer = (_uint)LAYER_TYPE::LAYER_SKILL;
+	ModelDesc.iObjectID = -1;
+	ModelDesc.pOwner = m_pGameObject;
+	CGameObject* pSkill = CGameInstance::GetInstance()->Add_GameObject(CGameInstance::GetInstance()->Get_CurrLevelIndex(), (_uint)LAYER_TYPE::LAYER_SKILL, L"Prototype_GameObject_Skill_Valtan_SphereInstant", &ModelDesc);
+	if (pSkill != nullptr)
+	{
+		_uint iBoneIndex = m_pGameObject->Get_ModelCom()->Find_BoneIndex(TEXT("bip001-l-hand"));
+		Matrix Pivot = m_pGameObject->Get_ModelCom()->Get_PivotMatrix();
+		XMMATRIX BoneMatrix = m_pGameObject->Get_ModelCom()->Get_CombinedMatrix(iBoneIndex) * Pivot;
+
+		BoneMatrix.r[0] = XMVector3Normalize(BoneMatrix.r[0]);
+		BoneMatrix.r[1] = XMVector3Normalize(BoneMatrix.r[1]);
+		BoneMatrix.r[2] = XMVector3Normalize(BoneMatrix.r[2]);
+
+		BoneMatrix *= m_pGameObject->Get_TransformCom()->Get_WorldMatrix();
+		Matrix matWorld = BoneMatrix;
+		Vec3 vPos = matWorld.Translation();
+		Vec3 vLook = m_pGameObject->Get_TransformCom()->Get_State(CTransform::STATE_LOOK);
+		vLook.Normalize();
+		pSkill->Get_Colider(_uint(LAYER_COLLIDER::LAYER_SKILL_BOSS))->Set_Radius(0.5f);
+		pSkill->Get_TransformCom()->Set_State(CTransform::STATE_POSITION, vPos);
+		pSkill->Get_TransformCom()->LookAt_Dir(vLook);
+		static_cast<CSkill*>(pSkill)->Set_Atk(0);
+		static_cast<CSkill*>(pSkill)->Set_Force(20.f);
+	}
 }
 
 void CValtan_BT_Attack_GhostGrab::On_FirstAnimStart()
