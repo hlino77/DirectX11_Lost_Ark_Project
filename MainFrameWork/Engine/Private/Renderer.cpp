@@ -2084,7 +2084,7 @@ HRESULT CRenderer::Render_PostProcess()
 				m_bDeadSceneStart = true;
 			}
 
-			m_tScreenTone_Data.fGrayScale = 0.4f;
+			m_tScreenTone_Data.fGrayScale = 0.9f;
 			m_tScreenTone_Data.fContrast = 0.5f;
 			m_tScreenTone_Data.fSaturation = 0.5f;
 		}
