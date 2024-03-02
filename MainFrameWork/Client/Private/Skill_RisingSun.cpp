@@ -154,7 +154,7 @@ void CSkill_RisingSun::Buff_Player(_uint iPlayerID)
 	{
 		//น๖วม
 		CGameObject::STATDESC pPcStat = pPlayer->Get_PlayerStat_Desc();
-		pPcStat.iCurHp *= pPcStat.iMaxHp * 0.4f;
+		pPcStat.iCurHp += pPcStat.iMaxHp * 0.4f;
 		if (pPcStat.iCurHp >= pPcStat.iMaxHp)
 		{
 			pPcStat.iCurHp = pPcStat.iMaxHp;
