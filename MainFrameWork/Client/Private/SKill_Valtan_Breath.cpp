@@ -30,6 +30,7 @@ HRESULT CSkill_Valtan_Breath::Initialize(void* pArg)
 	m_fLastTime = 0.8f;
 	m_SkillDesc.iAtk = 100;
 	m_SkillDesc.fForce = 49.9f;
+	m_bSafeZonePierce = true;
     return S_OK;
 }
 

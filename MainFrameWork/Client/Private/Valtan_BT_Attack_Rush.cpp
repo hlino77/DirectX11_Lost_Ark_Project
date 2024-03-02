@@ -153,7 +153,7 @@ void CValtan_BT_Attack_Rush::OnEnd()
 	if (!static_cast<CBoss*>(m_pGameObject)->Is_Dummy())
 		static_cast<CBoss_Valtan*>(m_pGameObject)->Reserve_WeaponAnimation(L"att_battle_8_01_loop", 0.2f, 0, 0, 1.15f);
 
-	if (m_iCurrAnimation == 1&& !static_cast<CBoss*>(m_pGameObject)->Is_Dummy() && static_cast<CBoss*>(m_pGameObject)->Get_GroggyGauge()>0)
+	if (m_iCurrAnimation == 1&& !static_cast<CBoss*>(m_pGameObject)->Is_Dummy())
 	{
 		for (auto& Effect : m_EffectRush)
 		{
