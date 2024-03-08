@@ -30,7 +30,7 @@ public:
 	const _float&	Get_IdenGage() { return m_fIdentityGage; }
 	const _float&	Get_MaxGage() { return m_fMaxGage; }
 	const _uint&	Get_MarbleCnt() { return m_iMarbleCnt; }
-	const	_float& Get_IdenSkillCool() { return m_fIdenSkillCool; }
+	const _float&   Get_IdenSkillCool() { return m_fIdenSkillCool; }
 
 public:
 	virtual HRESULT	Bind_Skill(SKILL_KEY eKey, class CPlayer_Skill* pSkill);

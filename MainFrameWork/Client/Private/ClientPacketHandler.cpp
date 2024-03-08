@@ -874,6 +874,7 @@ bool Handel_S_DUNGEANRATIO_Client(PacketSessionRef& session, Protocol::S_DUNGEAN
 
 bool Handel_S_ESTHERGAGE_Client(PacketSessionRef& session, Protocol::S_ESTHER& pkt)
 {
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 
 	_uint iPlayerID = pkt.iplayerid();
 	CPlayer* pPlayer = nullptr;
@@ -882,10 +883,12 @@ bool Handel_S_ESTHERGAGE_Client(PacketSessionRef& session, Protocol::S_ESTHER& p
 	if (nullptr == pPlayer)
 		return false;
 
-	if (pPlayer->Get_ObjectID() == iPlayerID)
-	{
-		pPlayer->Set_EstherGage(pkt.iesthergage());
-	}
+	if (nullptr == pPlayer->Get_Party())
+		return false;
+
+	CPlayer* pPartyLeader = nullptr;
+	pPartyLeader = dynamic_cast<CPlayer*>(pGameInstance->Find_GameObject(pkt.ilevel(), (_uint)LAYER_TYPE::LAYER_PLAYER, pPlayer->Get_Party()->Get_PartyMembers().front()));
+	pPartyLeader->Set_EstherGage(pkt.iesthergage());
 
 	return true;
 }

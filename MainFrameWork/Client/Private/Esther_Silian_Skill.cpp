@@ -309,10 +309,10 @@ HRESULT CEsther_Silian_Skill::Ready_Projectile()
 	Proj_Desc.eUseCollider = (_uint)CProjectile::ATTACKCOLLIDER::OBB;
 	Proj_Desc.eLayer_Collider = (_uint)LAYER_COLLIDER::LAYER_SKILL_ESTHER;
 	Proj_Desc.fAttackTime = 0.05f;
-	Proj_Desc.fRadius = 6.f;
-	Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 4.f);
-	Proj_Desc.vChildScale = Vec3(2.f, 0.6f, 4.f);
-	Proj_Desc.vChildOffset = Vec3(0.0f, 0.6f, 4.f);
+	Proj_Desc.fRadius = 10.f;
+	Proj_Desc.vOffset = Vec3(0.0f, 0.2f, 8.f);
+	Proj_Desc.vChildScale = Vec3(4.f, 0.6f, 8.f);
+	Proj_Desc.vChildOffset = Vec3(0.0f, 0.6f, 8.f);
 	Proj_Desc.iDamage = 6000;
 	Proj_Desc.iStagger = 300;
 	m_vecSkillProjDesces.push_back(Proj_Desc);
