@@ -298,6 +298,25 @@ void CBoss::OnCollisionEnter(const _uint iColLayer, CCollider* pOther)
 			m_fForce=0.f;
 			Send_Collision(0, Vec3(), STATUSEFFECT::GROGGY, 0, 0.f, 0);
 			CServerSessionManager::GetInstance()->Get_Player()->Get_Camera()->Cam_Shake(0.3f, 100.0f, 1.5f, 9.0f);
+			if (Get_BossType() == CBoss::VALTAN)
+			{
+				CPlayer* pPlayer = CServerSessionManager::GetInstance()->Get_Player();
+				if (nullptr == pPlayer)
+					return;
+				_float fEstherGauge = 10.f;
+				if (pPlayer->Is_PartyLeader())
+				{
+					_uint iGauge = pPlayer->Get_EstherGage();
+					_uint iMaxGauge = pPlayer->Get_EstherMaxGage();
+					iGauge += fEstherGauge;
+					if (iGauge >= iMaxGauge)
+					{
+						iGauge = iMaxGauge;
+					}
+					pPlayer->Set_EstherGage(iGauge);
+					pPlayer->Send_EstherGauge();
+				}
+			}
 		}
 	}
 }
