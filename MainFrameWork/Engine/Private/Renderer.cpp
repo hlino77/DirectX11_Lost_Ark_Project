@@ -269,7 +269,7 @@ HRESULT CRenderer::Initialize_Prototype()
 		return E_FAIL;
 
 //#ifdef _DEBUG
-	constexpr _float fTargetX = 128.f;
+	/*constexpr _float fTargetX = 128.f;
 	constexpr _float fTargetY = 72.f;
 	constexpr _float fTargetCX = 256.f;
 	constexpr _float fTargetCY = 144.f;
@@ -290,29 +290,30 @@ HRESULT CRenderer::Initialize_Prototype()
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Distortion"), 3.f * fTargetX, 7.f * fTargetY, fTargetCX, fTargetCY)))
 		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_PrePostProcess"), 1.f * fTargetX, 9.f * fTargetY, fTargetCX, fTargetCY)))
+	
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_PrePostProcess"), 9.5f * fTargetX, fTargetY, fTargetCX, fTargetCY)))
 		return E_FAIL;
-
-	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_SSAO_Blur_HV"), 9.5f * fTargetX, fTargetY, fTargetCX, fTargetCY)))
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_SSAO_Blur_HV"), 11.5f * fTargetX, fTargetY, fTargetCX, fTargetCY)))
 		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_BloomBlur_HV_5x5"), 11.5f * fTargetX, fTargetY, fTargetCX, fTargetCY)))
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_BloomBlur_HV_5x5"), 9.5f * fTargetX, 3.f * fTargetY, fTargetCX, fTargetCY)))
 		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_SSR"), 9.5f * fTargetX, 3.f * fTargetY, fTargetCX, fTargetCY)))
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_SSR"), 11.5f * fTargetX, 3.f * fTargetY, fTargetCX, fTargetCY)))
 		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_DOF_Blur_HV"), 11.5f * fTargetX, 3.f * fTargetY, fTargetCX, fTargetCY)))
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_DOF_Blur_HV"), 9.5f * fTargetX, 5.f * fTargetY, fTargetCX, fTargetCY)))
 		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_BlendEffect"), 9.5f * fTargetX, 5.f * fTargetY, fTargetCX, fTargetCY)))
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_BlendEffect"), 11.5f * fTargetX, 5.f * fTargetY, fTargetCX, fTargetCY)))
 		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_ChromaticAberration"), 11.5f * fTargetX, 5.f * fTargetY, fTargetCX, fTargetCY)))
-		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_MotionBlur"), 9.5f * fTargetX, 7.f * fTargetY, fTargetCX, fTargetCY)))
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_ChromaticAberration"), 9.5f * fTargetX, 7.f * fTargetY, fTargetCX, fTargetCY)))
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_RadialBlur"), 11.5f * fTargetX, 7.f * fTargetY, fTargetCX, fTargetCY)))
-		return E_FAIL;
+		return E_FAIL;*/
+
+	/*if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_MotionBlur"), 9.5f * fTargetX, 7.f * fTargetY, fTargetCX, fTargetCY)))
+		return E_FAIL;*/
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	/*constexpr _float fTargetX = 1600.f / 14.f;
+	constexpr _float fTargetX = 1600.f / 14.f;
 	constexpr _float fTargetY = 900.f / 14.f;
 	constexpr _float fTargetCX = 1600.f / 7.f;
 	constexpr _float fTargetCY = 900.f / 7.f;
@@ -321,12 +322,12 @@ HRESULT CRenderer::Initialize_Prototype()
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Diffuse"), 3.f * fTargetX, fTargetY, fTargetCX, fTargetCY)))
 		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Outline"), 5.f * fTargetX, fTargetY, fTargetCX, fTargetCY)))
+	/*if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Outline"), 5.f * fTargetX, fTargetY, fTargetCX, fTargetCY)))
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Outline_Blur_H"), 7.f * fTargetX, fTargetY, fTargetCX, fTargetCY)))
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Outline_Blur_V"), 9.f * fTargetX, fTargetY, fTargetCX, fTargetCY)))
-		return E_FAIL;
+		return E_FAIL;*/
 	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Normal"), 11.f * fTargetX, fTargetY, fTargetCX, fTargetCY)))
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_NormalDepth"), 13.f * fTargetX, fTargetY, fTargetCX, fTargetCY)))
@@ -408,8 +409,13 @@ HRESULT CRenderer::Initialize_Prototype()
 	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_FinalProcessed"), 5.f * fTargetX, 13.f * fTargetY, fTargetCX, fTargetCY)))
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_ScreenTone"), 7.f * fTargetX, 13.f * fTargetY, fTargetCX, fTargetCY)))
-		return E_FAIL;*/
-
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Outline"), 9.f * fTargetX, 13.f * fTargetY, fTargetCX, fTargetCY)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Outline_Blur_H"), 11.f * fTargetX, 13.f * fTargetY, fTargetCX, fTargetCY)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Outline_Blur_V"), 13.f * fTargetX, 13.f * fTargetY, fTargetCX, fTargetCY)))
+		return E_FAIL;
 //#endif
 
 	/* 이 렌더타겟들은 그려지는 객체로부터 값을 저장받는다. */
@@ -755,6 +761,14 @@ HRESULT CRenderer::Draw()
 
 	if (KEY_HOLD(KEY::CTRL) && KEY_TAP(KEY::N))
 		m_bAO_OnOff = !m_bAO_OnOff;
+
+	if (KEY_HOLD(KEY::SHIFT) && KEY_TAP(KEY::N))
+	{
+		if(0 == m_iSSAO_Switch)
+			m_iSSAO_Switch = 1;
+		else if(1 == m_iSSAO_Switch)
+			m_iSSAO_Switch = 0;
+	}
 
 	if (0 == m_iSSAO_Switch)
 	{
