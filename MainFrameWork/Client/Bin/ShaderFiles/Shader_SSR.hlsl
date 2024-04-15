@@ -19,7 +19,7 @@ Texture2D g_SSROriginalTarget;
 cbuffer SSR_Data
 {
     float fSSRStep = 0.005f;
-    int iStepCount = 75;
+    int iStepCount = 100;
     float2 padding;
 }
 
@@ -50,7 +50,7 @@ float4 PS_MAIN_SSR(VS_OUT_TARGET In) : SV_TARGET
     float4 vDepth = g_NormalDepthTarget.Sample(LinearSampler, In.vTexcoord);
     float4 vProperties = g_PropertiesTarget.Sample(LinearSampler, In.vTexcoord);
     
-    float fViewZ = vDepth.w * 1200.f;
+    float fViewZ = vDepth.w * g_fFar;
     
     float4 vWorldPos;
 
@@ -60,7 +60,6 @@ float4 PS_MAIN_SSR(VS_OUT_TARGET In) : SV_TARGET
     vWorldPos.w = 1.0f;
     
     vWorldPos *= fViewZ;
-    //vWorldPos = mul(vWorldPos, g_ProjViewMatrixInv);
     vWorldPos = mul(vWorldPos, g_ProjMatrixInv);
     vWorldPos = mul(vWorldPos, g_ViewMatrixInv);
     
@@ -96,12 +95,8 @@ float4 PS_MAIN_SSR(VS_OUT_TARGET In) : SV_TARGET
         clip(vRayPixelPos);
         clip(1.f - vRayPixelPos);
         
-        float2 vPixelCoord = float2(0.f, 0.f);
-        //vPixelCoord.x = g_NormalTarget.Sample(LinearSampler, vRayPixelPos).w;
-        //vPixelCoord.y = g_NormalDepthTarget.Sample(LinearSampler, vRayPixelPos).w;
-        
         fPixelDepth = g_NormalTarget.Sample(LinearSampler, vRayPixelPos).w;
-        fPixelDepth *= g_NormalDepthTarget.Sample(LinearSampler, vRayPixelPos).w * 1200.f;
+        fPixelDepth *= g_NormalDepthTarget.Sample(LinearSampler, vRayPixelPos).w * g_fFar;
         
         float fDiff = vRayProjPos.z - fPixelDepth;
         
@@ -112,7 +107,8 @@ float4 PS_MAIN_SSR(VS_OUT_TARGET In) : SV_TARGET
     clip(iStepCount - 0.5f - iStepDistance);
     
     vColor = g_PrePostProcessTarget.Sample(LinearSampler, vRayPixelPos);
-    vColor = vColor * smoothstep(0.f, 1.f, 1.f - iStepDistance / iStepCount) * clamp(pow(vProperties.x, 2.2f) / (vProperties.y + EPSILON), 0.01f, 1.f);
+    //vColor = vColor * smoothstep(0.f, 1.f, 1.f - iStepDistance / iStepCount) * clamp(pow(vProperties.x, 2.2f) / (vProperties.y + EPSILON), 0.01f, 1.f);
+    vColor = saturate(vColor * saturate(1.f - iStepDistance / (float)iStepCount) * vProperties.x) / (vProperties.y + EPSILON);
     return vColor;
 }
 

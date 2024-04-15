@@ -121,10 +121,10 @@ float4 PS_SSAO(VS_OUT_SSAO In) : SV_Target
 
 	// Get viewspace normal and z-coord of this pixel.  The tex-coords for
 	// the fullscreen quad we drew are already in uv-space.
-    float4 vNormalDepth = g_NormalDepthTarget.SampleLevel(samNormalDepth, In.vTexcoord, 0.f);
+    float4 vViewNormalDepth = g_NormalDepthTarget.SampleLevel(samNormalDepth, In.vTexcoord, 0.f);
 	
-    float3 vNormalV = vNormalDepth.xyz;
-    float fViewZ = vNormalDepth.w * 1200.f;
+    float3 vViewNormal = vViewNormalDepth.xyz;
+    float fViewZ = vViewNormalDepth.w * g_fFar;
 	
 	//
 	// Reconstruct full view space position (x,y,z).
@@ -149,7 +149,7 @@ float4 PS_SSAO(VS_OUT_SSAO In) : SV_Target
         float3 offset = reflect(gOffsetVectors[i].xyz, vRandVec);
         //float3 offset = reflect(gOffsetVectors[i].xyz, n);
 
-        float flip = sign(dot(offset, vNormalV.xyz));
+        float flip = sign(dot(offset, vViewNormal.xyz));
 		
 		// Sample a point near p within the occlusion radius.
         //float3 q = p + gOcclusionRadius * offset;
@@ -163,14 +163,14 @@ float4 PS_SSAO(VS_OUT_SSAO In) : SV_Target
 		// the depth of q, as q is just an arbitrary point near p and might
 		// occupy empty space).  To find the nearest depth we look it up in the depthmap.
 		
-        float fRealZ = g_NormalDepthTarget.SampleLevel(samNormalDepth, projQ.xy, 0.f).w;
-        fRealZ *= 1200.f;
+        float fRZ = g_NormalDepthTarget.SampleLevel(samNormalDepth, projQ.xy, 0.0f).w;
+        fRZ *= g_fFar;
 		
 		// Reconstruct full view space position r = (rx,ry,rz).  We know r
 		// lies on the ray of q, so there exists a t such that r = t*q.
 		// r.z = t*q.z ==> t = r.z / q.z
 
-        float3 r = (fRealZ / q.z) * q;
+        float3 vR = (fRZ / q.z) * q;
 		
 		//
 		// Test whether r occludes p.
@@ -184,10 +184,10 @@ float4 PS_SSAO(VS_OUT_SSAO In) : SV_Target
 		//     from p, then it does not occlude it.
 		// 
 		
-        float distZ = vPosV.z - r.z;
-        float dp = max(dot(vNormalV, normalize(r - vPosV)), 0.0f);
-        float fOcclusion = dp * OcclusionFunction(distZ);
-		
+        float distZ = vPosV.z - vR.z;
+        float dp = max(dot(vViewNormal, normalize(vR - vPosV)), 0.0f);
+        
+        float fOcclusion = dp * OcclusionFunction(distZ);		
         fOcclusionSum += fOcclusion;
     }
 	
@@ -197,7 +197,7 @@ float4 PS_SSAO(VS_OUT_SSAO In) : SV_Target
 
 	// Sharpen the contrast of the SSAO map to make the SSAO affect more dramatic.
 
-    return saturate(pow(access, 2.0f));
+    return saturate(pow(access, 4.0f));
 }
 
 VS_OUT_TARGET VS_MAIN_SSAO_BLUR( /* Á¤Á¡ */TARGET_IN In)

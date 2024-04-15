@@ -46,6 +46,8 @@ float4 CreateOutline(float4 vertPos, float Outline)
 static const float PI = 3.14159265359f;
 static const float EPSILON = 0.000001f;
 
+static const float g_fFar = 1200.f;
+
 Texture2D g_DiffuseTexture;
 Texture2D g_NormalTexture;
 Texture2D g_SpecularTexture;

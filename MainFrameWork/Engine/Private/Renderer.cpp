@@ -2675,17 +2675,29 @@ HRESULT CRenderer::Ready_SSR()
 	m_tSSR_Data[0].fSSRStep = 0.0f;
 	m_tSSR_Data[0].iSSRStepCount = 0;
 
-	m_tSSR_Data[1].fSSRStep = 0.0125f;
-	m_tSSR_Data[1].iSSRStepCount = 30;
+	//m_tSSR_Data[1].fSSRStep = 0.0125f;
+	//m_tSSR_Data[1].iSSRStepCount = 30;
 
-	m_tSSR_Data[2].fSSRStep = 0.008333333f;
-	m_tSSR_Data[2].iSSRStepCount = 45;
+	//m_tSSR_Data[2].fSSRStep = 0.008333333f;
+	//m_tSSR_Data[2].iSSRStepCount = 45;
 
-	m_tSSR_Data[3].fSSRStep = 0.00625f;
-	m_tSSR_Data[3].iSSRStepCount = 60;
+	//m_tSSR_Data[3].fSSRStep = 0.00625f;
+	//m_tSSR_Data[3].iSSRStepCount = 60;
+
+	//m_tSSR_Data[4].fSSRStep = 0.005f;
+	//m_tSSR_Data[4].iSSRStepCount = 75;
+
+	m_tSSR_Data[1].fSSRStep = 0.005f;
+	m_tSSR_Data[1].iSSRStepCount = 25;
+
+	m_tSSR_Data[2].fSSRStep = 0.005f;
+	m_tSSR_Data[2].iSSRStepCount = 50;
+
+	m_tSSR_Data[3].fSSRStep = 0.005f;
+	m_tSSR_Data[3].iSSRStepCount = 75;
 
 	m_tSSR_Data[4].fSSRStep = 0.005f;
-	m_tSSR_Data[4].iSSRStepCount = 75;
+	m_tSSR_Data[4].iSSRStepCount = 100;
 
 	return S_OK;
 }

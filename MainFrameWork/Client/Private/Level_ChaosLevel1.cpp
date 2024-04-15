@@ -121,6 +121,11 @@ HRESULT CLevel_ChaosLevel1::Tick(const _float& fTimeDelta)
 
 HRESULT CLevel_ChaosLevel1::LateTick(const _float& fTimeDelta)
 {
+	if (KEY_TAP(KEY::C))
+		CUI_Manager::GetInstance()->Set_UIs_Active(false, LEVEL_CHAOS_1);
+	if (KEY_TAP(KEY::V))
+		CUI_Manager::GetInstance()->Set_UIs_Active(true, LEVEL_CHAOS_1);
+
 	//CUI_Tool::GetInstance()->LateTick();
 	return S_OK;
 }
@@ -378,11 +383,11 @@ HRESULT CLevel_ChaosLevel1::Ready_Layer_UI(const LAYER_TYPE eLayerType)
 	else
 		CUI_Manager::GetInstance()->Add_UI(eLevel, static_cast<CUI*>(pUI));
 
-	/*pUI = pGameInstance->Add_GameObject(eLevel, _uint(eLayerType), TEXT("Prototype_GameObject_ChaosDungeonUI"));
+	pUI = pGameInstance->Add_GameObject(eLevel, _uint(eLayerType), TEXT("Prototype_GameObject_ChaosDungeonUI"));
 	if (nullptr == pUI)
 		return E_FAIL;
 	else
-		CUI_Manager::GetInstance()->Add_UI(eLevel, static_cast<CUI*>(pUI));*/
+		CUI_Manager::GetInstance()->Add_UI(eLevel, static_cast<CUI*>(pUI));
 
 	pUI = pGameInstance->Add_GameObject(eLevel, _uint(eLayerType), TEXT("Prototype_GameObject_PartyUI"));
 	if (nullptr == pUI)

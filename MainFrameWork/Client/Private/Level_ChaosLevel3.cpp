@@ -128,6 +128,11 @@ HRESULT CLevel_ChaosLevel3::Tick(const _float& fTimeDelta)
 
 HRESULT CLevel_ChaosLevel3::LateTick(const _float& fTimeDelta)
 {
+	if (KEY_TAP(KEY::C))
+		CUI_Manager::GetInstance()->Set_UIs_Active(false, LEVEL_CHAOS_3);
+	if (KEY_TAP(KEY::V))
+		CUI_Manager::GetInstance()->Set_UIs_Active(true, LEVEL_CHAOS_3);
+
 	//CUI_Tool::GetInstance()->LateTick();
 	return S_OK;
 }

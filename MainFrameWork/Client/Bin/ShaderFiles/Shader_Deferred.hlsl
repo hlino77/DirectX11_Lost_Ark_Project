@@ -361,12 +361,7 @@ float4 PS_MAIN_PBR_DEFERRED(VS_OUT_TARGET In) : SV_TARGET
 	vAlbedo = pow(vAlbedo, 2.2f);
 
 	float4	vNormal = g_NormalTarget.Sample(LinearSampler, In.vTexcoord);
-	float3	N = vNormal.xyz * 2.f - 1.f;
-	float4 vProperties = g_PropertiesTarget.Sample(LinearSampler, In.vTexcoord);
-
-	float fMetallic = vProperties.x /* 임시 */ /* * 0.8f*/;
-	float fRoughness = vProperties.y;
-	float fRimLight = vProperties.w;
+	//float3	N = vNormal.xyz * 2.f - 1.f;
 
 	float4 vNormalDepth = g_NormalDepthTarget.Sample(PointSampler, In.vTexcoord);
 
@@ -413,26 +408,29 @@ float4 PS_MAIN_PBR_DEFERRED(VS_OUT_TARGET In) : SV_TARGET
 	else
 		fResultShadow = fStaticShadow;
 
+	//////////////////////////////////   PBR   ////////////////////////////////////
+    float3 N = vNormal.xyz * 2.f - 1.f;
 	float3 V = normalize(g_vCamPosition.xyz - vWorldPos.xyz);
 
+    float4 vProperties = g_PropertiesTarget.Sample(LinearSampler, In.vTexcoord);
+
+    float fMetallic = vProperties.x;
+    float fRoughness = vProperties.y;
+	
 	float3 F0 = float3(0.04f, 0.04f, 0.04f);
 	F0 = lerp(F0, vAlbedo.xyz, fMetallic); // 반사율 F0
 
-	// calculate per-light radiance
-	//float3 L = normalize(-g_vLightDir);
-	//float3 H = normalize(V + L);
-
-    float3 vPBR_Color = IntegratedBRDF(fRoughness, fMetallic, vAlbedo.xyz, F0, N, V, fAO);
-
-	float3 vColor = float3(0.f, 0.f, 0.f);
-
+    float3 vPBR_Color = BRDF(fRoughness, fMetallic, vAlbedo.xyz, F0, N, V, fAO);
+	//////////////////////////////////   PBR   ////////////////////////////////////
+	
 	float3 vEmissive = g_EmissiveTarget.Sample(LinearSampler, In.vTexcoord).rgb;
 	vEmissive = pow(vEmissive, 2.2f);
 
-	vColor = vPBR_Color * fResultShadow + vEmissive;
+    float3 vColor = vPBR_Color * fResultShadow + vEmissive;
 
 	//vColor = pow(vColor, float3(1.f / 2.2f, 1.f / 2.2f, 1.f / 2.2f));
-
+	
+    float fRimLight = vProperties.w;
 	if (fRimLight != 0.0f)
 	{
 		float3 vRimLightColor = float3(1.0f, 1.0f, 0.8f);
@@ -469,7 +467,7 @@ float4 PS_MAIN_PBR_DEFERRED(VS_OUT_TARGET In) : SV_TARGET
 		return float4(vColor, 1.f); // Basic Rendering (Not Use Fog)
 	}
 
-	float height = vWorldPos.y; 
+	float height = vWorldPos.y;
 	float fogFactor = 0.0f;
 
 	if (height < g_fFogStartHeight) 
@@ -487,7 +485,6 @@ float4 PS_MAIN_PBR_DEFERRED(VS_OUT_TARGET In) : SV_TARGET
 	return float4(finalColorWithFog, 1.f);
 
 #pragma endregion
-
 }
 	
 

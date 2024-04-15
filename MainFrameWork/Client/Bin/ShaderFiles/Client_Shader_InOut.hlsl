@@ -160,13 +160,12 @@ struct VS_OUT_TARGET
 
 struct PS_OUT_PBR
 {
-    float4  vDiffuse : SV_TARGET0;
-    float4  vNormal : SV_TARGET1;
-    float4  vNormalV : SV_TARGET2;
+    float4  vDiffuse    : SV_TARGET0;
+    float4  vNormal     : SV_TARGET1;
+    float4  vNormalV    : SV_TARGET2;
     float4  vProperties : SV_TARGET3;
-	float4  vEmissive : SV_TARGET4;
-	float4  vOutline : SV_TARGET5;
-
+	float4  vEmissive   : SV_TARGET4;
+	float4  vOutline    : SV_TARGET5;
 };
 
 struct PS_OUT_PHONG

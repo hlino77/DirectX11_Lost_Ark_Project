@@ -55,7 +55,6 @@ HRESULT CBoss_Server::Initialize(void* pArg)
 
 void CBoss_Server::Tick(_float fTimeDelta)
 {
-
 	m_fSkillCoolDown += fTimeDelta;
 	if (m_bTargetLock == false)
 		Find_NearTarget(fTimeDelta);

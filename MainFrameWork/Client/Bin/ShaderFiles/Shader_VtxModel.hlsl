@@ -97,27 +97,15 @@ PS_OUT_PBR PS_PBR(VS_OUT In)
     
     ComputeNormalMapping(In.vNormal, In.vTangent, In.vTexUV);
     
-    Out.vNormal = vector(In.vNormal.xyz * 0.5f + 0.5f, In.vProjPos.z / In.vProjPos.w);
-    Out.vNormalV = vector(In.vNormalV, In.vProjPos.w / 1200.0f);
+    Out.vNormal = float4(In.vNormal.xyz * 0.5f + 0.5f, In.vProjPos.z / In.vProjPos.w); // In.vProjPos.z = NDC? Z;
+    Out.vNormalV = float4(In.vNormalV, In.vProjPos.w / g_fFar); // In.vProjPos.w = View Space Z ?
     
     if (1.f == SpecMaskEmisExtr.x)
     {
         float4 vSpecular = g_SpecularTexture.Sample(LinearSampler, In.vTexUV);
-        //if (1.f == SpecMaskEmisExtr.y)
-        //{
-        //    float4 vMRMask = g_MRMaskTexture.Sample(LinearSampler, In.vTexUV);
-        //    Out.vProperties.r = vSpecular.r * vMRMask.r * (1.f - vSpecular.a);
-        //    Out.vProperties.g = vSpecular.r * vMRMask.g * vSpecular.a;
-        //}
-        //else
-        //{
-        Out.vProperties.r = clamp(0.0f, 1.0f, 1.f - pow(1.f - vSpecular.b, 1.3f)); // Metalic
+
+        Out.vProperties.r = clamp(0.0f, 1.0f, 1.f - pow(1.f - vSpecular.b, 1.3f)); // Metallic
         Out.vProperties.g = pow(vSpecular.g, 1.5f); // Roughness
-        //}
-        
-        //Out.vProperties.r = smoothstep(0.0f, 0.95f, 1.f - pow(1.f - vSpecular.b, 2.f)); // Metalic
-        //Out.vProperties.g = pow(vSpecular.g, 2.f); // Roughness
-        
     }
     else
     {

@@ -10,9 +10,9 @@ float3 fresnelSchlick(float cosTheta, float3 F0)
     return F0 + (1.0f - F0) * pow(1.0 - cosTheta, 5.0f);
 }
 
-float3 FresnelSchlickRoughness(float cosTheta, float3 F0, float roughness)
+float3 FresnelSchlickRoughness(float fCosTheta, float3 F0, float fRoughness)
 {
-    return F0 + (max(float3(1.0 - roughness, 1.0 - roughness, 1.0 - roughness), F0) - F0) * pow(1.0 - cosTheta, 5.0);
+    return F0 + (max((float3)(1.0f - fRoughness), F0) - F0) * pow(1.0f - fCosTheta, 5.0f);
 }
 
 float DistributionGGX(float3 N, float3 H, float roughness)
@@ -212,96 +212,96 @@ TextureCube g_IrradianceTexture;
 TextureCube g_PreFilteredTexture;
 Texture2D g_BRDFTexture;
 
-float3 BRDF(in float fRoughness, in float fMetallic, in float3 vDiffuseColor, in float3 F0, in float3 N, in float3 V, in float3 L, in float3 H, in float fAO)
+//float3 BRDF(in float fRoughness, in float fMetallic, in float3 vDiffuseColor, in float3 F0, in float3 N, in float3 V, in float3 L, in float3 H, in float fAO)
+//{
+//    const float NdotL = max(dot(N, L), EPSILON);
+//    const float NdotV = max(dot(N, V), EPSILON);
+//    const float NdotH = max(dot(N, H), EPSILON);
+//    const float HdotV = max(dot(H, V), EPSILON);
+    
+//    // Distribution & Geometry & Fresnel
+//    //float NDF = DistributionGGX(N, H, fRoughness);
+//    //float G = GeometrySmith(N, V, L, fRoughness);
+//    //float3 F = fresnelSchlick(HdotV, vSpecularColor);
+//    //float D = D_GGX(fRoughness, NdotH);
+//    //float G = G_GGX(fRoughness, NdotV, NdotL);
+//    //float3 F = F_Shlick(vSpecularColor, HdotV);
+    
+//    float3 R = reflect(-V, N);
+    
+//    // IBL에서 Diffuse Irradiance를 계산하므로 불필요한 작업. (여기부터 Lo구하는 줄 까지)
+//    float D = NormalDistributionGGXTR(NdotH, fRoughness);
+//    float G = GeometrySmith(NdotV, NdotL, fRoughness);
+//    float3 F = fresnelSchlick(HdotV, F0);
+    
+//    float3 kS = F;
+//    float3 kD = float3(1.0f, 1.0f, 1.0f) - kS;
+//    kD *= (1.0f - fMetallic);
+    
+//    // Diffuse & Specular factors
+//    //float denom = max(4.0f * NdotV * NdotL, 0.001f); // 0.001f just in case product is 0
+//    float3 numerator = D * G * F;
+//    float denom = 4.0f * NdotV * NdotL;
+//    float3 specular_factor = numerator / max(denom, 0.001f);
+    
+//    //////////////////// 240127
+//    float3 vRadiance = g_vLightDiffuse.xyz/* * EPSILON*/; //EPSILON = attenuation
+//    float3 Lo = (kD * vDiffuseColor / PI + specular_factor) * vRadiance * NdotL;
+//    //
+//    // IBL 적용하지 않는다면 아래부터 specular 구하는 곳 까지 필요없음. Ambient도 구하지 말고 그냥 Lo에 AO곱해서 최종 색 구하면 될 듯..?
+//    // 잘안되네...
+//    /*float3 F1 = FresnelSchlickRoughness(NdotV, F0, fRoughness);
+    
+//    kS = F1;
+//    kD = 1.0 - kS;
+//    kD *= 1.0 - fMetallic;
+    
+//    float3 vIrradiance = g_IrradianceTexture.Sample(LinearClampSampler, N).rgb;
+//    float3 vDiffuse = vIrradiance * vDiffuseColor.xyz;
+    
+//    const float MAX_REFLECTION_LOD = 9.0f;
+    
+//    float3 prefilteredColor = g_PreFilteredTexture.SampleLevel(LinearClampSampler, R, fRoughness * MAX_REFLECTION_LOD).rgb;
+//    float2 envBRDF = g_BRDFTexture.Sample(LinearClampSampler, float2(NdotV, fRoughness)).rg;
+//    float3 specular = prefilteredColor * (F1 * envBRDF.x + envBRDF.y);
+    
+//    float3 vAmbient = (kD * vDiffuse + specular) * fAO;
+
+//    float3 vColor = vAmbient + Lo;*/
+    
+//    float3 vColor = fAO * Lo;
+//    return vColor;
+//    ////////////////////
+    
+//    //float3 diffuse_factor = kD * vDiffuseColor / PI;
+//    ////float3 diffuse_factor = Disney_Diffuse(fRoughness, vDiffuseColor, NdotL, NdotV, NdotH);
+//    ////float3 diffuse_factor = DisneyFrostbiteDiff(fRoughness, vDiffuseColor, NdotL, NdotV, NdotH);
+    
+//    ///////////////////////////
+//    //float3 R = reflect(-V, N);
+    
+//    //float3 vIrradiance = g_IrradianceTexture.Sample(LinearClampSampler, N).rgb;
+//    //float3 vDiffuse = vIrradiance * vDiffuseColor.xyz;
+
+//    //const float MAX_REFLECTION_LOD = 10.0f;
+//    //float3 prefilteredColor = g_PreFilteredTexture.SampleLevel(LinearClampSampler, R, fRoughness * MAX_REFLECTION_LOD).rgb;
+//    //float2 envBRDF = g_BRDFTexture.Sample(LinearClampSampler, float2(NdotV, fRoughness)).rg;
+    
+//    //float3 F1 = FresnelSchlickRoughness(max(NdotV, 0.0), F0, fRoughness);
+//    //float3 specular = prefilteredColor * (F1 * envBRDF.x + envBRDF.y);
+
+//    //float3 ambient = (kD * vDiffuse + specular) * fAO;
+    
+//    //return (kD * diffuse_factor + specular_factor) * NdotL + ambient;
+//    //return (kD * diffuse_factor + specular_factor) * (NdotL + fAO);
+//    //return (kD * vDiffuseColor / PI + specular_factor) * NdotL * fAO;
+//    //return (kD * vDiffuseColor + specular_factor) * NdotL;
+//}
+
+//float3 IntegratedBRDF(in float fRoughness, in float fMetallic, in float3 vDiffuseColor, in float3 F0, in float3 N, in float3 V, in float fAO)
+float3 BRDF(in float fRoughness, in float fMetallic, in float3 vAlbedo, in float3 F0, in float3 N, in float3 V, in float fAO)
 {
-    const float NdotL = max(dot(N, L), EPSILON);
     const float NdotV = max(dot(N, V), EPSILON);
-    const float NdotH = max(dot(N, H), EPSILON);
-    const float HdotV = max(dot(H, V), EPSILON);
-    
-    // Distribution & Geometry & Fresnel
-    //float NDF = DistributionGGX(N, H, fRoughness);
-    //float G = GeometrySmith(N, V, L, fRoughness);
-    //float3 F = fresnelSchlick(HdotV, vSpecularColor);
-    //float D = D_GGX(fRoughness, NdotH);
-    //float G = G_GGX(fRoughness, NdotV, NdotL);
-    //float3 F = F_Shlick(vSpecularColor, HdotV);
-    
-    float3 R = reflect(-V, N);
-    
-    
-    float D = NormalDistributionGGXTR(NdotH, fRoughness);
-    float G = GeometrySmith(NdotV, NdotL, fRoughness);
-    float3 F = fresnelSchlick(HdotV, F0);
-    
-    float3 kS = F;
-    float3 kD = float3(1.0f, 1.0f, 1.0f) - kS;
-    kD *= (1.0f - fMetallic);
-    
-    // Diffuse & Specular factors
-    //float denom = max(4.0f * NdotV * NdotL, 0.001f); // 0.001f just in case product is 0
-    float3 numerator = D * G * F;
-    float denom = 4.0f * NdotV * NdotL;
-    float3 specular_factor = numerator / max(denom, 0.001);
-    
-    //////////////////// 240127
-    float3 vRadiance = g_vLightDiffuse.xyz * EPSILON; //EPSILON = attenuation
-    float3 Lo = (kD * vDiffuseColor / PI + specular_factor) * vRadiance * NdotL;
-    
-    
-    float3 F1 = FresnelSchlickRoughness(NdotV, F0, fRoughness);
-    
-    kS = F1;
-    kD = 1.0 - kS;
-    kD *= 1.0 - fMetallic;
-    
-    float3 vIrradiance = g_IrradianceTexture.Sample(LinearClampSampler, N).rgb;
-    float3 vDiffuse = vIrradiance * vDiffuseColor.xyz;
-    
-    const float MAX_REFLECTION_LOD = 9.0f;
-    
-    float3 prefilteredColor = g_PreFilteredTexture.SampleLevel(LinearClampSampler, R, fRoughness * MAX_REFLECTION_LOD).rgb;
-    float2 envBRDF = g_BRDFTexture.Sample(LinearClampSampler, float2(NdotV, fRoughness)).rg;
-    float3 specular = prefilteredColor * (F1 * envBRDF.x + envBRDF.y);
-    
-    float3 vAmbient = (kD * vDiffuse + specular) * fAO;
-
-    float3 vColor = vAmbient + Lo;
-    
-    return vColor;
-    ////////////////////
-    
-    //float3 diffuse_factor = kD * vDiffuseColor / PI;
-    ////float3 diffuse_factor = Disney_Diffuse(fRoughness, vDiffuseColor, NdotL, NdotV, NdotH);
-    ////float3 diffuse_factor = DisneyFrostbiteDiff(fRoughness, vDiffuseColor, NdotL, NdotV, NdotH);
-    
-    ///////////////////////////
-    //float3 R = reflect(-V, N);
-    
-    //float3 vIrradiance = g_IrradianceTexture.Sample(LinearClampSampler, N).rgb;
-    //float3 vDiffuse = vIrradiance * vDiffuseColor.xyz;
-
-    //const float MAX_REFLECTION_LOD = 10.0f;
-    //float3 prefilteredColor = g_PreFilteredTexture.SampleLevel(LinearClampSampler, R, fRoughness * MAX_REFLECTION_LOD).rgb;
-    //float2 envBRDF = g_BRDFTexture.Sample(LinearClampSampler, float2(NdotV, fRoughness)).rg;
-    
-    //float3 F1 = FresnelSchlickRoughness(max(NdotV, 0.0), F0, fRoughness);
-    //float3 specular = prefilteredColor * (F1 * envBRDF.x + envBRDF.y);
-
-    //float3 ambient = (kD * vDiffuse + specular) * fAO;
-    
-    //return (kD * diffuse_factor + specular_factor) * NdotL + ambient;
-    //return (kD * diffuse_factor + specular_factor) * (NdotL + fAO);
-    //return (kD * vDiffuseColor / PI + specular_factor) * NdotL * fAO;
-    //return (kD * vDiffuseColor + specular_factor) * NdotL;
-}
-
-float3 IntegratedBRDF(in float fRoughness, in float fMetallic, in float3 vDiffuseColor, in float3 F0, in float3 N, in float3 V, in float fAO)
-{
-    const float NdotV = max(dot(N, V), EPSILON);
-    
-    float3 R = reflect(-V, N);
-    
     float3 F1 = FresnelSchlickRoughness(NdotV, F0, fRoughness);
     
     float3 kS = F1;
@@ -309,15 +309,19 @@ float3 IntegratedBRDF(in float fRoughness, in float fMetallic, in float3 vDiffus
     kD *= 1.0 - fMetallic;
     
     float3 vIrradiance = g_IrradianceTexture.Sample(LinearClampSampler, N).rgb;
-    float3 vDiffuse = vIrradiance * vDiffuseColor.xyz;
+    float3 vDiffuse = vIrradiance * vAlbedo;
     
-    const float MAX_REFLECTION_LOD = 9.0f;
+    float3 R = reflect(-V, N);
     
-    float3 prefilteredColor = g_PreFilteredTexture.SampleLevel(LinearClampSampler, R, fRoughness * MAX_REFLECTION_LOD).rgb;
-    float2 envBRDF = g_BRDFTexture.Sample(LinearClampSampler, float2(NdotV, fRoughness)).rg;
-    float3 specular = prefilteredColor * (F1 * envBRDF.x + envBRDF.y);
+    //const float MAX_REFLECTION_LOD = 9.0f;
+    const float MAX_REFLECTION_LOD = 5.0f;
+    const float fLOD = fRoughness * MAX_REFLECTION_LOD;    
     
-    float3 vColor = (kD * vDiffuse) * fAO + specular;
+    float3 vPrefilteredColor = g_PreFilteredTexture.SampleLevel(LinearClampSampler, R, fLOD).rgb;
+    float2 vEnvBRDF = g_BRDFTexture.Sample(LinearClampSampler, float2(NdotV, fRoughness)).rg;
+    float3 vSpecular = vPrefilteredColor * (F1 * vEnvBRDF.x + vEnvBRDF.y);
+    
+    float3 vColor = (kD * vDiffuse + vSpecular) * fAO;
     
     return vColor;
 }
