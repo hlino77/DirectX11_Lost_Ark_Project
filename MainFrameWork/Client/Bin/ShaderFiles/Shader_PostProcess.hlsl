@@ -275,37 +275,34 @@ float4 PS_MAIN_MOTIONBLUR(PS_IN In) : SV_TARGET0
 
 float4 PS_MAIN_RADIALBLUR(PS_IN In) : SV_TARGET0
 {
-    float4 vColor = float4(0.f, 0.f, 0.f, 0.f);
+    float4 vColor = (float4) 0.f;
 
     float fBlurStart = 1.f;
 	
-    matrix matVP = mul(g_CamViewMatrix, g_CamProjMatrix);
+    float4x4 matVP = mul(g_CamViewMatrix, g_CamProjMatrix);
     float4 vBlurCenter = mul(float4(vBlurWorldPosition, 1.f), matVP);
     vBlurCenter /= vBlurCenter.w;
 
     vBlurCenter.x = vBlurCenter.x * 0.5f + 0.5f;
     vBlurCenter.y = vBlurCenter.y * -0.5f + 0.5f;
 	
-    float2 center = float2(vBlurCenter.x, vBlurCenter.y); //중심점<-마우스의 위치를 받아오면 마우스를 중심으로 블러됨
+    float2 vCenter = float2(vBlurCenter.x, vBlurCenter.y); //중심점<-마우스의 위치를 받아오면 마우스를 중심으로 블러됨
 	
     // g_RadialBlurTarget.Sample(LinearClampSampler, In.vTexcoord);
     
-    In.vTexcoord.xy -= center;
-
-    float fPrecompute = fRadialBlurIntensity * (1.0f / 19.f);
-    int iDivision = 0;
+    float2 vDistance = In.vTexcoord.xy - vCenter;
+    float fIntensity = fRadialBlurIntensity * (1.0f / 19.f);
+    int   iDivision  = 0;
 	
     for (uint i = 0; i < 20; ++i)
     {
-        float scale = fBlurStart + (float(i) * fPrecompute);
-        float2 uv = In.vTexcoord.xy * scale + center;
+        float  fScale = fBlurStart + ((float) i * fIntensity);
+        float2 UV = vDistance * fScale + vCenter;
 		
-        if (0.f > uv.x || 1.f < uv.x)
+        if (0.f > UV.x || 1.f < UV.x || 0.f > UV.y || 1.f < UV.y)
             continue;
-		
-        if (0.f > uv.y || 1.f < uv.y)
-            continue;
-        vColor += g_ProcessingTarget.Sample(LinearClampSampler, uv);
+
+        vColor += g_ProcessingTarget.Sample(LinearClampSampler, UV);
         ++iDivision;
     }
 

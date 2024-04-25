@@ -363,7 +363,7 @@ float4 PS_MAIN_PBR_DEFERRED(VS_OUT_TARGET In) : SV_TARGET
 	float4	vNormal = g_NormalTarget.Sample(LinearSampler, In.vTexcoord);
 	//float3	N = vNormal.xyz * 2.f - 1.f;
 
-	float4 vNormalDepth = g_NormalDepthTarget.Sample(PointSampler, In.vTexcoord);
+	float4 vViewNormalDepth = g_NormalDepthTarget.Sample(PointSampler, In.vTexcoord);
 
 	float fAO = 1.f;
 
@@ -377,7 +377,7 @@ float4 PS_MAIN_PBR_DEFERRED(VS_OUT_TARGET In) : SV_TARGET
 	vWorldPos.z = vNormal.w;
 	vWorldPos.w = 1.f;
 
-	float fViewZ = vNormalDepth.w * 1200.f;
+    float fViewZ = vViewNormalDepth.w * 1200.f;
 	vWorldPos = vWorldPos * fViewZ;
 	vWorldPos = mul(vWorldPos, g_ProjMatrixInv);
 	vWorldPos = mul(vWorldPos, g_ViewMatrixInv);

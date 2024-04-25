@@ -209,9 +209,9 @@ HRESULT CEffect_Manager::Reserve_Manager(ID3D11Device* pDevice, ID3D11DeviceCont
 				element = element->NextSiblingElement();
 				tDesc.fLifeTime = element->FloatAttribute("LifeTime");
 				element = element->NextSiblingElement();
-				tDesc.fWaitingTime = element->FloatAttribute("WaitingTime");
+				tDesc.fStartDelay = element->FloatAttribute("WaitingTime");
 				element = element->NextSiblingElement();
-				tDesc.fRemainTime = element->FloatAttribute("RemainTime");
+				tDesc.fAfterImage = element->FloatAttribute("RemainTime");
 				
 				element = element->NextSiblingElement();
 				tDesc.bParentPivot = element->BoolAttribute("ParentPivot");

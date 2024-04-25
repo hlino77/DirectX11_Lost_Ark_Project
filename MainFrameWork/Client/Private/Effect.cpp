@@ -45,8 +45,8 @@ CEffect::CEffect(const CEffect& rhs)
 	, m_pEmissiveTexture(rhs.m_pEmissiveTexture)
 	, m_pDissolveTexture(rhs.m_pDissolveTexture)
 	, m_tNoisMaskEmisDslv(rhs.m_tNoisMaskEmisDslv)
-	, m_fWaitingTime(rhs.m_fWaitingTime)
-	, m_fRemainTime(rhs.m_fRemainTime)
+	, m_fStartDelay(rhs.m_fStartDelay)
+	, m_fAfterImage(rhs.m_fAfterImage)
 	, m_IsLoop(rhs.m_IsLoop)
 	, m_strPassName(rhs.m_strPassName)
 	, m_fRadialTime(rhs.m_fRadialTime)
@@ -124,8 +124,8 @@ HRESULT CEffect::Initialize_Prototype(EFFECTDESC* pDesc)
 	m_fDissolveStart = pDesc->fDissolveStart;
 
 	m_fLifeTime = pDesc->fLifeTime;
-	m_fWaitingTime = pDesc->fWaitingTime;
-	m_fRemainTime = pDesc->fRemainTime;
+	m_fStartDelay = pDesc->fStartDelay;
+	m_fAfterImage = pDesc->fAfterImage;
 
 	m_vUV_Start = pDesc->vUV_Start;
 	m_vUV_Speed = pDesc->vUV_Speed;
@@ -203,17 +203,17 @@ HRESULT CEffect::Initialize(void* pArg)
 }
 
 void CEffect::Tick(_float fTimeDelta)
-{ 
-	if (m_fWaitingAcc < m_fWaitingTime)
+{
+	if (m_fStartDelayAcc < m_fStartDelay)
 	{
-		m_fWaitingAcc += fTimeDelta;
-		if (m_fWaitingAcc >= m_fWaitingTime)
+		m_fStartDelayAcc += fTimeDelta;
+		if (m_fStartDelayAcc >= m_fStartDelay)
 			m_bRender = true;
 		else
 			return;
 	}
 
-	if (m_fTimeAcc >= m_fLifeTime + m_fRemainTime)
+	if (m_fTimeAcc >= m_fLifeTime + m_fAfterImage)
 	{
 		EffectEnd();
 		return;
@@ -222,86 +222,11 @@ void CEffect::Tick(_float fTimeDelta)
 	m_fTimeAcc += fTimeDelta;
 	m_fLifeTimeRatio = min(1.0f, m_fTimeAcc / m_fLifeTime);
 
-	Matrix matOffset(Matrix::Identity);
-
-	if (!m_bScaling_Pass)
-	{
-		if (m_bScaling_Lerp)
-			m_vOffsetScaling = Vec3::Lerp(m_vScaling_Start, m_vScaling_End, m_fLifeTimeRatio);
-		else
-			m_vOffsetScaling = m_vScaling_Start;
-
-		m_matOffset = XMMatrixScaling(m_vOffsetScaling.x, m_vOffsetScaling.y, m_vOffsetScaling.z);
-	}
-	else
-	{
-		m_matOffset = Matrix::Identity;		
-	}
-
-	if (!m_bRotation_Pass)
-	{
-		if (m_bRotation_Lerp)
-			m_vOffsetRotation = Vec3::Lerp(m_vRotation_Start, m_vRotation_End, m_fLifeTimeRatio);
-		else
-			m_vOffsetRotation = m_vRotation_Start;
-
-		Quaternion qRotation;
-		XMStoreFloat4(&qRotation, XMQuaternionRotationRollPitchYaw(XMConvertToRadians(m_vOffsetRotation.x), XMConvertToRadians(m_vOffsetRotation.y), XMConvertToRadians(m_vOffsetRotation.z)));
-		Matrix::Transform(m_matOffset, qRotation, m_matOffset);
-	}
-
-	if (!m_bPosition_Pass)
-	{
-		if (m_bPosition_Lerp)
-			m_vOffsetPosition = Vec3::Lerp(m_vPosition_Start, m_vPosition_End, m_fLifeTimeRatio);
-		else
-			m_vOffsetPosition = m_vPosition_Start;
-	}
-
-	if (!m_bVelocity_Pass)
-	{
-		if (m_bVelocity_Lerp)
-			m_vVelocity = 0.5f * m_fLifeTimeRatio * Vec3::Lerp(m_vVelocity_Start, m_vVelocity_End, m_fLifeTimeRatio);
-		else
-			m_vVelocity = 0.5f * m_fLifeTimeRatio * m_vVelocity_Start;
-	}
-
-	if (!m_bPosition_Pass)
-	{
-		if (!m_bVelocity_Pass)
-			m_vOffsetPosition += m_vVelocity;
-
-		m_matOffset._41 += m_vOffsetPosition.x;
-		m_matOffset._42 += m_vOffsetPosition.y;
-		m_matOffset._43 += m_vOffsetPosition.z;
-	}
-	else
-	{
-		if (!m_bVelocity_Pass)
-			m_vOffsetPosition = m_vVelocity;
-
-		m_matOffset._41 += m_vOffsetPosition.x;
-		m_matOffset._42 += m_vOffsetPosition.y;
-		m_matOffset._43 += m_vOffsetPosition.z;
-	}
-
-	if (!m_bRevolution_Pass)
-	{
-		_float fRevolutionRatio = 0.0f;
-		if (m_fTimeAcc >= m_fLifeTime && m_fTimeAcc <= m_fLifeTime + m_fRemainTime)
-			fRevolutionRatio = (fmodf(m_fTimeAcc, m_fLifeTime) / m_fLifeTime);
-		else
-			fRevolutionRatio = m_fLifeTimeRatio;
-
-		if (m_bRevolution_Lerp)
-			m_vOffsetRevolution = Vec3::Lerp(m_vRevolution_Start, m_vRevolution_End, fRevolutionRatio);
-		else
-			m_vOffsetRevolution = m_vRevolution_Start;
-
-		Quaternion qRotation;
-		XMStoreFloat4(&qRotation, XMQuaternionRotationRollPitchYaw(XMConvertToRadians(m_vOffsetRevolution.x), XMConvertToRadians(m_vOffsetRevolution.y), XMConvertToRadians(m_vOffsetRevolution.z)));
-		Matrix::Transform(m_matOffset, qRotation, m_matOffset);
-	}
+	Calculate_Scaling();
+	Calculate_Rotation();
+	Calculate_Velocity();
+	Calculate_Position();
+	Calculate_Revolution();
 
 	m_Variables.vUV_Offset.x += m_vUV_Speed.x * fTimeDelta;
 	m_Variables.vUV_Offset.y += m_vUV_Speed.y * fTimeDelta;
@@ -326,10 +251,7 @@ void CEffect::LateTick(_float fTimeDelta)
 
 HRESULT CEffect::Render()
 {
-	if(m_bColor_Lerp)
-		m_Variables.vColor_Offset = Vec4::Lerp(m_vColor_Start, m_vColor_End, m_fLifeTimeRatio);
-	else
-		m_Variables.vColor_Offset = m_vColor_Start;
+	Calculate_Color();
 
 	if (FAILED(m_pShaderCom->Bind_CBuffer("FX_Variables", &m_Variables, sizeof(tagFX_Variables))))
 		return E_FAIL;
@@ -339,45 +261,8 @@ HRESULT CEffect::Render()
 	if (FAILED(m_pShaderCom->Push_GlobalVP()))
 		return E_FAIL;
 
-	if (FAILED(m_pShaderCom->Bind_CBuffer("EffectMaterialFlag", &m_tNoisMaskEmisDslv.NoisMaskEmisDslv, sizeof(EffectMaterialFlag))))
+	if (FAILED(Bind_TextureResources()))
 		return E_FAIL;
-
-	if (m_pDiffuseTexture)
-	{
-		if (FAILED(m_pDiffuseTexture->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
-			return E_FAIL;
-	}
-	else
-		__debugbreak();
-
-	if (m_pNoiseTexture)
-	{
-		if (FAILED(m_pNoiseTexture->Set_SRV(m_pShaderCom, "g_NoiseTexture")))
-			return E_FAIL;
-	}
-	if (m_pMaskTexture)
-	{
-		if (FAILED(m_pMaskTexture->Set_SRV(m_pShaderCom, "g_MaskTexture")))
-			return E_FAIL;
-	}
-	if (m_pEmissiveTexture)
-	{
-		if (FAILED(m_pEmissiveTexture->Set_SRV(m_pShaderCom, "g_EmissiveTexture")))
-			return E_FAIL;
-	}
-	if (m_pDissolveTexture)
-	{
-		_float fRatio = m_fTimeAcc / (m_fLifeTime + m_fRemainTime);
-		if (fRatio >= m_fDissolveStart)
-		{
-			m_Intensity.fDissolveAmount = (fRatio - m_fDissolveStart) / (1.f - m_fDissolveStart);
-
-			if (FAILED(m_pDissolveTexture->Set_SRV(m_pShaderCom, "g_DissolveTexture")))
-				return E_FAIL;
-		}	
-		else
-			m_Intensity.fDissolveAmount = 0.f;
-	}
 
 	if (FAILED(m_pShaderCom->Bind_CBuffer("FX_Intensity", &m_Intensity, sizeof(tagFX_Intensity))))
 		return E_FAIL;
@@ -416,9 +301,9 @@ void CEffect::Reset(CEffect_Manager::EFFECTPIVOTDESC& tEffectDesc)
 	m_bRender = true;
 	m_Variables.vUV_Offset = m_vUV_Start;
 
-	if (m_fWaitingTime > 0.0f)
+	if (m_fStartDelay > 0.0f)
 	{
-		m_fWaitingAcc = 0.0f;
+		m_fStartDelayAcc = 0.0f;
 		m_bRender = false;
 	}
 
@@ -448,6 +333,150 @@ void CEffect::Update_Pivot(Matrix& matPivot)
 	//Vec3 vLook = m_matPivot.Backward();
 	//vLook.Normalize();
 	//m_matPivot.Backward(vLook);
+}
+
+void CEffect::Calculate_Scaling()
+{
+	if (!m_bScaling_Pass)
+	{
+		if (m_bScaling_Lerp)
+			m_vOffsetScaling = Vec3::Lerp(m_vScaling_Start, m_vScaling_End, m_fLifeTimeRatio);
+		else
+			m_vOffsetScaling = m_vScaling_Start;
+
+		m_matOffset = XMMatrixScaling(m_vOffsetScaling.x, m_vOffsetScaling.y, m_vOffsetScaling.z);
+	}
+	else
+	{
+		m_matOffset = Matrix::Identity;
+	}
+}
+
+void CEffect::Calculate_Rotation()
+{
+	if (!m_bRotation_Pass)
+	{
+		if (m_bRotation_Lerp)
+			m_vOffsetRotation = Vec3::Lerp(m_vRotation_Start, m_vRotation_End, m_fLifeTimeRatio);
+		else
+			m_vOffsetRotation = m_vRotation_Start;
+
+		Quaternion qRotation;
+		XMStoreFloat4(&qRotation, XMQuaternionRotationRollPitchYaw(XMConvertToRadians(m_vOffsetRotation.x), XMConvertToRadians(m_vOffsetRotation.y), XMConvertToRadians(m_vOffsetRotation.z)));
+		Matrix::Transform(m_matOffset, qRotation, m_matOffset);
+	}
+}
+
+void CEffect::Calculate_Velocity()
+{
+	if (!m_bVelocity_Pass)
+	{
+		if (m_bVelocity_Lerp)
+			m_vVelocity = 0.5f * m_fLifeTimeRatio * Vec3::Lerp(m_vVelocity_Start, m_vVelocity_End, m_fLifeTimeRatio);
+		else
+			m_vVelocity = 0.5f * m_fLifeTimeRatio * m_vVelocity_Start;
+	}
+}
+
+void CEffect::Calculate_Position()
+{
+	if (!m_bPosition_Pass)
+	{
+		if (m_bPosition_Lerp)
+			m_vOffsetPosition = Vec3::Lerp(m_vPosition_Start, m_vPosition_End, m_fLifeTimeRatio);
+		else
+			m_vOffsetPosition = m_vPosition_Start;
+
+		if (!m_bVelocity_Pass)
+			m_vOffsetPosition += m_vVelocity;
+
+		m_matOffset._41 += m_vOffsetPosition.x;
+		m_matOffset._42 += m_vOffsetPosition.y;
+		m_matOffset._43 += m_vOffsetPosition.z;
+	}
+	else
+	{
+		if (!m_bVelocity_Pass)
+			m_vOffsetPosition = m_vVelocity;
+
+		m_matOffset._41 += m_vOffsetPosition.x;
+		m_matOffset._42 += m_vOffsetPosition.y;
+		m_matOffset._43 += m_vOffsetPosition.z;
+	}
+}
+
+void CEffect::Calculate_Revolution()
+{
+	if (!m_bRevolution_Pass)
+	{
+		_float fRevolutionRatio = 0.0f;
+		if (m_fTimeAcc >= m_fLifeTime && m_fTimeAcc <= m_fLifeTime + m_fStartDelay)
+			fRevolutionRatio = (fmodf(m_fTimeAcc, m_fLifeTime) / m_fLifeTime);
+		else
+			fRevolutionRatio = m_fLifeTimeRatio;
+
+		if (m_bRevolution_Lerp)
+			m_vOffsetRevolution = Vec3::Lerp(m_vRevolution_Start, m_vRevolution_End, fRevolutionRatio);
+		else
+			m_vOffsetRevolution = m_vRevolution_Start;
+
+		Quaternion qRotation;
+		XMStoreFloat4(&qRotation, XMQuaternionRotationRollPitchYaw(XMConvertToRadians(m_vOffsetRevolution.x), XMConvertToRadians(m_vOffsetRevolution.y), XMConvertToRadians(m_vOffsetRevolution.z)));
+		Matrix::Transform(m_matOffset, qRotation, m_matOffset);
+	}
+}
+
+void CEffect::Calculate_Color()
+{
+	if (m_bColor_Lerp)
+		m_Variables.vColor_Offset = Vec4::Lerp(m_vColor_Start, m_vColor_End, m_fLifeTimeRatio);
+	else
+		m_Variables.vColor_Offset = m_vColor_Start;
+}
+
+HRESULT CEffect::Bind_TextureResources()
+{
+	if (FAILED(m_pShaderCom->Bind_CBuffer("EffectMaterialFlag", &m_tNoisMaskEmisDslv.NoisMaskEmisDslv, sizeof(EffectMaterialFlag))))
+		return E_FAIL;
+
+	if (m_pDiffuseTexture)
+	{
+		if (FAILED(m_pDiffuseTexture->Set_SRV(m_pShaderCom, "g_DiffuseTexture")))
+			return E_FAIL;
+	}
+	else
+		__debugbreak();
+
+	if (m_pNoiseTexture)
+	{
+		if (FAILED(m_pNoiseTexture->Set_SRV(m_pShaderCom, "g_NoiseTexture")))
+			return E_FAIL;
+	}
+	if (m_pMaskTexture)
+	{
+		if (FAILED(m_pMaskTexture->Set_SRV(m_pShaderCom, "g_MaskTexture")))
+			return E_FAIL;
+	}
+	if (m_pEmissiveTexture)
+	{
+		if (FAILED(m_pEmissiveTexture->Set_SRV(m_pShaderCom, "g_EmissiveTexture")))
+			return E_FAIL;
+	}
+	if (m_pDissolveTexture)
+	{
+		_float fRatio = m_fTimeAcc / (m_fLifeTime + m_fAfterImage);
+		if (fRatio >= m_fDissolveStart)
+		{
+			m_Intensity.fDissolveAmount = (fRatio - m_fDissolveStart) / (1.f - m_fDissolveStart);
+
+			if (FAILED(m_pDissolveTexture->Set_SRV(m_pShaderCom, "g_DissolveTexture")))
+				return E_FAIL;
+		}
+		else
+			m_Intensity.fDissolveAmount = 0.f;
+	}
+
+	return S_OK;
 }
 
 

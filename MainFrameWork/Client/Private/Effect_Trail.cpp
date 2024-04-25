@@ -46,7 +46,7 @@ void CEffect_Trail::Tick(_float fTimeDelta)
 	if (m_bActive == false)
 		return;
 
-	if (m_fWaitingAcc < m_fWaitingTime)
+	if (m_fStartDelayAcc < m_fStartDelay)
 		return;
 
 	Run_Sequence(fTimeDelta);
@@ -91,9 +91,9 @@ void CEffect_Trail::Reset()
 	m_bRender = true;
 	m_Variables.vUV_Offset = m_vUV_Start;
 
-	if (m_fWaitingTime > 0.0f)
+	if (m_fStartDelay > 0.0f)
 	{
-		m_fWaitingAcc = 0.0f;
+		m_fStartDelayAcc = 0.0f;
 		m_bRender = false;
 	}
 
@@ -105,17 +105,15 @@ void CEffect_Trail::Reset()
 	m_bRevolution_Lerp = m_bOriginRevolution_Lerp;
 }
 
-void CEffect_Trail::TrailEnd(_float fRemainTime)
+void CEffect_Trail::TrailEnd(_float fAfterImage)
 {
 	m_bTracer = false;
-	m_fRemainTime = fRemainTime;
+	m_fAfterImage = fAfterImage;
 	m_fTimeAcc = m_fLifeTime;
 
 	m_vRevolution_Start = m_vOffsetRevolution;
 	m_bRevolution_Lerp = false;
 }
-
-
 
 HRESULT CEffect_Trail::Ready_Components()
 {

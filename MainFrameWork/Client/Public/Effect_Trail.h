@@ -27,7 +27,7 @@ public:
 
 public:
 	void Reset();
-	void	TrailEnd(_float fRemainTime);
+	void	TrailEnd(_float fAfterImage);
 
 private:
 	CVIBuffer_Trail* m_pBuffer = nullptr;

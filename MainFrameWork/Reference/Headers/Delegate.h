@@ -8,14 +8,14 @@ public:
 
 	void operator () (const Args... args)
 	{
-		if (functions.empty())
+		if (m_listFunctions.empty())
 			return;
 
-		for (auto iter = functions.begin(); iter != functions.end();)
+		for (auto iter = m_listFunctions.begin(); iter != m_listFunctions.end();)
 		{
 
 			if (!(*iter))
-				iter = functions.erase(iter);
+				iter = m_listFunctions.erase(iter);
 			else
 			{
 				(*iter)(args...);
@@ -26,21 +26,19 @@ public:
 
 	FDelegate& operator = (std::function<void(Args...)> const& func)
 	{
-		functions.clear();
-		functions.push_back(func);
+		m_listFunctions.clear();
+		m_listFunctions.push_back(func);
 		return *this;
 	}
 
 	FDelegate& operator += (std::function<void(Args...)> const& func)
 	{
-		functions.push_back(func);
+		m_listFunctions.push_back(func);
 
 #ifdef _DEBUG
-		if (functions.size() % 100 == 0)
-			cout << "Warning: " << functions.size() << " functions have been bound to Delegate." << endl;
+		if (m_listFunctions.size() % 100 == 0)
+			cout << "Warning: " << m_listFunctions.size() << " m_listFunctions have been bound to Delegate." << endl;
 #endif // _DEBUG
-
-		
 
 		return *this;
 	}
@@ -52,11 +50,11 @@ public:
 
 		if (nullptr == func_ptr)
 		{
-			for (auto iter = functions.begin(); iter != functions.end(); iter++)
+			for (auto iter = m_listFunctions.begin(); iter != m_listFunctions.end(); iter++)
 			{
 				if (func_hash == (*iter).target_type().hash_code())
 				{
-					functions.erase(iter);
+					m_listFunctions.erase(iter);
 					return *this;
 				}
 			}
@@ -64,12 +62,12 @@ public:
 
 		else
 		{
-			for (auto iter = functions.begin(); iter != functions.end(); iter++)
+			for (auto iter = m_listFunctions.begin(); iter != m_listFunctions.end(); iter++)
 			{
 				void(* const* delegate_ptr)(Args...) = (*iter).template target<void(*)(Args...)>();
 				if (nullptr != delegate_ptr && *func_ptr == *delegate_ptr)
 				{
-					functions.erase(iter);
+					m_listFunctions.erase(iter);
 					return *this;
 				}
 			}
@@ -78,12 +76,12 @@ public:
 		return *this;
 	}
 
-	bool empty()		{ return functions.empty(); }
-	size_t size()		{ return functions.size(); }
-	iterator begin()	{ return functions.begin(); }
-	iterator end()		{ return functions.end(); }
-	void clear()		{ functions.clear(); }
+	bool empty()		{ return m_listFunctions.empty(); }
+	size_t size()		{ return m_listFunctions.size(); }
+	iterator begin()	{ return m_listFunctions.begin(); }
+	iterator end()		{ return m_listFunctions.end(); }
+	void clear()		{ m_listFunctions.clear(); }
 
 private:
-	std::list<std::function<void(Args...)>> functions;
+	std::list<std::function<void(Args...)>> m_listFunctions;
 };

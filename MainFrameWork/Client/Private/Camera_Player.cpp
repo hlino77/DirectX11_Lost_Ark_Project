@@ -177,17 +177,17 @@ void CCamera_Player::Tick_FreeCamera(_float fTimeDelta)
 		}
 	}
 
-	if (m_bRadialBlur)
+	if (m_bRadialBlurActivate)
 	{
-		if (m_fRadialBlurAcc <= 0.0f)
+		if (m_fRadialBlurTimer <= 0.0f)
 		{
 			if (m_fRadialBlurIntensity <= 0.0f)
 			{
 				m_vRadialPos = Vec3();
 				m_pRendererCom->Set_RadialBlurData(m_vRadialPos, 0.0f);
 				m_fRadialBlurIntensity = 0.0f;
-				m_bRadialBlur = false;
-				m_fRadialBlurAcc = 0.0f;
+				m_bRadialBlurActivate = false;
+				m_fRadialBlurTimer = 0.0f;
 			}
 			else
 			{
@@ -197,7 +197,7 @@ void CCamera_Player::Tick_FreeCamera(_float fTimeDelta)
 		}
 		else
 		{
-			m_fRadialBlurAcc -= fTimeDelta;
+			m_fRadialBlurTimer -= fTimeDelta;
 			m_pRendererCom->Set_RadialBlurData(m_vRadialPos, m_fRadialBlurIntensity);
 		}
 	}
@@ -275,17 +275,17 @@ void CCamera_Player::Tick_DefaultCamera(_float fTimeDelta)
 		}
 	}
 
-	if (m_bRadialBlur)
+	if (m_bRadialBlurActivate)
 	{
-		if (m_fRadialBlurAcc <= 0.0f)
+		if (m_fRadialBlurTimer <= 0.0f)
 		{
 			if (m_fRadialBlurIntensity <= 0.0f)
 			{
-				m_vRadialPos = Vec3();
+				m_vRadialPos = Vec3(0.0f, 0.0f, 0.0f);
 				m_pRendererCom->Set_RadialBlurData(m_vRadialPos, 0.0f);
 				m_fRadialBlurIntensity = 0.0f;
-				m_bRadialBlur = false;
-				m_fRadialBlurAcc = 0.0f;
+				m_bRadialBlurActivate = false;
+				m_fRadialBlurTimer = 0.0f;
 			}
 			else
 			{
@@ -295,7 +295,7 @@ void CCamera_Player::Tick_DefaultCamera(_float fTimeDelta)
 		}
 		else
 		{
-			m_fRadialBlurAcc -= fTimeDelta;
+			m_fRadialBlurTimer -= fTimeDelta;
 			m_pRendererCom->Set_RadialBlurData(m_vRadialPos, m_fRadialBlurIntensity);
 		}
 	}
@@ -306,7 +306,7 @@ void CCamera_Player::Tick_DefaultCamera(_float fTimeDelta)
 		{
 			if (m_fChromaticIntensity <= 0.0f)
 			{
-				m_vChromaticPos = Vec3();
+				m_vChromaticPos = Vec3(0.0f, 0.0f, 0.0f);
 				m_pRendererCom->Set_ChromaticData(m_vChromaticPos, 0.0f);
 				m_fChromaticIntensity = 0.0f;
 				m_bChromatic = false;
@@ -396,17 +396,17 @@ void CCamera_Player::Tick_ResetCamera(_float fTimeDelta)
 		}
 	}
 
-	if (m_bRadialBlur)
+	if (m_bRadialBlurActivate)
 	{
-		if (m_fRadialBlurAcc <= 0.0f)
+		if (m_fRadialBlurTimer <= 0.0f)
 		{
 			if (m_fRadialBlurIntensity <= 0.0f)
 			{
 				m_vRadialPos = Vec3();
 				m_pRendererCom->Set_RadialBlurData(m_vRadialPos, 0.0f);
 				m_fRadialBlurIntensity = 0.0f;
-				m_bRadialBlur = false;
-				m_fRadialBlurAcc = 0.0f;
+				m_bRadialBlurActivate = false;
+				m_fRadialBlurTimer = 0.0f;
 			}
 			else
 			{
@@ -416,7 +416,7 @@ void CCamera_Player::Tick_ResetCamera(_float fTimeDelta)
 		}
 		else
 		{
-			m_fRadialBlurAcc -= fTimeDelta;
+			m_fRadialBlurTimer -= fTimeDelta;
 			m_pRendererCom->Set_RadialBlurData(m_vRadialPos, m_fRadialBlurIntensity);
 		}
 	}

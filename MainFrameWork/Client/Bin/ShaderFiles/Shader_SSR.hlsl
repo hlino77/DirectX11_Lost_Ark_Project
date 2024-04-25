@@ -47,10 +47,10 @@ float4 PS_MAIN_SSR(VS_OUT_TARGET In) : SV_TARGET
     float4 vColor = float4(0.f, 0.f, 0.f, 0.f);
     
     float4 vNormal = g_NormalTarget.Sample(LinearSampler, In.vTexcoord);
-    float4 vDepth = g_NormalDepthTarget.Sample(LinearSampler, In.vTexcoord);
+    float  fDepth = g_NormalDepthTarget.Sample(LinearSampler, In.vTexcoord).w;
     float4 vProperties = g_PropertiesTarget.Sample(LinearSampler, In.vTexcoord);
     
-    float fViewZ = vDepth.w * g_fFar;
+    float fViewZ = fDepth * g_fFar;
     
     float4 vWorldPos;
 
@@ -72,8 +72,7 @@ float4 PS_MAIN_SSR(VS_OUT_TARGET In) : SV_TARGET
     float4 vRayDir = normalize(reflect(vViewDir, vNormal));
     vRayDir.w = 0.f;
     
-    float fStep = fSSRStep;
-    matrix matVP = mul(g_CamViewMatrix, g_CamProjMatrix);
+    float4x4 matVP = mul(g_CamViewMatrix, g_CamProjMatrix);
     
     float fPixelDepth = 0.f;
     int iStepDistance = 0;
@@ -82,7 +81,7 @@ float4 PS_MAIN_SSR(VS_OUT_TARGET In) : SV_TARGET
     [loop]
     for (iStepDistance = 1; iStepDistance < iStepCount; ++iStepDistance)
     {
-        float4 vDirStep = vRayDir * fStep * iStepDistance;
+        float4 vDirStep = vRayDir * fSSRStep * iStepDistance;
         vDirStep.w = 0.f;
         float4 vRayWorldPos = vRayOrigin + vDirStep;
 
@@ -104,11 +103,14 @@ float4 PS_MAIN_SSR(VS_OUT_TARGET In) : SV_TARGET
             break;
     }
  
-    clip(iStepCount - 0.5f - iStepDistance);
+    // clip(iStepCount - 0.5f - iStepDistance);
+    float fReflectionRatio = iStepDistance / (float) iStepCount;
+    float fRoughness = vProperties.y + EPSILON;
+    float fMetallic = vProperties.x;
     
     vColor = g_PrePostProcessTarget.Sample(LinearSampler, vRayPixelPos);
-    //vColor = vColor * smoothstep(0.f, 1.f, 1.f - iStepDistance / iStepCount) * clamp(pow(vProperties.x, 2.2f) / (vProperties.y + EPSILON), 0.01f, 1.f);
-    vColor = saturate(vColor * saturate(1.f - iStepDistance / (float)iStepCount) * vProperties.x) / (vProperties.y + EPSILON);
+
+    vColor = saturate(vColor * saturate(1.f - fReflectionRatio) * fMetallic / fRoughness);
     return vColor;
 }
 
@@ -123,7 +125,6 @@ float4 PS_MAIN_BLENDSSR(VS_OUT_TARGET In) : SV_TARGET
     }
     
     return vColor;
-
 }
 //cbuffer PerFrame
 //{

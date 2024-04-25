@@ -45,8 +45,8 @@ HRESULT CEffect_Custom_SeismicHammerRock::Initialize(void* pArg)
 	m_fLifeTime = 1.3f;
 	m_fTimeAcc = 0.0f;
 
-	m_fWaitingAcc = 0.0f;
-	m_fWaitingTime = 0.6f;
+	m_fStartDelayAcc = 0.0f;
+	m_fStartDelay = 0.6f;
 
 	m_Intensity.fDissolveAmount = 0.0f;
 	
@@ -118,7 +118,7 @@ HRESULT CEffect_Custom_SeismicHammerRock::Render()
 
 void CEffect_Custom_SeismicHammerRock::Tick_Start(_float fTimeDelta)
 {
-	if (m_fWaitingAcc >= m_fWaitingTime)
+	if (m_fStartDelayAcc >= m_fStartDelay)
 	{
 		m_bRender = true;
 		Vec3 vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
@@ -139,7 +139,7 @@ void CEffect_Custom_SeismicHammerRock::Tick_Start(_float fTimeDelta)
 	else
 	{
 		m_bRender = false;
-		m_fWaitingAcc += fTimeDelta;
+		m_fStartDelayAcc += fTimeDelta;
 	}
 }
 		

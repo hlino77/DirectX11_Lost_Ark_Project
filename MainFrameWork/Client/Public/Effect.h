@@ -55,8 +55,8 @@ public:
 		_bool	bColor_Lerp = true;
 
 		_float	fLifeTime = FLT_MAX;
-		_float	fWaitingTime = 0.0f;
-		_float	fRemainTime = 0.0f;
+		_float	fStartDelay = 0.0f;
+		_float	fAfterImage = 0.0f;
 		_bool	bParentPivot = false;
 
 		Vec2	vUV_Start = Vec2(0.f, 0.f);
@@ -66,7 +66,7 @@ public:
 		_bool	IsLoop = false;
 		_float	fSequenceTerm = 0.05f;
 		_float	fDissolveStart = 1.f;
-			
+
 		// Variables
 		Vec2	vUV_Offset = Vec2(0.f, 0.f);
 		_int	iUV_Wave = false;
@@ -121,6 +121,18 @@ public:
 	virtual void Update_Pivot(Matrix& matPivot);
 
 	void	Set_Trace(_bool bTrace) { m_bTracer = bTrace; }
+
+protected:
+	void	Calculate_Scaling();
+	void	Calculate_Rotation();
+	void	Calculate_Velocity();
+	void	Calculate_Position();
+	void	Calculate_Revolution();
+
+	void	Calculate_Color();
+
+	HRESULT	Bind_TextureResources();
+
 public:
 	FDelegate<Matrix&>         CB_UpdatePivot;
 
@@ -158,8 +170,8 @@ protected:
 	_bool	m_bColor_Lerp = true;
 
 	_float	m_fLifeTime = FLT_MAX;
-	_float	m_fWaitingTime = 0.0f;
-	_float	m_fRemainTime = 0.0f;
+	_float	m_fStartDelay = 0.0f;
+	_float	m_fAfterImage = 0.0f;
 
 	Vec2	m_vUV_Start = Vec2(0.f, 0.f);
 	Vec2	m_vUV_Speed = Vec2(0.f, 0.f);
@@ -207,7 +219,7 @@ protected:
 	Matrix	m_matCombined			= Matrix::Identity;
 
 	_float	m_fTimeAcc				= 0.f;
-	_float	m_fWaitingAcc			= 0.0f;
+	_float	m_fStartDelayAcc		= 0.0f;
 	_float	m_fLifeTimeRatio		= 0.f;
 
 	_float	m_fSequenceTimer		= 0.0f;
@@ -223,9 +235,9 @@ protected:
 	EffectMaterialFlag m_tNoisMaskEmisDslv;
 	string	m_strPassName = "OneBlend";
 
-
 protected:
 	virtual HRESULT Ready_Components() override;
+
 public:
 	virtual void Free();
 };

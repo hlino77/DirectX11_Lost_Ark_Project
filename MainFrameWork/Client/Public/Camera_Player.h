@@ -51,23 +51,23 @@ public:
 
 	void		Set_ResetSpeed(_float fSpeed) { m_fResetSpeed = fSpeed; }
 
-	void		Set_MotionBlur(_float fTime, _float fIntensity = 0.0f) 
+	inline void	Set_MotionBlur(_float fTime, _float fIntensity = 0.0f)
 	{ 
 		m_bMotionBlur = true;
 		m_fMotionBlurAcc = fTime;
 		m_fMotionBlurIntensity = fIntensity; 
 	}
 
-	void		Set_RadialBlur(_float fTime, Vec3& vPos, _float fDamping,_float fIntensity = 0.0f)
+	inline void	Set_RadialBlur(_float fTime, Vec3& vPos, _float fDamping,_float fIntensity = 0.0f)
 	{
-		m_bRadialBlur = true;
-		m_fRadialBlurAcc = fTime;
+		m_bRadialBlurActivate = true;
+		m_fRadialBlurTimer = fTime;
 		m_fRadialBlurIntensity = fIntensity;
 		m_fRadialBlurDamping = fDamping;
 		m_vRadialPos = vPos;
 	}
 
-	void		Set_Chromatic(_float fTime, Vec3& vPos, _float fDamping, _float fIntensity = 0.0f)
+	inline void	Set_Chromatic(_float fTime, Vec3& vPos, _float fDamping, _float fIntensity = 0.0f)
 	{
 		m_bChromatic = true;
 		m_fChromaticAcc = fTime;
@@ -76,8 +76,8 @@ public:
 		m_vChromaticPos = vPos;
 	}
 
-	void		Set_FadeInOut(_float fSpeed, _bool bInOut, Vec4 vColor = Vec4());
-	void		Set_FadeIntensity(_float fIntensity) { m_fFadeIntensity = fIntensity; }
+	void	Set_FadeInOut(_float fSpeed, _bool bInOut, Vec4 vColor = Vec4());
+	void	Set_FadeIntensity(_float fIntensity) { m_fFadeIntensity = fIntensity; }
 
 	void	Set_Target(CGameObject* pTarget) { m_pTarget = pTarget; }
 
@@ -122,8 +122,8 @@ private:
 	_float	m_fMotionBlurIntensity = 0.0f;
 
 	// RadialBlur
-	_bool	m_bRadialBlur = false;
-	_float	m_fRadialBlurAcc = 0.0f;
+	_bool	m_bRadialBlurActivate = false;
+	_float	m_fRadialBlurTimer = 0.0f;
 	_float	m_fRadialBlurIntensity = 0.0f;
 	_float	m_fRadialBlurDamping = 0.0f;
 	Vec3	m_vRadialPos;

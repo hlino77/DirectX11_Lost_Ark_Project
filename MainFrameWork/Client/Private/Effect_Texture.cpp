@@ -43,7 +43,7 @@ void CEffect_Texture::Tick(_float fTimeDelta)
 	if (m_bActive == false)
 		return;
 
-	if (m_fWaitingAcc < m_fWaitingTime)
+	if (m_fStartDelayAcc < m_fStartDelay)
 		return;
 
 	Run_Sequence(fTimeDelta);

@@ -313,8 +313,7 @@ float3 BRDF(in float fRoughness, in float fMetallic, in float3 vAlbedo, in float
     
     float3 R = reflect(-V, N);
     
-    //const float MAX_REFLECTION_LOD = 9.0f;
-    const float MAX_REFLECTION_LOD = 5.0f;
+    const float MAX_REFLECTION_LOD = 9.0f;
     const float fLOD = fRoughness * MAX_REFLECTION_LOD;    
     
     float3 vPrefilteredColor = g_PreFilteredTexture.SampleLevel(LinearClampSampler, R, fLOD).rgb;

@@ -42,12 +42,12 @@ cbuffer BlurWeight
 {
     //float g_fBlurWeight[13] = { 0.0561f, 0.1353f, 0.278f, 0.4868f, 0.7261f, 0.9231f, 1.0f, 0.9231f, 0.7261f, 0.4868f, 0.278f, 0.1353f, 0.0561f };
     //float fTotal = 6.2108f;
-    
+
     //float g_fBlurWeight[9] = { 0.1f, 0.18f, 0.55f, 0.9f, 1.0f, 0.9f, 0.55f, 0.18f, 0.1f };
     //float fTotal = 4.46f;
- 
+
     float g_fBlurWeight[9] = { 0.0135f, 0.0476f, 0.1172f, 0.2011f, 0.2408f, 0.2011f, 0.1172f, 0.0476f, 0.0135f };
-    
+
     float3 padding3;
 }
 
@@ -94,9 +94,9 @@ cbuffer DOFData
 
 float4 PS_MAIN_DEPTHOFFIELD(VS_OUT_TARGET In) : SV_Target
 {
-    float4 vColor = float4(0.f, 0.f, 0.f, 0.f);
+    float4 vColor = (float4) 0.f;
     
-    float   fDepth = g_NormalDepthTarget.Sample(LinearSampler, In.vTexcoord).a;
+    float   fDepth = g_NormalDepthTarget.Sample(LinearSampler, In.vTexcoord).w;
     float4 vSharp = g_PreProcessedTarget.Sample(LinearSampler, In.vTexcoord);
     float4  vBlur = g_DOFBlurTarget.Sample(LinearSampler, In.vTexcoord);
     
