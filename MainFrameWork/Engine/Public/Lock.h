@@ -1,15 +1,6 @@
 #pragma once
 #include <atomic>
 #include "Engine_Defines.h"
-/*----------------
-    RW SpinLock
------------------*/
-
-/*--------------------------------------------
-[WWWWWWWW][WWWWWWWW][RRRRRRRR][RRRRRRRR]
-W : WriteFlag (Exclusive Lock Owner ThreadId)
-R : ReadFlag (Shared Lock Count)
----------------------------------------------*/
 
 BEGIN(Engine)
 
@@ -34,10 +25,6 @@ private:
     std::atomic<unsigned __int32> _lockFlag = EMPTY_FLAG;
     unsigned __int16 _writeCount = 0;
 };
-
-/*----------------
-    LockGuards
------------------*/
 
 class ENGINE_DLL ReadLockGuard
 {

@@ -12,9 +12,7 @@ void Lock::WriteLock(const char* name)
 
 	if (GetTLS(&pTLS) == false)
 		return;
-	
 
-	// 동일한 쓰레드가 소유하고 있다면 무조건 성공.
 	const unsigned __int32 lockThreadId = (_lockFlag.load() & WRITE_THREAD_MASK) >> 16;
 	if (pTLS->LThreadId == lockThreadId)
 	{
@@ -22,7 +20,6 @@ void Lock::WriteLock(const char* name)
 		return;
 	}
 
-	// 아무도 소유 및 공유하고 있지 않을 때, 경합해서 소유권을 얻는다.
 	const __int64 beginTick = ::GetTickCount64();
 	const unsigned __int32 desired = ((pTLS->LThreadId << 16) & WRITE_THREAD_MASK);
 	while (true)

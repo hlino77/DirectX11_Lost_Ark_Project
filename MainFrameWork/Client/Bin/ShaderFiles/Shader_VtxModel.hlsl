@@ -375,7 +375,6 @@ float4 PS_CASCADE_SHADOW(VS_OUT_CASCADE_SHADOW In) : SV_TARGET0
          discard;
 
      return float4(In.vPosition.z, 0.0f, 0.0f, 0.0f);
-    //return float4(1.0f, 0.0f, 0.0f, 0.0f);
 }
 
 float4 PS_ALPHABLEND(VS_OUT_OUTLINE In) : SV_TARGET0

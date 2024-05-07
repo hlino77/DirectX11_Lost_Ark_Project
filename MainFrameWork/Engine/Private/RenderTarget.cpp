@@ -18,7 +18,6 @@ HRESULT CRenderTarget::Initialize(_uint iSizeX, _uint iSizeY, DXGI_FORMAT ePixel
 
 	D3D11_TEXTURE2D_DESC		TextureDesc = {};
 
-
 	m_iSizeX = iSizeX;
 	m_iSizeY = iSizeY;
 	m_ePixelFormat = ePixelFormat;

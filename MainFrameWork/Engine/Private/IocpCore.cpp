@@ -1,10 +1,6 @@
 #include "IocpCore.h"
 #include "IocpEvent.h"
 
-/*--------------
-	IocpCore
----------------*/
-
 IocpCore::IocpCore()
 {
 	_iocpHandle = ::CreateIoCompletionPort(INVALID_HANDLE_VALUE, 0, 0, 0);
@@ -18,7 +14,7 @@ IocpCore::~IocpCore()
 
 bool IocpCore::Register(IocpObjectRef iocpObject)
 {
-	return ::CreateIoCompletionPort(iocpObject->GetHandle(), _iocpHandle, /*key*/0, 0);
+	return ::CreateIoCompletionPort(iocpObject->GetHandle(), _iocpHandle, 0, 0);
 
 	return true;
 }

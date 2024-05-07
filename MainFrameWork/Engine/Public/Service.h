@@ -15,10 +15,6 @@ enum class ENGINE_DLL ServiceType : uint8
 	Client
 };
 
-/*-------------
-	Service
---------------*/
-
 using SessionFactory = function<SessionRef(void)>;
 
 class ENGINE_DLL Service : public enable_shared_from_this<Service>
@@ -56,10 +52,6 @@ protected:
 	SessionFactory		_sessionFactory;
 };
 
-/*-----------------
-	ClientService
-------------------*/
-
 class ENGINE_DLL ClientService : public Service
 {
 public:
@@ -68,11 +60,6 @@ public:
 
 	virtual bool	Start() override;
 };
-
-
-/*-----------------
-	ServerService
-------------------*/
 
 class ENGINE_DLL ServerService : public Service
 {

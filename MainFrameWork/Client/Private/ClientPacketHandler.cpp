@@ -93,7 +93,8 @@ bool Handel_S_OPENLEVEL_Client(PacketSessionRef& session, Protocol::S_OPEN_LEVEL
 
 bool Handel_S_LEVELSTATE_Client(PacketSessionRef& session, Protocol::S_LEVEL_STATE& pkt)
 {
-	CServerSessionManager::GetInstance()->Get_ServerSession()->Set_LevelState((LEVELSTATE)pkt.ilevelstate());
+	CServerSessionManager* pManager = CServerSessionManager::GetInstance();
+	pManager->Get_ServerSession()->Set_LevelState(static_cast<LEVELSTATE>(pkt.ilevelstate()));
 
 	return true;
 }

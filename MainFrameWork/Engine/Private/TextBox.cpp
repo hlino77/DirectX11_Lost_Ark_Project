@@ -7,6 +7,8 @@
 
 CTextBox::CTextBox(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CGameObject(pDevice, pContext, L"TextBox", -1)
+	, m_vUV(Vec2(1.0f, 1.0f))
+	, m_fAlpha(1.f)
 {
 	m_pDevice = pDevice;
 	m_pContext = pContext;
@@ -42,19 +44,13 @@ HRESULT CTextBox::Initialize(void* pArg)
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION,
 		Vec3(0.0f, 0.0f, 0.f));
 
-
 	if (FAILED(Ready_RenderTarget()))
 		return E_FAIL;
-
 
 	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixIdentity());
 	XMStoreFloat4x4(&m_ProjMatrix, XMMatrixOrthographicLH(m_fWinSizeX, m_fWinSizeY, 0.f, 1.f));
 
-	m_vUV = Vec2(1.0f, 1.0f);
-
 	m_bActive = false;
-
-	m_fAlpha = 1.f;
 
 	return S_OK;
 }
@@ -118,7 +114,13 @@ HRESULT CTextBox::Render_MakeSRV()
 
 	for (auto& Text : m_TextList)
 	{
-		CGameInstance::GetInstance()->DrawFont(Text.second.szFont, Text.second.szText, Text.second.vTextPos, Text.second.vTextColor, Text.second.fRotation, Text.second.vOrigin, Text.second.vTextScale);
+		CGameInstance::GetInstance()->DrawFont(Text.second.szFont, 
+			Text.second.szText,
+			Text.second.vTextPos, 
+			Text.second.vTextColor, 
+			Text.second.fRotation, 
+			Text.second.vOrigin, 
+			Text.second.vTextScale);
 	}
 
 	CTarget_Manager::GetInstance()->End_MRT(m_pContext);
@@ -136,7 +138,14 @@ void CTextBox::Set_Pos(_float fX, _float fY)
 
 
 
-void CTextBox::Set_Text(const wstring& szTextTag, const wstring& szFont, const wstring& szText, Vec2 vTextPos, Vec2 vScale, Vec2 vOrigin, _float fRotation, Vec4 vColor)
+void CTextBox::Set_Text(const wstring& szTextTag, 
+	const wstring& szFont, 
+	const wstring& szText, 
+	Vec2 vTextPos, 
+	Vec2 vScale, 
+	Vec2 vOrigin, 
+	_float fRotation, 
+	Vec4 vColor)
 {
 	WRITE_LOCK
 	TEXTDESC& tText = m_TextList[szTextTag];
@@ -186,14 +195,12 @@ HRESULT CTextBox::Ready_RenderTarget()
 	m_szTargetTag = L"Target_" + m_strObjectTag;
 	m_szMRTTag = L"MRT_" + m_strObjectTag;
 
-	/* For. Target_TextBox*/
 	if (FAILED(CTarget_Manager::GetInstance()->Add_RenderTarget(m_pDevice, m_pContext, m_szTargetTag,
 		m_vSize.x, m_vSize.y, DXGI_FORMAT_R8G8B8A8_UNORM, Vec4(0.f, 0.f, 0.f, 0.f))))
 		return E_FAIL;
 
 	if (FAILED(CTarget_Manager::GetInstance()->Add_MRT(m_szMRTTag, m_szTargetTag)))
 		return E_FAIL;
-
 
 	return S_OK;
 }

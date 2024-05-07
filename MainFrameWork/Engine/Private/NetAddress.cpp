@@ -1,9 +1,5 @@
 #include "NetAddress.h"
 
-/*--------------
-	NetAddress
----------------*/
-
 NetAddress::NetAddress(SOCKADDR_IN sockAddr) : _sockAddr(sockAddr)
 {
 }

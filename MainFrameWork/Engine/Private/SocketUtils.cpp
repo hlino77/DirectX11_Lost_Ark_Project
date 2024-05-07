@@ -1,9 +1,5 @@
 #include "SocketUtils.h"
 
-/*----------------
-	SocketUtils
------------------*/
-
 LPFN_CONNECTEX		SocketUtils::ConnectEx = nullptr;
 LPFN_DISCONNECTEX	SocketUtils::DisconnectEx = nullptr;
 LPFN_ACCEPTEX		SocketUtils::AcceptEx = nullptr;
@@ -13,7 +9,6 @@ void SocketUtils::Init()
 	WSADATA wsaData;
 	ASSERT_CRASH(::WSAStartup(MAKEWORD(2, 2), OUT & wsaData) == 0);
 
-	/* 런타임에 주소 얻어오는 API */
 	SOCKET dummySocket = CreateSocket();
 	ASSERT_CRASH(BindWindowsFunction(dummySocket, WSAID_CONNECTEX, reinterpret_cast<LPVOID*>(&ConnectEx)));
 	ASSERT_CRASH(BindWindowsFunction(dummySocket, WSAID_DISCONNECTEX, reinterpret_cast<LPVOID*>(&DisconnectEx)));
@@ -65,7 +60,6 @@ bool SocketUtils::SetTcpNoDelay(SOCKET socket, bool flag)
 	return SetSockOpt(socket, SOL_SOCKET, TCP_NODELAY, flag);
 }
 
-// ListenSocket의 특성을 ClientSocket에 그대로 적용
 bool SocketUtils::SetUpdateAcceptSocket(SOCKET socket, SOCKET listenSocket)
 {
 	return SetSockOpt(socket, SOL_SOCKET, SO_UPDATE_ACCEPT_CONTEXT, listenSocket);

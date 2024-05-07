@@ -5,7 +5,6 @@
 using PacketHandlerFunc = std::function<bool(PacketSessionRef&, BYTE*, int32)>;
 extern PacketHandlerFunc GPacketHandler[UINT16_MAX];
 
-//TODO
 enum : uint16
 {
 	PKT_S_TIME = 1,
@@ -40,7 +39,6 @@ enum : uint16
 	PKT_S_ESTHERGAGE = 30,
 };
 
-// TODO
 bool Handle_INVALID_Client(PacketSessionRef& session, BYTE* buffer, int32 len);
 bool Handel_S_TIME_Client(PacketSessionRef& session, Protocol::S_TIME& pkt);
 bool Handel_S_LOGIN_Client(PacketSessionRef& session, Protocol::S_LOGIN& pkt);
@@ -76,7 +74,6 @@ bool Handel_S_ESTHERGAGE_Client(PacketSessionRef& session, Protocol::S_ESTHER& p
 class CClientPacketHandler
 {
 public:
-	// TODO
 	static void Init()
 	{
 		for (int32 i = 0; i < UINT16_MAX; i++)
@@ -121,8 +118,6 @@ public:
 		return GPacketHandler[header->id](session, buffer, len);
 	}
 
-
-	// TODO
 	static SendBufferRef MakeSendBuffer(Protocol::S_TIME& pkt) { return MakeSendBuffer(pkt, PKT_S_TIME); }
 	static SendBufferRef MakeSendBuffer(Protocol::S_LOGIN& pkt) { return MakeSendBuffer(pkt, PKT_S_LOGIN); }
 	static SendBufferRef MakeSendBuffer(Protocol::S_OPEN_LEVEL& pkt) { return MakeSendBuffer(pkt, PKT_S_OPENLEVEL); }

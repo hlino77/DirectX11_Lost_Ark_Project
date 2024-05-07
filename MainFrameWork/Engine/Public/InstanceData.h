@@ -20,7 +20,6 @@ typedef struct ENGINE_DLL InstanceDataDesc
 	future<HRESULT> Future_Instance;
 	future<HRESULT> Future_AnimInstance;
 
-
 	InstanceDataDesc() {};
 	~InstanceDataDesc();
 }INSTANCEDATA;

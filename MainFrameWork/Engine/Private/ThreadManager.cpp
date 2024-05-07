@@ -4,14 +4,9 @@
 
 
 IMPLEMENT_SINGLETON(ThreadManager)
-/*------------------
-	ThreadManager
--------------------*/
 
 ThreadManager::ThreadManager()
 {
-	// Main Thread
-	//InitTLS();
 }
 
 ThreadManager::~ThreadManager()
@@ -35,7 +30,6 @@ void ThreadManager::Launch(function<void(void)> callback)
 
 	_threads.push_back(thread([=]()
 		{
-			//InitTLS();
 			callback();
 		}));
 }
@@ -71,7 +65,7 @@ void ThreadManager::EnqueueJob(std::function<void()> job)
 		throw std::runtime_error("ThreadPool 사용 중지됨");
 	}
 	{
-		std::lock_guard<std::mutex> lock(m_MutexJob);
+		std::unique_lock<std::mutex> lock(m_MutexJob);
 		m_Jobs.push(std::move(job));
 	}
 	m_CV_Jobs.notify_one();
@@ -88,13 +82,11 @@ void ThreadManager::WorkerThread()
 			return;
 		}
 
-		// 맨 앞의 job 을 뺀다.
-		std::function<void()> job = std::move(m_Jobs.front());
+		std::function<void()> Job = std::move(m_Jobs.front());
 		m_Jobs.pop();
 		lock.unlock();
 
-		// 해당 job 을 수행한다 :)
-		job();
+		Job();
 	}
 }
 

@@ -137,7 +137,21 @@ void CQuadTreeNode::Set_CascadeRender()
 
 	for (_uint i = 0; i < 3; ++i)
 	{
-		if (m_tBoudingBox.Intersects(pBox[i]))
+		ContainmentType eContain = pBox[i].Contains(m_tBoudingBox);
+
+		switch (eContain)
+		{
+		case ContainmentType::DISJOINT:
+			return;
+		case ContainmentType::CONTAINS:
+		{
+			for (auto& Object : m_Objects)
+			{
+				Object->Set_CascadeRenderMark(i, true);
+			}
+		}
+		return;
+		case ContainmentType::INTERSECTS:
 		{
 			if (m_Childs.empty())
 			{
@@ -145,15 +159,15 @@ void CQuadTreeNode::Set_CascadeRender()
 				{
 					Object->Set_CascadeRenderMark(i, true);
 				}
+				return;
 			}
-			else
+
+			for (auto& Child : m_Childs)
 			{
-				for (auto& Child : m_Childs)
-				{
-					Child->Set_CascadeRender();
-				}
+				Child->Set_CascadeRender();
 			}
-			
+		}
+		return;
 		}
 	}
 }

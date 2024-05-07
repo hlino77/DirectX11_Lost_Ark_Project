@@ -7,10 +7,6 @@
 #include <set>
 #include <mutex>
 
-/*--------------------
-	DeadLockProfiler
----------------------*/
-
 BEGIN(Engine)
 
 class ENGINE_DLL DeadLockProfiler : public CBase
@@ -29,17 +25,17 @@ private:
 	void Dfs(int32 index);
 
 private:
-	unordered_map<const char*, int32>	_nameToId;
-	unordered_map<int32, const char*>	_idToName;
-	map<int32, set<int32>>				_lockHistory;
+	unordered_map<const char*, int32>	m_NameToId;
+	unordered_map<int32, const char*>	m_IdToName;
+	map<int32, set<int32>>				m_LockHistory;
 
-	mutex _lock;
+	mutex m_Lock;
 
 private:
-	vector<int32>	_discoveredOrder; // 노드가 발견된 순서를 기록하는 배열
-	int32			_discoveredCount = 0; // 노드가 발견된 순서
-	vector<bool>	_finished; // Dfs(i)가 종료 되었는지 여부
-	vector<int32>	_parent;
+	vector<int32>	m_DiscoveredOrder; // 노드가 발견된 순서를 기록하는 배열
+	int32			m_DiscoveredCount = 0; // 노드가 발견된 순서
+	vector<bool>	m_Finished; // Dfs(i)가 종료 되었는지 여부
+	vector<int32>	m_Parent;
 };
 
 END

@@ -4,9 +4,6 @@
 
 
 BEGIN(Engine)
-/*----------------
-	SocketUtils
------------------*/
 
 class ENGINE_DLL SocketUtils
 {

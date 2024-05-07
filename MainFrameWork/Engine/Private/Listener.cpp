@@ -5,18 +5,12 @@
 #include "Service.h"
 #include "ServerMemory.h"
 
-/*--------------
-	Listener
----------------*/
-
 Listener::~Listener()
 {
 	SocketUtils::Close(_socket);
 
 	for (AcceptEvent* acceptEvent : _acceptEvents)
 	{
-		// TODO
-
 		xdelete(acceptEvent);
 	}
 }
@@ -78,18 +72,21 @@ void Listener::Dispatch(IocpEvent* iocpEvent, int32 numOfBytes)
 
 void Listener::RegisterAccept(AcceptEvent* acceptEvent)
 {
-	SessionRef session = _service->CreateSession(); // Register IOCP
+	SessionRef session = _service->CreateSession();
 
 	acceptEvent->Init();
 	acceptEvent->session = session;
 
 	DWORD bytesReceived = 0;
-	if (false == SocketUtils::AcceptEx(_socket, session->GetSocket(), session->_recvBuffer.WritePos(), 0, sizeof(SOCKADDR_IN) + 16, sizeof(SOCKADDR_IN) + 16, OUT & bytesReceived, static_cast<LPOVERLAPPED>(acceptEvent)))
+	if (false == SocketUtils::AcceptEx(_socket, session->GetSocket(), 
+		session->_recvBuffer.WritePos(), 
+		0, 
+		sizeof(SOCKADDR_IN) + 16, sizeof(SOCKADDR_IN) + 16, 
+		OUT & bytesReceived, static_cast<LPOVERLAPPED>(acceptEvent)))
 	{
 		const int32 errorCode = ::WSAGetLastError();
 		if (errorCode != WSA_IO_PENDING)
 		{
-			// 일단 다시 Accept 걸어준다
 			RegisterAccept(acceptEvent);
 		}
 	}
@@ -107,7 +104,9 @@ void Listener::ProcessAccept(AcceptEvent* acceptEvent)
 
 	SOCKADDR_IN sockAddress;
 	int32 sizeOfSockAddr = sizeof(sockAddress);
-	if (SOCKET_ERROR == ::getpeername(session->GetSocket(), OUT reinterpret_cast<SOCKADDR*>(&sockAddress), &sizeOfSockAddr))
+	if (SOCKET_ERROR == ::getpeername(session->GetSocket(), 
+		OUT reinterpret_cast<SOCKADDR*>(&sockAddress), 
+		&sizeOfSockAddr))
 	{
 		RegisterAccept(acceptEvent);
 		return;

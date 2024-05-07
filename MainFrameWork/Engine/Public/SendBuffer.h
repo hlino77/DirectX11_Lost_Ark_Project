@@ -6,10 +6,6 @@ BEGIN(Engine)
 
 class SendBufferChunk;
 
-/*----------------
-	SendBuffer
------------------*/
-
 class ENGINE_DLL SendBuffer
 {
 public:
@@ -27,10 +23,6 @@ private:
 	uint32				_writeSize = 0;
 	SendBufferChunkRef	_owner;
 };
-
-/*--------------------
-	SendBufferChunk
---------------------*/
 
 class ENGINE_DLL SendBufferChunk : public enable_shared_from_this<SendBufferChunk>
 {
@@ -56,10 +48,6 @@ private:
 	bool									_open = false;
 	uint32									_usedSize = 0;
 };
-
-/*---------------------
-	SendBufferManager
-----------------------*/
 
 class ENGINE_DLL SendBufferManager : public CBase
 {

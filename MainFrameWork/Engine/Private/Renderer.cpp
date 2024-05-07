@@ -2706,7 +2706,6 @@ HRESULT CRenderer::Ready_CascadeShadow()
 	_uint				iNumViewports = 1;
 	m_pContext->RSGetViewports(&iNumViewports, &ViewportDesc);
 
-	//ShadowDepth
 	for(_uint i = 0; i < 3; ++i)
 	{
 		ID3D11Texture2D* pDepthStencilTexture = nullptr;
@@ -2724,7 +2723,7 @@ HRESULT CRenderer::Ready_CascadeShadow()
 		TextureDesc.SampleDesc.Count = 1;
 
 		TextureDesc.Usage = D3D11_USAGE_DEFAULT;
-		TextureDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL/*| D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE*/;
+		TextureDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
 		TextureDesc.CPUAccessFlags = 0;
 		TextureDesc.MiscFlags = 0;
 

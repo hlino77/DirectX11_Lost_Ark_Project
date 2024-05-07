@@ -2,9 +2,6 @@
 #include "ObjectPool.h"
 #include "ServerMemory.h"
 #include "ThreadManager.h"
-/*----------------
-	SendBuffer
------------------*/
 
 SendBuffer::SendBuffer(SendBufferChunkRef owner, BYTE* buffer, uint32 allocSize)
 	: _owner(owner), _buffer(buffer), _allocSize(allocSize)
@@ -21,10 +18,6 @@ void SendBuffer::Close(uint32 writeSize)
 	_writeSize = writeSize;
 	_owner->Close(writeSize);
 }
-
-/*--------------------
-	SendBufferChunk
---------------------*/
 
 SendBufferChunk::SendBufferChunk()
 {
@@ -59,11 +52,7 @@ void SendBufferChunk::Close(uint32 writeSize)
 	_usedSize += writeSize;
 }
 
-/*---------------------
-	SendBufferManager
-----------------------*/
 IMPLEMENT_SINGLETON(SendBufferManager)
-
 
 SendBufferManager::SendBufferManager()
 {
@@ -76,19 +65,17 @@ SendBufferRef SendBufferManager::Open(uint32 size)
 	if (GetTLS(&pTLS) == false)
 		return nullptr;
 
-
 	if (pTLS->LSendBufferChunk == nullptr)
 	{
-		pTLS->LSendBufferChunk = Pop(); // WRITE_LOCK
+		pTLS->LSendBufferChunk = Pop();
 		pTLS->LSendBufferChunk->Reset();
 	}
 
 	ASSERT_CRASH(pTLS->LSendBufferChunk->IsOpen() == false);
 
-	// 다 썼으면 버리고 새거로 교체
 	if (pTLS->LSendBufferChunk->FreeSize() < size)
 	{
-		pTLS->LSendBufferChunk = Pop(); // WRITE_LOCK
+		pTLS->LSendBufferChunk = Pop();
 		pTLS->LSendBufferChunk->Reset();
 	}
 

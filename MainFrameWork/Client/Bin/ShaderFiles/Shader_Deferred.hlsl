@@ -202,11 +202,6 @@ float PCF_StaticShadowCalculation_Cascade(float4 vWorldPos, float fBias, float f
 		vProjCoords.x = vProjCoords.x * 0.5f + 0.5f;
 		vProjCoords.y = vProjCoords.y * -0.5f + 0.5f;
 
-		//float2 vTexCoords = saturate(vProjCoords.xy);
-
-		/*if (vTexCoords.x != projCoords.x || vTexCoords.y != projCoords.y)
-			return 1.0f;*/
-
 		float currentDepth = vProjCoords.z;
 		if (currentDepth > 1.0)
 			return 1.0;
@@ -232,11 +227,6 @@ float PCF_StaticShadowCalculation_Cascade(float4 vWorldPos, float fBias, float f
 
 		vProjCoords.x = vProjCoords.x * 0.5f + 0.5f;
 		vProjCoords.y = vProjCoords.y * -0.5f + 0.5f;
-
-		//float2 vTexCoords = saturate(vProjCoords.xy);
-
-	/*	if (vTexCoords.x != projCoords.x || vTexCoords.y != projCoords.y)
-			return 1.0f;*/
 
 		float currentDepth = vProjCoords.z;
 		if (currentDepth > 1.0)
@@ -288,8 +278,6 @@ float PCF_StaticShadowCalculation_Cascade(float4 vWorldPos, float fBias, float f
 	}
 	else
 	{
-
-
 		return 1.0f;
 	}
 

@@ -2,9 +2,6 @@
 #include "Engine_Defines.h"
 
 BEGIN(Engine)
-/*--------------
-	RecvBuffer
-----------------*/
 
 class ENGINE_DLL RecvBuffer
 {

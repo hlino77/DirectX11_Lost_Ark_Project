@@ -9,12 +9,19 @@ CTarget_Manager::CTarget_Manager()
 
 }
 
-HRESULT CTarget_Manager::Add_RenderTarget(ID3D11Device * pDevice, ID3D11DeviceContext * pContext, const wstring & strTargetTag, _float fSizeX, _float fSizeY, DXGI_FORMAT ePixelFormat, const Vec4& vColor)
+HRESULT CTarget_Manager::Add_RenderTarget(ID3D11Device * pDevice, 
+	ID3D11DeviceContext * pContext, 
+	const wstring & strTargetTag, 
+	_float fSizeX, _float fSizeY, 
+	DXGI_FORMAT ePixelFormat, 
+	const Vec4& vColor)
 {
 	if (nullptr != Find_RenderTarget(strTargetTag))
 		return E_FAIL;
 
-	CRenderTarget*		pRenderTarget = CRenderTarget::Create(pDevice, pContext, (_uint)fSizeX, (_uint)fSizeY, ePixelFormat, vColor);
+	CRenderTarget*		pRenderTarget = CRenderTarget::Create(pDevice, pContext, (_uint)fSizeX, 
+																(_uint)fSizeY, ePixelFormat, vColor);
+
 	if (nullptr == pRenderTarget)
 		return E_FAIL;
 

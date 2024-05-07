@@ -10,9 +10,6 @@
 
 
 BEGIN(Engine)
-/*------------------
-	ThreadManager
--------------------*/
 
 class ENGINE_DLL ThreadManager : public CBase
 {
@@ -58,8 +55,6 @@ private:
 private:
 	mutex			_lock;
 	vector<thread>	_threads;
-
-	map<int, thread::id> m_ThreadInfo;
 };
 
 END
