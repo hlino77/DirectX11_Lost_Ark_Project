@@ -120,7 +120,8 @@ void CBoss_Valtan::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
 
-
+	if (KEY_HOLD(KEY::CTRL) && KEY_HOLD(KEY::SHIFT) && KEY_TAP(KEY::Q))
+		m_bTest = !m_bTest;
 	if (m_iPhase == 3 && m_iHp != 0)
 	{
 		m_fSummonTime += fTimeDelta;

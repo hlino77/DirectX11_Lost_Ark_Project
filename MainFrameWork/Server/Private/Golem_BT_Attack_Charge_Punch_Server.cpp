@@ -14,7 +14,7 @@ void CGolem_BT_Attack_Charge_Punch_Server::OnStart()
 	static_cast<CMonster_Server*>(m_pGameObject)->Send_Monster_Action();
 }
 
-CBT_Node::BT_RETURN CGolem_BT_Attack_Charge_Punch_Server::OnUpdate(const _float& fTimeDelta)
+CBT_Node::BT_RETURN CGolem_BT_Attack_Charge_Punch_Server::OnUpdate(_float fTimeDelta)
 {
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() != m_vecAnimDesc[3].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_CurrAnim() != m_vecAnimDesc[0].iAnimIndex)
 		static_cast<CMonster_Server*>(m_pGameObject)->LookAt_Target_Direction_Lerp(fTimeDelta);

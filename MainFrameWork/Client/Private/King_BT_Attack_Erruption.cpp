@@ -20,7 +20,7 @@ void CKing_BT_Attack_Erruption::OnStart()
 	m_Shoot[2] = true;
 }
 
-CBT_Node::BT_RETURN CKing_BT_Attack_Erruption::OnUpdate(const _float& fTimeDelta)
+CBT_Node::BT_RETURN CKing_BT_Attack_Erruption::OnUpdate(_float fTimeDelta)
 {
 	if (m_Shoot[2] && m_vecAnimDesc[0].iAnimIndex == m_pGameObject->Get_ModelCom()->Get_CurrAnim())
 	{

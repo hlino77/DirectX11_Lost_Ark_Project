@@ -16,7 +16,7 @@ private:
 
 	}
 
-	virtual BT_RETURN OnUpdate(const _float & fTimeDelta) override
+	virtual BT_RETURN OnUpdate(_float fTimeDelta) override
 	{
 		m_bCondition = IsMaz();
 		return __super::OnUpdate(fTimeDelta);

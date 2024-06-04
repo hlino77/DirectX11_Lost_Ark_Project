@@ -11,7 +11,7 @@ void CCommon_BT_Damage1::OnStart()
 	__super::OnStart(0);
 }
 
-CBT_Node::BT_RETURN CCommon_BT_Damage1::OnUpdate(const _float& fTimeDelta)
+CBT_Node::BT_RETURN CCommon_BT_Damage1::OnUpdate(_float fTimeDelta)
 {
 	
 	if( m_pGameObject->Get_ModelCom()->Is_AnimationEnd(m_vecAnimDesc[0].iAnimIndex))

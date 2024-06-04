@@ -34,12 +34,12 @@ HRESULT CLevel_ServerSelect::Initialize()
 	return S_OK;
 }
 
-HRESULT CLevel_ServerSelect::Tick(const _float& fTimeDelta)
+HRESULT CLevel_ServerSelect::Tick(_float fTimeDelta)
 {
 	return S_OK;
 }
 
-HRESULT CLevel_ServerSelect::LateTick(const _float& fTimeDelta)
+HRESULT CLevel_ServerSelect::LateTick(_float fTimeDelta)
 {
 	
 	return S_OK;

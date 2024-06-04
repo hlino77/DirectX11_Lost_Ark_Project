@@ -19,7 +19,7 @@ void CCommon_BT_Attack1::OnStart()
 	}
 }
 
-CBT_Node::BT_RETURN CCommon_BT_Attack1::OnUpdate(const _float& fTimeDelta)
+CBT_Node::BT_RETURN CCommon_BT_Attack1::OnUpdate(_float fTimeDelta)
 {
 	if (m_pGameObject->Get_ObjectType() ==OBJ_TYPE::MONSTER)
 	{

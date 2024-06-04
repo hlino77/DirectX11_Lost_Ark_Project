@@ -190,7 +190,7 @@ HRESULT CController_WDR::Bind_Skill(SKILL_KEY eKey, CPlayer_Skill* pSkill)
 	return S_OK;
 }
 
-void CController_WDR::Input(const _float& fTimeDelta)
+void CController_WDR::Input(_float fTimeDelta)
 {
 
 }
@@ -228,7 +228,7 @@ void CController_WDR::SkillAttack(SKILL_KEY eKey, Vec3 vPos)
 	pSkill->InitProjectile(&m_pSkills[eKey]->Get_Skill_Proj_Desc());
 }
 
-void CController_WDR::Skill_CoolTime(const _float& fTimeDelta)
+void CController_WDR::Skill_CoolTime(_float fTimeDelta)
 {
 	__super::Skill_CoolTime(fTimeDelta);
 }

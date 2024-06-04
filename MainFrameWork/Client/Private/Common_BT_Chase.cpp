@@ -13,7 +13,7 @@ void CCommon_BT_Chase::OnStart()
 	__super::OnStart(0);
 }
 
-CBT_Node::BT_RETURN CCommon_BT_Chase::OnUpdate(const _float& fTimeDelta)
+CBT_Node::BT_RETURN CCommon_BT_Chase::OnUpdate(_float fTimeDelta)
 {
 
 

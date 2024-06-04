@@ -48,7 +48,7 @@ HRESULT CLevel_Studio::Initialize()
 	return S_OK;
 }
 
-HRESULT CLevel_Studio::Tick(const _float& fTimeDelta)
+HRESULT CLevel_Studio::Tick(_float fTimeDelta)
 {
 	Start_Esther_Cut();
 
@@ -68,7 +68,7 @@ HRESULT CLevel_Studio::Tick(const _float& fTimeDelta)
 	return S_OK;
 }
 
-HRESULT CLevel_Studio::LateTick(const _float& fTimeDelta)
+HRESULT CLevel_Studio::LateTick(_float fTimeDelta)
 {
 	if (true == m_bCutStart[SA])
 	{

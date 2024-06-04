@@ -14,7 +14,7 @@ void CCommon_BT_Dead_Server::OnStart()
 	static_cast<CMonster_Server*>(m_pGameObject)->Send_Monster_Action();
 }
 
-CBT_Node::BT_RETURN CCommon_BT_Dead_Server::OnUpdate(const _float& fTimeDelta)
+CBT_Node::BT_RETURN CCommon_BT_Dead_Server::OnUpdate(_float fTimeDelta)
 {
 
 	

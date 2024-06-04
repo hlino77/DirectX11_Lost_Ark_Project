@@ -29,12 +29,12 @@ HRESULT CLevel_Loading_Server::Initialize(LEVELID eNextLevel)
 	return S_OK;
 }
 
-HRESULT CLevel_Loading_Server::Tick(const _float& fTimeDelta)
+HRESULT CLevel_Loading_Server::Tick(_float fTimeDelta)
 {
 	return S_OK;
 }
 
-HRESULT CLevel_Loading_Server::LateTick(const _float& fTimeDelta)
+HRESULT CLevel_Loading_Server::LateTick(_float fTimeDelta)
 {
 	wstring		strLoadingText = m_pLoader->Get_LoadingText();
 

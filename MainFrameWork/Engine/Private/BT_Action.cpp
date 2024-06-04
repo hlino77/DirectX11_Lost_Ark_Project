@@ -57,7 +57,7 @@ void CBT_Action::OnStart(_int iAnimIndex)
 	m_bEnd = true;
 }
 
-CBT_Node::BT_RETURN CBT_Action::OnUpdate(const _float& fTimeDelta)
+CBT_Node::BT_RETURN CBT_Action::OnUpdate(_float fTimeDelta)
 {
 	if (m_vecAnimDesc[0].iAnimIndex == m_pGameObject->Get_ModelCom()->Get_CurrAnim()&& m_bStart)
 	{

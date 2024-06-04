@@ -37,7 +37,7 @@ void CBoss_BT_Groggy::OnStart()
 	}
 }
 
-CBT_Node::BT_RETURN CBoss_BT_Groggy::OnUpdate(const _float& fTimeDelta)
+CBT_Node::BT_RETURN CBoss_BT_Groggy::OnUpdate(_float fTimeDelta)
 {
 	if (static_cast<CBoss*>(m_pGameObject)->Get_BossType() == CBoss::VALTAN)
 	{

@@ -37,7 +37,7 @@ public:
 
 	virtual void		OnStart(_int iAnimIndex = 0);
 
-	virtual CBT_Node::BT_RETURN OnUpdate(const _float& fTimeDelta);
+	virtual CBT_Node::BT_RETURN OnUpdate(_float fTimeDelta);
 
 	virtual void On_FirstAnimStart();
 

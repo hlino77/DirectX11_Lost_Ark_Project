@@ -21,7 +21,7 @@ void CValtan_BT_Attack_Rush_Server::OnStart()
 	m_iLoop = 0;
 }
 
-CBT_Node::BT_RETURN CValtan_BT_Attack_Rush_Server::OnUpdate(const _float& fTimeDelta)
+CBT_Node::BT_RETURN CValtan_BT_Attack_Rush_Server::OnUpdate(_float fTimeDelta)
 {
 	if (static_cast<CBoss_Server*>(m_pGameObject)->Get_SkipAction())
 	{

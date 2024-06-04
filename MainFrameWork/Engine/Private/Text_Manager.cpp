@@ -26,7 +26,7 @@ void CText_Manager::AddFont(const wstring& szTextName, const wstring& szFontPath
 }
 
 
-void CText_Manager::DrawFont(const wstring& szTextName, const wstring& szString, const Vec2& vPosition, const Vec4& vColor, const _float& fRotation, const Vec2& vOrigin, const Vec2& vScale)
+void CText_Manager::DrawFont(const wstring& szTextName, const wstring& szString, const Vec2& vPosition, const Vec4& vColor, _float fRotation, const Vec2& vOrigin, const Vec2& vScale)
 {
 	m_pBatch->Begin();
 	m_Fonts[szTextName]->DrawString(m_pBatch, szString.c_str(), vPosition, vColor, fRotation, vOrigin, vScale);

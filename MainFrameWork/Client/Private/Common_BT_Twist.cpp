@@ -12,7 +12,7 @@ void CCommon_BT_Twist::OnStart()
 
 }
 
-CBT_Node::BT_RETURN CCommon_BT_Twist::OnUpdate(const _float& fTimeDelta)
+CBT_Node::BT_RETURN CCommon_BT_Twist::OnUpdate(_float fTimeDelta)
 {
 
 

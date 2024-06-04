@@ -11,7 +11,7 @@ void CCommon_BT_Bound::OnStart()
 	__super::OnStart(0);
 }
 
-CBT_Node::BT_RETURN CCommon_BT_Bound::OnUpdate(const _float& fTimeDelta)
+CBT_Node::BT_RETURN CCommon_BT_Bound::OnUpdate(_float fTimeDelta)
 {
 
 	return __super::OnUpdate(fTimeDelta);

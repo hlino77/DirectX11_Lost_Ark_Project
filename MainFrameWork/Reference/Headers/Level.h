@@ -15,8 +15,8 @@ protected:
 
 public:
 	virtual HRESULT Initialize();
-	virtual HRESULT Tick(const _float& fTimeDelta);
-	virtual HRESULT LateTick(const _float& fTimeDelta);
+	virtual HRESULT Tick(_float fTimeDelta);
+	virtual HRESULT LateTick(_float fTimeDelta);
 	virtual HRESULT Render_Debug() { return S_OK; }
 
 	virtual HRESULT Exit() { return S_OK; };

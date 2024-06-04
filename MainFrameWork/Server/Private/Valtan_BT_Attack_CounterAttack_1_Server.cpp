@@ -16,7 +16,7 @@ void CValtan_BT_Attack_CounterAttack_1_Server::OnStart()
 	static_cast<CMonster_Server*>(m_pGameObject)->Send_Monster_Action();
 }
 
-CBT_Node::BT_RETURN CValtan_BT_Attack_CounterAttack_1_Server::OnUpdate(const _float& fTimeDelta)
+CBT_Node::BT_RETURN CValtan_BT_Attack_CounterAttack_1_Server::OnUpdate(_float fTimeDelta)
 {
 	return __super::OnUpdate(fTimeDelta);
 }

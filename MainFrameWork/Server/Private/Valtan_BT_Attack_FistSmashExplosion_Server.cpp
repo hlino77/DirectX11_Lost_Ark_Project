@@ -17,7 +17,7 @@ void CValtan_BT_Attack_FistSmashExplosion_Server::OnStart()
 
 }
 
-CBT_Node::BT_RETURN CValtan_BT_Attack_FistSmashExplosion_Server::OnUpdate(const _float& fTimeDelta)
+CBT_Node::BT_RETURN CValtan_BT_Attack_FistSmashExplosion_Server::OnUpdate(_float fTimeDelta)
 {
 	if (static_cast<CBoss_Server*>(m_pGameObject)->Get_SkipAction() )
 	{

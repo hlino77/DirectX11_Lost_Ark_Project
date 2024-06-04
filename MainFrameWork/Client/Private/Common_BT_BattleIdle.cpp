@@ -11,7 +11,7 @@ void CCommon_BT_BattleIdle::OnStart()
 	__super::OnStart(0);
 }
 
-CBT_Node::BT_RETURN CCommon_BT_BattleIdle::OnUpdate(const _float& fTimeDelta)
+CBT_Node::BT_RETURN CCommon_BT_BattleIdle::OnUpdate(_float fTimeDelta)
 {
 	static_cast<CMonster*>(m_pGameObject)->LookAt_Target_Direction_Lerp(fTimeDelta);
 	if (static_cast<CMonster*>(m_pGameObject)->Get_MonsterType() == CMonster::PAWN)

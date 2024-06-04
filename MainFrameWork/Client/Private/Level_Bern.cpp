@@ -127,7 +127,7 @@ HRESULT CLevel_Bern::Initialize()
 	return S_OK;
 }
 
-HRESULT CLevel_Bern::Tick(const _float& fTimeDelta)
+HRESULT CLevel_Bern::Tick(_float fTimeDelta)
 {
 	if(KEY_TAP(KEY::F9))
 		CSound_Manager::GetInstance()->PlayBGM_AddChannel(L"CastleBern", L"BGM", L"CastleBern.wav", 0.5f);
@@ -137,7 +137,7 @@ HRESULT CLevel_Bern::Tick(const _float& fTimeDelta)
 	return S_OK;
 }
 
-HRESULT CLevel_Bern::LateTick(const _float& fTimeDelta)
+HRESULT CLevel_Bern::LateTick(_float fTimeDelta)
 {
 	CUI_Tool::GetInstance()->LateTick();
 

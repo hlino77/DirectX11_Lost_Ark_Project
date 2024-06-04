@@ -15,7 +15,7 @@ void CKing_BT_Attack_Attack3::OnStart()
 
 }
 
-CBT_Node::BT_RETURN CKing_BT_Attack_Attack3::OnUpdate(const _float& fTimeDelta)
+CBT_Node::BT_RETURN CKing_BT_Attack_Attack3::OnUpdate(_float fTimeDelta)
 {
 	if (m_pGameObject->Get_ModelCom()->IsNext())
 		static_cast<CMonster*>(m_pGameObject)->LookAt_Target_Direction_Lerp(fTimeDelta * 5.f);

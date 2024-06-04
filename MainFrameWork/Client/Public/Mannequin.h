@@ -70,9 +70,9 @@ private:
 private:
 	virtual void	Set_EffectPos() override;
 
-	void			Move(const _float& fTimeDelta);
-	void			Move_Patrol(const _float& fTimeDelta);
-	void			Talk(const _float& fTimeDelta);
+	void			Move(_float fTimeDelta);
+	void			Move_Patrol(_float fTimeDelta);
+	void			Talk(_float fTimeDelta);
 
 private: /* 해당 객체가 사용해야할 컴포넌트들을 저장하낟. */
 	CGameObject*	m_pPart[PART_END] = { nullptr };

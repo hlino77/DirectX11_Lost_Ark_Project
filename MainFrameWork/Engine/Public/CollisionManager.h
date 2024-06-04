@@ -37,7 +37,7 @@ private:
 
 	USE_LOCK
 public:
-	void	LateTick_Collision(const _float& fTimeDelta);
+	void	LateTick_Collision(_float fTimeDelta);
 
 	
 
@@ -58,7 +58,7 @@ private:
 	
 	_bool	IsCollided(CSphereCollider* pLeft, CSphereCollider* pRight);
 
-	void	CheckDynamicCollision(_uint iObjectLeft, _uint iObjectRight, const _float& fTimeDelta);
+	void	CheckDynamicCollision(_uint iObjectLeft, _uint iObjectRight, _float fTimeDelta);
 	_bool	CompareMaxMinZ(_float& fLeftMaxZ, _float& fRightMinZ);
 
 private:

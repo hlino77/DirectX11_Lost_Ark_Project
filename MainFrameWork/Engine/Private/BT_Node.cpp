@@ -22,7 +22,7 @@ HRESULT CBT_Node::Initialize(void* pArg)
 	return S_OK;
 }
 
-CBT_Node::BT_RETURN CBT_Node::Tick(const _float& fTimeDelta)
+CBT_Node::BT_RETURN CBT_Node::Tick(_float fTimeDelta)
 {
 	if (BT_RETURN::BT_RUNNING != m_eReturn)
 		OnStart();

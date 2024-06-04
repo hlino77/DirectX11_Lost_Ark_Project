@@ -149,7 +149,7 @@ protected:
 	virtual void			Set_EffectPos() override;
 
 protected:
-	void					Check_ChangeAnim(const _float& fTimeDelta);
+	void					Check_ChangeAnim(_float fTimeDelta);
 
 	virtual HRESULT			Find_Control_Pc();
 	virtual HRESULT			Find_SameSequence_Npc();

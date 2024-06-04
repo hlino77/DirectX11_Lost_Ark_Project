@@ -22,7 +22,7 @@ void CValtan_BT_Attack_GroggyBall_Server::OnStart()
 	m_bShield = false;
 }
 
-CBT_Node::BT_RETURN CValtan_BT_Attack_GroggyBall_Server::OnUpdate(const _float& fTimeDelta)
+CBT_Node::BT_RETURN CValtan_BT_Attack_GroggyBall_Server::OnUpdate(_float fTimeDelta)
 {
 
 	if (static_cast<CBoss_Server*>(m_pGameObject)->Get_SkipAction())

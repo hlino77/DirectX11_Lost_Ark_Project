@@ -16,7 +16,7 @@ void CGhoul_BT_Attack_1::OnStart()
 	//Add_Sound(L"Ghoul", L"WWISEDEFAULTBANK_S_MONSTER_GLOBAL_UNDEAD1#1 (13899944)");
 }
 
-CBT_Node::BT_RETURN CGhoul_BT_Attack_1::OnUpdate(const _float& fTimeDelta)
+CBT_Node::BT_RETURN CGhoul_BT_Attack_1::OnUpdate(_float fTimeDelta)
 {
 	if (!m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_MONSTER)->IsActive()&& m_pGameObject->Get_ModelCom()->Get_CurrAnim()==m_vecAnimDesc[0].iAnimIndex&& m_pGameObject->Get_ModelCom()->IsNext())
 	{

@@ -27,9 +27,9 @@ protected:
 public:
 	virtual HRESULT			Initialize(void* pArg);
 
-	virtual	BT_RETURN		Tick(const _float& fTimeDelta);
+	virtual	BT_RETURN		Tick(_float fTimeDelta);
 	virtual void			OnStart() {}
-	virtual BT_RETURN		OnUpdate(const _float& fTimeDelta)	PURE;
+	virtual BT_RETURN		OnUpdate(_float fTimeDelta)	PURE;
 	virtual void			OnEnd() {}
 
 	virtual void			Reset()								PURE;

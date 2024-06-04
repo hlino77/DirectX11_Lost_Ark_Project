@@ -575,7 +575,7 @@ void CGameInstance::AddFont(const wstring& szTextName, const wstring& szFontPath
 	m_pText_Manager->AddFont(szTextName, szFontPath);
 }
 
-void CGameInstance::DrawFont(const wstring& szTextName, const wstring& szString, const Vec2& vPosition, const Vec4& vColor, const _float& fRotation, const Vec2& vOrigin, const Vec2& vScale)
+void CGameInstance::DrawFont(const wstring& szTextName, const wstring& szString, const Vec2& vPosition, const Vec4& vColor, _float fRotation, const Vec2& vOrigin, const Vec2& vScale)
 {
 	m_pText_Manager->DrawFont(szTextName, szString, vPosition, vColor, fRotation, vOrigin, vScale);
 }
@@ -647,7 +647,7 @@ void CGameInstance::Emplace_SleepContext(const _uint In_iIndex)
 	}
 }
 
-const _float& CGameInstance::Random_Float(_float fMin, _float fMax)
+_float CGameInstance::Random_Float(_float fMin, _float fMax)
 {
 	return m_pRandomMgr->Random_Float(fMin, fMax);
 }

@@ -293,7 +293,7 @@ void CProjectile::AttackEnd()
 	m_bEnd = true;
 }
 
-void CProjectile::Spawn_Projectile(const _float& fTimeDelta)
+void CProjectile::Spawn_Projectile(_float fTimeDelta)
 {
 	PROJECTILE_DESC pProjectileDesc;
 

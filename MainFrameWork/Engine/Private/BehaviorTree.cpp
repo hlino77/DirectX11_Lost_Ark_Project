@@ -23,12 +23,12 @@ HRESULT CBehaviorTree::Initialize(void* pArg)
 	return S_OK;
 }
 
-void CBehaviorTree::Tick(const _float& fTimeDelta)
+void CBehaviorTree::Tick(_float fTimeDelta)
 {
 	m_pRootNode->Tick(fTimeDelta);
 }
 
-void CBehaviorTree::LateTick(const _float& fTimeDelta)
+void CBehaviorTree::LateTick(_float fTimeDelta)
 {
 }
 
@@ -46,7 +46,7 @@ HRESULT CBehaviorTree::Add_Action(wstring strActionName, CBT_Action* pAction)
 	return S_OK;
 }
 
-HRESULT CBehaviorTree::Tick_Action(wstring strActionName, const _float& fTimeDelta)
+HRESULT CBehaviorTree::Tick_Action(wstring strActionName, _float fTimeDelta)
 {
 	const auto& iter = m_hashActions.find(strActionName);
 	if (iter == m_hashActions.end())

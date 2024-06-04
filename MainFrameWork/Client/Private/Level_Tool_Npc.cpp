@@ -63,7 +63,7 @@ HRESULT CLevel_Tool_Npc::Initialize()
 	return S_OK;
 }
 
-HRESULT CLevel_Tool_Npc::Tick(const _float& fTimeDelta)
+HRESULT CLevel_Tool_Npc::Tick(_float fTimeDelta)
 {
 	if (!m_IsImGUIReady)
 	{
@@ -79,7 +79,7 @@ HRESULT CLevel_Tool_Npc::Tick(const _float& fTimeDelta)
 	return S_OK;
 }
 
-HRESULT CLevel_Tool_Npc::LateTick(const _float& fTimeDelta)
+HRESULT CLevel_Tool_Npc::LateTick(_float fTimeDelta)
 {
 	m_pNpcTool->LateTick(fTimeDelta);
 	m_pCameraTool->LateTick(fTimeDelta);

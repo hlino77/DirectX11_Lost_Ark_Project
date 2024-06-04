@@ -17,7 +17,7 @@ void CValtan_BT_Attack_GhostGrab_Server::OnStart()
 
 }
 
-CBT_Node::BT_RETURN CValtan_BT_Attack_GhostGrab_Server::OnUpdate(const _float& fTimeDelta)
+CBT_Node::BT_RETURN CValtan_BT_Attack_GhostGrab_Server::OnUpdate(_float fTimeDelta)
 {
 	
 	return __super::OnUpdate(fTimeDelta);

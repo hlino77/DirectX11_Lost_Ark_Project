@@ -33,8 +33,8 @@ private:
 
 public:
 	virtual HRESULT Initialize(void* pArg = nullptr)	override;
-	virtual HRESULT Tick(const _float& fTimeDelta)		override;
-	virtual HRESULT LateTick(const _float& fTimeDelta)	override;
+	virtual HRESULT Tick(_float fTimeDelta)		override;
+	virtual HRESULT LateTick(_float fTimeDelta)	override;
 	virtual HRESULT	DebugRender()			override;
 
 public:
@@ -43,11 +43,11 @@ private:
 	void	Input();
 
 private:
-	HRESULT ModelView(const _float& fTimeDelta);
+	HRESULT ModelView(_float fTimeDelta);
 
-	void	Class(const _float& fTimeDelta);
-	void	Weapon(const _float& fTimeDelta);
-	void	Animaition(const _float& fTimeDelta);
+	void	Class(_float fTimeDelta);
+	void	Weapon(_float fTimeDelta);
+	void	Animaition(_float fTimeDelta);
 private:
 	
 	void	InfoView();

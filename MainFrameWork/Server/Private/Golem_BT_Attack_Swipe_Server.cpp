@@ -15,7 +15,7 @@ void CGolem_BT_Attack_Swipe_Server::OnStart()
 	static_cast<CMonster_Server*>(m_pGameObject)->Send_Monster_Action();
 }
 
-CBT_Node::BT_RETURN CGolem_BT_Attack_Swipe_Server::OnUpdate(const _float& fTimeDelta)
+CBT_Node::BT_RETURN CGolem_BT_Attack_Swipe_Server::OnUpdate(_float fTimeDelta)
 {
 
 if (static_cast<CBoss_Server*>(m_pGameObject)->Get_SkipAction() )

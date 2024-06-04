@@ -14,7 +14,7 @@ private:
     virtual ~CValtan_BT_Attack_GroggyBall_Server() =  default;
 
     virtual void		OnStart()							override;
-    virtual BT_RETURN	OnUpdate(const _float& fTimeDelta)	override;
+    virtual BT_RETURN	OnUpdate(_float fTimeDelta)	override;
     virtual void		OnEnd()	override;
     virtual void On_FirstAnimStart()override;
     virtual void On_LastAnimEnd()  override;

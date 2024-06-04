@@ -13,7 +13,7 @@ void CCommon_BT_Move::OnStart()
 
 }
 
-CBT_Node::BT_RETURN CCommon_BT_Move::OnUpdate(const _float& fTimeDelta)
+CBT_Node::BT_RETURN CCommon_BT_Move::OnUpdate(_float fTimeDelta)
 {
 
 

@@ -22,7 +22,7 @@ void CValtan_BT_Attack_RushGrab::OnStart()
 	m_bShoot = true;
 }
 
-CBT_Node::BT_RETURN CValtan_BT_Attack_RushGrab::OnUpdate(const _float& fTimeDelta)
+CBT_Node::BT_RETURN CValtan_BT_Attack_RushGrab::OnUpdate(_float fTimeDelta)
 {
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[2].iAnimIndex&& m_fLoopTime < m_vecAnimDesc[m_iCurrAnimation].fMaxLoopTime - 0.5f)
 		static_cast<CMonster*>(m_pGameObject)->LookAt_Target_Direction_Lerp(fTimeDelta);

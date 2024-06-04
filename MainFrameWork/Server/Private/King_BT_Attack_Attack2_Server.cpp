@@ -17,7 +17,7 @@ void CKing_BT_Attack_Attack2_Server::OnStart()
 
 }
 
-CBT_Node::BT_RETURN CKing_BT_Attack_Attack2_Server::OnUpdate(const _float& fTimeDelta)
+CBT_Node::BT_RETURN CKing_BT_Attack_Attack2_Server::OnUpdate(_float fTimeDelta)
 {
 	if (static_cast<CBoss_Server*>(m_pGameObject)->Get_SkipAction())
 	{

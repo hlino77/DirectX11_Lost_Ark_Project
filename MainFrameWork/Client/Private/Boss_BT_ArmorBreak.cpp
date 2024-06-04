@@ -15,7 +15,7 @@ void CBoss_BT_ArmorBreak::OnStart()
 	static_cast<CBoss*>(m_pGameObject)->Set_Armor(static_cast<CBoss*>(m_pGameObject)->Get_Armor() - 1);
 }
 
-CBT_Node::BT_RETURN CBoss_BT_ArmorBreak::OnUpdate(const _float& fTimeDelta)
+CBT_Node::BT_RETURN CBoss_BT_ArmorBreak::OnUpdate(_float fTimeDelta)
 {
 	if (static_cast<CBoss*>(m_pGameObject)->Get_BossType() == CBoss::VALTAN)
 	{

@@ -37,7 +37,7 @@ void CValtan_BT_Dead::OnStart()
 		CServerSessionManager::GetInstance()->Get_Player()->Set_State(TEXT("Resurrect"));
 }
 
-CBT_Node::BT_RETURN CValtan_BT_Dead::OnUpdate(const _float& fTimeDelta)
+CBT_Node::BT_RETURN CValtan_BT_Dead::OnUpdate(_float fTimeDelta)
 {
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[5].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[5].iAnimIndex) >= 38 && !m_pGameObject->Get_ModelCom()->IsNext())
 	{

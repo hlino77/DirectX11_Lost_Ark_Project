@@ -133,7 +133,7 @@ HRESULT CEffect_Trail::Ready_Components()
 	return S_OK;
 }
 
-void CEffect_Trail::Run_Sequence(const _float& fTimeDelta)
+void CEffect_Trail::Run_Sequence(_float fTimeDelta)
 {
 	if (m_IsSequence && m_bRender)
 	{

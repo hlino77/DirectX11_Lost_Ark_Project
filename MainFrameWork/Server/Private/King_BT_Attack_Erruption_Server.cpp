@@ -16,7 +16,7 @@ void CKing_BT_Attack_Erruption_Server::OnStart()
 	m_bSetGroggyCount = true;
 }
 
-CBT_Node::BT_RETURN CKing_BT_Attack_Erruption_Server::OnUpdate(const _float& fTimeDelta)
+CBT_Node::BT_RETURN CKing_BT_Attack_Erruption_Server::OnUpdate(_float fTimeDelta)
 {
 	if (m_bSetGroggyCount && m_vecAnimDesc[0].iAnimIndex == m_pGameObject->Get_ModelCom()->Get_CurrAnim())
 	{

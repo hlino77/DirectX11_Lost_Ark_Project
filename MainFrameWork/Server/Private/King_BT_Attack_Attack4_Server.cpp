@@ -18,7 +18,7 @@ void CKing_BT_Attack_Attack4_Server::OnStart()
 
 }
 
-CBT_Node::BT_RETURN CKing_BT_Attack_Attack4_Server::OnUpdate(const _float& fTimeDelta)
+CBT_Node::BT_RETURN CKing_BT_Attack_Attack4_Server::OnUpdate(_float fTimeDelta)
 {
 	if (m_IsTeleport && m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[1].iAnimIndex)
 	{

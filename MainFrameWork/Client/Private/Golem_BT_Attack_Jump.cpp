@@ -27,7 +27,7 @@ void CGolem_BT_Attack_Jump::OnStart()
 	}
 };
 
-CBT_Node::BT_RETURN CGolem_BT_Attack_Jump::OnUpdate(const _float& fTimeDelta)
+CBT_Node::BT_RETURN CGolem_BT_Attack_Jump::OnUpdate(_float fTimeDelta)
 {
 	Add_Sound(0, 0, TEXT("Effect"), TEXT("Rook_19"), 12);
 	Add_Sound(0, 1, TEXT("Effect"), TEXT("Rook_15"), 30, 1.f);

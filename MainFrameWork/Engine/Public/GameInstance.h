@@ -132,7 +132,7 @@ public:
 	/* For. FontManager */
 public:
 	void	AddFont(const wstring & szTextName, const wstring & szFontPath);
-	void	DrawFont(const wstring & szTextName, const wstring & szString, const Vec2 & vPosition, const Vec4 & vColor, const _float & fRotation, const Vec2 & vOrigin, const Vec2 & vScale);
+	void	DrawFont(const wstring & szTextName, const wstring & szString, const Vec2 & vPosition, const Vec4 & vColor, _float fRotation, const Vec2 & vOrigin, const Vec2 & vScale);
 	Vec2	MeasureString(const wstring & szTextName, const wstring & szString);
 	void	InputText(wstring& szInputText);
 
@@ -140,7 +140,7 @@ public:
 
 
 	_float Get_RandomFloat(_float fMin, _float fMax);
-	const _float& Random_Float(_float fMin, _float fMax);
+	_float Random_Float(_float fMin, _float fMax);
 	const _int&	  Random_Int(_int iMin, _int iMax);
 	const _bool&  Random_Coin(_float fProbality);
 	int64_t		  GenerateUniqueID();

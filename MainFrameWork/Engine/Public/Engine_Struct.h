@@ -411,7 +411,7 @@ namespace Engine
 
 		LERP_MODE	eMode = LERP_MODE::DEFAULT; 
 
-		void Init_Lerp(const _float& _fTime, const _float _fStartValue, const _float& _fTargetValue, const LERP_MODE& _eMode = LERP_MODE::DEFAULT)
+		void Init_Lerp(_float _fTime, const _float _fStartValue, _float _fTargetValue, const LERP_MODE& _eMode = LERP_MODE::DEFAULT)
 		{
 			bActive = true;
 			fCurTime = 0.f;
@@ -421,7 +421,7 @@ namespace Engine
 			Set_Lerp(_fTime, _fStartValue, _fTargetValue);
 		}
 
-		void Set_Lerp(const _float& _fTime, const _float _fStartValue, const _float& _fTargetValue)
+		void Set_Lerp(_float _fTime, const _float _fStartValue, _float _fTargetValue)
 		{
 			fEndTime = _fTime;
 			fStartValue = fCurValue = _fStartValue;
@@ -429,7 +429,7 @@ namespace Engine
 		}
 
 		// Mode
-		_float Update_Lerp(const _float& fTimeDelta)
+		_float Update_Lerp(_float fTimeDelta)
 		{
 			if (false == bActive)
 			{
@@ -486,7 +486,7 @@ namespace Engine
 			return fCurValue = Lerp_Float(fStartValue, fTargetValue, t);
 		}
 
-		_float Lerp_Float(const _float& _f1, const _float& _f2, const _float _fTime) { return (1 - _fTime) * _f1 + (_fTime * _f2); }
+		_float Lerp_Float(_float _f1, _float _f2, const _float _fTime) { return (1 - _fTime) * _f1 + (_fTime * _f2); }
 
 	}LERP_FLOAT;
 
@@ -504,7 +504,7 @@ namespace Engine
 
 		LERP_MODE	eMode = LERP_MODE::DEFAULT;
 
-		void Init_Lerp(const _float& _fTime, const Vec3 _vStartValue, const Vec3 _vTargetValue, const LERP_MODE& _eMode = LERP_MODE::DEFAULT)
+		void Init_Lerp(_float _fTime, const Vec3 _vStartValue, const Vec3 _vTargetValue, const LERP_MODE& _eMode = LERP_MODE::DEFAULT)
 		{
 			bActive = true;
 			fCurTime = 0.f;
@@ -514,14 +514,14 @@ namespace Engine
 			Set_Lerp(_fTime, _vStartValue, _vTargetValue);
 		}
 
-		void Set_Lerp(const _float& _fTime, const Vec3 _vStartValue, const Vec3 _vTargetValue)
+		void Set_Lerp(_float _fTime, const Vec3 _vStartValue, const Vec3 _vTargetValue)
 		{
 			fEndTime = _fTime;
 			vStartVec = vCurVec = _vStartValue;
 			vTargetVec = _vTargetValue;
 		}
 
-		Vec3 Update_Lerp(const _float& fTimeDelta)
+		Vec3 Update_Lerp(_float fTimeDelta)
 		{
 			if (false == bActive)
 			{

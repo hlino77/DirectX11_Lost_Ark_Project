@@ -14,7 +14,7 @@ void CReaper_BT_Attack3::OnStart()
 
 }
 
-CBT_Node::BT_RETURN CReaper_BT_Attack3::OnUpdate(const _float& fTimeDelta)
+CBT_Node::BT_RETURN CReaper_BT_Attack3::OnUpdate(_float fTimeDelta)
 {
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex)
 		static_cast<CMonster*>(m_pGameObject)->LookAt_Target_Direction_Lerp(fTimeDelta);

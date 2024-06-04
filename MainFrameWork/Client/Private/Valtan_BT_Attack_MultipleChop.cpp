@@ -24,7 +24,7 @@ void CValtan_BT_Attack_MultipleChop::OnStart()
 	m_bShoot[3] = true;
 }
 
-CBT_Node::BT_RETURN CValtan_BT_Attack_MultipleChop::OnUpdate(const _float& fTimeDelta)
+CBT_Node::BT_RETURN CValtan_BT_Attack_MultipleChop::OnUpdate(_float fTimeDelta)
 {
 	if (m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[0].iAnimIndex) > 55 && m_iCurrAnimation == 0)
 	{

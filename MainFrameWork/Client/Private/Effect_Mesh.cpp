@@ -65,7 +65,7 @@ HRESULT CEffect_Mesh::Render()
 	return S_OK;
 }
 
-void CEffect_Mesh::Run_Sequence(const _float& fTimeDelta)
+void CEffect_Mesh::Run_Sequence(_float fTimeDelta)
 {
 	if (m_IsSequence && m_bRender)
 	{

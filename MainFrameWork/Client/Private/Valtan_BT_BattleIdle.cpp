@@ -13,7 +13,7 @@ void CValtan_BT_BattleIdle::OnStart()
 	m_fIdletime = 0.f;
 }
 
-CBT_Node::BT_RETURN CValtan_BT_BattleIdle::OnUpdate(const _float& fTimeDelta)
+CBT_Node::BT_RETURN CValtan_BT_BattleIdle::OnUpdate(_float fTimeDelta)
 {
 	static_cast<CMonster*>(m_pGameObject)->LookAt_Target_Direction_Lerp(fTimeDelta);
 

@@ -35,8 +35,8 @@ public:
 
 	/* 아덴 관련 함수 */
 	_uint			Is_SP_Identity();
-	const _float&	Get_IdenGage() { return m_fIdentityGage; }
-	const _float&	Get_IdenMaxGauge() { return m_fMaxGage; }
+	_float	Get_IdenGage() { return m_fIdentityGage; }
+	_float	Get_IdenMaxGauge() { return m_fMaxGage; }
 	const _int&		Get_CurrMarble() { return m_iMarbleCnt; }
 	const _uint&    Get_IdenSkill() { return m_iIdenSkill; }
 	void			Increase_IdenGage(_float iGage);
@@ -47,10 +47,10 @@ public:
 	CPlayer_Skill*  Get_PlayerSkill_MG(SKILL_KEY eKey);
 
 private:
-	virtual void	Input(const _float& fTimeDelta) override;
+	virtual void	Input(_float fTimeDelta) override;
 	virtual void	Attack(Vec3 vPos) override;
 	virtual void	SkillAttack(SKILL_KEY eKey, Vec3 vPos) override;
-	virtual void	Skill_CoolTime(const _float& fTimeDelta) override;
+	virtual void	Skill_CoolTime(_float fTimeDelta) override;
 
 	virtual void	EstherSkill(_uint iIndex) override;
 	virtual void	Esther_Refill(_float fTimeDelta) override;

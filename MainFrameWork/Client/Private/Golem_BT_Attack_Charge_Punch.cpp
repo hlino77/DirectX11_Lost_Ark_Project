@@ -25,7 +25,7 @@ void CGolem_BT_Attack_Charge_Punch::OnStart()
 	}
 }
 
-CBT_Node::BT_RETURN CGolem_BT_Attack_Charge_Punch::OnUpdate(const _float& fTimeDelta)
+CBT_Node::BT_RETURN CGolem_BT_Attack_Charge_Punch::OnUpdate(_float fTimeDelta)
 {
 	Add_Sound(0, 0, TEXT("Effect"), TEXT("Rook_64"), 0, 0.8f);
 	Add_Sound_Channel(2, 1, TEXT("Effect"), TEXT("Rook_95"), 0, 0.8f);

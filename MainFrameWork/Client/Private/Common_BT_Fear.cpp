@@ -11,7 +11,7 @@ void CCommon_BT_Fear::OnStart()
 	__super::OnStart(0);
 }
 
-CBT_Node::BT_RETURN CCommon_BT_Fear::OnUpdate(const _float& fTimeDelta)
+CBT_Node::BT_RETURN CCommon_BT_Fear::OnUpdate(_float fTimeDelta)
 {
 	if (m_pGameObject->Get_ObjectType() == OBJ_TYPE::MONSTER)
 	{

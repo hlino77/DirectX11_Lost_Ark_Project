@@ -26,7 +26,7 @@ void CValtan_BT_Attack_FistSmashExplosion::OnStart()
 	m_fLastAttackDelay = 0.5f;
 }
 
-CBT_Node::BT_RETURN CValtan_BT_Attack_FistSmashExplosion::OnUpdate(const _float& fTimeDelta)
+CBT_Node::BT_RETURN CValtan_BT_Attack_FistSmashExplosion::OnUpdate(_float fTimeDelta)
 {
 	if (m_bWarning == false && m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[1].iAnimIndex)
 	{

@@ -6,7 +6,7 @@ CRandomManager::CRandomManager()
 {
 }
 
-const _float& CRandomManager::Random_Float(_float fMin, _float fMax) 
+_float CRandomManager::Random_Float(_float fMin, _float fMax) 
 {
 	std::mt19937_64 gen(m_Random());
 

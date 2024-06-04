@@ -11,7 +11,7 @@ void CCommon_BT_Earthquake::OnStart()
 	__super::OnStart(0);
 }
 
-CBT_Node::BT_RETURN CCommon_BT_Earthquake::OnUpdate(const _float& fTimeDelta)
+CBT_Node::BT_RETURN CCommon_BT_Earthquake::OnUpdate(_float fTimeDelta)
 {
 	if (m_pGameObject->Get_ObjectType() == OBJ_TYPE::MONSTER)
 	{

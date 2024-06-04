@@ -15,7 +15,7 @@ void CCommon_BT_Damage2_Server::OnStart()
 	m_fDuration = 0.9f;
 }
 
-CBT_Node::BT_RETURN CCommon_BT_Damage2_Server::OnUpdate(const _float& fTimeDelta)
+CBT_Node::BT_RETURN CCommon_BT_Damage2_Server::OnUpdate(_float fTimeDelta)
 {
 	if (static_cast<CMonster_Server*>(m_pGameObject)->Is_Bound() || static_cast<CMonster_Server*>(m_pGameObject)->Is_Twist() || m_pGameObject->Get_Hp() < 1 || static_cast<CMonster_Server*>(m_pGameObject)->Is_Maz())
 	{

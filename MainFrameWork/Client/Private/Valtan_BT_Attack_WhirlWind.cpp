@@ -19,7 +19,7 @@ void CValtan_BT_Attack_WhirlWind::OnStart()
 	m_bAttack = false;
 }
 
-CBT_Node::BT_RETURN CValtan_BT_Attack_WhirlWind::OnUpdate(const _float& fTimeDelta)
+CBT_Node::BT_RETURN CValtan_BT_Attack_WhirlWind::OnUpdate(_float fTimeDelta)
 {
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[1].iAnimIndex)
 	{

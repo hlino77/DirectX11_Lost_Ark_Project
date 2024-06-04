@@ -29,10 +29,10 @@ public:
 public:
 	virtual void Bind_SkillKey(CPlayer_Controller::SKILL_KEY eKey);
 
-	virtual const _float& Get_SkillEndTime() { return m_fSkillEndTime; }
-	virtual const _float& Get_SkillTimeAcc() { return m_fSkillTimeAcc; }
-	virtual const _float& Get_SkillSuccessTime_Min() { return m_fSkillSuccessTime_Min; }
-	virtual const _float& Get_SkillSuccessTime_Max() { return m_fSkillSuccessTime_Max; }
+	virtual _float Get_SkillEndTime() { return m_fSkillEndTime; }
+	virtual _float Get_SkillTimeAcc() { return m_fSkillTimeAcc; }
+	virtual _float Get_SkillSuccessTime_Min() { return m_fSkillSuccessTime_Min; }
+	virtual _float Get_SkillSuccessTime_Max() { return m_fSkillSuccessTime_Max; }
 
 	virtual const _bool& Is_SkillAttack() { return m_IsAttack; }
 

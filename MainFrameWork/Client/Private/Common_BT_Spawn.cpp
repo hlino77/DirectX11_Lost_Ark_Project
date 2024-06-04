@@ -14,7 +14,7 @@ void CCommon_BT_Spawn::OnStart()
 	static_cast<CMonster*>(m_pGameObject)->Set_DissolveIn(1.f);
 }
 
-CBT_Node::BT_RETURN CCommon_BT_Spawn::OnUpdate(const _float& fTimeDelta)
+CBT_Node::BT_RETURN CCommon_BT_Spawn::OnUpdate(_float fTimeDelta)
 {
 	if (m_pGameObject->Get_ObjectType() == OBJ_TYPE::BOSS)
 	{

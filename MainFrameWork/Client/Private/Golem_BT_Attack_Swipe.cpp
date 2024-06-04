@@ -24,7 +24,7 @@ void CGolem_BT_Attack_Swipe::OnStart()
 	}
 }
 
-CBT_Node::BT_RETURN CGolem_BT_Attack_Swipe::OnUpdate(const _float& fTimeDelta)
+CBT_Node::BT_RETURN CGolem_BT_Attack_Swipe::OnUpdate(_float fTimeDelta)
 {
 	Add_Sound(0, 0, TEXT("Effect"), TEXT("Rook_9"), 15, 0.5f);
 	Add_Sound(0, 1, TEXT("Effect"), TEXT("Rook_42"), 18, 0.5f);

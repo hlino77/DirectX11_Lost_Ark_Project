@@ -26,7 +26,7 @@ void CValtan_BT_Attack_SwingSeismic::OnStart()
 	m_bSwing = false;
 }
 
-CBT_Node::BT_RETURN CValtan_BT_Attack_SwingSeismic::OnUpdate(const _float& fTimeDelta)
+CBT_Node::BT_RETURN CValtan_BT_Attack_SwingSeismic::OnUpdate(_float fTimeDelta)
 {
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[0].iAnimIndex) >= 45)
 	{

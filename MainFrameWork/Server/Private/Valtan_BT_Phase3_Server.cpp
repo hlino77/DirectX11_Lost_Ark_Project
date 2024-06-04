@@ -17,7 +17,7 @@ void CValtan_BT_Phase3_Server::OnStart()
 	static_cast<CBoss_Server*>(m_pGameObject)->Set_GroggyLock(true);
 }
 
-CBT_Node::BT_RETURN CValtan_BT_Phase3_Server::OnUpdate(const _float& fTimeDelta)
+CBT_Node::BT_RETURN CValtan_BT_Phase3_Server::OnUpdate(_float fTimeDelta)
 {
 	m_pGameObject->Get_TransformCom()->LookAt_Dir(Vec3(0.f, 0.f, -1.f));
 	return __super::OnUpdate(fTimeDelta);

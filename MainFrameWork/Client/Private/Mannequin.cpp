@@ -431,7 +431,7 @@ void CMannequin::Set_EffectPos()
 	m_vEffectPos = XMVector3TransformCoord(m_vEffectPos, ProjMatrix);
 }
 
-void CMannequin::Move(const _float& fTimeDelta)
+void CMannequin::Move(_float fTimeDelta)
 {
 	Vec3 vMove;
 	if (m_vecMovePos.size() == m_iMoveCnt)
@@ -458,7 +458,7 @@ void CMannequin::Move(const _float& fTimeDelta)
 	}
 }
 
-void CMannequin::Move_Patrol(const _float& fTimeDelta)
+void CMannequin::Move_Patrol(_float fTimeDelta)
 {
 	Vec3 vMove;
 	if (-1 == m_iMoveCnt && true == m_bReach)
@@ -501,7 +501,7 @@ void CMannequin::Move_Patrol(const _float& fTimeDelta)
 	}
 }
 
-void CMannequin::Talk(const _float& fTimeDelta)
+void CMannequin::Talk(_float fTimeDelta)
 {
 	if (true == m_pSpeechBuble->Is_Active())
 		return;

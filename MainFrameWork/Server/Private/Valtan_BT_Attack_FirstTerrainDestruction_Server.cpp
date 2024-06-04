@@ -20,7 +20,7 @@ void CValtan_BT_Attack_FirstTerrainDestruction_Server::OnStart()
 
 }
 
-CBT_Node::BT_RETURN CValtan_BT_Attack_FirstTerrainDestruction_Server::OnUpdate(const _float& fTimeDelta)
+CBT_Node::BT_RETURN CValtan_BT_Attack_FirstTerrainDestruction_Server::OnUpdate(_float fTimeDelta)
 {
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[1].iAnimIndex)
 	{

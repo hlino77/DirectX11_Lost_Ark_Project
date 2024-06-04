@@ -348,7 +348,7 @@ CPlayer_Skill* CPlayer_Controller_GN::Get_PlayerSkill_Weapon(GN_IDENTITY eStance
 	return nullptr;
 }
 
-void CPlayer_Controller_GN::Input(const _float& fTimeDelta)
+void CPlayer_Controller_GN::Input(_float fTimeDelta)
 {
 
 }
@@ -386,7 +386,7 @@ void CPlayer_Controller_GN::SkillAttack(SKILL_KEY eKey, Vec3 vPos)
 	pSkill->InitProjectile(&m_pSkills[eKey]->Get_Skill_Proj_Desc());
 }
 
-void CPlayer_Controller_GN::Skill_CoolTime(const _float& fTimeDelta)
+void CPlayer_Controller_GN::Skill_CoolTime(_float fTimeDelta)
 {
 	__super::Skill_CoolTime(fTimeDelta);
 

@@ -15,7 +15,7 @@ void CCommon_BT_BattleIdle_Server::OnStart()
 	m_fIdletime = 0.f;
 }
 
-CBT_Node::BT_RETURN CCommon_BT_BattleIdle_Server::OnUpdate(const _float& fTimeDelta)
+CBT_Node::BT_RETURN CCommon_BT_BattleIdle_Server::OnUpdate(_float fTimeDelta)
 {
 	if (static_cast<CMonster_Server*>(m_pGameObject)->Is_Hit())
 		return BT_FAIL;

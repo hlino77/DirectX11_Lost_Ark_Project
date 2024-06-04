@@ -39,7 +39,7 @@ void CValtan_BT_Attack_Rush::OnStart()
 	m_EffectRush.clear();
 }
 
-CBT_Node::BT_RETURN CValtan_BT_Attack_Rush::OnUpdate(const _float& fTimeDelta)
+CBT_Node::BT_RETURN CValtan_BT_Attack_Rush::OnUpdate(_float fTimeDelta)
 {
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex && m_iLoop < 2)
 		static_cast<CMonster*>(m_pGameObject)->LookAt_Target_Direction_Lerp(fTimeDelta);

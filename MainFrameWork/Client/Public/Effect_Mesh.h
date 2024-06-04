@@ -24,7 +24,7 @@ public:
 	virtual HRESULT Render()					override;
 
 private:
-	void Run_Sequence(const _float& fTimeDelta);
+	void Run_Sequence(_float fTimeDelta);
 
 private:
 	virtual HRESULT Ready_Components() override;

@@ -34,7 +34,7 @@ void CValtan_BT_Phase3::OnStart()
 	Add_Sound(L"Effect", L"Valtan#161 (23475606)");
 }
 
-CBT_Node::BT_RETURN CValtan_BT_Phase3::OnUpdate(const _float& fTimeDelta)
+CBT_Node::BT_RETURN CValtan_BT_Phase3::OnUpdate(_float fTimeDelta)
 {
 
 	return __super::OnUpdate(fTimeDelta);

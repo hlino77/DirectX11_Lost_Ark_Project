@@ -18,7 +18,7 @@ void CKing_BT_Attack_Charge_Swing::OnStart()
 	m_Shoot = true;
 }
 
-CBT_Node::BT_RETURN CKing_BT_Attack_Charge_Swing::OnUpdate(const _float& fTimeDelta)
+CBT_Node::BT_RETURN CKing_BT_Attack_Charge_Swing::OnUpdate(_float fTimeDelta)
 {
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[2].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[2].iAnimIndex) == 11&& m_Shoot)
 	{

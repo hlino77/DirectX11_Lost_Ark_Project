@@ -14,7 +14,7 @@ void CReaper_BT_Attack1_Server::OnStart()
 	static_cast<CMonster_Server*>(m_pGameObject)->Send_Monster_Action();
 }
 
-CBT_Node::BT_RETURN CReaper_BT_Attack1_Server::OnUpdate(const _float& fTimeDelta)
+CBT_Node::BT_RETURN CReaper_BT_Attack1_Server::OnUpdate(_float fTimeDelta)
 {
 
 	if (static_cast<CMonster_Server*>(m_pGameObject)->Is_Hit())

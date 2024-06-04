@@ -69,7 +69,7 @@ HRESULT CLevel_Lobby::Initialize()
 	return S_OK;
 }
 
-HRESULT CLevel_Lobby::Tick(const _float& fTimeDelta)
+HRESULT CLevel_Lobby::Tick(_float fTimeDelta)
 {
 	CUI* pUI = CUI_Manager::GetInstance()->Find_UIPart(LEVELID::LEVEL_LOBBY, TEXT("UI_Lobby"), TEXT("Button_Entrance_to_Server"));
 	if (nullptr == pUI)
@@ -122,7 +122,7 @@ HRESULT CLevel_Lobby::Tick(const _float& fTimeDelta)
 	return S_OK;
 }
 
-HRESULT CLevel_Lobby::LateTick(const _float& fTimeDelta)
+HRESULT CLevel_Lobby::LateTick(_float fTimeDelta)
 {
 	//CUI_Tool::GetInstance()->LateTick();
 	return S_OK;

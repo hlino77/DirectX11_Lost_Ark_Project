@@ -35,7 +35,7 @@ void CValtan_BT_Attack_BugSmash::OnStart()
 	m_pRushWarning = nullptr;
 }
 
-CBT_Node::BT_RETURN CValtan_BT_Attack_BugSmash::OnUpdate(const _float& fTimeDelta)
+CBT_Node::BT_RETURN CValtan_BT_Attack_BugSmash::OnUpdate(_float fTimeDelta)
 {
 	m_pGameObject->Get_TransformCom()->Set_Up(Vec3(0.f,1.f,0.f));
 	if (m_SmokeEffects.empty() == false)

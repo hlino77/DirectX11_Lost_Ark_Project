@@ -44,7 +44,7 @@ void CBoss_BT_Counter::OnStart()
 	}
 }
 
-CBT_Node::BT_RETURN CBoss_BT_Counter::OnUpdate(const _float& fTimeDelta)
+CBT_Node::BT_RETURN CBoss_BT_Counter::OnUpdate(_float fTimeDelta)
 {
 	if (static_cast<CBoss*>(m_pGameObject)->Get_BossType() == CBoss::VALTAN)
 	{

@@ -45,7 +45,7 @@ HRESULT CEffect_PcModel::Initialize(void* pArg)
 	return S_OK;
 }
 
-HRESULT CEffect_PcModel::Tick(const _float& fTimeDelta)
+HRESULT CEffect_PcModel::Tick(_float fTimeDelta)
 {
 	Input();
 	ModelView(fTimeDelta);
@@ -55,7 +55,7 @@ HRESULT CEffect_PcModel::Tick(const _float& fTimeDelta)
 	return S_OK;
 }
 
-HRESULT CEffect_PcModel::LateTick(const _float& fTimeDelta)
+HRESULT CEffect_PcModel::LateTick(_float fTimeDelta)
 {
 	m_pMannequin->LateTick(fTimeDelta);
 
@@ -71,7 +71,7 @@ void CEffect_PcModel::Input()
 {
 }
 
-HRESULT CEffect_PcModel::ModelView(const _float& fTimeDelta)
+HRESULT CEffect_PcModel::ModelView(_float fTimeDelta)
 {
 	ImGui::Begin("Model View");
 
@@ -86,7 +86,7 @@ HRESULT CEffect_PcModel::ModelView(const _float& fTimeDelta)
 	return S_OK;
 }
 
-void CEffect_PcModel::Class(const _float& fTimeDelta)
+void CEffect_PcModel::Class(_float fTimeDelta)
 {
 	if (ImGui::CollapsingHeader("Model Select"))
 	{
@@ -232,7 +232,7 @@ void CEffect_PcModel::Class(const _float& fTimeDelta)
 	}
 }
 
-void CEffect_PcModel::Weapon(const _float& fTimeDelta)
+void CEffect_PcModel::Weapon(_float fTimeDelta)
 {
 	if (ImGui::CollapsingHeader("Weapon Select"))
 	{
@@ -358,7 +358,7 @@ void CEffect_PcModel::Weapon(const _float& fTimeDelta)
 	}
 }
 
-void CEffect_PcModel::Animaition(const _float& fTimeDelta)
+void CEffect_PcModel::Animaition(_float fTimeDelta)
 {
 	if (ImGui::CollapsingHeader("Animation"))
 	{
