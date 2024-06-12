@@ -26,6 +26,7 @@ void CBoss_BT_Counter::OnStart()
 		CPlayer* pPlayer = CServerSessionManager::GetInstance()->Get_Player();
 		if (nullptr == pPlayer)
 			return;
+
 		_float fEstherGauge = 20.f;
 		if (static_cast<CBoss*>(m_pGameObject)->Is_Dummy())
 			fEstherGauge *= 1.5f;
