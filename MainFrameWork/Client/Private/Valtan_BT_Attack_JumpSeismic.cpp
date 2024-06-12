@@ -25,7 +25,7 @@ void CValtan_BT_Attack_JumpSeismic::OnStart()
 	m_fAttackAcc = 0.f;
 }
 
-CBT_Node::BT_RETURN CValtan_BT_Attack_JumpSeismic::OnUpdate(const _float& fTimeDelta)
+CBT_Node::BT_RETURN CValtan_BT_Attack_JumpSeismic::OnUpdate(_float fTimeDelta)
 {
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() ==m_vecAnimDesc[2].iAnimIndex)
 	{ 

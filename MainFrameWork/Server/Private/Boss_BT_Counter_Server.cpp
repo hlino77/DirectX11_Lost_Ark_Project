@@ -14,7 +14,7 @@ void CBoss_BT_Counter_Server::OnStart()
 	static_cast<CMonster_Server*>(m_pGameObject)->Send_Monster_Action();
 }
 
-CBT_Node::BT_RETURN CBoss_BT_Counter_Server::OnUpdate(const _float& fTimeDelta)
+CBT_Node::BT_RETURN CBoss_BT_Counter_Server::OnUpdate(_float fTimeDelta)
 {
 	if (m_pGameObject->Get_Hp() < 1)
 		return BT_FAIL;

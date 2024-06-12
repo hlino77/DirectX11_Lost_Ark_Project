@@ -34,7 +34,7 @@ void CValtan_BT_Attack_SecondTerrainDestruction::OnStart()
 	m_bLastAttack = false;
 }
 
-CBT_Node::BT_RETURN CValtan_BT_Attack_SecondTerrainDestruction::OnUpdate(const _float& fTimeDelta)
+CBT_Node::BT_RETURN CValtan_BT_Attack_SecondTerrainDestruction::OnUpdate(_float fTimeDelta)
 {
 	//Movement
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[1].iAnimIndex)

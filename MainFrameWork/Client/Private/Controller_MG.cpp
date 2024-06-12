@@ -316,7 +316,7 @@ CPlayer_Skill* CController_MG::Get_PlayerSkill_MG(SKILL_KEY eKey)
 	return nullptr;
 }
 
-void CController_MG::Input(const _float& fTimeDelta)
+void CController_MG::Input(_float fTimeDelta)
 {
 
 }
@@ -354,7 +354,7 @@ void CController_MG::SkillAttack(SKILL_KEY eKey, Vec3 vPos)
 	pSkill->InitProjectile(&m_pSkills[eKey]->Get_Skill_Proj_Desc());
 }
 
-void CController_MG::Skill_CoolTime(const _float& fTimeDelta)
+void CController_MG::Skill_CoolTime(_float fTimeDelta)
 {
 	__super::Skill_CoolTime(fTimeDelta);
 }

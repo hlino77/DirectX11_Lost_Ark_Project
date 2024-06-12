@@ -23,7 +23,7 @@ void CValtan_BT_Attack_TrippleCounterChop_3::OnStart()
 	m_bShoot = true;
 }
 
-CBT_Node::BT_RETURN CValtan_BT_Attack_TrippleCounterChop_3::OnUpdate(const _float& fTimeDelta)
+CBT_Node::BT_RETURN CValtan_BT_Attack_TrippleCounterChop_3::OnUpdate(_float fTimeDelta)
 {
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[1].iAnimIndex && m_fLoopTime > 1.8f && !static_cast<CBoss*>(m_pGameObject)->Is_CounterSkill())
 		static_cast<CBoss*>(m_pGameObject)->Set_CounterSkill(true);

@@ -34,9 +34,9 @@ private:
 	_bool					Check_False_All_Sequence_Npc();
 
 private:
-	void	Move(const _float& fTimeDelta);
-	void	Move_Patrol(const _float& fTimeDelta);
-	void	Talk(const _float& fTimeDelta);
+	void	Move(_float fTimeDelta);
+	void	Move_Patrol(_float fTimeDelta);
+	void	Talk(_float fTimeDelta);
 
 private:
 	_float			m_fTalkStartAcc = { 0.f };

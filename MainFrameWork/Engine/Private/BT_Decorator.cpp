@@ -39,7 +39,7 @@ void CBT_Decorator::OnStart()
 		m_iCounter = m_iRepeatCount;
 }
 
-CBT_Node::BT_RETURN CBT_Decorator::OnUpdate(const _float& fTimeDelta)
+CBT_Node::BT_RETURN CBT_Decorator::OnUpdate(_float fTimeDelta)
 {	
 	switch (m_eDecoratorType)
 	{

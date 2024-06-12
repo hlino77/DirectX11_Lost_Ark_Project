@@ -14,7 +14,7 @@ private:
     virtual ~CBoss_BT_Counter() =  default;
 
     virtual void		OnStart()							override;
-    virtual BT_RETURN	OnUpdate(const _float& fTimeDelta)	override;
+    virtual BT_RETURN	OnUpdate(_float fTimeDelta)	override;
     virtual void		OnEnd()								override;
 
 

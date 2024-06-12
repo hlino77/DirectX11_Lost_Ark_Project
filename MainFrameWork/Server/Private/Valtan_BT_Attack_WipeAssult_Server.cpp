@@ -18,7 +18,7 @@ void CValtan_BT_Attack_WipeAssult_Server::OnStart()
 
 }
 
-CBT_Node::BT_RETURN CValtan_BT_Attack_WipeAssult_Server::OnUpdate(const _float& fTimeDelta)
+CBT_Node::BT_RETURN CValtan_BT_Attack_WipeAssult_Server::OnUpdate(_float fTimeDelta)
 {
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() ==m_vecAnimDesc[0].iAnimIndex)
 		static_cast<CMonster_Server*>(m_pGameObject)->LookAt_Target_Direction_Lerp(fTimeDelta);

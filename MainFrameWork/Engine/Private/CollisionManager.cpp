@@ -13,7 +13,7 @@ CCollisionManager::CCollisionManager()
 {
 }
 
-void CCollisionManager::LateTick_Collision(const _float& fTimeDelta)
+void CCollisionManager::LateTick_Collision(_float fTimeDelta)
 {
 	READ_LOCK
 
@@ -117,7 +117,7 @@ bool CCollisionManager::IsCollided(CSphereCollider* pLeft, CSphereCollider* pRig
     return false;
 }
 
-void CCollisionManager::CheckDynamicCollision(_uint iLayerLeft, _uint iLayerRight , const _float& fTimeDelta)
+void CCollisionManager::CheckDynamicCollision(_uint iLayerLeft, _uint iLayerRight , _float fTimeDelta)
 {
 	if (m_Colliders[iLayerLeft].empty() || m_Colliders[iLayerRight].empty())
 		return;

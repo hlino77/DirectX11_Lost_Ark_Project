@@ -15,7 +15,7 @@ void CCommon_BT_Bug_Server::OnStart()
 
 }
 
-CBT_Node::BT_RETURN CCommon_BT_Bug_Server::OnUpdate(const _float& fTimeDelta)
+CBT_Node::BT_RETURN CCommon_BT_Bug_Server::OnUpdate(_float fTimeDelta)
 {
 	if (static_cast<CMonster_Server*>(m_pGameObject)->Is_Bound() || static_cast<CMonster_Server*>(m_pGameObject)->Is_Twist() || m_pGameObject->Get_Hp() < 1)
 		return BT_FAIL;

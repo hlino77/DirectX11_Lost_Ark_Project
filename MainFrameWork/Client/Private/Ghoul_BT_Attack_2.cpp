@@ -16,7 +16,7 @@ void CGhoul_BT_Attack_2::OnStart()
 
 }
 
-CBT_Node::BT_RETURN CGhoul_BT_Attack_2::OnUpdate(const _float& fTimeDelta)
+CBT_Node::BT_RETURN CGhoul_BT_Attack_2::OnUpdate(_float fTimeDelta)
 {
 	if (33 <= m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[m_iCurrAnimation].iAnimIndex))
 	{

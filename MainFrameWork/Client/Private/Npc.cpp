@@ -490,7 +490,7 @@ void CNpc::Set_EffectPos()
 	m_vEffectPos = XMVector3TransformCoord(m_vEffectPos, ProjMatrix);
 }
 
-void CNpc::Check_ChangeAnim(const _float& fTimeDelta)
+void CNpc::Check_ChangeAnim(_float fTimeDelta)
 {
 	if (-1 == m_iActAnimIndex)
 		return;

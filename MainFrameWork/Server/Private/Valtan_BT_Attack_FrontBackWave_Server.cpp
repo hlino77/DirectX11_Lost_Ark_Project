@@ -16,7 +16,7 @@ void CValtan_BT_Attack_FrontBackWave_Server::OnStart()
 	m_bShoot = true;
 }
 
-CBT_Node::BT_RETURN CValtan_BT_Attack_FrontBackWave_Server::OnUpdate(const _float& fTimeDelta)
+CBT_Node::BT_RETURN CValtan_BT_Attack_FrontBackWave_Server::OnUpdate(_float fTimeDelta)
 {
 	if (m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[0].iAnimIndex) > 80 && m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex&&!m_pGameObject->Get_ModelCom()->IsNext())
 	{

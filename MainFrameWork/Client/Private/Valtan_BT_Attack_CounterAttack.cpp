@@ -27,7 +27,7 @@ void CValtan_BT_Attack_CounterAttack::OnStart()
 	m_bAttack = false;
 }
 
-CBT_Node::BT_RETURN CValtan_BT_Attack_CounterAttack::OnUpdate(const _float& fTimeDelta)
+CBT_Node::BT_RETURN CValtan_BT_Attack_CounterAttack::OnUpdate(_float fTimeDelta)
 {
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[1].iAnimIndex)
 	{

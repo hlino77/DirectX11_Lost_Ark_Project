@@ -71,7 +71,7 @@ HRESULT CEffect_Texture::Render()
 	return S_OK;
 }
 
-void CEffect_Texture::Run_Sequence(const _float& fTimeDelta)
+void CEffect_Texture::Run_Sequence(_float fTimeDelta)
 {
 	if (m_IsSequence && m_bRender)
 	{

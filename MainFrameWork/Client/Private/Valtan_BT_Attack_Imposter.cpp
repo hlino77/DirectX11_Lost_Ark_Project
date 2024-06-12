@@ -43,7 +43,7 @@ void CValtan_BT_Attack_Imposter::OnStart()
 	m_pLastWarning = nullptr;
 }
 
-CBT_Node::BT_RETURN CValtan_BT_Attack_Imposter::OnUpdate(const _float& fTimeDelta)
+CBT_Node::BT_RETURN CValtan_BT_Attack_Imposter::OnUpdate(_float fTimeDelta)
 {
 	Update_Camera(fTimeDelta);
 

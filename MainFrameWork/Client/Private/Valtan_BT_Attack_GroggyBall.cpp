@@ -24,7 +24,7 @@ void CValtan_BT_Attack_GroggyBall::OnStart()
 	m_bShield = false;
 }
 
-CBT_Node::BT_RETURN CValtan_BT_Attack_GroggyBall::OnUpdate(const _float& fTimeDelta)
+CBT_Node::BT_RETURN CValtan_BT_Attack_GroggyBall::OnUpdate(_float fTimeDelta)
 {
 
 	if (!m_bShield && m_iCurrAnimation == 1 && !m_pGameObject->Get_ModelCom()->IsNext() && static_cast<CBoss*>(m_pGameObject)->Get_MaxGroggyCount() == 0)

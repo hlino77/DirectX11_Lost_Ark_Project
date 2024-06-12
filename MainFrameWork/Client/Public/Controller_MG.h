@@ -47,10 +47,10 @@ public:
 	void			Increase_IdenGage(_uint iGage);
 
 private:
-	virtual void	Input(const _float& fTimeDelta) override;
+	virtual void	Input(_float fTimeDelta) override;
 	virtual void	Attack(Vec3 vPos) override;
 	virtual void	SkillAttack(SKILL_KEY eKey, Vec3 vPos) override;
-	virtual void	Skill_CoolTime(const _float& fTimeDelta) override;
+	virtual void	Skill_CoolTime(_float fTimeDelta) override;
 
 	virtual void	EstherSkill(_uint iIndex) override;
 

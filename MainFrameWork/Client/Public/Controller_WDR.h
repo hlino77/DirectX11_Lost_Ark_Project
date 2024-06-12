@@ -27,8 +27,8 @@ public:
 	void			Check_Iden_State(_float fTimeDelta);
 	_bool			Is_Identity();
 	const _bool&	Is_In_Identity() { return m_IsIdentity; }
-	const _float&	Get_IdenGage() { return m_fIdentityGage; }
-	const _float&	Get_MaxGage() { return m_fMaxGage; }
+	_float	Get_IdenGage() { return m_fIdentityGage; }
+	_float	Get_MaxGage() { return m_fMaxGage; }
 	const _uint&	Get_MarbleCnt() { return m_iMarbleCnt; }
 	const _float&   Get_IdenSkillCool() { return m_fIdenSkillCool; }
 
@@ -54,10 +54,10 @@ public:
 public:
 
 private:
-	virtual void	Input(const _float& fTimeDelta) override;
+	virtual void	Input(_float fTimeDelta) override;
 	virtual void	Attack(Vec3 vPos) override;
 	virtual void	SkillAttack(SKILL_KEY eKey, Vec3 vPos) override;
-	virtual void	Skill_CoolTime(const _float& fTimeDelta) override;
+	virtual void	Skill_CoolTime(_float fTimeDelta) override;
 
 	virtual void	EstherSkill(_uint iIndex) override;
 	virtual void	Esther_Refill(_float fTimeDelta) override;

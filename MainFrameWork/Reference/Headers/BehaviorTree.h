@@ -14,13 +14,13 @@ protected:
 public:
 	virtual HRESULT Initialize_Prototype()				override;
 	virtual HRESULT Initialize(void* pArg)				override;
-	virtual void	Tick(const _float & fTimeDelta)		override;
-	virtual void	LateTick(const _float & fTimeDelta)	override;
+	virtual void	Tick(_float fTimeDelta)		override;
+	virtual void	LateTick(_float fTimeDelta)	override;
 	virtual void	DebugRender()						override;
 
 	HRESULT Add_Action(wstring strActionName, class CBT_Action* pAction);
 
-	HRESULT	 Tick_Action(wstring strActionName, const _float & fTimeDelta);
+	HRESULT	 Tick_Action(wstring strActionName, _float fTimeDelta);
 
 	HRESULT Change_Action(wstring strActionName);
 

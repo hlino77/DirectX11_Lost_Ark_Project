@@ -30,9 +30,9 @@ public:
 	void			Check_Iden_State(_float fTimeDelta);
 	_bool			Is_Identity();
 	const _bool&	Is_In_Identity() { return m_IsIdentity; }
-	const _float&	Get_IdenGage() { return m_fIdentityGage; }
-	const _float&	Get_IdenMaxGauge() { return m_fMaxGage; }
-	const _float&	Get_IdenCoolTime() { return m_fIdenCoolTime; }
+	_float	Get_IdenGage() { return m_fIdentityGage; }
+	_float	Get_IdenMaxGauge() { return m_fMaxGage; }
+	_float	Get_IdenCoolTime() { return m_fIdenCoolTime; }
 	const _float	Get_IdenCoolAcc() { return m_fIdenTimeAcc; }
 	const	_float& Get_IdenSkillCool() { return m_fIdenSkillCool; }
 
@@ -59,10 +59,10 @@ public:
 	FDelegate<Matrix&>	CB_UpdateIdentityAuraPivot;
 
 private:
-	virtual void	Input(const _float& fTimeDelta) override;
+	virtual void	Input(_float fTimeDelta) override;
 	virtual void	Attack(Vec3 vPos) override;
 	virtual void	SkillAttack(SKILL_KEY eKey, Vec3 vPos) override;
-	virtual void	Skill_CoolTime(const _float& fTimeDelta) override;
+	virtual void	Skill_CoolTime(_float fTimeDelta) override;
 
 
 	void			UpdateIdentityAuraPivot();

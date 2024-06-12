@@ -34,7 +34,7 @@ private:
 
 	_int	m_iTrailVtxCount = 4;
 private:
-	void Run_Sequence(const _float& fTimeDelta);
+	void Run_Sequence(_float fTimeDelta);
 
 private:
 	virtual HRESULT Ready_Components() override;

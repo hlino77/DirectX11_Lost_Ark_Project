@@ -322,7 +322,7 @@ _bool CDeco_Npc::Check_False_All_Sequence_Npc()
 	return false;
 }
 
-void CDeco_Npc::Move(const _float& fTimeDelta)
+void CDeco_Npc::Move(_float fTimeDelta)
 {
 	Vec3 vMove;
 	if (m_NpcDesc.vecMovePos.size() == m_iMoveCnt)
@@ -347,7 +347,7 @@ void CDeco_Npc::Move(const _float& fTimeDelta)
 	}
 }
 
-void CDeco_Npc::Move_Patrol(const _float& fTimeDelta)
+void CDeco_Npc::Move_Patrol(_float fTimeDelta)
 {
 	Vec3 vMove;
 	if (-1 == m_iMoveCnt && true == m_bReach)
@@ -390,7 +390,7 @@ void CDeco_Npc::Move_Patrol(const _float& fTimeDelta)
 	}
 }
 
-void CDeco_Npc::Talk(const _float& fTimeDelta)
+void CDeco_Npc::Talk(_float fTimeDelta)
 {
 	if (true == m_pSpeechBuble->Is_Active())
 		return;

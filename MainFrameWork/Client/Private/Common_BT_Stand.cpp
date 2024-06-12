@@ -11,7 +11,7 @@ void Common_BT_Stand::OnStart()
 	__super::OnStart(0);
 }
 
-CBT_Node::BT_RETURN Common_BT_Stand::OnUpdate(const _float& fTimeDelta)
+CBT_Node::BT_RETURN Common_BT_Stand::OnUpdate(_float fTimeDelta)
 {
 	if (static_cast<CMonster*>(m_pGameObject)->Get_MonsterType() == CMonster::PAWN)
 	{

@@ -135,7 +135,7 @@ HRESULT CLevel_ValtanMain::Initialize()
 	return S_OK;
 }
 
-HRESULT CLevel_ValtanMain::Tick(const _float& fTimeDelta)
+HRESULT CLevel_ValtanMain::Tick(_float fTimeDelta)
 {
 	/*if(KEY_TAP(KEY::F9))
 		m_pRendererCom->Set_StaticShadow();*/
@@ -145,7 +145,7 @@ HRESULT CLevel_ValtanMain::Tick(const _float& fTimeDelta)
 	return S_OK;
 }
 
-HRESULT CLevel_ValtanMain::LateTick(const _float& fTimeDelta)
+HRESULT CLevel_ValtanMain::LateTick(_float fTimeDelta)
 {
 	if (KEY_TAP(KEY::C))
 		CUI_Manager::GetInstance()->Set_UIs_Active(false, LEVEL_CHAOS_3);

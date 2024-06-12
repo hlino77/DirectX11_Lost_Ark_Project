@@ -11,7 +11,7 @@ void CCommon_BT_Bug::OnStart()
 	__super::OnStart(0);
 }
 
-CBT_Node::BT_RETURN CCommon_BT_Bug::OnUpdate(const _float& fTimeDelta)
+CBT_Node::BT_RETURN CCommon_BT_Bug::OnUpdate(_float fTimeDelta)
 {
 	
 

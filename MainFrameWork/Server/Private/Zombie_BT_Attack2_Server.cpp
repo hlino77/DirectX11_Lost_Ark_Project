@@ -13,7 +13,7 @@ void CZombie_BT_Attack2_Server::OnStart()
 	static_cast<CMonster_Server*>(m_pGameObject)->Send_Monster_Action();
 }
 
-CBT_Node::BT_RETURN CZombie_BT_Attack2_Server::OnUpdate(const _float& fTimeDelta)
+CBT_Node::BT_RETURN CZombie_BT_Attack2_Server::OnUpdate(_float fTimeDelta)
 {
 	if (m_pGameObject->Get_ModelCom()->IsNext())
 		static_cast<CMonster_Server*>(m_pGameObject)->LookAt_Target_Direction_Lerp(fTimeDelta * 5.f);

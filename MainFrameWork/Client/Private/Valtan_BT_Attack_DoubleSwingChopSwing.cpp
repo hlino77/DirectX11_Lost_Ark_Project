@@ -25,7 +25,7 @@ void CValtan_BT_Attack_DoubleSwingChopSwing::OnStart()
 	m_iEffectSequence = 0;
 }
 
-CBT_Node::BT_RETURN CValtan_BT_Attack_DoubleSwingChopSwing::OnUpdate(const _float& fTimeDelta)
+CBT_Node::BT_RETURN CValtan_BT_Attack_DoubleSwingChopSwing::OnUpdate(_float fTimeDelta)
 {
 	_uint iAnimFrame0 = m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[0].iAnimIndex);
 

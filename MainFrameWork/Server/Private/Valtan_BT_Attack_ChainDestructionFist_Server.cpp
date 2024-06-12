@@ -18,7 +18,7 @@ void CValtan_BT_Attack_ChainDestructionFist_Server::OnStart()
 	m_vTargetPos = Vec3(100.0f, 0.19f, 100.0f);
 }
 
-CBT_Node::BT_RETURN CValtan_BT_Attack_ChainDestructionFist_Server::OnUpdate(const _float& fTimeDelta)
+CBT_Node::BT_RETURN CValtan_BT_Attack_ChainDestructionFist_Server::OnUpdate(_float fTimeDelta)
 {
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[2].iAnimIndex)
 	{

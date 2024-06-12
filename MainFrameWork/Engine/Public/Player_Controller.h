@@ -149,21 +149,21 @@ public:
 	_bool					Pick(_uint screenX, _uint screenY, Vec3 & pickPos, _float & distance);
 
 protected:
-	virtual void			Move(const _float& fTimeDelta);
-	virtual void			Look_Lerp(const _float& fTimeDelta);
+	virtual void			Move(_float fTimeDelta);
+	virtual void			Look_Lerp(_float fTimeDelta);
 	virtual void			Look(Vec3 vAt);
-	virtual void			Input(const _float & fTimeDelta);
+	virtual void			Input(_float fTimeDelta);
 	virtual void			Attack(Vec3 vPos);
 	virtual void			Skill(SKILL_KEY eKey);
 	virtual void			ChangeStat(SKILL_KEY eKey);
 	virtual void			SkillAttack(SKILL_KEY eKey, Vec3 vPos);
 
-	virtual void			Skill_CoolTime(const _float& fTimeDelta);
-	virtual void			Skill_ChangeStat_CoolTime(const _float& fTimeDelta);
+	virtual void			Skill_CoolTime(_float fTimeDelta);
+	virtual void			Skill_ChangeStat_CoolTime(_float fTimeDelta);
 	virtual void			Skill_Check_Collider();
 
 	/* 상태이상 */
-	virtual void			StatusEffect_Duration(const _float& fTimeDelta);
+	virtual void			StatusEffect_Duration(_float fTimeDelta);
 	virtual void			Bug();
 	virtual void			Fear();
 	virtual void			EarthQuake();
@@ -172,7 +172,7 @@ protected:
 	virtual void			Silence();
 
 	/* 버프 */
-	virtual void			BuffEffect_Duration(const _float& fTimeDelta);
+	virtual void			BuffEffect_Duration(_float fTimeDelta);
 	virtual void			HalfDamage(_float fAmount);
 	virtual void			ManaRefill(_float fAmount);
 	virtual void			HPRefill(_float fAmount);

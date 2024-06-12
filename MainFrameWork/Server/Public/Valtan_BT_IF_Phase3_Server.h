@@ -18,7 +18,7 @@ private:
 
 	}
 
-	virtual BT_RETURN OnUpdate(const _float & fTimeDelta) override
+	virtual BT_RETURN OnUpdate(_float fTimeDelta) override
 	{
 		m_bCondition = Is_Phase3();
 		return __super::OnUpdate(fTimeDelta);

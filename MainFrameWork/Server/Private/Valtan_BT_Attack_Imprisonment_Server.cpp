@@ -44,7 +44,7 @@ void CValtan_BT_Attack_Imprisonment_Server::OnStart()
 	static_cast<CMonster_Server*>(m_pGameObject)->Send_Monster_Action();
 }
 
-CBT_Node::BT_RETURN CValtan_BT_Attack_Imprisonment_Server::OnUpdate(const _float& fTimeDelta)
+CBT_Node::BT_RETURN CValtan_BT_Attack_Imprisonment_Server::OnUpdate(_float fTimeDelta)
 {
 	if (static_cast<CBoss_Server*>(m_pGameObject)->Get_SkipAction() )
 	{

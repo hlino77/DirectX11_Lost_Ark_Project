@@ -17,7 +17,7 @@ private:
     virtual ~CValtan_BT_Spawn() =  default;
 
     virtual void		OnStart()							override;
-    virtual BT_RETURN	OnUpdate(const _float& fTimeDelta)	override;
+    virtual BT_RETURN	OnUpdate(_float fTimeDelta)	override;
     virtual void		OnEnd()								override;
 
     Vec3    Get_EndPos();

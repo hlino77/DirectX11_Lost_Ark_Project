@@ -20,8 +20,8 @@ private:
 
 public:
 	virtual HRESULT Initialize() override;
-	virtual HRESULT Tick(const _float& fTimeDelta) override;
-	virtual HRESULT LateTick(const _float& fTimeDelta) override;
+	virtual HRESULT Tick(_float fTimeDelta) override;
+	virtual HRESULT LateTick(_float fTimeDelta) override;
 	virtual HRESULT Render_Debug();
 	virtual HRESULT Exit();
 

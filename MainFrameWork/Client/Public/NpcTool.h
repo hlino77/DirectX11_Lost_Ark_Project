@@ -32,8 +32,8 @@ private:
 
 public:
 	virtual HRESULT Initialize(void* pArg = nullptr)	override;
-	virtual HRESULT Tick(const _float& fTimeDelta)		override;
-	virtual HRESULT LateTick(const _float& fTimeDelta)	override;
+	virtual HRESULT Tick(_float fTimeDelta)		override;
+	virtual HRESULT LateTick(_float fTimeDelta)	override;
 	virtual HRESULT	DebugRender()						override;
 
 private:
@@ -43,37 +43,37 @@ private:
 	void	Set_DebugRender_Npc();
 
 private:
-	HRESULT	InfoView(const _float& fTimeDelta);
+	HRESULT	InfoView(_float fTimeDelta);
 	/* NPC 가져오기 */
 	void	Npc_List();
 	HRESULT	Load_Npc();
 	HRESULT	Start_Load_Npc(const wstring& strPath);
 	void	Delete_Npc();
 
-	HRESULT ModelView(const _float& fTimeDelta);
+	HRESULT ModelView(_float fTimeDelta);
 	/* 셀렉트 */
-	void	Select_Npc(const _float& fTimeDelta);
-	void	Start_Pos(const _float& fTimeDelta);
-	void	Name(const _float& fTimeDelta);
-	void	Type(const _float& fTimeDelta);
-	void	Shape(const _float& fTimeDelta);
+	void	Select_Npc(_float fTimeDelta);
+	void	Start_Pos(_float fTimeDelta);
+	void	Name(_float fTimeDelta);
+	void	Type(_float fTimeDelta);
+	void	Shape(_float fTimeDelta);
 	/* 에딧 */
-	void	Edit_Npc(const _float& fTimeDelta);
-	void	Transform_Matrix(const _float& fTimeDelta);
-	void	Move(const _float& fTimeDelta);
-	void	Talk(const _float& fTimeDelta);
-	void	Animaition(const _float& fTimeDelta);
-	void	Weapon(const _float& fTimeDelta);
-	void	LeftWeapon(const _float& fTimeDelta);
-	void	RightWeapon(const _float& fTimeDelta);
-	void	HeadBody(const _float& fTimeDelta);
-	void	Head(const _float& fTimeDelta);
-	void	Body(const _float& fTimeDelta);
+	void	Edit_Npc(_float fTimeDelta);
+	void	Transform_Matrix(_float fTimeDelta);
+	void	Move(_float fTimeDelta);
+	void	Talk(_float fTimeDelta);
+	void	Animaition(_float fTimeDelta);
+	void	Weapon(_float fTimeDelta);
+	void	LeftWeapon(_float fTimeDelta);
+	void	RightWeapon(_float fTimeDelta);
+	void	HeadBody(_float fTimeDelta);
+	void	Head(_float fTimeDelta);
+	void	Body(_float fTimeDelta);
 
 	/* 생성 및 저장 */
-	void	Create_Npc(const _float& fTimeDelta);
+	void	Create_Npc(_float fTimeDelta);
 	void	Create_None_Npc();
-	HRESULT	Save_Npc(const _float& fTimeDelta);
+	HRESULT	Save_Npc(_float fTimeDelta);
 
 	void	Clear_Info();
 private:

@@ -17,8 +17,8 @@ protected:
 public:
 	virtual HRESULT Initialize_Prototype();
 	virtual HRESULT Initialize(void* pArg = nullptr);
-	virtual void	Tick(const _float & fTimeDelta) {};
-	virtual void	LateTick(const _float & fTimeDelta) {};
+	virtual void	Tick(_float fTimeDelta) {};
+	virtual void	LateTick(_float fTimeDelta) {};
 	virtual HRESULT Render() { return S_OK; }
 	virtual void	DebugRender() {};
 

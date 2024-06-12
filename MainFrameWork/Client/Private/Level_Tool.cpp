@@ -61,7 +61,7 @@ HRESULT CLevel_Tool::Initialize()
 	return S_OK;
 }
 
-HRESULT CLevel_Tool::Tick(const _float& fTimeDelta)
+HRESULT CLevel_Tool::Tick(_float fTimeDelta)
 {
 	if (!m_IsImGUIReady)
 	{
@@ -82,7 +82,7 @@ HRESULT CLevel_Tool::Tick(const _float& fTimeDelta)
 	return S_OK;
 }
 
-HRESULT CLevel_Tool::LateTick(const _float& fTimeDelta)
+HRESULT CLevel_Tool::LateTick(_float fTimeDelta)
 {
 	if (m_pEffectTool)
 		m_pEffectTool->LateTick(fTimeDelta);

@@ -19,7 +19,7 @@ void CGolem_BT_Chase::OnStart()
 	}
 }
 
-CBT_Node::BT_RETURN CGolem_BT_Chase::OnUpdate(const _float& fTimeDelta)
+CBT_Node::BT_RETURN CGolem_BT_Chase::OnUpdate(_float fTimeDelta)
 {
 	Add_Sound(0, 0, TEXT("Effect"), TEXT("Rook_103"), 22, 0.5f);
 	Add_Sound(0, 1, TEXT("Effect"), TEXT("Rook_104"), 52, 0.5f);

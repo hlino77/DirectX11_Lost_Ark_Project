@@ -84,7 +84,7 @@ void CEffect_Custom_SwordTrail::Reset(CEffect_Manager::EFFECTPIVOTDESC& tEffectD
 	m_pBuffer->Stop_Trail();
 }
 
-void CEffect_Custom_SwordTrail::Run_Sequence(const _float& fTimeDelta)
+void CEffect_Custom_SwordTrail::Run_Sequence(_float fTimeDelta)
 {
 	if (m_IsSequence && m_bRender)
 	{

@@ -26,7 +26,7 @@ public:
 	virtual HRESULT Render()					override;
 	
 private:
-	void Run_Sequence(const _float& fTimeDelta);
+	void Run_Sequence(_float fTimeDelta);
 
 	struct tagFX_Billboard
 	{

@@ -36,7 +36,7 @@ HRESULT CEffectTool::Initialize(void* pArg)
 	return S_OK;
 }
 
-HRESULT CEffectTool::Tick(const _float& fTimeDelta)
+HRESULT CEffectTool::Tick(_float fTimeDelta)
 {
 	Input();
 
@@ -61,7 +61,7 @@ HRESULT CEffectTool::Tick(const _float& fTimeDelta)
 	return S_OK;
 }
 
-HRESULT CEffectTool::LateTick(const _float& fTimeDelta)
+HRESULT CEffectTool::LateTick(_float fTimeDelta)
 {
 	if (m_pCurrentEffect)
 	{

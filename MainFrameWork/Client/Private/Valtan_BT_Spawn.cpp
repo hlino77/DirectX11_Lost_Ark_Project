@@ -48,7 +48,7 @@ void CValtan_BT_Spawn::OnStart()
 	Effect_SpawnStart();
 }
 
-CBT_Node::BT_RETURN CValtan_BT_Spawn::OnUpdate(const _float& fTimeDelta)
+CBT_Node::BT_RETURN CValtan_BT_Spawn::OnUpdate(_float fTimeDelta)
 {
 	Update_StartCamera(fTimeDelta);
 

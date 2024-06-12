@@ -29,7 +29,7 @@ void CBT_Composite::OnStart()
 	m_RunningChild = m_vecChildren.begin();
 }
 
-CBT_Node::BT_RETURN CBT_Composite::OnUpdate(const _float& fTimeDelta)
+CBT_Node::BT_RETURN CBT_Composite::OnUpdate(_float fTimeDelta)
 {
 	while (true)
 	{

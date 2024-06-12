@@ -21,7 +21,7 @@ void CGolem_BT_Attack_Dash::OnStart()
 	}
 }
 
-CBT_Node::BT_RETURN CGolem_BT_Attack_Dash::OnUpdate(const _float& fTimeDelta)
+CBT_Node::BT_RETURN CGolem_BT_Attack_Dash::OnUpdate(_float fTimeDelta)
 {
 	Add_Sound(0, 0, TEXT("Effect"), TEXT("Rook_37"), 0, 0.5f);
 	Add_Sound(0, 1, TEXT("Effect"), TEXT("Rook_8"), 15, 1.f);

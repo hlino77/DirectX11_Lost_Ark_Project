@@ -56,7 +56,7 @@ HRESULT CNpcTool::Initialize(void* pArg)
 	return S_OK;
 }
 
-HRESULT CNpcTool::Tick(const _float& fTimeDelta)
+HRESULT CNpcTool::Tick(_float fTimeDelta)
 {
 	if (KEY_HOLD(KEY::CTRL) && KEY_TAP(KEY::LBTN))
 	{
@@ -73,7 +73,7 @@ HRESULT CNpcTool::Tick(const _float& fTimeDelta)
 	return S_OK;
 }
 
-HRESULT CNpcTool::LateTick(const _float& fTimeDelta)
+HRESULT CNpcTool::LateTick(_float fTimeDelta)
 {
 	m_pMannequin->LateTick(fTimeDelta);
 
@@ -197,7 +197,7 @@ void CNpcTool::Pick_Npc()
 	}
 }
 
-HRESULT CNpcTool::InfoView(const _float& fTimeDelta)
+HRESULT CNpcTool::InfoView(_float fTimeDelta)
 {
 	ImGui::Begin("NPC INFO");
 
@@ -492,7 +492,7 @@ void CNpcTool::Delete_Npc()
 	}	
 }
 
-HRESULT CNpcTool::ModelView(const _float& fTimeDelta)
+HRESULT CNpcTool::ModelView(_float fTimeDelta)
 {
 	ImGui::Begin("NPC MAKE");
 
@@ -520,7 +520,7 @@ HRESULT CNpcTool::ModelView(const _float& fTimeDelta)
 	return S_OK;
 }
 
-void CNpcTool::Select_Npc(const _float& fTimeDelta)
+void CNpcTool::Select_Npc(_float fTimeDelta)
 {
 	Start_Pos(fTimeDelta);
 	Name(fTimeDelta);
@@ -569,7 +569,7 @@ void CNpcTool::Select_Npc(const _float& fTimeDelta)
 	}
 }
 
-void CNpcTool::Start_Pos(const _float& fTimeDelta)
+void CNpcTool::Start_Pos(_float fTimeDelta)
 {
 	ImGui::SeparatorText("Npc Pos Select");
 	ImGui::SetNextItemWidth(50);
@@ -589,7 +589,7 @@ void CNpcTool::Start_Pos(const _float& fTimeDelta)
 	ImGui::Text("Pos Z : %.2f", m_vStartPos.z);
 }
 
-void CNpcTool::Name(const _float& fTimeDelta)
+void CNpcTool::Name(_float fTimeDelta)
 {
 	ImGui::SeparatorText("Npc Tag & Name");
 	ImGui::Text("Npc Tag    :");
@@ -628,7 +628,7 @@ void CNpcTool::Name(const _float& fTimeDelta)
 	}
 }
 
-void CNpcTool::Type(const _float& fTimeDelta)
+void CNpcTool::Type(_float fTimeDelta)
 {
 	ImGui::SeparatorText("Npc Type Select");
 	ImGui::SetNextItemWidth(50);
@@ -651,7 +651,7 @@ void CNpcTool::Type(const _float& fTimeDelta)
 	}
 }
 
-void CNpcTool::Shape(const _float& fTimeDelta)
+void CNpcTool::Shape(_float fTimeDelta)
 {
 	ImGui::SeparatorText("Npc Shape Select");
 	ImGui::Checkbox("MA01", &m_Check_NpcShape[(_uint)CNpc::NPCSHAPE::MA01]);
@@ -826,7 +826,7 @@ void CNpcTool::Shape(const _float& fTimeDelta)
 	}
 }
 
-void CNpcTool::Edit_Npc(const _float& fTimeDelta)
+void CNpcTool::Edit_Npc(_float fTimeDelta)
 {
 	if (ImGui::BeginTabBar("ObjectTabs") && true == m_bSelected)
 	{
@@ -841,7 +841,7 @@ void CNpcTool::Edit_Npc(const _float& fTimeDelta)
 	ImGui::EndTabBar();
 }
 
-void CNpcTool::Transform_Matrix(const _float& fTimeDelta)
+void CNpcTool::Transform_Matrix(_float fTimeDelta)
 {
 	if (ImGui::BeginTabItem("Transform"))
 	{
@@ -884,7 +884,7 @@ void CNpcTool::Transform_Matrix(const _float& fTimeDelta)
 	
 }
 
-void CNpcTool::Move(const _float& fTimeDelta)
+void CNpcTool::Move(_float fTimeDelta)
 {
 	if (ImGui::BeginTabItem("Move"))
 	{
@@ -976,7 +976,7 @@ void CNpcTool::Move(const _float& fTimeDelta)
 	
 }
 
-void CNpcTool::Talk(const _float& fTimeDelta)
+void CNpcTool::Talk(_float fTimeDelta)
 {
 	if (ImGui::BeginTabItem("Npc Talk"))
 	{
@@ -1064,7 +1064,7 @@ void CNpcTool::Talk(const _float& fTimeDelta)
 	}
 }
 
-void CNpcTool::Animaition(const _float& fTimeDelta)
+void CNpcTool::Animaition(_float fTimeDelta)
 {
 	if (ImGui::BeginTabItem("Animation"))
 	{
@@ -1146,7 +1146,7 @@ void CNpcTool::Animaition(const _float& fTimeDelta)
 	}
 }
 
-void CNpcTool::Weapon(const _float& fTimeDelta)
+void CNpcTool::Weapon(_float fTimeDelta)
 {
 	if (ImGui::BeginTabItem("Weapon Part"))
 	{
@@ -1178,7 +1178,7 @@ void CNpcTool::Weapon(const _float& fTimeDelta)
 	}
 }
 
-void CNpcTool::LeftWeapon(const _float& fTimeDelta)
+void CNpcTool::LeftWeapon(_float fTimeDelta)
 {
 	ImGui::SeparatorText("Left Part Name");
 	ImGui::InputText("##Left WP", m_szLeftWpName, MAX_PATH);
@@ -1272,7 +1272,7 @@ void CNpcTool::LeftWeapon(const _float& fTimeDelta)
 	m_WpOffsetMatrix[(_uint)CNpc::WEAPON_PART::LEFT] = m_pTransformLeftPartCom->Get_WorldMatrix();
 }
 
-void CNpcTool::RightWeapon(const _float& fTimeDelta)
+void CNpcTool::RightWeapon(_float fTimeDelta)
 {
 	ImGui::SeparatorText("Right Part Name");
 	ImGui::InputText("##Right WP", m_szRightWpName, MAX_PATH);
@@ -1366,7 +1366,7 @@ void CNpcTool::RightWeapon(const _float& fTimeDelta)
 	m_WpOffsetMatrix[(_uint)CNpc::WEAPON_PART::RIGHT] = m_pTransformRIghtPartCom->Get_WorldMatrix();
 }
 
-void CNpcTool::HeadBody(const _float& fTimeDelta)
+void CNpcTool::HeadBody(_float fTimeDelta)
 {
 	if (CNpc::NPCSHAPE::SOL != m_eNpcShape && CNpc::NPCSHAPE::SP != m_eNpcShape)
 	{
@@ -1398,7 +1398,7 @@ void CNpcTool::HeadBody(const _float& fTimeDelta)
 	}
 }
 
-void CNpcTool::Head(const _float& fTimeDelta)
+void CNpcTool::Head(_float fTimeDelta)
 {
 	ImGui::SeparatorText("Select Head Part");
 
@@ -1430,7 +1430,7 @@ void CNpcTool::Head(const _float& fTimeDelta)
 	}
 }
 
-void CNpcTool::Body(const _float& fTimeDelta)
+void CNpcTool::Body(_float fTimeDelta)
 {
 	ImGui::SeparatorText("Select Body Part");
 
@@ -1463,7 +1463,7 @@ void CNpcTool::Body(const _float& fTimeDelta)
 	}
 }
 
-void CNpcTool::Create_Npc(const _float& fTimeDelta)
+void CNpcTool::Create_Npc(_float fTimeDelta)
 {
 	if (TEXT("") == m_NpcCreateDesc.strIdleAnim || (TEXT("None") == m_NpcCreateDesc.strIdleAnim))
 	{
@@ -1665,7 +1665,7 @@ void CNpcTool::Create_None_Npc()
 	m_pMannequin->Clear_MQ();
 }
 
-HRESULT CNpcTool::Save_Npc(const _float& fTimeDelta)
+HRESULT CNpcTool::Save_Npc(_float fTimeDelta)
 {
 	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 

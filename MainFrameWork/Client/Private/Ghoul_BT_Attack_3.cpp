@@ -16,7 +16,7 @@ void CGhoul_BT_Attack_3::OnStart()
 
 }
 
-CBT_Node::BT_RETURN CGhoul_BT_Attack_3::OnUpdate(const _float& fTimeDelta)
+CBT_Node::BT_RETURN CGhoul_BT_Attack_3::OnUpdate(_float fTimeDelta)
 {
 	if (m_pGameObject->Get_ModelCom()->Is_AnimationEnd(m_vecAnimDesc[0].iAnimIndex))
 		return BT_SUCCESS;

@@ -4,6 +4,8 @@
 #include "Model.h"
 #include "GameInstance.h"
 #include <Boss.h>
+#include "ServerSessionManager.h"
+#include "Player.h"
 
 CCommon_BT_Dead::CCommon_BT_Dead()
 {
@@ -13,9 +15,28 @@ void CCommon_BT_Dead::OnStart()
 {
 	__super::OnStart(0);
 	static_cast<CMonster*>(m_pGameObject)->Deactivate_AllColliders();
+	if (m_pGameObject->Get_ObjectType() == OBJ_TYPE::BOSS && static_cast<CBoss*>(m_pGameObject)->Get_BossType() == CBoss::VALTAN && static_cast<CBoss*>(m_pGameObject)->Is_Dummy())
+	{
+		CPlayer* pPlayer = CServerSessionManager::GetInstance()->Get_Player();
+		if (nullptr == pPlayer)
+			return;
+		_float fEstherGauge = 30.f;
+		if (pPlayer->Is_PartyLeader())
+		{
+			_uint iGauge = pPlayer->Get_EstherGage();
+			_uint iMaxGauge = pPlayer->Get_EstherMaxGage();
+			iGauge += fEstherGauge;
+			if (iGauge >= iMaxGauge)
+			{
+				iGauge = iMaxGauge;
+			}
+			pPlayer->Set_EstherGage(iGauge);
+			pPlayer->Send_EstherGauge();
+		}
+	}
 }
 
-CBT_Node::BT_RETURN CCommon_BT_Dead::OnUpdate(const _float& fTimeDelta)
+CBT_Node::BT_RETURN CCommon_BT_Dead::OnUpdate(_float fTimeDelta)
 {
 	if (m_pGameObject->Get_ObjectType() == OBJ_TYPE::BOSS)
 	{

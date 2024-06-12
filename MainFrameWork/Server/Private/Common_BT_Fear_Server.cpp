@@ -14,7 +14,7 @@ void CCommon_BT_Fear_Server::OnStart()
 	static_cast<CMonster_Server*>(m_pGameObject)->Set_WasMaz(true);
 }
 
-CBT_Node::BT_RETURN CCommon_BT_Fear_Server::OnUpdate(const _float& fTimeDelta)
+CBT_Node::BT_RETURN CCommon_BT_Fear_Server::OnUpdate(_float fTimeDelta)
 {
 	if (static_cast<CMonster_Server*>(m_pGameObject)->Is_Bound() || static_cast<CMonster_Server*>(m_pGameObject)->Is_Twist() ||  m_pGameObject->Get_Hp() < 1)
 		return BT_FAIL;

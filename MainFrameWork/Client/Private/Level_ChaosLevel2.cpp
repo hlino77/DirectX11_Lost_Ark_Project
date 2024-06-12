@@ -112,7 +112,7 @@ HRESULT CLevel_ChaosLevel2::Initialize()
 	return S_OK;
 }
 
-HRESULT CLevel_ChaosLevel2::Tick(const _float& fTimeDelta)
+HRESULT CLevel_ChaosLevel2::Tick(_float fTimeDelta)
 {
 	/*if(KEY_TAP(KEY::F9))
 		m_pRendererCom->Set_StaticShadow();*/
@@ -122,7 +122,7 @@ HRESULT CLevel_ChaosLevel2::Tick(const _float& fTimeDelta)
 	return S_OK;
 }
 
-HRESULT CLevel_ChaosLevel2::LateTick(const _float& fTimeDelta)
+HRESULT CLevel_ChaosLevel2::LateTick(_float fTimeDelta)
 {
 	if (KEY_TAP(KEY::C))
 		CUI_Manager::GetInstance()->Set_UIs_Active(false, LEVEL_CHAOS_2);

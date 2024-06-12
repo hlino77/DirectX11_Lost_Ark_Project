@@ -49,10 +49,10 @@ public:
 	CPlayer_Skill* Get_PlayerSkill_Weapon(GN_IDENTITY eStance, SKILL_KEY eKey);
 	void			Change_Skill_Iden(GN_IDENTITY eIndex);
 private:
-	virtual void	Input(const _float& fTimeDelta) override;
+	virtual void	Input(_float fTimeDelta) override;
 	virtual void	Attack(Vec3 vPos) override;
 	virtual void	SkillAttack(SKILL_KEY eKey, Vec3 vPos) override;
-	virtual void	Skill_CoolTime(const _float& fTimeDelta) override;
+	virtual void	Skill_CoolTime(_float fTimeDelta) override;
 
 private:
 	void			GN_Identity(GN_IDENTITY eIndex);

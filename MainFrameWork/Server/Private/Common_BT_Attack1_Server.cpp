@@ -15,7 +15,7 @@ void CCommon_BT_Attack1_Server::OnStart()
 	static_cast<CMonster_Server*>(m_pGameObject)->Send_Monster_Action();
 }
 
-CBT_Node::BT_RETURN CCommon_BT_Attack1_Server::OnUpdate(const _float& fTimeDelta)
+CBT_Node::BT_RETURN CCommon_BT_Attack1_Server::OnUpdate(_float fTimeDelta)
 {
 
 	if (m_pGameObject->Get_ObjectType() == OBJ_TYPE::BOSS)

@@ -20,7 +20,7 @@ void CValtan_BT_Attack_Attack_Base::OnStart()
 		static_cast<CBoss_Valtan_CounterGhost*>(m_pGameObject)->Reserve_WeaponAnimation(m_vecAnimDesc[0].strAnimName, m_vecAnimDesc[0].fChangeTime, m_vecAnimDesc[0].iStartFrame, m_vecAnimDesc[0].iChangeFrame, m_vecAnimDesc[0].fAnimSpeed);
 }
 
-CBT_Node::BT_RETURN CValtan_BT_Attack_Attack_Base::OnUpdate(const _float& fTimeDelta)
+CBT_Node::BT_RETURN CValtan_BT_Attack_Attack_Base::OnUpdate(_float fTimeDelta)
 {
 	if (m_vecAnimDesc[0].iAnimIndex == m_pGameObject->Get_ModelCom()->Get_CurrAnim() && m_bStart)
 	{

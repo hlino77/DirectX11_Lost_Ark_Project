@@ -14,7 +14,7 @@ void CGhoul_BT_Attack_2_Server::OnStart()
 	static_cast<CMonster_Server*>(m_pGameObject)->Send_Monster_Action();
 }
 
-CBT_Node::BT_RETURN CGhoul_BT_Attack_2_Server::OnUpdate(const _float& fTimeDelta)
+CBT_Node::BT_RETURN CGhoul_BT_Attack_2_Server::OnUpdate(_float fTimeDelta)
 {
 	if (m_pGameObject->Get_ModelCom()->Is_AnimationEnd(m_vecAnimDesc[0].iAnimIndex))
 		return BT_SUCCESS;

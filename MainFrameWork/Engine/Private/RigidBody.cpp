@@ -51,7 +51,7 @@ HRESULT CRigidBody::Initialize(void* pArg)
 	return S_OK;
 }
 
-void CRigidBody::Tick(const _float& fTimeDelta)	// FixedUpdate Ã³·³ µ¿ÀÛÇÏ±â À§ÇØ RigidBodyÀÇ ¾÷µ¥ÀÌÆ®¸¦ °¡Àå ¿ì¼± È£ÃâÇØ¾ß ÇÔ.
+void CRigidBody::Tick(_float fTimeDelta)	// FixedUpdate Ã³·³ µ¿ÀÛÇÏ±â À§ÇØ RigidBodyÀÇ ¾÷µ¥ÀÌÆ®¸¦ °¡Àå ¿ì¼± È£ÃâÇØ¾ß ÇÔ.
 {
 	if (m_bActive == false)
 		return;
@@ -62,7 +62,7 @@ void CRigidBody::Tick(const _float& fTimeDelta)	// FixedUpdate Ã³·³ µ¿ÀÛÇÏ±â À§Ç
 		KineticUpdate(fTimeDelta);
 }
 
-void CRigidBody::LateTick(const _float& fTimeDelta)
+void CRigidBody::LateTick(_float fTimeDelta)
 {
 }
 
@@ -95,7 +95,7 @@ void CRigidBody::SetCompareGruond(_bool bCompare)
 		m_bGround = false;
 }
 
-void CRigidBody::KineticUpdate(const _float& fTimeDelta)
+void CRigidBody::KineticUpdate(_float fTimeDelta)
 {
 	if (m_UseGravity)
 		m_vLinearVelocity += m_vGravityDir * 9.81f * fTimeDelta * m_fMass;
@@ -134,7 +134,7 @@ void CRigidBody::KineticUpdate(const _float& fTimeDelta)
 		UpdateGround(fTimeDelta);*/
 }
 
-void CRigidBody::KinematicUpdate(const _float& fTimeDelta)
+void CRigidBody::KinematicUpdate(_float fTimeDelta)
 {
 	UpdateTransform(fTimeDelta);
 
@@ -143,7 +143,7 @@ void CRigidBody::KinematicUpdate(const _float& fTimeDelta)
 	//ClearTorque(ForceMode::VELOCITY_CHANGE);
 }
 
-void CRigidBody::UpdateTransform(const _float& fTimeDelta)
+void CRigidBody::UpdateTransform(_float fTimeDelta)
 {
 	CTransform* pTransform = m_pOwner->Get_TransformCom();
 
@@ -151,7 +151,7 @@ void CRigidBody::UpdateTransform(const _float& fTimeDelta)
 	pTransform->Move_Pos(m_vLinearVelocity * fTimeDelta);
 }
 
-void CRigidBody::UpdateGround(const _float& fTimeDelta)
+void CRigidBody::UpdateGround(_float fTimeDelta)
 {
 	CTransform* pTransform = m_pOwner->Get_TransformCom();
 	Vec3 vPlayerPos = pTransform->Get_State(CTransform::STATE_POSITION);

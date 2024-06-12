@@ -3,6 +3,8 @@
 #include "Boss.h"
 #include "Model.h"
 #include "ColliderSphere.h"
+#include "ServerSessionManager.h"
+#include "Player.h"
 
 CBoss_BT_Groggy::CBoss_BT_Groggy()
 {
@@ -12,9 +14,30 @@ void CBoss_BT_Groggy::OnStart()
 {
 	__super::OnStart(0);
 	m_pGameObject->Get_Colider((_uint)LAYER_COLLIDER::LAYER_ATTACK_BOSS)->SetActive(false);
+	if (static_cast<CBoss*>(m_pGameObject)->Get_BossType() == CBoss::VALTAN)
+	{
+		CPlayer* pPlayer = CServerSessionManager::GetInstance()->Get_Player();
+		if (nullptr == pPlayer)
+			return;
+		_float fEstherGauge = 20.f;
+		if (static_cast<CBoss*>(m_pGameObject)->Is_Dummy())
+			fEstherGauge *= 1.5f;
+		if (pPlayer->Is_PartyLeader())
+		{
+			_uint iGauge = pPlayer->Get_EstherGage();
+			_uint iMaxGauge = pPlayer->Get_EstherMaxGage();
+			iGauge += fEstherGauge;
+			if (iGauge >= iMaxGauge)
+			{
+				iGauge = iMaxGauge;
+			}
+			pPlayer->Set_EstherGage(iGauge);
+			pPlayer->Send_EstherGauge();
+		}
+	}
 }
 
-CBT_Node::BT_RETURN CBoss_BT_Groggy::OnUpdate(const _float& fTimeDelta)
+CBT_Node::BT_RETURN CBoss_BT_Groggy::OnUpdate(_float fTimeDelta)
 {
 	if (static_cast<CBoss*>(m_pGameObject)->Get_BossType() == CBoss::VALTAN)
 	{

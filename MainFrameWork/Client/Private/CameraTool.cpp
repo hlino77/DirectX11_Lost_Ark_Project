@@ -32,14 +32,14 @@ HRESULT CCameraTool::Initialize(void* pArg)
 	return S_OK;
 }
 
-HRESULT CCameraTool::Tick(const _float& fTimeDelta)
+HRESULT CCameraTool::Tick(_float fTimeDelta)
 {
 	Update_Tool(fTimeDelta);
 
 	return S_OK;
 }
 
-HRESULT CCameraTool::LateTick(const _float& fTimeDelta)
+HRESULT CCameraTool::LateTick(_float fTimeDelta)
 {
 
 	return S_OK;

@@ -2,6 +2,7 @@
 #include "Common_BT_BattleIdle_Server.h"
 #include "Monster_Server.h"
 #include "Model.h"
+#include <Boss_Server.h>
 CCommon_BT_BattleIdle_Server::CCommon_BT_BattleIdle_Server()
 {
 }
@@ -14,10 +15,14 @@ void CCommon_BT_BattleIdle_Server::OnStart()
 	m_fIdletime = 0.f;
 }
 
-CBT_Node::BT_RETURN CCommon_BT_BattleIdle_Server::OnUpdate(const _float& fTimeDelta)
+CBT_Node::BT_RETURN CCommon_BT_BattleIdle_Server::OnUpdate(_float fTimeDelta)
 {
 	if (static_cast<CMonster_Server*>(m_pGameObject)->Is_Hit())
 		return BT_FAIL;
+	if (m_pGameObject->Get_ObjectType()== OBJ_TYPE::BOSS && static_cast<CBoss_Server*>(m_pGameObject)->Get_SkipAction())
+	{
+		static_cast<CBoss_Server*>(m_pGameObject)->Set_SkipAction(false);
+	}
 	static_cast<CMonster_Server*>(m_pGameObject)->LookAt_Target_Direction_Lerp(fTimeDelta);
 	m_fIdletime += fTimeDelta;
 

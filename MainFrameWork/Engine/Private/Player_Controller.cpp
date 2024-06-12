@@ -698,11 +698,11 @@ _bool CPlayer_Controller::Pick(_uint screenX, _uint screenY, Vec3& pickPos, _flo
 	return true;
 }
 
-void CPlayer_Controller::Input(const _float& fTimeDelta)
+void CPlayer_Controller::Input(_float fTimeDelta)
 {
 }
 
-void CPlayer_Controller::Move(const _float& fTimeDelta)
+void CPlayer_Controller::Move(_float fTimeDelta)
 {
 	Vec3 vNext = m_vNextMove;
 	Vec3 vCur = m_pOwnerTransform->Get_State(CTransform::STATE_POSITION);
@@ -736,7 +736,7 @@ void CPlayer_Controller::Move(const _float& fTimeDelta)
 	}
 }
 
-void CPlayer_Controller::Look_Lerp(const _float& fTimeDelta)
+void CPlayer_Controller::Look_Lerp(_float fTimeDelta)
 {
 	if (Vec3() == m_vNextMove)
 		return;
@@ -802,7 +802,7 @@ void CPlayer_Controller::ChangeStat(SKILL_KEY eKey)
 	m_fChangeStatAcc[eKey] = 0.f;
 }
 
-void CPlayer_Controller::Skill_CoolTime(const _float& fTimeDelta)
+void CPlayer_Controller::Skill_CoolTime(_float fTimeDelta)
 {
 	for (size_t i = 0; i < SKILL_KEY::_END; i++)
 	{
@@ -818,7 +818,7 @@ void CPlayer_Controller::Skill_CoolTime(const _float& fTimeDelta)
 	}
 }
 
-void CPlayer_Controller::Skill_ChangeStat_CoolTime(const _float& fTimeDelta)
+void CPlayer_Controller::Skill_ChangeStat_CoolTime(_float fTimeDelta)
 {
 	for (size_t i = 0; i < SKILL_KEY::_END; i++)
 	{
@@ -844,7 +844,7 @@ void CPlayer_Controller::Skill_Check_Collider()
 	}
 }
 
-void CPlayer_Controller::StatusEffect_Duration(const _float& fTimeDelta)
+void CPlayer_Controller::StatusEffect_Duration(_float fTimeDelta)
 {
 	for (size_t i = 0; i < (_uint)STATUSEFFECT::_END; i++)
 	{
@@ -1008,7 +1008,7 @@ void CPlayer_Controller::Get_BuffMessage(_uint iBuffStatus, _float fAmount, _flo
 	}
 }
 
-void CPlayer_Controller::BuffEffect_Duration(const _float& fTimeDelta)
+void CPlayer_Controller::BuffEffect_Duration(_float fTimeDelta)
 {
 	for (size_t i = 0; i < (_uint)BUFFEFFECT::_END; i++)
 	{

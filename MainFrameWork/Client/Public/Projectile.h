@@ -64,7 +64,7 @@ private:
 	void	Shoot(_float fActiveTime);
 	void	AttackEnd();
 
-	void	Spawn_Projectile(const _float& fTimeDelta);
+	void	Spawn_Projectile(_float fTimeDelta);
 	void	Reset_Projectile();
 
 protected:

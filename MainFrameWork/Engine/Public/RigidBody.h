@@ -28,8 +28,8 @@ private:
 public:
 	virtual HRESULT Initialize_Prototype()				override;
 	virtual HRESULT Initialize(void* pArg)				override;
-	virtual void	Tick(const _float& fTimeDelta)		override;
-	virtual void	LateTick(const _float& fTimeDelta)	override;
+	virtual void	Tick(_float fTimeDelta)		override;
+	virtual void	LateTick(_float fTimeDelta)	override;
 	virtual void	DebugRender()						override;
 
 public:
@@ -104,11 +104,11 @@ public:
 #pragma endregion Property
 
 private:
-	void	KineticUpdate(const _float& fTimeDelta);
-	void	KinematicUpdate(const _float& fTimeDelta);
+	void	KineticUpdate(_float fTimeDelta);
+	void	KinematicUpdate(_float fTimeDelta);
 
-	void	UpdateTransform(const _float& fTimeDelta);
-	void	UpdateGround(const _float& fTimeDelta);
+	void	UpdateTransform(_float fTimeDelta);
+	void	UpdateGround(_float fTimeDelta);
 
 
 private:

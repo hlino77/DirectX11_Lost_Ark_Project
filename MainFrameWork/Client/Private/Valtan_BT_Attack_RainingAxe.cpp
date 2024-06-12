@@ -33,7 +33,7 @@ void CValtan_BT_Attack_RainingAxe::OnStart()
 	
 }
 
-CBT_Node::BT_RETURN CValtan_BT_Attack_RainingAxe::OnUpdate(const _float& fTimeDelta)
+CBT_Node::BT_RETURN CValtan_BT_Attack_RainingAxe::OnUpdate(_float fTimeDelta)
 {
 
 	if (m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[1].iAnimIndex && static_cast<CBoss*>(m_pGameObject)->Get_Phase() == 1)

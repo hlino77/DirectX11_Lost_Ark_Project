@@ -14,7 +14,7 @@ private:
     virtual ~CValtan_BT_Attack_Rush_Server() =  default;
 
     virtual void		OnStart()							override;
-    virtual BT_RETURN	OnUpdate(const _float& fTimeDelta)	override;
+    virtual BT_RETURN	OnUpdate(_float fTimeDelta)	override;
     virtual void		OnEnd()								override;
 private:
     _int   m_iLoop = 0;

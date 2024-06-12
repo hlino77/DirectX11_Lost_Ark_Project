@@ -12,7 +12,7 @@ private:
 	virtual ~CRandomManager() = default;
 
 public:
-	const _float&	Random_Float(_float fMin, _float fMax);
+	_float	Random_Float(_float fMin, _float fMax);
 	const _int&		Random_Int(_int iMin, _int iMax);
 	const _bool&	Random_Coin(_float fProbality);
 	int64_t			GenerateUniqueID();

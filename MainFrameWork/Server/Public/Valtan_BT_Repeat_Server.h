@@ -18,7 +18,7 @@ private:
 		__super::OnStart();
 	}
 
-	virtual BT_RETURN OnUpdate(const _float & fTimeDelta) override
+	virtual BT_RETURN OnUpdate(_float fTimeDelta) override
 	{
 		m_bCondition = IsCounter();
 		return __super::OnUpdate(fTimeDelta);

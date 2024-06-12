@@ -25,7 +25,7 @@ void CValtan_BT_Attack_DoubleJumpWave::OnStart()
 	m_bEffect[1] = false;
 }
 
-CBT_Node::BT_RETURN CValtan_BT_Attack_DoubleJumpWave::OnUpdate(const _float& fTimeDelta)
+CBT_Node::BT_RETURN CValtan_BT_Attack_DoubleJumpWave::OnUpdate(_float fTimeDelta)
 {
 	if (m_bEffect[0] == false && m_pGameObject->Get_ModelCom()->Get_CurrAnim() == m_vecAnimDesc[0].iAnimIndex && m_pGameObject->Get_ModelCom()->Get_Anim_Frame(m_vecAnimDesc[0].iAnimIndex) >= 93)
 	{
