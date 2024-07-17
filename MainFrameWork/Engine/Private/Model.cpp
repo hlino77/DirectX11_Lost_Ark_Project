@@ -397,8 +397,10 @@ HRESULT CModel::Play_Reverse_Animation(_float fTimeDelta)
 
 HRESULT CModel::Set_ToRootPos(CTransform* pTransform)
 {
-	if (nullptr == pTransform || true == m_bIgnoreRoot)
+	if (nullptr == pTransform)
 		return E_FAIL;
+	if (true == m_bIgnoreRoot)
+		return S_OK;
 
 	KEY_DESC tCurrKeyDesc = m_Animations[m_iCurrAnim]->Get_KeyDesc();
 	if (true == m_bNext || 0 == tCurrKeyDesc.iNextFrame || 0.f == m_fRootDist)
@@ -408,40 +410,25 @@ HRESULT CModel::Set_ToRootPos(CTransform* pTransform)
 		return S_OK;
 	}
 
+	Vec3 vPos = pTransform->Get_State(CTransform::STATE_POSITION);
+	Vec3 vLocalDir = m_vCurRootPos - m_vPreRootPos;
+	Vec3 vLocalPivotDir = XMVector3TransformNormal(vLocalDir, m_PivotMatrix);
+	Vec3 vWorldDir = XMVector3TransformNormal(vLocalPivotDir, pTransform->Get_WorldMatrix());
+	_float fDist = vWorldDir.Length();
+	vWorldDir.Normalize();
+
+	Vec3 vCalculePos = vPos;
+
+	vCalculePos += vWorldDir * fDist * m_fRootDist;
+	if (false == m_bUseRootY)
+		vCalculePos.y = vPos.y;
+
 	if (false == m_bRootRotation)
 	{
-		Vec3 vPos = pTransform->Get_State(CTransform::STATE_POSITION);
-		Vec3 vLocalDir = m_vPreRootPos - m_vCurRootPos;
-		vLocalDir = XMVector3TransformNormal(vLocalDir, m_PivotMatrix);
-		Vec3 vWorldDir = XMVector3TransformNormal(vLocalDir, pTransform->Get_WorldMatrix());
-		_float fDist = vWorldDir.Length();
-		vWorldDir.Normalize();
-		vWorldDir *= -1.f;
-
-		Vec3 vCalculePos = vPos;
-
-		vCalculePos += vWorldDir * fDist * m_fRootDist;
-		if (false == m_bUseRootY)
-			vCalculePos.y = vPos.y;
-
 		pTransform->Set_State(CTransform::STATE_POSITION, vCalculePos);
 	}
 	else
 	{
-		Vec3 vPos = pTransform->Get_State(CTransform::STATE_POSITION);
-		Vec3 vLocalDir = m_vPreRootPos - m_vCurRootPos;
-		vLocalDir = XMVector3TransformNormal(vLocalDir, m_PivotMatrix);
-		Vec3 vWorldDir = XMVector3TransformNormal(vLocalDir, pTransform->Get_WorldMatrix());
-		_float fDist = vWorldDir.Length();
-		vWorldDir.Normalize();
-		vWorldDir *= -1.f;
-
-		Vec3 vCalculePos = vPos;
-
-		vCalculePos += vWorldDir * fDist * m_fRootDist;
-		if (false == m_bUseRootY)
-			vCalculePos.y = vPos.y;
-
 		if (m_OriginMatrix == XMMatrixIdentity())
 		{
 			m_OriginMatrix = pTransform->Get_WorldMatrix();
@@ -474,13 +461,6 @@ _int CModel::Is_HairTexture()
 	for (size_t i = 0; i < m_Materials.size(); i++)
 	{
 		string strMaterialName = Get_Material_Name(i);
-
-		size_t pos = strMaterialName.find("_");
-		while (pos != string::npos)
-		{
-			strMaterialName.replace(pos, 1, " ");
-			pos = (pos + 1 < strMaterialName.size()) ? strMaterialName.find("_", pos + 1) : string::npos;
-		}
 
 		string search_str = "hair";
 		size_t hair_pos = strMaterialName.find(search_str);
@@ -522,7 +502,7 @@ HRESULT CModel::Set_Animation_Transforms()
 			m_matCurrTransforms[i] = m_CombinedMatrix[i] = matResult * m_matCurrTransforms[iParentIndex];
 
 
-		if (TEXT("b_root") == m_ModelBones[i]->strName && true == m_bActivateRoot)
+		if (true == m_bActivateRoot && TEXT("b_root") == m_ModelBones[i]->strName)
 		{
 			if (false == m_bIgnoreRoot)
 			{
@@ -613,23 +593,6 @@ HRESULT CModel::Set_AnimationBlend_Transforms()
 			m_matCurrTransforms[i] = matResult;
 		else
 			m_matCurrTransforms[i] = m_CombinedMatrix[i] = matResult * m_matCurrTransforms[iParentIndex];
-			
-		if (TEXT("b_root") == m_ModelBones[i]->strName && true == m_bActivateRoot)
-		{
-			// 이동 제거
-			memcpy(&m_vRootPos, &m_matCurrTransforms[i].m[3], sizeof(Vec4));
-
-			Vec4 Zero;
-			if (true == m_bUseRootY)
-			{
-				Zero = Vec4(0.f, 0.f, 0.f, 1.f);
-			}
-			else
-			{
-				Zero = Vec4(0.f, m_vRootPos.y, 0.f, 1.f);
-			}
-			memcpy(&m_matCurrTransforms[i].m[3], &Zero, sizeof(Vec4));
-		}
 	}
 
 	for (_uint i = 0; i < m_ModelBones.size(); ++i)
@@ -683,13 +646,13 @@ HRESULT CModel::Render(CShader*& pShader)
 	return S_OK;
 }
 
-HRESULT CModel::Render_Outline(CShader*& pShader, _bool bSub)
+HRESULT CModel::Render_Outline(CShader*& pShader, _bool bToon)
 {
-	if (false == bSub)
+	if (true == bToon)
 	{
 		for (_uint i = 0; i < m_iNumMeshes; ++i)
 		{
-			if (FAILED(Render_OutlineMesh(pShader, i)))
+			if (FAILED(Render_ToonMesh(pShader, i)))
 				return E_FAIL;
 		}
 	}
@@ -697,7 +660,7 @@ HRESULT CModel::Render_Outline(CShader*& pShader, _bool bSub)
 	{
 		for (_uint i = 0; i < m_iNumMeshes; ++i)
 		{
-			if (FAILED(Render_SubOutlineMesh(pShader, i)))
+			if (FAILED(Render_OutlineMesh(pShader, i)))
 				return E_FAIL;
 		}
 	}
@@ -749,7 +712,7 @@ HRESULT CModel::Render_Alpha(CShader*& pShader, const _int& iMeshIndex)
 	return S_OK;
 }
 
-HRESULT CModel::Render_OutlineMesh(CShader*& pShader, const _int& iMeshIndex)
+HRESULT CModel::Render_ToonMesh(CShader*& pShader, const _int& iMeshIndex)
 {
 	if (FAILED(SetUp_OnShader(pShader, Get_MaterialIndex(iMeshIndex), aiTextureType_DIFFUSE, "g_DiffuseTexture")))
 		return E_FAIL;
@@ -776,7 +739,7 @@ HRESULT CModel::Render_OutlineMesh(CShader*& pShader, const _int& iMeshIndex)
 	if (FAILED(pShader->Bind_CBuffer("MaterialFlag", &tFlag, sizeof(MaterialFlag))))
 		return E_FAIL;
 
-	if (FAILED(Render(pShader, iMeshIndex, "Outline")))
+	if (FAILED(Render(pShader, iMeshIndex, "Toon")))
 		return E_FAIL;
 
 	return S_OK;
@@ -815,7 +778,7 @@ HRESULT CModel::Render_InlineMesh(CShader*& pShader, const _int& iMeshIndex)
 	return S_OK;
 }
 
-HRESULT CModel::Render_SubOutlineMesh(CShader*& pShader, const _int& iMeshIndex)
+HRESULT CModel::Render_OutlineMesh(CShader*& pShader, const _int& iMeshIndex)
 {
 	if (FAILED(SetUp_OnShader(pShader, Get_MaterialIndex(iMeshIndex), aiTextureType_DIFFUSE, "g_DiffuseTexture")))
 		return E_FAIL;
@@ -842,7 +805,7 @@ HRESULT CModel::Render_SubOutlineMesh(CShader*& pShader, const _int& iMeshIndex)
 	if (FAILED(pShader->Bind_CBuffer("MaterialFlag", &tFlag, sizeof(MaterialFlag))))
 		return E_FAIL;
 
-	if (FAILED(Render(pShader, iMeshIndex, "SubOutline")))
+	if (FAILED(Render(pShader, iMeshIndex, "Outline")))
 		return E_FAIL;
 
 

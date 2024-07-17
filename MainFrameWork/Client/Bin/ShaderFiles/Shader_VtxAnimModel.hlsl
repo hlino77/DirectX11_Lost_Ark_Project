@@ -132,7 +132,7 @@ VS_OUT_SHADOW VS_CASCADE_SHADOW(SKELETAL_IN In)
     return Out;
 }
 
-VS_OUT_OUTLINE VS_MAIN_OUTLINE(SKELETAL_IN In)
+VS_OUT_OUTLINE VS_MAIN_TOON(SKELETAL_IN In)
 {
     VS_OUT_OUTLINE Out = (VS_OUT_OUTLINE) 0;
 
@@ -167,7 +167,7 @@ VS_OUT_OUTLINE VS_MAIN_OUTLINE(SKELETAL_IN In)
     return Out;
 }
 
-VS_OUT_OUTLINE VS_MAIN_SUBOUTLINE(SKELETAL_IN In)
+VS_OUT_OUTLINE VS_MAIN_OUTLINE(SKELETAL_IN In)
 {
     VS_OUT_OUTLINE Out = (VS_OUT_OUTLINE) 0;
 
@@ -401,86 +401,89 @@ PS_OUT_PHONG PS_CHANGECOLOR(VS_OUT In)
     float maxB = g_vColor_B.r + g_vColor_B.g + g_vColor_B.b;
     float fColorFactor;
     
+    /* 최대 색상이 존재할 때만 처리 */
     if (0 != maxColor)
     {
-        if (0 != vMRMask.r && vMRMask.r == vMRMask.g && vMRMask.g == vMRMask.b)
+        if (maxColor == vMRMask.r)
         {
-            if (maxR > maxG)
+            if (vMRMask.r == vMRMask.g && vMRMask.g == vMRMask.b) // RGB 값이 모두 같을 때
+            {
+                if (maxR >= maxG && maxR >= maxB)
+                {
+                    vGiven = g_vColor_R;
+                    fColorFactor = vMRMask.r;
+                }
+                else if (maxG >= maxB)
+                {
+                    vGiven = g_vColor_G;
+                    fColorFactor = vMRMask.g;
+                }
+                else
+                {
+                    vGiven = g_vColor_B;
+                    fColorFactor = vMRMask.b;
+                }
+            }
+            else if (vMRMask.r == vMRMask.g) // R과 G가 같을 때
+            {
+                if (maxR >= maxG)
+                {
+                    vGiven = g_vColor_R;
+                    fColorFactor = vMRMask.r;
+                }
+                else
+                {
+                    vGiven = g_vColor_G;
+                    fColorFactor = vMRMask.g;
+                }
+            }
+            else if (vMRMask.r == vMRMask.b) // R과 B가 같을 때
+            {
+                if (maxR >= maxB)
+                {
+                    vGiven = g_vColor_R;
+                    fColorFactor = vMRMask.r;
+                }
+                else
+                {
+                    vGiven = g_vColor_B;
+                    fColorFactor = vMRMask.b;
+                }
+            }
+            else // R이 최대값일 때
             {
                 vGiven = g_vColor_R;
                 fColorFactor = vMRMask.r;
             }
-            else if (maxR > maxB)
+        }
+        else if (maxColor == vMRMask.g)
+        {
+            if (vMRMask.g == vMRMask.b) // G와 B가 같을 때
             {
-                vGiven = g_vColor_R;
-                fColorFactor = vMRMask.r;
+                if (maxG >= maxB)
+                {
+                    vGiven = g_vColor_G;
+                    fColorFactor = vMRMask.g;
+                }
+                else
+                {
+                    vGiven = g_vColor_B;
+                    fColorFactor = vMRMask.b;
+                }
             }
-            else if (maxG > maxB)
+            else // G가 최대값일 때
             {
                 vGiven = g_vColor_G;
                 fColorFactor = vMRMask.g;
             }
-            else
-            {
-                vGiven = g_vColor_B;
-                fColorFactor = vMRMask.b;
-            }
         }
-        else if (0 != vMRMask.r && vMRMask.r == vMRMask.g)
-        {
-            if (maxR > maxG)
-            {
-                vGiven = g_vColor_R;
-                fColorFactor = vMRMask.r;
-            }
-            else
-            {
-                vGiven = g_vColor_G;
-                fColorFactor = vMRMask.g;
-            }
-        }
-        else if (0 != vMRMask.r && vMRMask.r == vMRMask.b)
-        {
-            if (maxR > maxB)
-            {
-                vGiven = g_vColor_R;
-                fColorFactor = vMRMask.r;
-            }
-            else
-            {
-                vGiven = g_vColor_B;
-                fColorFactor = vMRMask.b;
-            }
-        }
-        else if (vMRMask.r == maxColor)
-        {
-            vGiven = g_vColor_R;
-            fColorFactor = vMRMask.r;
-        }
-        else if (0 != vMRMask.g && vMRMask.g == vMRMask.b)
-        {
-            if (maxG > maxB)
-            {
-                vGiven = g_vColor_G;
-                fColorFactor = vMRMask.g;
-            }
-            else
-            {
-                vGiven = g_vColor_B;
-                fColorFactor = vMRMask.b;
-            }
-        }
-        else if (vMRMask.g == maxColor)
-        {
-            vGiven = g_vColor_G;
-            fColorFactor = vMRMask.g;
-        }
-        else if (vMRMask.b == maxColor)
+        else // B가 최대값일 때
         {
             vGiven = g_vColor_B;
             fColorFactor = vMRMask.b;
         }
-        
+
+        /* Alpha 값이 0이 아닌 경우 색상 적용 */
         if (0 != vGiven.a)
         {
             Out.vDiffuse.rgb *= (vGiven.rgb + (1 - fColorFactor)) * vGiven.a;
@@ -575,7 +578,7 @@ float4 PS_ALPHABLEND(VS_OUT_OUTLINE In) : SV_TARGET0
     return vColor;
 }
 
-float4 PS_CAMOUTLINE(VS_OUT_OUTLINE In) : SV_TARGET0
+float4 PS_TOON(VS_OUT_OUTLINE In) : SV_TARGET0
 {
     float4 vColor = float4(0.f, 0.f, 0.f, 0.f);
     
@@ -613,7 +616,6 @@ float4 PS_OUTLINE(VS_OUT_OUTLINE In) : SV_TARGET0
         if (false == (ComputeDissolveColor(vColor, In.vTexUV)))
             discard;
         
- 
     }
     
     return vColor;
@@ -687,24 +689,24 @@ technique11 DefaultTechnique
         PixelShader = compile ps_5_0 PS_ALPHABLEND();
     }
 
-    pass Outline // 5
+    pass Toon // 5
     {
         SetRasterizerState(RS_Default);
         SetDepthStencilState(DSS_Default, 0);
         SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
 
-        VertexShader = compile vs_5_0 VS_MAIN_OUTLINE();
+        VertexShader = compile vs_5_0 VS_MAIN_TOON();
         GeometryShader = NULL;
-        PixelShader = compile ps_5_0 PS_CAMOUTLINE();
+        PixelShader = compile ps_5_0 PS_TOON();
     }
 
-    pass SubOutline // 5
+    pass Outline // 5
     {
         SetRasterizerState(RS_Outline);
         SetDepthStencilState(DSS_Default, 1);
         SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
 
-        VertexShader = compile vs_5_0 VS_MAIN_SUBOUTLINE();
+        VertexShader = compile vs_5_0 VS_MAIN_OUTLINE();
         GeometryShader = NULL;
         PixelShader = compile ps_5_0 PS_OUTLINE();
     }

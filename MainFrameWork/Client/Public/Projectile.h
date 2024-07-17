@@ -77,7 +77,7 @@ protected:
 	CRenderer*						m_pRendererCom = nullptr;
 
 	CGameObject*					m_pAttackOwner = nullptr;
-protected: /* 해당 객체가 사용해야할 컴포넌트들을 저장하낟. */
+protected: 
 	PROJINFO_DESC			m_ProjInfoDesc;
 	PROJINFO_DESC			m_SpawnProjDesc;
 

@@ -63,7 +63,6 @@ void CState_SP_Flyheaven::Enter_State()
 
 void CState_SP_Flyheaven::Tick_State(_float fTimeDelta)
 {
-
 	m_TickFunc(*this, fTimeDelta);
 }
 

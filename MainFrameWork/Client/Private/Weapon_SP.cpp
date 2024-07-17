@@ -48,7 +48,7 @@ void CWeapon_SP::Tick(_float fTimeDelta)
 	{
 		WorldMatrix = m_pParentModel->Get_CombinedMatrix(m_iSocketBoneIndex) * m_SocketPivotMatrix;
 	}
-	else if (true == m_IsStored)
+	else
 	{
 		WorldMatrix = m_pParentModel->Get_CombinedMatrix(m_iStoreSocketBoneIndex) * m_SocketPivotMatrix;
 	}

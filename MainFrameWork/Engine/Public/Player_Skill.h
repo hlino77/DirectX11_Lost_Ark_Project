@@ -43,33 +43,32 @@ private:
 	virtual HRESULT			Ready_Collider() { return S_OK; };
 	
 public:
-	virtual _float			Change_Player_Status() { return -1.f; }
-	virtual _float			Restore_Player_Status()  { return -1.f; }
-
-
-public:
-	virtual const _bool&	 Is_Attack()			{ return m_IsAttack; }
-	virtual const _bool&	 Is_SuperArmor()		{ return m_IsSuperArmor; }
-	virtual const _bool&	 Is_SkillSuccess()		{ return m_IsSkillSuccess; }
-public:
-	virtual CGameObject*			Get_SkillOwner()	    { return m_pOwner; }
-	virtual const wstring&			Get_Skill_Name()		{ return m_strSkill_Name; }
-	virtual const wstring&			Get_Skill_StartName()	{ return m_strSkill_StartName; }
-	virtual SKILL_ATTACKTYPE		Get_Skill_AttackType()  { return m_eAttackType; }
-	virtual SKILL_CTRLTYPE			Get_Skill_CtrlType()	{ return m_eCtrlType; }
-	virtual KEY						Get_BindKey()			{ return m_eBindKey; }
-	virtual _float			Get_Skill_CoolTime()	{ return m_fSkillCoolTime; }
-	virtual class CTexture*			Get_Skill_Texture();
-	virtual PROJECTILE_DESC			Get_Skill_Proj_Desc()	{ return m_SkillProjDesc; }
-	virtual const uint64&			Get_UseMana() { return m_iUseMana; }
+	_float					Change_Player_Status() { return -1.f; }
+	_float					Restore_Player_Status()  { return -1.f; }
 
 public:
-	virtual void			Set_SkillProjPos(Vec3 vPos) { m_SkillProjDesc.vAttackPos = vPos; }
-	virtual void			Set_SkillProjMat(Matrix mat) { m_SkillProjDesc.AttackMatrix = mat; }
-	virtual void			Set_AttackState(_bool bAttack) { m_IsAttack = bAttack; }
-	virtual void			Set_SkillSuccess(_bool IsSuccess) { m_IsSkillSuccess = IsSuccess; }
-	virtual void			Set_BindKey(CPlayer_Controller::SKILL_KEY eKey);
-	virtual void			Set_Skill_CoolTime(_float fSkillCoolTime) { m_fSkillCoolTime = fSkillCoolTime; }
+	const _bool&			Is_Attack()			{ return m_IsAttack; }
+	const _bool&			Is_SuperArmor()		{ return m_IsSuperArmor; }
+	const _bool&			Is_SkillSuccess()		{ return m_IsSkillSuccess; }
+public:
+	CGameObject*			Get_SkillOwner()	    { return m_pOwner; }
+	const wstring&			Get_Skill_Name()		{ return m_strSkill_Name; }
+	const wstring&			Get_Skill_StartName()	{ return m_strSkill_StartName; }
+	SKILL_ATTACKTYPE		Get_Skill_AttackType()  { return m_eAttackType; }
+	SKILL_CTRLTYPE			Get_Skill_CtrlType()	{ return m_eCtrlType; }
+	KEY						Get_BindKey()			{ return m_eBindKey; }
+	_float					Get_Skill_CoolTime()	{ return m_fSkillCoolTime; }
+	class CTexture*			Get_Skill_Texture();
+	PROJECTILE_DESC			Get_Skill_Proj_Desc()	{ return m_SkillProjDesc; }
+	const uint64&			Get_UseMana() { return m_iUseMana; }
+
+public:
+	void			Set_SkillProjPos(Vec3 vPos) { m_SkillProjDesc.vAttackPos = vPos; }
+	void			Set_SkillProjMat(Matrix mat) { m_SkillProjDesc.AttackMatrix = mat; }
+	void			Set_AttackState(_bool bAttack) { m_IsAttack = bAttack; }
+	void			Set_SkillSuccess(_bool IsSuccess) { m_IsSkillSuccess = IsSuccess; }
+	void			Set_BindKey(CPlayer_Controller::SKILL_KEY eKey);
+	void			Set_Skill_CoolTime(_float fSkillCoolTime) { m_fSkillCoolTime = fSkillCoolTime; }
 
 public:
 	virtual void			Check_ColliderState();

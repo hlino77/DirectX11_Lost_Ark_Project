@@ -67,8 +67,9 @@ void CSkill_SP_Flyheaven::Tick(_float fTimeDelta)
 	if (true == m_pModelCom->Is_AnimationEnd(m_iAnimIndex))
 	{
 		Exit();
-	}
 
+		return;
+	}
 
 	m_fSpeed = m_tLerp.Update_Lerp(fTimeDelta);
 

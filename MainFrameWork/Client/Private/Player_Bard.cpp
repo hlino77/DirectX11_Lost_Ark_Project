@@ -186,7 +186,7 @@ HRESULT CPlayer_Bard::Render()
 
 		for (_uint j = 0; j < iNumMeshes; ++j)
 		{
-			if (i == (_uint)PART::HELMET && j == m_IsHair)
+			if ((_uint)PART::HELMET == i && m_IsHair == j)
 			{
 				if (FAILED(m_pShaderCom->Bind_RawValue("g_vHairColor_1", &m_vHairColor_1, sizeof(Vec4))))
 					return E_FAIL;

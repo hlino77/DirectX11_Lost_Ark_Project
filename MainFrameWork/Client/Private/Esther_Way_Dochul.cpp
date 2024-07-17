@@ -293,7 +293,7 @@ HRESULT CEsther_Way_Dochul::Render_Outline()
 
 	m_pModelCom->SetUpAnimation_OnShader(m_pShaderCom);
 
-	m_pModelCom->Render_Outline(m_pShaderCom, true);
+	m_pModelCom->Render_Outline(m_pShaderCom, false);
 
 	if (true == m_IsDissolve)
 	{
